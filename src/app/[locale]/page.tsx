@@ -13,18 +13,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
   return (
     <>
       <section className="home-stage">
-        <aside className="design-rail" aria-label="Design direction">
-          <div className="rail-logo">KHCPQA</div>
-          <p>Korea Health & Complementary Professional Qualification Association</p>
-          <div className="rail-divider" />
-          <h2>Global Homepage & Web App Platform</h2>
-          <ul>
-            <li>Global Education Excellence</li>
-            <li>Trusted Certification Guidance</li>
-            <li>Worldwide Partnerships & Impact</li>
-          </ul>
-        </aside>
-
         <div className="hero-card">
           <div className="hero-copy">
             <StatusBadge>KHCPQA Global Education</StatusBadge>
@@ -129,34 +117,45 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         </div>
       </section>
 
-      <section className="content-section">
+      <section className="content-section activities-preview">
         <div className="section-heading inline">
           <div>
-            <span className="eyebrow">Activities</span>
+            <span className="eyebrow">Global Activities</span>
             <h2>{t.activitiesTitle}</h2>
+            <p>공지, 합격 현황, 갤러리, 국제 활동을 한 곳에서 확인할 수 있도록 연결합니다.</p>
           </div>
-          <Link href={`/${locale}/activities`}>View all</Link>
+          <Link href={`/${locale}/activities`}>
+            View all <ArrowRight size={15} />
+          </Link>
         </div>
-        <div className="activity-grid">
-          {activityGroups.slice(0, 3).map((activity) => {
-            const Icon = activity.icon;
-            return (
-              <article className="activity-card" key={activity.key}>
-                <Image
-                  src={activity.imageUrl}
-                  alt=""
-                  width={640}
-                  height={400}
-                  unoptimized
-                />
-                <div>
-                  <Icon size={22} />
-                  <h3>{activity.title}</h3>
-                  <p>{activity.source}</p>
-                </div>
-              </article>
-            );
-          })}
+        <div className="activity-showcase">
+          <div className="activity-tile-grid" aria-label="Global activity categories">
+            {activityGroups.map((activity) => {
+              const Icon = activity.icon;
+              return (
+                <Link className="activity-tile" href={`/${locale}/activities`} key={activity.key}>
+                  <Icon size={24} strokeWidth={1.7} />
+                  <span>{activity.title}</span>
+                </Link>
+              );
+            })}
+          </div>
+
+          <article className="certification-card">
+            <div>
+              <span className="eyebrow">Certification Inquiry</span>
+              <h3>자격 취득 내역을 로그인 후 확인하세요.</h3>
+              <p>개인별 자격 상태, 수료 기록, 발급 정보를 안전한 계정 영역에서 조회할 수 있게 확장합니다.</p>
+              <Link href={`/${locale}/login`}>
+                Check certification <ArrowRight size={15} />
+              </Link>
+            </div>
+            <div className="certificate-preview" aria-hidden="true">
+              <BadgeCheck size={34} />
+              <strong>KHCPQA</strong>
+              <span>Certificate Verification</span>
+            </div>
+          </article>
         </div>
       </section>
     </>
