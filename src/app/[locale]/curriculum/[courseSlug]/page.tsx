@@ -60,6 +60,21 @@ export default async function CourseDetailPage({
     notFound();
   }
   const isGoalCourse = course.categoryKey === "professional";
+  const getDetailGroupTitle = (index: number) => {
+    if (index === 0) {
+      return t.courseDetail.detailGroupTraining;
+    }
+
+    if (index === 3) {
+      return t.courseDetail.detailGroupCareer;
+    }
+
+    if (index === 5) {
+      return t.courseDetail.detailGroupSchedule;
+    }
+
+    return null;
+  };
 
   return (
     <article className="course-detail">
@@ -113,71 +128,107 @@ export default async function CourseDetailPage({
 
           {course.detailSections ? (
             <div className="course-detail-sections">
-              {course.detailSections.map((section, index) => (
-                <section
-                  className={[
-                    index < 3 ? "featured" : "",
-                    section.variant ? `variant-${section.variant}` : ""
-                  ].filter(Boolean).join(" ")}
-                  key={section.title}
-                >
-                  <span className="course-section-kicker">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <h2>{section.title}</h2>
-                  {section.variant === "chips" ? (
-                    <div className="course-chip-grid">
-                      {section.items.map((item) => (
-                        <span key={item}>{item}</span>
-                      ))}
-                    </div>
-                  ) : section.variant === "income" ? (
-                    <div className="course-income-grid">
-                      {section.items.map((item) => {
-                        const { label, value } = splitLabelValue(item);
-                        return (
-                          <div key={item}>
-                            {label ? (
-                              <>
+              {course.detailSections.map((section, index) => {
+                const groupTitle = getDetailGroupTitle(index);
+
+                return (
+                  <div
+                    className={[
+                      "course-detail-section-block",
+                      groupTitle ? "group-start" : "",
+                      index < 3 ? "featured" : "",
+                      section.variant ? `variant-${section.variant}` : ""
+                    ].filter(Boolean).join(" ")}
+                    key={section.title}
+                  >
+                    {groupTitle ? (
+                      <div className="course-detail-group-heading">
+                        <span>{course.category}</span>
+                        <h2>{groupTitle}</h2>
+                      </div>
+                    ) : null}
+
+                    {index === 3 ? (
+                      <div className="course-mid-cta">
+                        <div>
+                          <strong>{t.courseDetail.midCtaTitle}</strong>
+                          <p>{t.courseDetail.midCtaLead}</p>
+                        </div>
+                        <Link className="secondary-button" href={`/${locale}/partner-inquiry`}>
+                          {t.courseDetail.inquiryCta} <ArrowRight size={16} />
+                        </Link>
+                      </div>
+                    ) : null}
+
+                    <section
+                      className={[
+                        index < 3 ? "featured" : "",
+                        section.variant ? `variant-${section.variant}` : ""
+                      ].filter(Boolean).join(" ")}
+                    >
+                      <span className="course-section-kicker">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <h2>{section.title}</h2>
+                      {section.variant === "chips" ? (
+                        <div className="course-chip-grid">
+                          {section.items.map((item) => (
+                            <span key={item}>{item}</span>
+                          ))}
+                        </div>
+                      ) : section.variant === "income" ? (
+                        <div className="course-income-grid">
+                          {section.items.map((item) => {
+                            const { label, value } = splitLabelValue(item);
+                            return (
+                              <div key={item}>
+                                {label ? (
+                                  <>
+                                    <span>{label}</span>
+                                    <strong>{value}</strong>
+                                  </>
+                                ) : (
+                                  <p>{item}</p>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : section.variant === "schedule" ? (
+                        <div className="course-schedule-list">
+                          {section.items.map((item) => {
+                            const { label, value } = splitLabelValue(item);
+                            return (
+                              <div key={item}>
                                 <span>{label}</span>
                                 <strong>{value}</strong>
-                              </>
-                            ) : (
-                              <p>{item}</p>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : section.variant === "schedule" ? (
-                    <div className="course-schedule-list">
-                      {section.items.map((item) => {
-                        const { label, value } = splitLabelValue(item);
-                        return (
-                          <div key={item}>
-                            <span>{label}</span>
-                            <strong>{value}</strong>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <ul className="detail-list compact">
-                      {section.items.map((item) => (
-                        <li key={item}>
-                          <BookOpen size={18} />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </section>
-              ))}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <ul className="detail-list compact">
+                          {section.items.map((item) => (
+                            <li key={item}>
+                              <BookOpen size={18} />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </section>
+                  </div>
+                );
+              })}
             </div>
           ) : null}
         </div>
 
         <aside className="course-detail-aside">
+          <div className="course-aside-heading">
+            <span className="eyebrow">{course.category}</span>
+            <h3>{t.courseDetail.sideSummaryTitle}</h3>
+          </div>
           {course.durationHighlights ? (
             <div className="course-duration-card">
               <CalendarDays size={22} />

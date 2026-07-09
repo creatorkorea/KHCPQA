@@ -193,6 +193,12 @@ type Copy = {
     goalPlanTitle: string;
     goalOutcomeTitle: string;
     durationTitle: string;
+    detailGroupTraining: string;
+    detailGroupCareer: string;
+    detailGroupSchedule: string;
+    midCtaTitle: string;
+    midCtaLead: string;
+    sideSummaryTitle: string;
     audienceTitle: string;
     certificationTitle: string;
     sourceTitle: string;
@@ -492,6 +498,12 @@ export const copy = {
       goalPlanTitle: "목표 달성 학습 설계",
       goalOutcomeTitle: "상담 및 진로 안내",
       durationTitle: "교육 기간",
+      detailGroupTraining: "교육과정 구성",
+      detailGroupCareer: "취업 및 수익 안내",
+      detailGroupSchedule: "수강 안내",
+      midCtaTitle: "내 목표에 맞는 과목 조합 상담",
+      midCtaLead: "취업 희망 분야와 현재 역량에 맞춰 필요한 과목과 수강 순서를 상담합니다.",
+      sideSummaryTitle: "상담 요약",
       audienceTitle: "교육 대상",
       certificationTitle: "수료/자격 안내",
       sourceTitle: "원본 URL"
@@ -796,6 +808,12 @@ export const copy = {
       goalPlanTitle: "Goal Achievement Learning Plan",
       goalOutcomeTitle: "Advising and Career Path",
       durationTitle: "Training Duration",
+      detailGroupTraining: "Program Structure",
+      detailGroupCareer: "Career and Income Guidance",
+      detailGroupSchedule: "Class Guidance",
+      midCtaTitle: "Get a Course Mix Consultation",
+      midCtaLead: "We help plan subjects and sequence around your target role and current skill level.",
+      sideSummaryTitle: "Consultation Summary",
       audienceTitle: "Audience",
       certificationTitle: "Completion / Certification",
       sourceTitle: "Source URL"
@@ -1100,6 +1118,12 @@ export const copy = {
       goalPlanTitle: "Plan de Aprendizaje por Objetivo",
       goalOutcomeTitle: "Asesoría y Ruta Profesional",
       durationTitle: "Duración de Formación",
+      detailGroupTraining: "Estructura del Programa",
+      detailGroupCareer: "Guía de Empleo e Ingresos",
+      detailGroupSchedule: "Guía de Clases",
+      midCtaTitle: "Consulta de Combinación de Cursos",
+      midCtaLead: "Planificamos materias y secuencia según su campo objetivo y nivel actual.",
+      sideSummaryTitle: "Resumen de Consulta",
       audienceTitle: "Dirigido a",
       certificationTitle: "Finalización / Certificación",
       sourceTitle: "URL de origen"
@@ -1404,9 +1428,9 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           title: "취업 월 예상 수입",
           variant: "income",
           items: [
-            "A타입: 월 800만원 ~ 1,000만원 안내",
-            "B타입: 월 500만원 ~ 800만원 안내",
-            "샵 지역, 시설, 마케팅 등에 따라 실제 수입은 달라질 수 있습니다."
+            "A타입 상담 기준: 월 800만원 ~ 1,000만원 안내",
+            "B타입 상담 기준: 월 500만원 ~ 800만원 안내",
+            "예상 수입은 샵 지역, 시설, 마케팅, 운영 방식에 따라 달라질 수 있습니다."
           ]
         },
         {
@@ -1497,8 +1521,8 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           title: "Expected Monthly Income",
           variant: "income",
           items: [
-            "Type A guidance: KRW 8,000,000 to 10,000,000 per month",
-            "Type B guidance: KRW 5,000,000 to 8,000,000 per month",
+            "Type A consultation guide: KRW 8,000,000 to 10,000,000 per month",
+            "Type B consultation guide: KRW 5,000,000 to 8,000,000 per month",
             "Actual income may vary by shop location, facilities, marketing, and operation."
           ]
         },
@@ -1590,8 +1614,8 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           title: "Ingreso Mensual Estimado",
           variant: "income",
           items: [
-            "Guía tipo A: KRW 8.000.000 a 10.000.000 al mes",
-            "Guía tipo B: KRW 5.000.000 a 8.000.000 al mes",
+            "Guía de consulta tipo A: KRW 8.000.000 a 10.000.000 al mes",
+            "Guía de consulta tipo B: KRW 5.000.000 a 8.000.000 al mes",
             "El ingreso real puede variar por ubicación, instalaciones, marketing y operación."
           ]
         },
