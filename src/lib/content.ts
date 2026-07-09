@@ -1194,7 +1194,7 @@ export const copy = {
 } satisfies Record<Locale, Copy>;
 
 const courseImages = [
-  "/assets/course-thumb-skincare.png",
+  "/assets/course-employment-consulting.jpg",
   "/assets/course-thumb-instructor-class.png",
   "/assets/course-thumb-business-planning.png",
   "/assets/course-thumb-business-planning.png",
@@ -1238,6 +1238,7 @@ const courseTitleTranslations = [
 type CourseDetailSection = {
   title: string;
   items: string[];
+  variant?: "cards" | "chips" | "income" | "schedule";
 };
 
 type CourseText = {
@@ -1366,11 +1367,20 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
       detailSections: [
         {
           title: "주요 교육 종목",
+          variant: "chips",
           items: [
-            "아로마경락 마사지, 산모 마사지, 국가자격증",
-            "스웨디시 마사지, 얼굴축소경락, 브라질리언 왁싱",
-            "스포츠 마사지, 피부관리 샬롱테크닉, 병원 코디네이터",
-            "발 마사지, 메디컬 스킨케어, 카이로 체형관리"
+            "아로마경락 마사지",
+            "산모 마사지",
+            "국가자격증",
+            "스웨디시 마사지",
+            "얼굴축소경락",
+            "브라질리언 왁싱",
+            "스포츠 마사지",
+            "피부관리 샬롱테크닉",
+            "병원 코디네이터",
+            "발 마사지",
+            "메디컬 스킨케어",
+            "카이로 체형관리"
           ]
         },
         {
@@ -1392,6 +1402,7 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
         },
         {
           title: "취업 월 예상 수입",
+          variant: "income",
           items: [
             "A타입: 월 800만원 ~ 1,000만원 안내",
             "B타입: 월 500만원 ~ 800만원 안내",
@@ -1408,6 +1419,7 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
         },
         {
           title: "강의시간 안내",
+          variant: "schedule",
           items: [
             "속성반: 월~금 10시~13시 또는 14시~17시",
             "오전반: 월~금 10시~13시 / 오후반: 월~금 14시~17시",
@@ -1448,11 +1460,20 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
       detailSections: [
         {
           title: "Core Training Subjects",
+          variant: "chips",
           items: [
-            "Aroma meridian massage, maternity massage, national certification preparation",
-            "Swedish massage, facial contouring meridian care, Brazilian waxing",
-            "Sports massage, skin-care salon technique, hospital coordinator",
-            "Foot massage, medical skin care, chiropractic body care"
+            "Aroma meridian massage",
+            "Maternity massage",
+            "National certification",
+            "Swedish massage",
+            "Facial contouring care",
+            "Brazilian waxing",
+            "Sports massage",
+            "Skin-care salon technique",
+            "Hospital coordinator",
+            "Foot massage",
+            "Medical skin care",
+            "Chiropractic body care"
           ]
         },
         {
@@ -1474,6 +1495,7 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
         },
         {
           title: "Expected Monthly Income",
+          variant: "income",
           items: [
             "Type A guidance: KRW 8,000,000 to 10,000,000 per month",
             "Type B guidance: KRW 5,000,000 to 8,000,000 per month",
@@ -1490,6 +1512,7 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
         },
         {
           title: "Class Time Guide",
+          variant: "schedule",
           items: [
             "Intensive class: Mon-Fri 10:00-13:00 or 14:00-17:00",
             "Morning class: Mon-Fri 10:00-13:00 / Afternoon class: Mon-Fri 14:00-17:00",
@@ -1530,11 +1553,20 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
       detailSections: [
         {
           title: "Materias Principales",
+          variant: "chips",
           items: [
-            "Masaje aroma meridiano, masaje para maternidad, preparación de certificación nacional",
-            "Masaje sueco, cuidado meridiano de contorno facial, depilación brasileña",
-            "Masaje deportivo, técnica de salón de cuidado facial, coordinador hospitalario",
-            "Masaje de pies, cuidado médico de la piel, cuidado corporal quiropráctico"
+            "Masaje aroma meridiano",
+            "Masaje para maternidad",
+            "Certificación nacional",
+            "Masaje sueco",
+            "Contorno facial",
+            "Depilación brasileña",
+            "Masaje deportivo",
+            "Técnica de salón",
+            "Coordinador hospitalario",
+            "Masaje de pies",
+            "Cuidado médico de la piel",
+            "Cuidado quiropráctico"
           ]
         },
         {
@@ -1556,6 +1588,7 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
         },
         {
           title: "Ingreso Mensual Estimado",
+          variant: "income",
           items: [
             "Guía tipo A: KRW 8.000.000 a 10.000.000 al mes",
             "Guía tipo B: KRW 5.000.000 a 8.000.000 al mes",
@@ -1572,6 +1605,7 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
         },
         {
           title: "Horario de Clase",
+          variant: "schedule",
           items: [
             "Clase intensiva: lun-vie 10:00-13:00 o 14:00-17:00",
             "Clase matutina: lun-vie 10:00-13:00 / tarde: lun-vie 14:00-17:00",

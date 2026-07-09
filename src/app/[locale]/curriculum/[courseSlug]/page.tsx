@@ -5,6 +5,19 @@ import { ArrowRight, BadgeCheck, BookOpen, CalendarDays, Users } from "lucide-re
 import { getCopy, getCourseBySlug, getCourseSlugs, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
+function splitLabelValue(item: string) {
+  const separatorIndex = item.indexOf(": ");
+
+  if (separatorIndex === -1) {
+    return { label: "", value: item };
+  }
+
+  return {
+    label: item.slice(0, separatorIndex),
+    value: item.slice(separatorIndex + 2)
+  };
+}
+
 export function generateStaticParams() {
   return getCourseSlugs().flatMap((courseSlug) => [
     { locale: "ko", courseSlug },
@@ -101,19 +114,63 @@ export default async function CourseDetailPage({
           {course.detailSections ? (
             <div className="course-detail-sections">
               {course.detailSections.map((section, index) => (
-                <section className={index < 3 ? "featured" : ""} key={section.title}>
+                <section
+                  className={[
+                    index < 3 ? "featured" : "",
+                    section.variant ? `variant-${section.variant}` : ""
+                  ].filter(Boolean).join(" ")}
+                  key={section.title}
+                >
                   <span className="course-section-kicker">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <h2>{section.title}</h2>
-                  <ul className="detail-list compact">
-                    {section.items.map((item) => (
-                      <li key={item}>
-                        <BookOpen size={18} />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {section.variant === "chips" ? (
+                    <div className="course-chip-grid">
+                      {section.items.map((item) => (
+                        <span key={item}>{item}</span>
+                      ))}
+                    </div>
+                  ) : section.variant === "income" ? (
+                    <div className="course-income-grid">
+                      {section.items.map((item) => {
+                        const { label, value } = splitLabelValue(item);
+                        return (
+                          <div key={item}>
+                            {label ? (
+                              <>
+                                <span>{label}</span>
+                                <strong>{value}</strong>
+                              </>
+                            ) : (
+                              <p>{item}</p>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : section.variant === "schedule" ? (
+                    <div className="course-schedule-list">
+                      {section.items.map((item) => {
+                        const { label, value } = splitLabelValue(item);
+                        return (
+                          <div key={item}>
+                            <span>{label}</span>
+                            <strong>{value}</strong>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <ul className="detail-list compact">
+                      {section.items.map((item) => (
+                        <li key={item}>
+                          <BookOpen size={18} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </section>
               ))}
             </div>
