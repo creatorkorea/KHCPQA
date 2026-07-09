@@ -160,6 +160,17 @@ type Copy = {
     lead: string;
     instructors: InstructorCopy[];
   };
+  historyPage: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    imageAlt: string;
+    yearsLabel: string;
+    timelineLabel: string;
+    detailNote: string;
+    dateLabel: string;
+    titleLabel: string;
+  };
   curriculumPage: {
     eyebrow: string;
     lead: string;
@@ -350,7 +361,7 @@ export const copy = {
       { key: "intro", title: "소개", href: "about" },
       { key: "greeting", title: "인사말", href: "about/greeting" },
       { key: "instructors", title: "수석강사 프로필", href: "about/instructors" },
-      { key: "history", title: "연혁", disabled: true },
+      { key: "history", title: "연혁", href: "about/history" },
       { key: "organization", title: "조직도", disabled: true },
       { key: "location", title: "찾아오시는 길", href: "contact" }
     ],
@@ -428,6 +439,17 @@ export const copy = {
         { name: "박재영", role: "수석강사", imageUrl: "/assets/instructor-park-jaeyoung.jpg", profileImageUrl: "/assets/instructor-profile-park-jaeyoung.jpg" },
         { name: "송진화", role: "수석강사", imageUrl: "/assets/instructor-song-jinhwa.jpg", profileImageUrl: "/assets/instructor-profile-song-jinhwa.jpg" }
       ]
+    },
+    historyPage: {
+      eyebrow: "연혁",
+      title: "KHCPQA 연혁",
+      lead: "한국건강관리사자격협회와 SMC아카데미가 걸어온 주요 교육, 수상, 산학협력, 행사 이력입니다.",
+      imageAlt: "SMC아카데미 연혁 대표 이미지",
+      yearsLabel: "연도 선택",
+      timelineLabel: "연도별 주요 연혁",
+      detailNote: "원본 연혁자료의 연도별 항목을 기준으로 정리했습니다.",
+      dateLabel: "년월",
+      titleLabel: "제목"
     },
     curriculumPage: {
       eyebrow: "커리큘럼",
@@ -624,7 +646,7 @@ export const copy = {
       { key: "intro", title: "Introduction", href: "about" },
       { key: "greeting", title: "Greetings", href: "about/greeting" },
       { key: "instructors", title: "Senior Instructor Profiles", href: "about/instructors" },
-      { key: "history", title: "History", disabled: true },
+      { key: "history", title: "History", href: "about/history" },
       { key: "organization", title: "Organization", disabled: true },
       { key: "location", title: "Location", href: "contact" }
     ],
@@ -702,6 +724,17 @@ export const copy = {
         { name: "Park Jae-young", role: "Senior Instructor", imageUrl: "/assets/instructor-park-jaeyoung.jpg", profileImageUrl: "/assets/instructor-profile-park-jaeyoung.jpg" },
         { name: "Song Jin-hwa", role: "Senior Instructor", imageUrl: "/assets/instructor-song-jinhwa.jpg", profileImageUrl: "/assets/instructor-profile-song-jinhwa.jpg" }
       ]
+    },
+    historyPage: {
+      eyebrow: "History",
+      title: "KHCPQA History",
+      lead: "Major education, awards, partnerships, and event records of KHCPQA and SMC Academy.",
+      imageAlt: "SMC Academy history representative image",
+      yearsLabel: "Years",
+      timelineLabel: "Timeline by year",
+      detailNote: "Organized from the year-by-year records on the original history page.",
+      dateLabel: "Date",
+      titleLabel: "Title"
     },
     curriculumPage: {
       eyebrow: "Curriculum",
@@ -898,7 +931,7 @@ export const copy = {
       { key: "intro", title: "Introducción", href: "about" },
       { key: "greeting", title: "Saludos", href: "about/greeting" },
       { key: "instructors", title: "Instructores principales", href: "about/instructors" },
-      { key: "history", title: "Historia", disabled: true },
+      { key: "history", title: "Historia", href: "about/history" },
       { key: "organization", title: "Organización", disabled: true },
       { key: "location", title: "Ubicación", href: "contact" }
     ],
@@ -976,6 +1009,17 @@ export const copy = {
         { name: "Park Jae-young", role: "Instructor principal", imageUrl: "/assets/instructor-park-jaeyoung.jpg", profileImageUrl: "/assets/instructor-profile-park-jaeyoung.jpg" },
         { name: "Song Jin-hwa", role: "Instructora principal", imageUrl: "/assets/instructor-song-jinhwa.jpg", profileImageUrl: "/assets/instructor-profile-song-jinhwa.jpg" }
       ]
+    },
+    historyPage: {
+      eyebrow: "Historia",
+      title: "Historia de KHCPQA",
+      lead: "Principales registros de educación, premios, alianzas y eventos de KHCPQA y SMC Academy.",
+      imageAlt: "Imagen representativa de la historia de SMC Academy",
+      yearsLabel: "Años",
+      timelineLabel: "Cronología por año",
+      detailNote: "Organizado a partir de los registros por año de la página original.",
+      dateLabel: "Fecha",
+      titleLabel: "Título"
     },
     curriculumPage: {
       eyebrow: "Currículo",
