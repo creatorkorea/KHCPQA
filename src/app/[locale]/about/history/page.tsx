@@ -252,6 +252,13 @@ const historyByYear: Array<{ year: string; items: HistoryItem[] }> = [
   }
 ];
 
+const historyHighlights: HistoryItem[] = [
+  { date: "2001년 09월", title: "SMC아카데미 / 한국건강관리사자격협회 서울총본부 창립" },
+  { date: "2005년 10월", title: "SMC아카데미 종로총본부 오픈" },
+  { date: "2013년 02월", title: "SMC아카데미 대림캠퍼스 오픈" },
+  { date: "2025년 05월", title: "제37회 한국휴먼 (미용,건강,문화,예술) 올림픽대회" }
+];
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
@@ -287,6 +294,14 @@ export default async function HistoryPage({ params }: { params: Promise<{ locale
             priority
           />
         </div>
+        <div className="history-highlights" aria-label={t.historyPage.timelineLabel}>
+          {historyHighlights.map((item) => (
+            <article key={`${item.date}-${item.title}`}>
+              <time>{item.date}</time>
+              <strong>{item.title}</strong>
+            </article>
+          ))}
+        </div>
         <nav className="history-years" aria-label={t.historyPage.yearsLabel}>
           {historyByYear.map((group) => (
             <a href={`#history-${group.year}`} key={group.year}>
@@ -301,17 +316,16 @@ export default async function HistoryPage({ params }: { params: Promise<{ locale
         <div className="history-timeline">
           {historyByYear.map((group) => (
             <section className="history-year-block" id={`history-${group.year}`} key={group.year}>
-              <h3>{group.year}</h3>
-              <div className="history-table" role="table" aria-label={`${group.year} ${t.historyPage.timelineLabel}`}>
-                <div className="history-row history-row-head" role="row">
-                  <span role="columnheader">{t.historyPage.dateLabel}</span>
-                  <span role="columnheader">{t.historyPage.titleLabel}</span>
-                </div>
+              <div className="history-year-title">
+                <h3>{group.year}</h3>
+                <span>{group.items.length}</span>
+              </div>
+              <div className="history-list" aria-label={`${group.year} ${t.historyPage.timelineLabel}`}>
                 {group.items.map((item) => (
-                  <div className="history-row" role="row" key={`${item.date}-${item.title}`}>
-                    <time role="cell">{item.date}</time>
-                    <strong role="cell">{item.title}</strong>
-                  </div>
+                  <article className="history-event" key={`${item.date}-${item.title}`}>
+                    <time>{item.date}</time>
+                    <strong>{item.title}</strong>
+                  </article>
                 ))}
               </div>
             </section>
