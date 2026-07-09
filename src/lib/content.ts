@@ -1383,6 +1383,38 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
             "전문 마사지샵, 뷰티샵, 병원·산부인과, 산후조리원 분야 진출",
             "프리랜서 활동 또는 1인 마사지샵 운영 상담"
           ]
+        },
+        {
+          title: "취업 월 예상 수입",
+          items: [
+            "A타입: 월 800만원 ~ 1,000만원 안내",
+            "B타입: 월 500만원 ~ 800만원 안내",
+            "샵 지역, 시설, 마케팅 등에 따라 실제 수입은 달라질 수 있습니다."
+          ]
+        },
+        {
+          title: "진출분야 및 활동영역",
+          items: [
+            "1인 샵 또는 출장 산후마사지 관리 오픈 운영",
+            "고급 스웨디시, 호텔 스파샵, 스포츠마사지샵 취업",
+            "병원, 산부인과, 산후조리원, 타이마사지샵, 대형 스파찜질방 연계"
+          ]
+        },
+        {
+          title: "강의시간 안내",
+          items: [
+            "속성반: 월~금 10시~13시 또는 14시~17시",
+            "오전반: 월~금 10시~13시 / 오후반: 월~금 14시~17시",
+            "야간반: 월·수·금 19시~21시"
+          ]
+        },
+        {
+          title: "연계 강의안내",
+          items: [
+            "피부미용사 국가자격증, 얼굴축소경락, 아로마 테라피",
+            "경락 마사지, 스포츠 마사지, 발 마사지",
+            "스웨디시, 산모 마사지 등 취업 목적에 맞춰 선택 상담"
+          ]
         }
       ]
     }
@@ -1428,6 +1460,38 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
             "Massage shops, boutique beauty shops, hospitals, maternity clinics, and postpartum care centers",
             "Freelance work or one-person shop operation consultation"
           ]
+        },
+        {
+          title: "Expected Monthly Income",
+          items: [
+            "Type A guidance: KRW 8,000,000 to 10,000,000 per month",
+            "Type B guidance: KRW 5,000,000 to 8,000,000 per month",
+            "Actual income may vary by shop location, facilities, marketing, and operation."
+          ]
+        },
+        {
+          title: "Employment Fields",
+          items: [
+            "One-person shop operation or mobile postpartum care service",
+            "Premium Swedish, hotel spa, and sports massage shop employment",
+            "Hospitals, maternity clinics, postpartum care centers, Thai massage shops, and large spa facilities"
+          ]
+        },
+        {
+          title: "Class Time Guide",
+          items: [
+            "Intensive class: Mon-Fri 10:00-13:00 or 14:00-17:00",
+            "Morning class: Mon-Fri 10:00-13:00 / Afternoon class: Mon-Fri 14:00-17:00",
+            "Evening class: Mon, Wed, Fri 19:00-21:00"
+          ]
+        },
+        {
+          title: "Linked Course Guidance",
+          items: [
+            "National esthetician certification, facial contouring meridian care, aromatherapy",
+            "Meridian massage, sports massage, and foot massage",
+            "Swedish and maternity massage can be selected according to employment goals"
+          ]
         }
       ]
     }
@@ -1472,6 +1536,38 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
             "Empleo en sueco premium, spa de hotel y centros de masaje deportivo",
             "Centros de masaje, boutiques de belleza, hospitales, clínicas de maternidad y centros posparto",
             "Consulta para trabajo freelance u operación de salón individual"
+          ]
+        },
+        {
+          title: "Ingreso Mensual Estimado",
+          items: [
+            "Guía tipo A: KRW 8.000.000 a 10.000.000 al mes",
+            "Guía tipo B: KRW 5.000.000 a 8.000.000 al mes",
+            "El ingreso real puede variar por ubicación, instalaciones, marketing y operación."
+          ]
+        },
+        {
+          title: "Campos de Empleo",
+          items: [
+            "Operación de salón individual o servicio móvil de cuidado posparto",
+            "Empleo en sueco premium, spa de hotel y centros de masaje deportivo",
+            "Hospitales, clínicas de maternidad, centros posparto, centros de masaje tailandés y grandes spas"
+          ]
+        },
+        {
+          title: "Horario de Clase",
+          items: [
+            "Clase intensiva: lun-vie 10:00-13:00 o 14:00-17:00",
+            "Clase matutina: lun-vie 10:00-13:00 / tarde: lun-vie 14:00-17:00",
+            "Clase nocturna: lun, mie, vie 19:00-21:00"
+          ]
+        },
+        {
+          title: "Cursos Relacionados",
+          items: [
+            "Certificación nacional de estética, cuidado meridiano facial y aromaterapia",
+            "Masaje meridiano, deportivo y de pies",
+            "Masaje sueco y de maternidad según el objetivo laboral"
           ]
         }
       ]

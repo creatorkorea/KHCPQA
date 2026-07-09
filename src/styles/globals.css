@@ -1785,7 +1785,7 @@ p {
   counter-reset: course-section;
   display: grid;
   gap: 18px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 .course-detail-sections section {
@@ -1793,6 +1793,7 @@ p {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   counter-increment: course-section;
+  min-height: 100%;
   padding: 20px;
 }
 
