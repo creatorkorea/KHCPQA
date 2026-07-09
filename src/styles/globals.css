@@ -580,6 +580,225 @@ p {
   word-break: keep-all;
 }
 
+.curriculum-hero {
+  background:
+    linear-gradient(105deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.94) 43%, rgba(248, 245, 255, 0.86) 100%),
+    linear-gradient(180deg, #ffffff 0%, #fbf9ff 100%);
+  border: 1px solid rgba(232, 226, 243, 0.9);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: clamp(18px, 2.8vw, 42px);
+  grid-template-columns: minmax(390px, 0.82fr) minmax(380px, 1fr);
+  margin: clamp(34px, 5vw, 62px) auto clamp(54px, 7vw, 92px);
+  max-width: min(1500px, calc(100% - clamp(32px, 6vw, 96px)));
+  overflow: hidden;
+  padding: clamp(32px, 4.8vw, 60px) clamp(34px, 5vw, 64px) clamp(24px, 3vw, 36px);
+  position: relative;
+}
+
+.curriculum-hero::after {
+  background: linear-gradient(180deg, rgba(111, 69, 199, 0.2), rgba(255, 255, 255, 0));
+  border-radius: 999px 0 0 999px;
+  content: "";
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  right: 38%;
+  top: 0;
+  transform: skewX(-18deg);
+  width: 84px;
+}
+
+.curriculum-hero-copy {
+  align-self: center;
+  position: relative;
+  z-index: 2;
+}
+
+.curriculum-hero-copy h1 {
+  font-size: clamp(42px, 4.9vw, 74px);
+  font-weight: 950;
+  line-height: 1.03;
+  margin: 18px 0 20px;
+  word-break: keep-all;
+}
+
+.curriculum-hero-copy p {
+  color: var(--muted);
+  font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.72;
+  max-width: 600px;
+}
+
+.curriculum-hero-metrics {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 28px 0 0;
+  max-width: 600px;
+}
+
+.curriculum-hero-metrics div {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.curriculum-hero-metrics dt {
+  color: var(--purple);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 7px;
+}
+
+.curriculum-hero-metrics dd {
+  color: var(--ink);
+  font-size: 24px;
+  font-weight: 950;
+  line-height: 1;
+  margin: 0;
+}
+
+.curriculum-hero-visual {
+  align-self: end;
+  margin: -42px -66px -34px -118px;
+  min-height: 430px;
+  position: relative;
+  z-index: 1;
+}
+
+.curriculum-hero-visual::before {
+  background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.72) 34%, rgba(255, 255, 255, 0) 64%);
+  content: "";
+  inset: 0 auto 0 0;
+  pointer-events: none;
+  position: absolute;
+  width: 36%;
+  z-index: 2;
+}
+
+.curriculum-hero-visual::after {
+  background: linear-gradient(
+    180deg,
+    rgba(249, 252, 250, 0.96) 0%,
+    rgba(249, 252, 250, 0) 16%,
+    rgba(249, 252, 250, 0) 84%,
+    rgba(249, 252, 250, 0.72) 100%
+  );
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 3;
+}
+
+.curriculum-hero-visual img {
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 56% bottom;
+  opacity: 0.96;
+  transform: translateX(16px);
+  width: calc(100% + 18px);
+  -webkit-mask-image: radial-gradient(120% 95% at 62% 48%, #000 0%, #000 60%, rgba(0, 0, 0, 0.52) 78%, transparent 100%);
+  mask-image: radial-gradient(120% 95% at 62% 48%, #000 0%, #000 60%, rgba(0, 0, 0, 0.52) 78%, transparent 100%);
+}
+
+.curriculum-hero-note {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(232, 226, 243, 0.9);
+  border-radius: 8px;
+  bottom: 34px;
+  box-shadow: 0 18px 48px rgba(64, 48, 118, 0.14);
+  color: var(--ink);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 34px minmax(0, 1fr);
+  max-width: 330px;
+  padding: 16px 18px;
+  position: absolute;
+  right: 42px;
+  z-index: 6;
+}
+
+.curriculum-hero-note svg {
+  color: var(--purple);
+}
+
+.curriculum-hero-note span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.curriculum-hero-note strong {
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.curriculum-hero-note small {
+  color: var(--muted);
+  display: block;
+  font-size: 11px;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.curriculum-quick-nav {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(232, 226, 243, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 20px 48px rgba(64, 48, 118, 0.1);
+  display: grid;
+  gap: 0;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 12px auto -66px;
+  max-width: 980px;
+  overflow: hidden;
+  position: relative;
+  width: calc(100% - 24px);
+  z-index: 8;
+}
+
+.curriculum-quick-nav a {
+  align-items: center;
+  border-right: 1px solid var(--line);
+  color: var(--ink);
+  display: grid;
+  gap: 9px;
+  justify-items: center;
+  min-height: 96px;
+  padding: 18px 14px;
+  text-align: center;
+}
+
+.curriculum-quick-nav a:last-child {
+  border-right: 0;
+}
+
+.curriculum-quick-nav svg {
+  color: var(--purple);
+}
+
+.curriculum-quick-nav span {
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.25;
+  word-break: keep-all;
+}
+
+.curriculum-quick-nav a:hover {
+  background: #fbf8ff;
+  color: var(--purple);
+}
+
 .hero-panel-grid {
   display: grid;
   gap: 0;
@@ -3043,6 +3262,10 @@ p {
     grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1fr);
   }
 
+  .curriculum-hero {
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1fr);
+  }
+
   .home-quick-nav {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -3065,6 +3288,11 @@ p {
   }
 
   .hero-visual {
+    margin: -24px -34px -24px -64px;
+    min-height: 360px;
+  }
+
+  .curriculum-hero-visual {
     margin: -24px -34px -24px -64px;
     min-height: 360px;
   }
@@ -3211,6 +3439,7 @@ p {
 
   .home-stage,
   .hero-card,
+  .curriculum-hero,
   .platform-shell,
   .platform-feature-list,
   .curriculum-preview-shell,
@@ -3265,8 +3494,66 @@ p {
     display: none;
   }
 
+  .curriculum-hero {
+    margin: 22px auto 54px;
+    max-width: calc(100% - 32px);
+    padding: 22px;
+  }
+
+  .curriculum-hero::after {
+    display: none;
+  }
+
   .hero-trust-row {
     grid-template-columns: 1fr;
+  }
+
+  .curriculum-hero-copy h1 {
+    font-size: clamp(38px, 13vw, 54px);
+  }
+
+  .curriculum-hero-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .curriculum-hero-visual {
+    margin: 4px -22px -10px;
+    min-height: 280px;
+  }
+
+  .curriculum-hero-visual::before,
+  .curriculum-hero-visual::after {
+    display: none;
+  }
+
+  .curriculum-hero-visual img {
+    border-radius: 8px;
+    transform: none;
+    width: 100%;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .curriculum-hero-note {
+    bottom: 14px;
+    left: 14px;
+    max-width: calc(100% - 28px);
+    right: auto;
+  }
+
+  .curriculum-quick-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 8px auto -48px;
+    width: 100%;
+  }
+
+  .curriculum-quick-nav a {
+    border-bottom: 1px solid var(--line);
+    min-height: 92px;
+  }
+
+  .curriculum-quick-nav a:nth-child(2n) {
+    border-right: 0;
   }
 
   .hero-trust-row div {
