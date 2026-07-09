@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getCourseSlugs, locales } from "@/lib/content";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3002";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://khcpqa.vercel.app";
 
 const publicPaths = ["", "about", "activities", "contact", "curriculum", "login", "partner-inquiry"];
 

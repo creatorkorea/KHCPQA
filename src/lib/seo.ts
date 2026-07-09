@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getCopy, locales, type Locale } from "@/lib/content";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3002";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://khcpqa.vercel.app";
 
 function getLocalizedPath(locale: Locale, path = "") {
   return path.length > 0 ? `/${locale}/${path}` : `/${locale}`;
