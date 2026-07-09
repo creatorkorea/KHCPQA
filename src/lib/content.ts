@@ -290,21 +290,21 @@ export const copy = {
     brandFull: "Korea Health Care Professional Qualification Association",
     nav: {
       about: "협회 소개",
-      curriculum: "커리큘럼",
+      curriculum: "교육과정",
       activities: "글로벌 활동",
       partner: "파트너 문의",
       contact: "찾아오시는 길",
       login: "로그인"
     },
-    heroBadge: "KHCPQA 글로벌 교육",
-    heroTitle: "한국에서 시작되는 글로벌 전문 자격 교육",
+    heroBadge: "취업의 시작, 전문 교육의 중심",
+    heroTitle: "당신의 기술이 미래가 되는 곳",
     heroLead:
-      "SMC아카데미와 한국건강관리사자격협회의 기존 교육 콘텐츠를 기반으로, 국제 파트너와 교육생을 위한 다국어 웹앱 플랫폼을 구축합니다.",
-    primaryCta: "과정 보기",
+      "실무 중심 교육으로 전문 관리사를 양성하고, 취업과 창업까지 함께 지원합니다.",
+    primaryCta: "교육과정 둘러보기",
     secondaryCta: "파트너 문의",
     secureCta: "로그인 후 자격 조회",
-    trustTitle: "교육, 자격, 글로벌 활동을 하나의 플랫폼으로",
-    curriculumTitle: "주요 과정",
+    trustTitle: "교육부터 취업과 창업까지 이어지는 지원",
+    curriculumTitle: "교육과정 한눈에 보기",
     activitiesTitle: "글로벌 활동",
     pageReady: "번역 및 콘텐츠 검수 상태를 관리자에서 관리합니다.",
     accountTitle: "My Page",
@@ -318,27 +318,27 @@ export const copy = {
     },
     home: {
       heroImageAlt: "글로벌 전문 교육을 상징하는 KHCPQA 교육생과 전문가 이미지",
-      platformEyebrow: "플랫폼",
+      platformEyebrow: "지원 프로그램",
       platformLead:
-        "SMC아카데미의 교육 콘텐츠와 KHCPQA의 자격 운영 기준을 연결해, 해외 교육생과 파트너가 과정 탐색부터 자격 조회까지 일관된 흐름으로 이용할 수 있게 합니다.",
+        "교육생의 목적에 맞춰 상담, 과정 설계, 실무 훈련, 취업·창업 지원을 한 흐름으로 연결합니다.",
       learnMore: "자세히 보기",
       viewCurriculum: "커리큘럼 보기",
       platformFeatures: [
         {
-          title: "비공개 회원 영역",
-          body: "My Page는 공개 메뉴에서 제외하고 로그인 후 계정 메뉴에서만 접근합니다."
+          title: "1:1 취업 상담",
+          body: "전문 상담사와 함께 목표 분야와 현재 역량을 확인하고 맞춤 과정을 설계합니다."
         },
         {
-          title: "구조화된 콘텐츠",
-          body: "기존 SMC365 콘텐츠를 출처와 함께 정리해 과정, 활동, 공지로 운영합니다."
+          title: "취업 연계 시스템",
+          body: "현장 실무에 필요한 기술과 고객 응대 역량을 함께 훈련해 취업 가능성을 높입니다."
         },
         {
-          title: "자격 조회 흐름",
-          body: "로그인 후 자격 취득 내역을 확인하는 흐름으로 확장할 수 있게 설계합니다."
+          title: "창업 컨설팅",
+          body: "1인 창업과 샵 운영을 준비하는 교육생에게 과정 조합과 운영 방향을 안내합니다."
         }
       ],
       curriculumEyebrow: "커리큘럼",
-      curriculumLead: "대표 교육 과정을 먼저 살펴보고 전체 과정 목록에서 세부 프로그램을 확인하세요.",
+      curriculumLead: "현장 경험이 풍부한 강사진과 체계적인 커리큘럼으로 전문 기술 성장을 돕습니다.",
       activitiesEyebrow: "글로벌 활동",
       activitiesLead: "공지, 합격 현황, 갤러리, 국제 활동을 한 곳에서 확인할 수 있도록 연결합니다.",
       viewAll: "전체 보기",
@@ -606,15 +606,15 @@ export const copy = {
       contact: "Contact",
       login: "Login"
     },
-    heroBadge: "KHCPQA Global Education",
-    heroTitle: "Global Professional Qualification Education from Korea",
+    heroBadge: "Where careers begin with professional training",
+    heroTitle: "Your skills become your future",
     heroLead:
-      "A multilingual webapp platform for international partners and trainees, built from the existing SMC Academy and KHCPQA education content.",
+      "Practice-based education develops professional therapists and supports learners through employment and startup preparation.",
     primaryCta: "Explore Programs",
     secondaryCta: "Request Partnership",
     secureCta: "Login to Check Certification",
-    trustTitle: "Education, certification, and global activities in one platform",
-    curriculumTitle: "Featured Programs",
+    trustTitle: "Support from training to employment and startup",
+    curriculumTitle: "Explore Programs at a Glance",
     activitiesTitle: "Global Activities",
     pageReady: "Translation and content review status is managed in the admin.",
     accountTitle: "My Page",
@@ -628,27 +628,27 @@ export const copy = {
     },
     home: {
       heroImageAlt: "KHCPQA trainees and professionals representing global qualification education",
-      platformEyebrow: "Platform",
+      platformEyebrow: "Support Program",
       platformLead:
-        "The platform connects SMC Academy education content with KHCPQA qualification standards so international trainees and partners can move from program discovery to certification inquiry in one consistent flow.",
+        "Learners move through consultation, course planning, practical training, and employment or startup support in one connected path.",
       learnMore: "Learn more",
       viewCurriculum: "View curriculum",
       platformFeatures: [
         {
-          title: "Private Member Area",
-          body: "My Page stays out of the public menu and is available only after login through the account menu."
+          title: "1:1 Career Consultation",
+          body: "Specialized counseling helps learners identify their target field and plan a course path around current skills."
         },
         {
-          title: "Structured Content",
-          body: "Existing SMC365 content is organized with source references across programs, activities, and notices."
+          title: "Employment Support System",
+          body: "Practical technique, client care, and service readiness are trained together for field employment."
         },
         {
-          title: "Certification Flow",
-          body: "The experience is designed to expand into a secure login-based certification history lookup."
+          title: "Startup Consulting",
+          body: "Learners preparing for one-person shops or salon operations receive guidance on course combinations and operating direction."
         }
       ],
       curriculumEyebrow: "Curriculum",
-      curriculumLead: "Review featured programs first, then explore the full catalog for detailed course information.",
+      curriculumLead: "Experienced instructors and structured curriculum help learners build professional field skills.",
       activitiesEyebrow: "Global Activities",
       activitiesLead: "Notices, pass records, galleries, and international activities are connected in one place.",
       viewAll: "View all",
@@ -916,15 +916,15 @@ export const copy = {
       contact: "Contacto",
       login: "Iniciar Sesión"
     },
-    heroBadge: "Educación Global KHCPQA",
-    heroTitle: "Educación Global de Cualificaciones Profesionales desde Corea",
+    heroBadge: "Donde empieza la carrera con formación profesional",
+    heroTitle: "Tus habilidades se convierten en tu futuro",
     heroLead:
-      "Una plataforma web multilingüe para socios internacionales y estudiantes, basada en el contenido educativo existente de SMC Academy y KHCPQA.",
+      "La educación práctica forma terapeutas profesionales y apoya a los estudiantes en empleo y emprendimiento.",
     primaryCta: "Explorar Programas",
     secondaryCta: "Solicitar Alianza",
     secureCta: "Consultar Certificación",
-    trustTitle: "Educación, certificación y actividades globales en una plataforma",
-    curriculumTitle: "Programas Principales",
+    trustTitle: "Apoyo desde la formación hasta empleo y emprendimiento",
+    curriculumTitle: "Programas de un vistazo",
     activitiesTitle: "Actividades Globales",
     pageReady: "El estado de traducción y revisión se gestiona desde el administrador.",
     accountTitle: "My Page",
@@ -938,27 +938,27 @@ export const copy = {
     },
     home: {
       heroImageAlt: "Estudiantes y profesionales de KHCPQA que representan la educación global de cualificaciones",
-      platformEyebrow: "Plataforma",
+      platformEyebrow: "Programa de Apoyo",
       platformLead:
-        "La plataforma conecta el contenido educativo de SMC Academy con los estándares de certificación de KHCPQA para que estudiantes y socios internacionales avancen desde la búsqueda de programas hasta la consulta de certificaciones en un flujo coherente.",
+        "Los estudiantes avanzan por consulta, planificación de cursos, práctica y apoyo de empleo o emprendimiento en un solo flujo.",
       learnMore: "Más información",
       viewCurriculum: "Ver currículo",
       platformFeatures: [
         {
-          title: "Área privada de miembros",
-          body: "My Page no aparece en el menú público y solo se accede después de iniciar sesión desde el menú de cuenta."
+          title: "Consulta 1:1",
+          body: "La asesoría especializada ayuda a definir el campo objetivo y planificar el curso según las habilidades actuales."
         },
         {
-          title: "Contenido estructurado",
-          body: "El contenido existente de SMC365 se organiza con referencias de origen en programas, actividades y avisos."
+          title: "Sistema de empleo",
+          body: "La técnica práctica, la atención al cliente y la preparación de servicio se entrenan juntas para el trabajo real."
         },
         {
-          title: "Flujo de certificación",
-          body: "La experiencia está diseñada para ampliarse a una consulta segura del historial de certificaciones con inicio de sesión."
+          title: "Consultoría de emprendimiento",
+          body: "Quienes preparan un salón individual u operación de shop reciben guía de combinación de cursos y dirección operativa."
         }
       ],
       curriculumEyebrow: "Currículo",
-      curriculumLead: "Revise primero los programas destacados y luego explore el catálogo completo para ver detalles.",
+      curriculumLead: "Instructores con experiencia y un currículo estructurado ayudan a desarrollar habilidades profesionales.",
       activitiesEyebrow: "Actividades Globales",
       activitiesLead: "Avisos, resultados, galerías y actividades internacionales se conectan en un solo lugar.",
       viewAll: "Ver todo",

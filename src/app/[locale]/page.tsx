@@ -1,18 +1,44 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Award, BadgeCheck, BookOpen, Building2, Globe2, ShieldCheck, Users } from "lucide-react";
+import {
+  ArrowRight,
+  Award,
+  BadgeCheck,
+  BookOpen,
+  BriefcaseBusiness,
+  CalendarDays,
+  ClipboardPenLine,
+  GraduationCap,
+  HandHeart,
+  Headphones,
+  HeartPulse,
+  ShieldCheck,
+  Store,
+  Users
+} from "lucide-react";
 import { getActivityGroups, getCopy, getCourses, getStats, type Locale } from "@/lib/content";
 import { StatusBadge } from "@/components/SiteShell";
 
-const heroStatIcons = [Award, Globe2, Users, Building2];
+const heroStatIcons = [GraduationCap, BriefcaseBusiness, Store];
+const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, HeartPulse, HandHeart, ClipboardPenLine, Headphones];
 
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
   const courses = getCourses(locale);
   const activityGroups = getActivityGroups(locale);
-  const stats = getStats(locale);
+  const stats = getStats(locale).slice(0, 3);
   const platformIcons = [ShieldCheck, BookOpen, BadgeCheck];
+  const previewCourses = courses.slice(3, 11);
+  const quickNavItems = [
+    { label: courses[0]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[0]?.slug ?? ""}` },
+    { label: courses[1]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[1]?.slug ?? ""}` },
+    { label: courses[2]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[2]?.slug ?? ""}` },
+    { label: courses[4]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[4]?.slug ?? ""}` },
+    { label: t.curriculumTitle, href: `/${locale}/curriculum` },
+    { label: t.primaryCta, href: `/${locale}/curriculum` },
+    { label: t.courseDetail.inquiryCta, href: `/${locale}/partner-inquiry` }
+  ];
 
   return (
     <>
@@ -20,8 +46,30 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         <div className="hero-card">
           <div className="hero-copy">
             <StatusBadge>{t.heroBadge}</StatusBadge>
-            <h1>{t.heroTitle}</h1>
+            <h1>
+              {locale === "ko" ? (
+                <>
+                  당신의 기술이 <span>미래</span>가 되는 곳
+                </>
+              ) : (
+                t.heroTitle
+              )}
+            </h1>
             <p>{t.heroLead}</p>
+            <div className="hero-trust-row">
+              {stats.map((item, index) => {
+                const Icon = heroStatIcons[index];
+                return (
+                  <div key={item.label}>
+                    <Icon aria-hidden="true" size={22} strokeWidth={1.65} />
+                    <span>
+                      <strong>{item.value}</strong>
+                      <small>{item.label}</small>
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
             <div className="hero-actions">
               <Link className="primary-button" href={`/${locale}/curriculum`}>
                 {t.primaryCta}
@@ -35,19 +83,24 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
 
           <div className="hero-visual">
             <Image src="/assets/hero-professionals.png" alt={t.home.heroImageAlt} width={960} height={620} priority />
+            <Link className="hero-floating-card" href={`/${locale}/partner-inquiry`}>
+              <BadgeCheck size={24} />
+              <span>
+                <strong>{t.courseDetail.inquiryCta}</strong>
+                <small>{t.home.certificationLead}</small>
+              </span>
+              <ArrowRight size={16} />
+            </Link>
           </div>
 
-          <div className="hero-panel-grid">
-            {stats.map((item, index) => {
-              const Icon = heroStatIcons[index];
+          <div className="home-quick-nav" aria-label={t.curriculumTitle}>
+            {quickNavItems.map((item, index) => {
+              const Icon = quickNavIcons[index];
               return (
-                <div key={item.label}>
-                  <Icon aria-hidden="true" size={30} strokeWidth={1.7} />
-                  <span>
-                    <strong>{item.value}</strong>
-                    <small>{item.label}</small>
-                  </span>
-                </div>
+                <Link href={item.href} key={`${item.label}-${index}`}>
+                  <Icon aria-hidden="true" size={24} strokeWidth={1.55} />
+                  <span>{item.label}</span>
+                </Link>
               );
             })}
           </div>
@@ -94,18 +147,28 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
             {t.home.viewAll} <ArrowRight size={15} />
           </Link>
         </div>
-        <div className="course-grid compact">
-          {courses.slice(0, 6).map((course) => (
-            <article className="course-card" key={course.title}>
-              <Image src={course.imageUrl} alt={course.title} width={640} height={320} />
-              <span>{course.category}</span>
-              <h3>{course.title}</h3>
-              <p>{course.summary}</p>
-              <Link className="card-link" href={`/${locale}/curriculum/${course.slug}`}>
-                {t.home.viewDetails} <ArrowRight size={14} />
+        <div className="curriculum-preview-shell">
+          <aside className="curriculum-side-tabs" aria-label={t.curriculumTitle}>
+            <Link className="active" href={`/${locale}/curriculum`}>{t.home.viewAll}</Link>
+            {courses.slice(0, 9).map((course) => (
+              <Link key={course.title} href={`/${locale}/curriculum/${course.slug}`}>
+                {course.title}
               </Link>
-            </article>
-          ))}
+            ))}
+          </aside>
+          <div className="course-grid compact">
+            {previewCourses.map((course) => (
+              <article className="course-card" key={course.title}>
+                <Image src={course.imageUrl} alt={course.title} width={640} height={320} />
+                <span>{course.category}</span>
+                <h3>{course.title}</h3>
+                <p>{course.summary}</p>
+                <Link className="card-link" href={`/${locale}/curriculum/${course.slug}`} aria-label={`${course.title} ${t.home.viewDetails}`}>
+                  <ArrowRight size={14} />
+                </Link>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 

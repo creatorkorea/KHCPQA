@@ -3,51 +3,58 @@
 ## Reference Asset
 
 기준 이미지:
+- `/public/assets/design-reference-premium.png`
 - `/public/assets/design-reference.png`
 - `/public/assets/design-reference-uiux.png`
 
-이 이미지는 KHCPQA 글로벌 웹앱의 1차 디자인 기준이다. 화면 구성, 여백, 카드 반경, 로고 톤, 그린 버튼, 교육 이미지 사용 방식을 이 기준에 맞춘다.
+`design-reference-premium.png`를 최신 우선 기준으로 사용한다. 이전 그린 레퍼런스는 협회 신뢰감, 정보 밀도, 콘텐츠 섹션 구조를 확인하는 보조 기준으로만 사용한다.
 
 ## 브랜드 방향
 
 - 국제 협회
-- 글로벌 교육기관
-- 공식적이고 신뢰감 있는 톤
-- 화이트 + 그린 기반
+- 취업과 창업을 지원하는 전문 교육기관
+- 공식적이지만 부드러운 프리미엄 톤
+- 화이트 + 라벤더 퍼플 기반, 딥그린을 신뢰 보조색으로 사용
 - 깨끗한 여백, 명확한 계층, 높은 가독성
+- 수강 상담과 과정 탐색이 자연스럽게 이어지는 랜딩 흐름
 
 ## Visual Direction
 
-- Clean institutional editorial
-- White desktop canvas
-- Deep green identity
-- Formal hero headline with strong Korean sans typography
-- Minimal iconography
-- Soft shadows
-- Rounded 8px cards
-- Education/healthcare imagery
-- Global network motif
+- Premium wellness education
+- White and soft-lavender desktop canvas
+- Deep purple primary identity with deep green trust accent
+- Large confident Korean sans headline
+- Thin-line iconography with soft purple icon containers
+- Soft shadows and subtle glass surfaces
+- Rounded 8px cards; large hero media can use asymmetric oval/arc masking
+- Real education, beauty, wellness, massage, and skin-care imagery
+- Course exploration, consultation, employment, and startup support motif
 
-첫 화면은 좌측 브랜드 설명 레일과 우측 메인 웹앱 캔버스가 함께 보이는 구성을 기준으로 한다. 사용자가 기억해야 할 인상은 “한국 기반 글로벌 전문 자격 교육기관”이다.
+첫 화면은 좌측 강한 교육 메시지와 우측 실제 시술/교육 이미지를 함께 보여준다. 사용자가 기억해야 할 인상은 “나의 기술이 취업과 창업으로 이어지는 프리미엄 전문 교육기관”이다.
 
 ## 색상 규칙
 
-- 배경은 흰색을 기본으로 한다.
-- 주요 액센트는 딥 그린을 사용한다.
-- 보조 액센트는 소프트 그린 또는 밝은 중립색을 사용한다.
+- 배경은 흰색을 기본으로 하고, 섹션 전환에 아주 옅은 라벤더/웜그레이 그라데이션을 사용한다.
+- 주요 액센트는 프리미엄 퍼플을 사용한다.
+- 딥그린은 협회 신뢰, 공식성, 자격/검증 정보에 보조 액센트로 사용한다.
+- 보조 액센트는 라벤더, 라일락, 아주 밝은 중립색을 사용한다.
 - 본문은 다크 그레이를 사용한다.
-- 한 화면이 전부 초록색 계열로만 보이지 않도록 중립색과 이미지 콘텐츠를 충분히 사용한다.
+- 한 화면이 전부 보라색 계열로만 보이지 않도록 화이트, 딥그린, 사진, 얇은 라인을 충분히 사용한다.
 - 경고, 오류, 성공 상태는 의미 색상을 분리한다.
 
 권장 토큰:
-- Primary Green: `#006B35`
+- Primary Purple: `#6F45C7`
+- Deep Purple: `#4B2E83`
+- Soft Purple: `#EFE8FF`
+- Lavender Surface: `#F8F5FF`
+- Trust Green: `#006B35`
 - Deep Green: `#004225`
-- Background: `#F6F8F5`
+- Background: `#FBFAFF`
 - Surface: `#FFFFFF`
-- Soft Green: `#E2F0E8`
-- Ink: `#07140F`
-- Muted Text: `#66736D`
-- Line: `#DFE7E2`
+- Soft Green: `#E7F3EC`
+- Ink: `#181622`
+- Muted Text: `#6F6A7B`
+- Line: `#E8E2F3`
 - Accent Gold: `#B78B3B`
 - Accent Coral: `#D96B52`
 
@@ -55,7 +62,7 @@
 
 - 한국어, 영어, 스페인어 모두 읽기 쉬운 산세리프를 기본으로 사용한다.
 - 한국어 hero headline은 굵고 단정한 산세리프로 고정해 전문 교육기관의 신뢰감을 만든다.
-- Georgia 계열 세리프는 KHCPQA 로고형 텍스트와 영문 editorial 강조에 제한적으로 사용한다.
+- KHCPQA 로고형 텍스트는 굵은 세리프 또는 고급감 있는 표시용 폰트 느낌을 유지한다.
 - 본문 최소 16px.
 - 모바일에서도 줄간격을 넉넉하게 유지한다.
 - 버튼과 카드 안 텍스트는 길어져도 넘치지 않도록 줄바꿈을 허용한다.
@@ -68,10 +75,12 @@
 - 페이지 섹션은 카드처럼 겹겹이 감싸지 않는다.
 - 반복 아이템에는 카드 사용 가능.
 - 카드는 8px 이하의 절제된 radius를 기본으로 한다.
-- 홈 첫 화면에는 협회명, 글로벌 교육, 자격 프로그램, CTA가 명확히 보여야 한다.
-- 데스크톱 홈은 좌측 브랜드 레일 + 우측 대형 화이트 캔버스를 기준으로 한다.
-- Hero 이미지와 CTA는 첫 화면 안에서 함께 보여야 한다.
-- 통계/신뢰 지표는 hero 하단에 낮은 높이의 가로 카드로 배치한다.
+- 홈 첫 화면에는 협회명, 전문 교육, 취업/창업 지원, CTA가 명확히 보여야 한다.
+- 데스크톱 홈은 상단 헤더 아래 hero가 바로 시작되고, 좌측 텍스트와 우측 실제 시술/교육 이미지가 균형을 이루어야 한다.
+- Hero 이미지와 CTA, 3개 내외의 핵심 신뢰 지표가 첫 화면 안에서 함께 보여야 한다.
+- Hero 하단에는 과정/상담/수강신청 등 주요 진입점을 낮은 높이의 가로 퀵 메뉴로 배치한다.
+- 교육과정 목록은 좌측 탭/카테고리와 우측 카드 그리드를 조합하되, 모바일에서는 가로 스크롤 칩 또는 select로 바꾼다.
+- 하단에는 공지, 강의시간, 상담 CTA처럼 실제 운영에 필요한 정보를 카드형으로 배치한다.
 
 ## 교육 상세/콘텐츠 페이지 작업 원칙
 
@@ -83,7 +92,7 @@
 - 낡은 표 스타일은 반응형 정보 카드, 비교 가능한 칩, 요약 패널, 섹션형 그리드로 변환한다.
 - 단순 3열 카드 반복으로 끝내지 말고, 중요도에 따라 hero, 핵심 지표, 강조 섹션, 보조 정보, 하단 CTA의 위계를 만든다.
 - 원본 이미지가 의미 있는 경우 사용하되, 흐릿하거나 시대감이 강하면 최신 톤의 생성 이미지 또는 로컬 assets로 보완한다.
-- 페이지마다 KHCPQA의 공식적이고 신뢰감 있는 그린/화이트 톤은 유지하되, 정보가 모두 같은 초록 박스로 보이지 않도록 중립색, 이미지, 여백, 얇은 라인, 제한적인 강조색을 섞는다.
+- 페이지마다 KHCPQA의 프리미엄 퍼플/화이트 톤을 유지하되, 협회 신뢰와 자격 검증 정보에는 딥그린을 보조로 사용한다. 정보가 모두 같은 보라 박스로 보이지 않도록 중립색, 이미지, 여백, 얇은 라인, 제한적인 강조색을 섞는다.
 - 모바일에서는 원본 표 구조를 유지하지 말고, 한 손으로 읽기 쉬운 순서형 카드와 CTA 흐름으로 바꾼다.
 - 사용자에게 노출할 필요 없는 원본 URL, 내부 출처, 작업 메모는 화면에 표시하지 않는다.
 - 검증은 `npm run lint`, `git diff --check`, 가능하면 `npm run build`까지 수행한다.
@@ -113,6 +122,7 @@
 - 흐릿하거나 저해상도 이미지는 대표 이미지로 쓰지 않는다.
 
 현재 1차 assets:
+- `/assets/design-reference-premium.png`
 - `/assets/design-reference.png`
 - `/assets/design-reference-uiux.png`
 - `/assets/hero-professionals.png`
