@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Image from "next/image";
 import { AboutSubnav } from "@/components/AboutSubnav";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
@@ -33,6 +33,15 @@ export default async function GreetingPage({ params }: { params: Promise<{ local
           {t.greetingPage.greetings.map((greeting, index) => (
             <article className="greeting-card" key={greeting.name}>
               <div className="greeting-index">{String(index + 1).padStart(2, "0")}</div>
+              <div className="greeting-photo">
+                <Image
+                  src={greeting.imageUrl}
+                  alt={greeting.name}
+                  width={280}
+                  height={400}
+                  sizes="(max-width: 720px) 140px, 180px"
+                />
+              </div>
               <div className="greeting-body">
                 <div className="greeting-heading">
                   <span>{greeting.role}</span>
@@ -48,11 +57,6 @@ export default async function GreetingPage({ params }: { params: Promise<{ local
               </div>
             </article>
           ))}
-        </div>
-        <div className="source-note">
-          <Link href={t.greetingPage.sourceUrl} target="_blank" rel="noreferrer">
-            {t.greetingPage.sourceLabel}
-          </Link>
         </div>
       </section>
     </>

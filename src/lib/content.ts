@@ -80,6 +80,7 @@ type GreetingCopy = {
   name: string;
   role: string;
   meta?: string;
+  imageUrl: string;
   paragraphs: string[];
   contact?: string;
 };
@@ -144,8 +145,6 @@ type Copy = {
     eyebrow: string;
     title: string;
     lead: string;
-    sourceLabel: string;
-    sourceUrl: string;
     greetings: GreetingCopy[];
   };
   curriculumPage: {
@@ -345,14 +344,13 @@ export const copy = {
     greetingPage: {
       eyebrow: "인사말",
       title: "협회 인사말",
-      lead: "협회장, 서울총본부, 대림캠퍼스, 강남마사지교육원의 인사말을 원본 페이지 흐름에 맞춰 정리했습니다.",
-      sourceLabel: "원본 인사말 페이지",
-      sourceUrl: "https://www.smc365.ac/academy/academy02.asp",
+      lead: "건강미용 교육의 발전과 수강생의 성공을 위해 함께 성장하겠습니다.",
       greetings: [
         {
           name: "황인근",
           role: "한국건강관리사자격협회 협회장",
           meta: "연세대학교 의과대학 특성화 학생실습 지도교수",
+          imageUrl: "/assets/greeting-hwang-ingeun.jpg",
           contact: "H : 010-6283-1206",
           paragraphs: [
             "협회는 한류의 성장과 함께 무한한 잠재력을 지닌 대체의학과 서비스 산업의 발전에 발맞춰 건강미용 산업 교육의 시너지를 만들 수 있는 체계를 갖추고 있습니다.",
@@ -363,6 +361,7 @@ export const copy = {
         {
           name: "문순영",
           role: "한국건강관리사자격협회 부회장 / 서울총본부 본원 원장",
+          imageUrl: "/assets/greeting-moon-soonyoung.jpg",
           contact: "H : 010-7712-3362",
           paragraphs: [
             "한국건강관리사자격협회 서울총본부는 지하철 1, 3, 5호선이 환승되는 종로3가역 인근, 교통이 편리한 서울 중심지에 위치하고 있습니다.",
@@ -374,6 +373,7 @@ export const copy = {
           name: "황유진",
           role: "대림캠퍼스 원장",
           meta: "Skin-care Management Consultant",
+          imageUrl: "/assets/greeting-hwang-yujin.jpg",
           contact: "T : 02-845-8820",
           paragraphs: [
             "한국건강관리사자격협회 대림캠퍼스는 지하철 2, 7호선이 환승되는 대림역 12번 출구 1분 거리에 위치해 교통이 매우 편리하며, 넓고 쾌적한 교육 환경을 제공합니다.",
@@ -384,6 +384,7 @@ export const copy = {
         {
           name: "이용호",
           role: "강남마사지교육원 교육부장",
+          imageUrl: "/assets/greeting-lee-yongho.jpg",
           contact: "T : 02-845-8890",
           paragraphs: [
             "강남마사지교육원은 대림역 12번 출구 1분 거리에 위치한 마사지 전문 교육원입니다. 국제화 시대와 서비스 산업 발전에 맞춰 스포츠마사지, 경락마사지, 피부마사지, 발마사지 교육을 진행합니다.",
@@ -595,14 +596,13 @@ export const copy = {
     greetingPage: {
       eyebrow: "Greetings",
       title: "Leadership Greetings",
-      lead: "Messages from KHCPQA leadership and campus directors, organized from the original greeting page.",
-      sourceLabel: "Original greeting page",
-      sourceUrl: "https://www.smc365.ac/academy/academy02.asp",
+      lead: "We grow together with learners through professional health and beauty education.",
       greetings: [
         {
           name: "Hwang In-geun",
           role: "President, Korea Health Manager Approved Association",
           meta: "Specialized student practice advisor, Yonsei University College of Medicine",
+          imageUrl: "/assets/greeting-hwang-ingeun.jpg",
           contact: "H : 010-6283-1206",
           paragraphs: [
             "The association is structured to create new educational synergy for the health and beauty industry in step with the growth of alternative medicine and service industries.",
@@ -613,6 +613,7 @@ export const copy = {
         {
           name: "Moon Soon-young",
           role: "Vice President / Director, Seoul Headquarters",
+          imageUrl: "/assets/greeting-moon-soonyoung.jpg",
           contact: "H : 010-7712-3362",
           paragraphs: [
             "The Seoul Headquarters is located in central Seoul near Jongno 3-ga Station, where subway lines 1, 3, and 5 connect.",
@@ -624,6 +625,7 @@ export const copy = {
           name: "Hwang Yu-jin",
           role: "Director, Daerim Campus",
           meta: "Skin-care Management Consultant",
+          imageUrl: "/assets/greeting-hwang-yujin.jpg",
           contact: "T : 02-845-8820",
           paragraphs: [
             "Daerim Campus is located one minute from Exit 12 of Daerim Station, where subway lines 2 and 7 connect, offering convenient access and a clean, comfortable learning environment.",
@@ -634,6 +636,7 @@ export const copy = {
         {
           name: "Lee Yong-ho",
           role: "Education Director, Gangnam Massage Institute",
+          imageUrl: "/assets/greeting-lee-yongho.jpg",
           contact: "T : 02-845-8890",
           paragraphs: [
             "Gangnam Massage Institute is a professional massage education center located one minute from Exit 12 of Daerim Station. It teaches sports massage, meridian massage, skincare massage, and foot massage for the global service industry.",
@@ -845,14 +848,13 @@ export const copy = {
     greetingPage: {
       eyebrow: "Saludos",
       title: "Saludos de la Dirección",
-      lead: "Mensajes de la dirección de KHCPQA y de los responsables de campus, organizados desde la página original de saludos.",
-      sourceLabel: "Página original de saludos",
-      sourceUrl: "https://www.smc365.ac/academy/academy02.asp",
+      lead: "Crecemos junto con los estudiantes mediante educación profesional en salud y belleza.",
       greetings: [
         {
           name: "Hwang In-geun",
           role: "Presidente de Korea Health Manager Approved Association",
           meta: "Profesor guía de práctica estudiantil especializada, Yonsei University College of Medicine",
+          imageUrl: "/assets/greeting-hwang-ingeun.jpg",
           contact: "H : 010-6283-1206",
           paragraphs: [
             "La asociación cuenta con un sistema educativo diseñado para crear sinergia en la formación de salud y belleza junto con el crecimiento de la medicina alternativa y la industria de servicios.",
@@ -863,6 +865,7 @@ export const copy = {
         {
           name: "Moon Soon-young",
           role: "Vicepresidenta / Directora de la Sede Central de Seúl",
+          imageUrl: "/assets/greeting-moon-soonyoung.jpg",
           contact: "H : 010-7712-3362",
           paragraphs: [
             "La sede central de Seúl está ubicada en el centro de la ciudad, cerca de la estación Jongno 3-ga, donde conectan las líneas 1, 3 y 5 del metro.",
@@ -874,6 +877,7 @@ export const copy = {
           name: "Hwang Yu-jin",
           role: "Directora del Campus Daerim",
           meta: "Skin-care Management Consultant",
+          imageUrl: "/assets/greeting-hwang-yujin.jpg",
           contact: "T : 02-845-8820",
           paragraphs: [
             "El Campus Daerim está a un minuto de la salida 12 de la estación Daerim, donde conectan las líneas 2 y 7, con acceso cómodo y un ambiente amplio, limpio y agradable.",
@@ -884,6 +888,7 @@ export const copy = {
         {
           name: "Lee Yong-ho",
           role: "Director de Educación, Gangnam Massage Institute",
+          imageUrl: "/assets/greeting-lee-yongho.jpg",
           contact: "T : 02-845-8890",
           paragraphs: [
             "Gangnam Massage Institute es un centro especializado en masaje ubicado a un minuto de la salida 12 de la estación Daerim. Enseña masaje deportivo, meridiano, facial/corporal y de pies para la industria global de servicios.",

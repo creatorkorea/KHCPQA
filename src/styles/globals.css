@@ -812,7 +812,7 @@ p {
   border-radius: 8px;
   display: grid;
   gap: clamp(22px, 4vw, 56px);
-  grid-template-columns: 86px minmax(0, 1fr);
+  grid-template-columns: 64px 180px minmax(0, 1fr);
   padding: clamp(22px, 4vw, 46px);
 }
 
@@ -821,6 +821,20 @@ p {
   font-size: 13px;
   font-weight: 900;
   letter-spacing: 0;
+}
+
+.greeting-photo {
+  align-self: start;
+  aspect-ratio: 7 / 10;
+  background: var(--soft);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.greeting-photo img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
 }
 
 .greeting-body {
@@ -872,18 +886,6 @@ p {
 .greeting-contact {
   border-top: 1px solid var(--line);
   padding-top: 18px;
-}
-
-.source-note {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 22px;
-}
-
-.source-note a {
-  color: var(--green);
-  font-size: 13px;
-  font-weight: 900;
 }
 
 .course-grid {
@@ -1649,7 +1651,6 @@ p {
   .hero-card,
   .platform-shell,
   .about-feature,
-  .greeting-card,
   .course-detail-hero,
   .course-detail-body,
   .activity-showcase,
@@ -1671,6 +1672,15 @@ p {
 
   .about-feature:nth-child(even) .about-feature-media {
     order: 0;
+  }
+
+  .greeting-card {
+    gap: 18px;
+    grid-template-columns: 48px minmax(104px, 140px);
+  }
+
+  .greeting-body {
+    grid-column: 1 / -1;
   }
 
   .hero-copy,
