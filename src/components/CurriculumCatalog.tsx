@@ -28,6 +28,8 @@ export function CurriculumCatalog({
 
     return matchesCategory && matchesQuery;
   });
+  const goalCourses = filteredCourses.filter((course) => course.categoryKey === "professional");
+  const catalogCourses = filteredCourses.filter((course) => course.categoryKey !== "professional");
 
   return (
     <>
@@ -55,20 +57,49 @@ export function CurriculumCatalog({
         </div>
       </div>
 
-      <div className="course-grid">
-        {filteredCourses.map((course) => (
-          <article className="course-card" key={course.title}>
-            <Image src={course.imageUrl} alt={course.title} width={640} height={320} />
-            <span>{course.category}</span>
-            <h3>{course.title}</h3>
-            <p>{course.summary}</p>
-            <Link className="card-link" href={`/${locale}/curriculum/${course.slug}`}>
-              {t.viewDetails} <ArrowRight size={14} />
-            </Link>
-            <small>{course.source}</small>
-          </article>
-        ))}
-      </div>
+      {goalCourses.length > 0 ? (
+        <section className="goal-course-section">
+          <div className="catalog-heading">
+            <h2>{t.goalTitle}</h2>
+            <p>{t.goalLead}</p>
+          </div>
+          <div className="goal-course-grid">
+            {goalCourses.map((course) => (
+              <article className="goal-course-card" key={course.title}>
+                <span>{course.category}</span>
+                <h3>{course.title}</h3>
+                <p>{course.summary}</p>
+                <Link className="card-link" href={`/${locale}/curriculum/${course.slug}`}>
+                  {t.viewDetails} <ArrowRight size={14} />
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {catalogCourses.length > 0 ? (
+        <section className="program-course-section">
+          <div className="catalog-heading">
+            <h2>{t.catalogTitle}</h2>
+            <p>{t.catalogLead}</p>
+          </div>
+          <div className="course-grid">
+            {catalogCourses.map((course) => (
+              <article className="course-card" key={course.title}>
+                <Image src={course.imageUrl} alt={course.title} width={640} height={320} />
+                <span>{course.category}</span>
+                <h3>{course.title}</h3>
+                <p>{course.summary}</p>
+                <Link className="card-link" href={`/${locale}/curriculum/${course.slug}`}>
+                  {t.viewDetails} <ArrowRight size={14} />
+                </Link>
+                <small>{course.source}</small>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {filteredCourses.length === 0 ? (
         <p className="empty-state">{t.emptyState}</p>

@@ -46,6 +46,7 @@ export default async function CourseDetailPage({
   if (!course) {
     notFound();
   }
+  const isGoalCourse = course.categoryKey === "professional";
 
   return (
     <article className="course-detail">
@@ -70,13 +71,13 @@ export default async function CourseDetailPage({
         <div className="course-detail-main">
           <div>
             <span className="eyebrow">{t.courseDetail.overviewEyebrow}</span>
-            <h2>{t.courseDetail.overviewTitle}</h2>
+            <h2>{isGoalCourse ? t.courseDetail.goalOverviewTitle : t.courseDetail.overviewTitle}</h2>
             <p>{course.overview}</p>
           </div>
 
           <div>
             <span className="eyebrow">{t.courseDetail.curriculumEyebrow}</span>
-            <h2>{t.courseDetail.curriculumTitle}</h2>
+            <h2>{isGoalCourse ? t.courseDetail.goalPlanTitle : t.courseDetail.curriculumTitle}</h2>
             <ul className="detail-list">
               {course.curriculum.map((item) => (
                 <li key={item}>
@@ -96,7 +97,7 @@ export default async function CourseDetailPage({
           </div>
           <div>
             <BadgeCheck size={22} />
-            <h3>{t.courseDetail.certificationTitle}</h3>
+            <h3>{isGoalCourse ? t.courseDetail.goalOutcomeTitle : t.courseDetail.certificationTitle}</h3>
             <p>{course.certificationNote}</p>
           </div>
           <div>

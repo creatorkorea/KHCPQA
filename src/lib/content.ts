@@ -189,6 +189,9 @@ type Copy = {
     overviewTitle: string;
     curriculumEyebrow: string;
     curriculumTitle: string;
+    goalOverviewTitle: string;
+    goalPlanTitle: string;
+    goalOutcomeTitle: string;
     audienceTitle: string;
     certificationTitle: string;
     sourceTitle: string;
@@ -263,6 +266,10 @@ type Copy = {
     searchPlaceholder: string;
     categoryLabel: string;
     categories: Record<CourseCategory, string>;
+    goalTitle: string;
+    goalLead: string;
+    catalogTitle: string;
+    catalogLead: string;
     emptyState: string;
     viewDetails: string;
   };
@@ -480,6 +487,9 @@ export const copy = {
       overviewTitle: "과정 개요",
       curriculumEyebrow: "커리큘럼",
       curriculumTitle: "주요 교육 내용",
+      goalOverviewTitle: "목표별 과정 개요",
+      goalPlanTitle: "목표 달성 학습 설계",
+      goalOutcomeTitle: "상담 및 진로 안내",
       audienceTitle: "교육 대상",
       certificationTitle: "수료/자격 안내",
       sourceTitle: "원본 URL"
@@ -560,9 +570,13 @@ export const copy = {
       categories: {
         all: "전체",
         certification: "자격 과정",
-        professional: "전문 트랙",
+        professional: "목표별 과정",
         practical: "실무 프로그램"
       },
+      goalTitle: "목표별 추천 과정",
+      goalLead: "취업, 창업, 시간 제약 등 수강 목적에 맞춰 과목 조합과 학습 흐름을 설계하는 과정입니다.",
+      catalogTitle: "실무·자격 교육과정",
+      catalogLead: "현장에서 활용할 수 있는 기술 과목과 자격 과정을 확인하세요.",
       emptyState: "조건에 맞는 과정이 없습니다. 검색어 또는 카테고리를 조정해 주세요.",
       viewDetails: "상세 보기"
     }
@@ -776,6 +790,9 @@ export const copy = {
       overviewTitle: "Program Overview",
       curriculumEyebrow: "Curriculum",
       curriculumTitle: "Key Training Content",
+      goalOverviewTitle: "Goal-Based Program Overview",
+      goalPlanTitle: "Goal Achievement Learning Plan",
+      goalOutcomeTitle: "Advising and Career Path",
       audienceTitle: "Audience",
       certificationTitle: "Completion / Certification",
       sourceTitle: "Source URL"
@@ -856,9 +873,13 @@ export const copy = {
       categories: {
         all: "All",
         certification: "Certification",
-        professional: "Professional Track",
+        professional: "Goal-Based Programs",
         practical: "Practical Program"
       },
+      goalTitle: "Goal-Based Recommended Programs",
+      goalLead: "Programs designed around employment, startup preparation, schedule constraints, and each learner's purpose.",
+      catalogTitle: "Practical and Certification Programs",
+      catalogLead: "Explore technical training and certification programs for field use.",
       emptyState: "No programs match your filters. Adjust the keyword or category.",
       viewDetails: "View Details"
     }
@@ -1072,6 +1093,9 @@ export const copy = {
       overviewTitle: "Resumen del Programa",
       curriculumEyebrow: "Currículo",
       curriculumTitle: "Contenido Principal de Formación",
+      goalOverviewTitle: "Resumen del Programa por Objetivo",
+      goalPlanTitle: "Plan de Aprendizaje por Objetivo",
+      goalOutcomeTitle: "Asesoría y Ruta Profesional",
       audienceTitle: "Dirigido a",
       certificationTitle: "Finalización / Certificación",
       sourceTitle: "URL de origen"
@@ -1152,9 +1176,13 @@ export const copy = {
       categories: {
         all: "Todo",
         certification: "Certificación",
-        professional: "Ruta Profesional",
+        professional: "Programas por Objetivo",
         practical: "Programa Práctico"
       },
+      goalTitle: "Programas Recomendados por Objetivo",
+      goalLead: "Programas diseñados según empleo, emprendimiento, limitaciones de horario y objetivos de cada estudiante.",
+      catalogTitle: "Programas Prácticos y de Certificación",
+      catalogLead: "Explore formación técnica y programas de certificación para aplicación en campo.",
       emptyState: "Ningún programa coincide con los filtros. Ajuste la palabra clave o la categoría.",
       viewDetails: "Ver Detalles"
     }
@@ -1177,30 +1205,31 @@ const courseImages = [
 ];
 
 const courseTitleTranslations = [
+  { ko: "취업전문과정", en: "Employment Preparation Track", es: "Ruta de Preparación Laboral", sourcePath: "curriculum05.asp", categoryKey: "professional" },
+  { ko: "창업전문과정", en: "Business Startup Track", es: "Ruta de Emprendimiento", sourcePath: "curriculum06.asp", categoryKey: "professional" },
+  { ko: "주말반/취미반", en: "Weekend and Hobby Class", es: "Clase de Fin de Semana y Hobby", sourcePath: "curriculum07.asp", categoryKey: "professional" },
+  { ko: "얼굴축소경락", en: "Facial Contouring Meridian Care", es: "Cuidado Meridiano de Contorno Facial", sourcePath: "curriculum08.asp", categoryKey: "practical" },
+  { ko: "메디컬 스킨케어", en: "Medical Skin Care", es: "Cuidado Médico de la Piel", sourcePath: "curriculum09.asp", categoryKey: "practical" },
+  { ko: "아로마 마사지", en: "Aroma Massage", es: "Masaje Aromático", sourcePath: "curriculum10.asp", categoryKey: "practical" },
+  { ko: "경락 마사지", en: "Meridian Massage", es: "Masaje Meridiano", sourcePath: "curriculum11.asp", categoryKey: "practical" },
+  { ko: "스포츠 마사지", en: "Sports Massage", es: "Masaje Deportivo", sourcePath: "curriculum12.asp", categoryKey: "practical" },
+  { ko: "발 마사지", en: "Foot Massage", es: "Masaje de Pies", sourcePath: "curriculum13.asp", categoryKey: "practical" },
+  { ko: "산모 마사지", en: "Maternity Massage", es: "Masaje para Embarazadas", sourcePath: "curriculum14.asp", categoryKey: "practical" },
+  { ko: "베이비 마사지", en: "Baby Massage", es: "Masaje Infantil", sourcePath: "curriculum15.asp", categoryKey: "practical" },
+  { ko: "타이 마사지", en: "Thai Massage", es: "Masaje Tailandés", sourcePath: "curriculum16.asp", categoryKey: "practical" },
+  { ko: "카이로프랙틱", en: "Chiropractic", es: "Quiropráctica", sourcePath: "curriculum17.asp", categoryKey: "practical" },
+  { ko: "스웨디시", en: "Swedish Massage", es: "Masaje Sueco", sourcePath: "curriculum19.asp", categoryKey: "practical" },
+  { ko: "스파 테라피", en: "Spa Therapy", es: "Terapia de Spa", sourcePath: "curriculum20.asp", categoryKey: "practical" },
+  { ko: "브라질리언 왁싱", en: "Brazilian Waxing", es: "Depilación Brasileña", sourcePath: "curriculum21.asp", categoryKey: "practical" },
+  { ko: "병원 코디네이터", en: "Hospital Coordinator", es: "Coordinador Hospitalario", sourcePath: "curriculum22.asp", categoryKey: "practical" },
   {
-    ko: "피부미용사 국가자격증",
-    en: "National Esthetician Certification",
-    es: "Certificación Nacional de Estética"
-  },
-  { ko: "강사과정교육", en: "Instructor Training Program", es: "Formación de Instructores" },
-  { ko: "취업전문과정", en: "Employment Preparation Track", es: "Ruta de Preparación Laboral" },
-  { ko: "창업전문과정", en: "Business Startup Track", es: "Ruta de Emprendimiento" },
-  { ko: "주말반/취미반", en: "Weekend and Hobby Class", es: "Clase de Fin de Semana y Hobby" },
-  { ko: "얼굴축소경락", en: "Facial Contouring Meridian Care", es: "Cuidado Meridiano de Contorno Facial" },
-  { ko: "메디컬 스킨케어", en: "Medical Skin Care", es: "Cuidado Médico de la Piel" },
-  { ko: "아로마 테라피", en: "Aromatherapy", es: "Aromaterapia" },
-  { ko: "경락 마사지", en: "Meridian Massage", es: "Masaje Meridiano" },
-  { ko: "스포츠 마사지", en: "Sports Massage", es: "Masaje Deportivo" },
-  { ko: "발 마사지", en: "Foot Massage", es: "Masaje de Pies" },
-  { ko: "산모 마사지", en: "Maternity Massage", es: "Masaje para Embarazadas" },
-  { ko: "베이비 마사지", en: "Baby Massage", es: "Masaje Infantil" },
-  { ko: "타이 마사지", en: "Thai Massage", es: "Masaje Tailandés" },
-  { ko: "카이로프랙틱", en: "Chiropractic", es: "Quiropráctica" },
-  { ko: "스웨디시", en: "Swedish Massage", es: "Masaje Sueco" },
-  { ko: "스파 테라피", en: "Spa Therapy", es: "Terapia de Spa" },
-  { ko: "브라질리언 왁싱", en: "Brazilian Waxing", es: "Depilación Brasileña" },
-  { ko: "병원코디네이터", en: "Hospital Coordinator", es: "Coordinador Hospitalario" }
-] satisfies Array<Record<Locale, string>>;
+    ko: "피부미용사",
+    en: "Esthetician",
+    es: "Estética",
+    sourcePath: "curriculum01.asp",
+    categoryKey: "certification"
+  }
+] satisfies Array<Record<Locale, string> & { sourcePath: string; categoryKey: Exclude<CourseCategory, "all"> }>;
 
 const courseTextByLocale: Record<
   Locale,
@@ -1224,13 +1253,13 @@ const courseTextByLocale: Record<
       certificationNote: "자격 취득 또는 수료 기준은 과정별 운영 정책과 관리자 등록 데이터에 따라 안내됩니다."
     },
     professional: {
-      category: "전문 트랙",
-      summary: "취업, 창업, 주말 학습 등 목표별 실무 역량을 체계적으로 준비합니다.",
+      category: "목표별 과정",
+      summary: "취업, 창업, 주말 학습처럼 수강 목적에 맞춰 실무 과목과 학습 흐름을 설계합니다.",
       overview:
-        "목표별 학습 흐름을 중심으로 기존 교육 콘텐츠를 재구성한 전문 트랙입니다. 상담, 실습, 포트폴리오 준비까지 단계별 안내를 제공합니다.",
+        "단일 기술 과목이 아니라 수강생의 목적에 맞춰 필요한 실무 과목, 학습 기간, 상담 방향을 조합하는 목표형 과정입니다. 취업 준비, 창업 준비, 시간 제약이 있는 입문 학습을 서로 다른 흐름으로 안내합니다.",
       audience: "취업·창업·시간제 학습을 목표로 하는 예비 전문가",
-      curriculum: ["목표 진단과 과정 설계", "핵심 실무 기술 훈련", "취업·창업 적용 사례", "수료 후 상담 및 운영 체크"],
-      certificationNote: "수료 기준과 후속 자격 안내는 과정별 운영 정책과 관리자 등록 데이터에 따라 안내됩니다."
+      curriculum: ["수강 목적과 현재 역량 진단", "목표에 맞는 실무 과목 조합 설계", "취업·창업·주말 학습별 실습 플랜", "상담을 통한 진로와 후속 과정 안내"],
+      certificationNote: "목표별 과정은 상담을 통해 포함 과목과 운영 기간이 달라질 수 있으며, 세부 수료 기준은 선택 과목에 따라 안내됩니다."
     },
     practical: {
       category: "실무 프로그램",
@@ -1253,13 +1282,13 @@ const courseTextByLocale: Record<
       certificationNote: "Certification or completion requirements are guided by each program's operating policy and admin-managed data."
     },
     professional: {
-      category: "Professional Track",
-      summary: "A structured track for employment, startup preparation, weekend study, and other goal-based practical skills.",
+      category: "Goal-Based Program",
+      summary: "A goal-based pathway that combines practical subjects around employment, startup preparation, or weekend study.",
       overview:
-        "This professional track reorganizes existing education content around goal-based learning flows, including consultation, practice, and portfolio preparation.",
+        "This is not a single technique course. It combines practical subjects, learning duration, and advising according to each learner's goal, including employment preparation, startup preparation, or schedule-friendly introductory study.",
       audience: "Prospective professionals preparing for employment, startup, or part-time learning goals",
-      curriculum: ["Goal assessment and program planning", "Core practical skill training", "Employment and startup application cases", "Post-completion consultation and operating checks"],
-      certificationNote: "Completion criteria and follow-up certification guidance are provided according to each program's operating policy."
+      curriculum: ["Goal and current-skill assessment", "Practical subject combination by objective", "Practice plan for employment, startup, or weekend learning", "Advising for career direction and follow-up programs"],
+      certificationNote: "Included subjects and duration may differ after consultation. Completion criteria are guided according to the selected subjects."
     },
     practical: {
       category: "Practical Program",
@@ -1282,13 +1311,13 @@ const courseTextByLocale: Record<
       certificationNote: "Los requisitos de certificación o finalización se guían por la política operativa de cada programa y los datos gestionados por administración."
     },
     professional: {
-      category: "Ruta Profesional",
-      summary: "Una ruta estructurada para empleo, emprendimiento, estudio de fin de semana y habilidades prácticas por objetivo.",
+      category: "Programa por Objetivo",
+      summary: "Una ruta que combina asignaturas prácticas según empleo, emprendimiento o estudio de fin de semana.",
       overview:
-        "Esta ruta profesional reorganiza el contenido educativo existente alrededor de flujos de aprendizaje por objetivo, incluyendo consulta, práctica y preparación de portafolio.",
+        "No es un curso de una sola técnica. Combina asignaturas prácticas, duración de aprendizaje y asesoría según el objetivo de cada estudiante: empleo, emprendimiento o estudio introductorio con limitaciones de horario.",
       audience: "Futuros profesionales que se preparan para empleo, emprendimiento o aprendizaje parcial",
-      curriculum: ["Evaluación de objetivos y planificación del programa", "Entrenamiento de habilidades prácticas centrales", "Casos de aplicación laboral y empresarial", "Consulta posterior y revisión operativa"],
-      certificationNote: "Los criterios de finalización y la guía de certificación posterior se ofrecen según la política operativa de cada programa."
+      curriculum: ["Evaluación de objetivo y nivel actual", "Combinación de asignaturas prácticas por objetivo", "Plan de práctica para empleo, emprendimiento o fin de semana", "Asesoría sobre ruta profesional y programas posteriores"],
+      certificationNote: "Las asignaturas incluidas y la duración pueden variar tras la consulta. Los criterios de finalización se guían según las asignaturas seleccionadas."
     },
     practical: {
       category: "Programa Práctico",
@@ -1301,18 +1330,6 @@ const courseTextByLocale: Record<
     }
   }
 };
-
-function getCategoryKey(index: number): Exclude<CourseCategory, "all"> {
-  if (index < 2) {
-    return "certification";
-  }
-
-  if (index < 5) {
-    return "professional";
-  }
-
-  return "practical";
-}
 
 function getSlug(title: string) {
   return title
@@ -1343,7 +1360,7 @@ export function getCourses(locale: string): Course[] {
   const activeLocale = getActiveLocale(locale);
 
   return courseTitleTranslations.map((titles, index) => {
-    const categoryKey = getCategoryKey(index);
+    const categoryKey = titles.categoryKey;
     const text = courseTextByLocale[activeLocale][categoryKey];
 
     return {
@@ -1357,7 +1374,7 @@ export function getCourses(locale: string): Course[] {
       audience: text.audience,
       curriculum: text.curriculum,
       certificationNote: text.certificationNote,
-      source: `https://www.smc365.ac/curriculum/curriculum${String(index + 1).padStart(2, "0")}.asp`
+      source: `https://www.smc365.ac/curriculum/${titles.sourcePath}`
     };
   });
 }
