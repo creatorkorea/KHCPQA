@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { PageIntro } from "@/components/SiteShell";
 import { getActivityGroups, getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
@@ -43,7 +44,17 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
                 <div>
                   <Icon size={24} />
                   <h3>{activity.title}</h3>
-                  <p>{activity.source}</p>
+                  <p>{activity.summary}</p>
+                  <small>{activity.source}</small>
+                  <ul className="source-list">
+                    {activity.recentItems.map((item) => (
+                      <li key={item.sourceUrl}>
+                        <Link href={item.sourceUrl} target="_blank" rel="noreferrer">
+                          {item.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </article>
             );

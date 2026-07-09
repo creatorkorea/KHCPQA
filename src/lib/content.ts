@@ -949,72 +949,149 @@ export function getCourseBySlug(slug: string, locale: string) {
   return getCourses(locale).find((course) => course.slug === slug);
 }
 
+const activityRecentItems: Record<string, Array<{ title: string; sourceUrl: string }>> = {
+  notice: [
+    {
+      title: "[자세체형 심화전문가 과정 무료설명회] - 2026년 6월 19일(금) 5시부터",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=notice&num=7851&locations=&searchterm=&searchstr=&page=1"
+    },
+    {
+      title: "[제 38회 한국휴먼 올림픽대회 개최] 대회일- 5월 1일(금)",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=notice&num=7836&locations=&searchterm=&searchstr=&page=1"
+    }
+  ],
+  pass: [
+    {
+      title: "05월 피부미용 국가자격증 취득 합격자 명단 [놀라운 합격률!!]",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=pass&num=5652"
+    },
+    {
+      title: "02월 피부미용 국가자격증 취득 합격자 명단 [놀라운 합격률!!]",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=pass&num=5403"
+    }
+  ],
+  photo: [
+    {
+      title: "(주)올스프링랜드 업무협약 체결식",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=photo&num=7859&locations=&searchterm=&searchstr=&page=1"
+    },
+    {
+      title: "제35회 국제휴먼 올림픽 대회",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=photo&num=7641&locations=&searchterm=&searchstr=&page=1"
+    }
+  ],
+  awards: [
+    {
+      title: "제 38회 한국휴먼(미용&건강)올림픽대회 피부관리 심사위원",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=awards&num=7846&locations=&searchterm=&searchstr=&page=1"
+    },
+    {
+      title: "세계뷰티문화산업진흥원 서울특별시 임명장 황인근 협회장님",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=awards&num=6914&locations=&searchterm=&searchstr=&page=1"
+    }
+  ],
+  competition: [
+    {
+      title: "제38회 한국휴먼 올림픽 대회[이수빈님]-체형관리",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=beauty&num=7853&locations=&searchterm=&searchstr=&page=1"
+    },
+    {
+      title: "제38회 한국휴먼 올림픽 대회[손길옥님]-스포츠",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=beauty&num=7850&locations=&searchterm=&searchstr=&page=1"
+    }
+  ],
+  media: [
+    {
+      title: "한국경제 WOW-TV 취재",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=media&num=753"
+    },
+    {
+      title: "KBS 방송국 SMC아카데미 수강생 외부 활동 취재",
+      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=media&num=885"
+    }
+  ]
+};
+
 const activityGroupsByLocale: Record<Locale, Array<{
   title: string;
   key: string;
   icon: typeof CalendarDays;
   source: string;
+  summary: string;
   imageUrl: string;
+  recentItems: Array<{ title: string; sourceUrl: string }>;
 }>> = {
   ko: [
   {
     title: "공지/시험일정",
     key: "notice",
     icon: CalendarDays,
-    source: "boardName=notice",
-    imageUrl: "/assets/activity-training.png"
+    source: "SMC365 notice",
+    summary: "원본 사이트 공지와 시험일정 중 최신 공개 항목을 연결합니다.",
+    imageUrl: "/assets/activity-training.png",
+    recentItems: activityRecentItems.notice
   },
   {
     title: "합격현황/합격률",
     key: "pass",
     icon: BadgeCheck,
-    source: "boardName=pass",
-    imageUrl: "/assets/course-medical-skincare.png"
+    source: "SMC365 pass",
+    summary: "피부미용 국가자격증 합격자 명단과 합격률 관련 게시글을 연결합니다.",
+    imageUrl: "/assets/course-medical-skincare.png",
+    recentItems: activityRecentItems.pass
   },
   {
     title: "포토갤러리",
     key: "photo",
     icon: Image,
-    source: "boardName=photo",
-    imageUrl: "/assets/activity-wellness.png"
+    source: "SMC365 photo",
+    summary: "업무협약, 대회, 수료자, 교육 현장 사진 콘텐츠를 연결합니다.",
+    imageUrl: "/assets/activity-wellness.png",
+    recentItems: activityRecentItems.photo
   },
   {
     title: "심사위원/수상경력",
     key: "awards",
     icon: Award,
-    source: "boardName=awards",
-    imageUrl: "/assets/partner-network.png"
+    source: "SMC365 awards",
+    summary: "심사위원 위촉, 표창, 수상 이력 등 신뢰 콘텐츠를 연결합니다.",
+    imageUrl: "/assets/partner-network.png",
+    recentItems: activityRecentItems.awards
   },
   {
     title: "국제미용대회",
     key: "competition",
     icon: Globe2,
-    source: "boardName=beauty",
-    imageUrl: "/assets/hero-professionals.png"
+    source: "SMC365 beauty",
+    summary: "한국휴먼 올림픽대회와 국제 미용·건강 대회 활동을 연결합니다.",
+    imageUrl: "/assets/hero-professionals.png",
+    recentItems: activityRecentItems.competition
   },
   {
     title: "방송/언론",
     key: "media",
     icon: Newspaper,
-    source: "boardName=media",
-    imageUrl: "/assets/course-aroma-therapy.png"
+    source: "SMC365 media",
+    summary: "방송국, 언론사 취재와 미디어 노출 이력을 연결합니다.",
+    imageUrl: "/assets/course-aroma-therapy.png",
+    recentItems: activityRecentItems.media
   }
   ],
   en: [
-    { title: "Notices / Exam Schedule", key: "notice", icon: CalendarDays, source: "boardName=notice", imageUrl: "/assets/activity-training.png" },
-    { title: "Pass Records / Pass Rate", key: "pass", icon: BadgeCheck, source: "boardName=pass", imageUrl: "/assets/course-medical-skincare.png" },
-    { title: "Photo Gallery", key: "photo", icon: Image, source: "boardName=photo", imageUrl: "/assets/activity-wellness.png" },
-    { title: "Judges / Awards", key: "awards", icon: Award, source: "boardName=awards", imageUrl: "/assets/partner-network.png" },
-    { title: "International Beauty Competitions", key: "competition", icon: Globe2, source: "boardName=beauty", imageUrl: "/assets/hero-professionals.png" },
-    { title: "Media Coverage", key: "media", icon: Newspaper, source: "boardName=media", imageUrl: "/assets/course-aroma-therapy.png" }
+    { title: "Notices / Exam Schedule", key: "notice", icon: CalendarDays, source: "SMC365 notice", summary: "Connects current notices and exam schedule posts from the original site.", imageUrl: "/assets/activity-training.png", recentItems: activityRecentItems.notice },
+    { title: "Pass Records / Pass Rate", key: "pass", icon: BadgeCheck, source: "SMC365 pass", summary: "Connects certification pass lists and pass-rate related records.", imageUrl: "/assets/course-medical-skincare.png", recentItems: activityRecentItems.pass },
+    { title: "Photo Gallery", key: "photo", icon: Image, source: "SMC365 photo", summary: "Connects partnership ceremonies, competitions, completion records, and training photos.", imageUrl: "/assets/activity-wellness.png", recentItems: activityRecentItems.photo },
+    { title: "Judges / Awards", key: "awards", icon: Award, source: "SMC365 awards", summary: "Connects judge appointments, commendations, and award history.", imageUrl: "/assets/partner-network.png", recentItems: activityRecentItems.awards },
+    { title: "International Beauty Competitions", key: "competition", icon: Globe2, source: "SMC365 beauty", summary: "Connects Korea Human Olympic and international beauty and wellness competition records.", imageUrl: "/assets/hero-professionals.png", recentItems: activityRecentItems.competition },
+    { title: "Media Coverage", key: "media", icon: Newspaper, source: "SMC365 media", summary: "Connects broadcast and media coverage from the original site.", imageUrl: "/assets/course-aroma-therapy.png", recentItems: activityRecentItems.media }
   ],
   es: [
-    { title: "Avisos / Calendario de Exámenes", key: "notice", icon: CalendarDays, source: "boardName=notice", imageUrl: "/assets/activity-training.png" },
-    { title: "Resultados / Tasa de Aprobación", key: "pass", icon: BadgeCheck, source: "boardName=pass", imageUrl: "/assets/course-medical-skincare.png" },
-    { title: "Galería de Fotos", key: "photo", icon: Image, source: "boardName=photo", imageUrl: "/assets/activity-wellness.png" },
-    { title: "Jueces / Premios", key: "awards", icon: Award, source: "boardName=awards", imageUrl: "/assets/partner-network.png" },
-    { title: "Concursos Internacionales de Belleza", key: "competition", icon: Globe2, source: "boardName=beauty", imageUrl: "/assets/hero-professionals.png" },
-    { title: "Cobertura en Medios", key: "media", icon: Newspaper, source: "boardName=media", imageUrl: "/assets/course-aroma-therapy.png" }
+    { title: "Avisos / Calendario de Exámenes", key: "notice", icon: CalendarDays, source: "SMC365 notice", summary: "Conecta avisos y calendarios de exámenes publicados en el sitio original.", imageUrl: "/assets/activity-training.png", recentItems: activityRecentItems.notice },
+    { title: "Resultados / Tasa de Aprobación", key: "pass", icon: BadgeCheck, source: "SMC365 pass", summary: "Conecta listas de aprobados y registros relacionados con tasas de aprobación.", imageUrl: "/assets/course-medical-skincare.png", recentItems: activityRecentItems.pass },
+    { title: "Galería de Fotos", key: "photo", icon: Image, source: "SMC365 photo", summary: "Conecta ceremonias, competencias, finalizaciones y fotos de formación.", imageUrl: "/assets/activity-wellness.png", recentItems: activityRecentItems.photo },
+    { title: "Jueces / Premios", key: "awards", icon: Award, source: "SMC365 awards", summary: "Conecta designaciones de jueces, reconocimientos e historial de premios.", imageUrl: "/assets/partner-network.png", recentItems: activityRecentItems.awards },
+    { title: "Concursos Internacionales de Belleza", key: "competition", icon: Globe2, source: "SMC365 beauty", summary: "Conecta registros de Korea Human Olympic y competencias internacionales.", imageUrl: "/assets/hero-professionals.png", recentItems: activityRecentItems.competition },
+    { title: "Cobertura en Medios", key: "media", icon: Newspaper, source: "SMC365 media", summary: "Conecta cobertura de televisión y prensa desde el sitio original.", imageUrl: "/assets/course-aroma-therapy.png", recentItems: activityRecentItems.media }
   ]
 };
 
@@ -1076,6 +1153,11 @@ const locationsByLocale: Record<Locale, Array<{ name: string; address: string; p
       phone: "02-867-2280 / 010-6283-1206"
     },
     {
+      name: "한국건강관리사자격협회 구로디지털단지역점",
+      address: "서울시 관악구 시흥대로 558-1 G밸리마인드 5층 503호",
+      phone: "02-867-2281 / 010-6283-1206"
+    },
+    {
       name: "한국건강관리사자격협회 대림캠퍼스",
       address: "서울시 영등포구 대림로 23길 30-1 골든타워 6층",
       phone: "010-5589-9812"
@@ -1098,6 +1180,11 @@ const locationsByLocale: Record<Locale, Array<{ name: string; address: string; p
       phone: "02-867-2280 / 010-6283-1206"
     },
     {
+      name: "KHCPQA Guro Digital Complex Branch",
+      address: "5F 503, G Valley Mind, 558-1 Siheung-daero, Gwanak-gu, Seoul",
+      phone: "02-867-2281 / 010-6283-1206"
+    },
+    {
       name: "KHCPQA Daerim Campus",
       address: "6F Golden Tower, 30-1 Daerim-ro 23-gil, Yeongdeungpo-gu, Seoul",
       phone: "010-5589-9812"
@@ -1118,6 +1205,11 @@ const locationsByLocale: Record<Locale, Array<{ name: string; address: string; p
       name: "Sucursal Gangnam SMC Academy Guro Digital Complex",
       address: "5F 505, G Valley Mind, 558-1 Siheung-daero, Gwanak-gu, Seúl",
       phone: "02-867-2280 / 010-6283-1206"
+    },
+    {
+      name: "Sucursal KHCPQA Guro Digital Complex",
+      address: "5F 503, G Valley Mind, 558-1 Siheung-daero, Gwanak-gu, Seúl",
+      phone: "02-867-2281 / 010-6283-1206"
     },
     {
       name: "Campus Daerim de KHCPQA",
