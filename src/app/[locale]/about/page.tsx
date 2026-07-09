@@ -1,7 +1,9 @@
-import { Building2, Globe2, ShieldCheck, Users } from "lucide-react";
+import { BadgeCheck, BookOpen, Building2, ShieldCheck, Users } from "lucide-react";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
+
+const aboutIcons = [Building2, BadgeCheck, BookOpen, Users, ShieldCheck];
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
@@ -29,7 +31,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <section className="content-section">
         <div className="feature-row">
           {t.about.features.map((feature, index) => {
-            const Icon = [Building2, Users, Globe2, ShieldCheck][index];
+            const Icon = aboutIcons[index % aboutIcons.length];
             return (
               <div key={feature.title}>
                 <Icon size={28} />

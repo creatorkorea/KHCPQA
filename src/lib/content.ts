@@ -284,12 +284,28 @@ export const copy = {
     about: {
       eyebrow: "KHCPQA 소개",
       lead:
-        "SMC아카데미와 한국건강관리사자격협회의 기존 소개, 인사말, 수석강사, 연혁, 조직도 콘텐츠를 국제 협회형 정보 구조로 재정리합니다.",
+        "한국건강관리사자격협회는 건강미용 산업의 전문 인재 양성을 위해 자격증 취득, 취업 실무, 창업 기반 교육을 체계적으로 운영합니다.",
       features: [
-        { title: "기관 프로필", body: "소개, 인사말, 연혁, 조직도를 하나의 신뢰 중심 스토리로 구성합니다." },
-        { title: "수석강사", body: "수석강사 프로필과 전문 분야를 글로벌 파트너가 이해하기 쉽게 보여줍니다." },
-        { title: "글로벌 포지셔닝", body: "한국 기반 전문 교육기관이라는 포지션을 영어/스페인어 사용자에게 전달합니다." },
-        { title: "신뢰 요소", body: "수상경력, 대회, 언론, 봉사활동 콘텐츠를 신뢰 요소로 연결합니다." }
+        {
+          title: "건강미용 전문교육",
+          body: "건강미용 산업의 활성화에 맞춰 새로운 교육 체계를 세우고, 글로벌 시대와 스마트 시대에 앞선 교육으로 국가자격증 합격을 목표로 지도합니다."
+        },
+        {
+          title: "자격증 합격 중심 시스템",
+          body: "실용적인 교육과 질적 수준 향상을 위해 효율적인 수업을 운영하며, 자격증 취득 노하우 교육 동영상을 활용해 체계적이고 합리적인 학습을 제공합니다."
+        },
+        {
+          title: "취업 실무교육",
+          body: "건강미용 산업 트렌드에 맞춘 전문 기술과 실무 위주의 프로그램으로 기초부터 전문가 과정까지 이해하기 쉽게 교육하고, 상담과 교류를 통해 취업을 지원합니다."
+        },
+        {
+          title: "PSL 문제해결 학습",
+          body: "실무를 중심으로 원리를 이해하고 이론을 자연스럽게 습득하는 문제해결 학습 방식을 도입해, 수강생이 모델과 관리사의 입장을 함께 경험하도록 지도합니다."
+        },
+        {
+          title: "목표 달성과 만족도",
+          body: "단계적인 실무교육, 소양교육, 예절교육과 밀착형 담당 지도를 통해 자격증 취득, 취업, 대입, 창업 목표를 달성하도록 돕고 만족도 높은 교육을 운영합니다."
+        }
       ]
     },
     curriculumPage: {
@@ -458,12 +474,28 @@ export const copy = {
     about: {
       eyebrow: "About KHCPQA",
       lead:
-        "Existing academy introductions, greetings, senior instructor profiles, history, and organization content are reorganized into an international association-style information structure.",
+        "KHCPQA develops professional talent for the health and beauty industry through structured certification, practical employment, and business-readiness education.",
       features: [
-        { title: "Institutional Profile", body: "Introduction, greeting, history, and organization content are shaped into one trust-focused story." },
-        { title: "Senior Instructors", body: "Senior instructor profiles and specialties are presented for global partners to understand quickly." },
-        { title: "Global Positioning", body: "The page communicates KHCPQA as a Korea-based professional education institution for English and Spanish users." },
-        { title: "Trust Signals", body: "Awards, competitions, media, and volunteer activity content are connected as credibility signals." }
+        {
+          title: "Health and Beauty Education",
+          body: "As the health and beauty industry grows, KHCPQA builds a modern education framework and guides learners toward national certification success."
+        },
+        {
+          title: "Certification Success System",
+          body: "The association delivers practical, high-quality training and supports systematic learning with certification know-how videos and efficient instruction."
+        },
+        {
+          title: "Practical Career Training",
+          body: "Programs focus on SMC's professional techniques and practice-based training, helping learners progress from fundamentals to expert-level capability with career support."
+        },
+        {
+          title: "PSL Problem-Solving Learning",
+          body: "KHCPQA applies practice-centered PSL education so learners understand principles, absorb theory naturally, and experience both client and practitioner perspectives."
+        },
+        {
+          title: "Goal Achievement and Satisfaction",
+          body: "Step-by-step practical, character, etiquette, and close instructor guidance help learners pursue certification, employment, college admission, and business goals."
+        }
       ]
     },
     curriculumPage: {
@@ -632,12 +664,28 @@ export const copy = {
     about: {
       eyebrow: "Acerca de KHCPQA",
       lead:
-        "La información existente de presentación, saludo, instructores principales, historia y organización se reorganiza como una estructura informativa de asociación internacional.",
+        "KHCPQA forma profesionales para la industria de salud y belleza mediante educación estructurada en certificación, empleo práctico y preparación para negocios.",
       features: [
-        { title: "Perfil institucional", body: "La presentación, el saludo, la historia y la organización se convierten en una narrativa centrada en la confianza." },
-        { title: "Instructores principales", body: "Los perfiles y especialidades de los instructores se presentan para que los socios globales los comprendan con facilidad." },
-        { title: "Posicionamiento global", body: "La página comunica a KHCPQA como una institución profesional de educación basada en Corea." },
-        { title: "Señales de confianza", body: "Premios, concursos, medios y actividades de voluntariado se conectan como elementos de credibilidad." }
+        {
+          title: "Educación en salud y belleza",
+          body: "A medida que crece la industria de salud y belleza, KHCPQA establece un sistema educativo moderno y orienta a los estudiantes hacia la certificación nacional."
+        },
+        {
+          title: "Sistema para aprobar certificaciones",
+          body: "La asociación ofrece formación práctica y de calidad, apoyada por videos de know-how para certificación e instrucción eficiente."
+        },
+        {
+          title: "Formación práctica para empleo",
+          body: "Los programas se centran en técnicas profesionales de SMC y educación práctica para que los estudiantes avancen desde lo básico hasta un nivel experto con apoyo laboral."
+        },
+        {
+          title: "Aprendizaje PSL",
+          body: "KHCPQA aplica aprendizaje basado en resolución de problemas para que los estudiantes comprendan principios, asimilen teoría y experimenten perspectivas de cliente y profesional."
+        },
+        {
+          title: "Objetivos y satisfacción",
+          body: "La formación práctica, la educación en actitud y etiqueta, y la guía cercana de instructores ayudan a alcanzar metas de certificación, empleo, estudios y emprendimiento."
+        }
       ]
     },
     curriculumPage: {
