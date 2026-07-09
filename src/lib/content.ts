@@ -1221,7 +1221,7 @@ const courseImages = [
   "/assets/course-employment-consulting.jpg",
   "/assets/course-startup-consulting.jpg",
   "/assets/course-weekend-hobby.jpg",
-  "/assets/course-thumb-business-planning.png",
+  "/assets/course-facial-contouring.jpg",
   "/assets/course-thumb-aromatherapy.png",
   "/assets/course-thumb-skincare.png",
   "/assets/course-thumb-skincare.png",
@@ -1631,6 +1631,94 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           ]
         }
       ]
+    },
+    "얼굴축소경락": {
+      summary: "피부 유형 분석부터 얼굴축소 경락마사지, 매뉴얼 테크닉, 고객 응대까지 연결하는 실무 과정입니다.",
+      overview:
+        "얼굴축소경락은 피부 상태와 얼굴 윤곽 고민을 분석하고, 클렌징·딥 클렌징·팩·미용기기·경락마사지·매뉴얼 테크닉을 단계적으로 익히는 과정입니다. 원본의 정규·속성 커리큘럼 흐름을 살려 이론보다 현장 실습과 고객 관리 능력에 집중하도록 구성했습니다.",
+      audience: "피부관리실 취업, 피부미용 샵 창업, 얼굴 윤곽·피부관리 실무 역량을 준비하는 수강생",
+      curriculum: [
+        "피부 유형 분석과 고객 상담 차트 작성",
+        "클렌징, 딥 클렌징, 팩·마스크, 기능성 제품 선택",
+        "얼굴축소 경락마사지와 매뉴얼 테크닉 2인 1조 실습",
+        "고객 응대, 예절, 위생, 이미지 관리와 취업·창업 진로 상담"
+      ],
+      certificationNote:
+        "정규코스는 2개월, 속성코스는 1개월 기준으로 안내되며 교육시간은 10시~13시, 14시~17시, 19시~21시 시간대에서 상담 후 조정됩니다.",
+      durationHighlights: ["정규 2개월", "속성 1개월", "10시·14시·19시"],
+      keyMetrics: [
+        { label: "교육 형태", value: "실무 테크닉" },
+        { label: "기간", value: "1~2개월" },
+        { label: "실습 방식", value: "2인 1조" }
+      ],
+      detailSections: [
+        {
+          title: "정규 코스 로드맵",
+          variant: "schedule",
+          items: [
+            "1개월: 피부미용 분석·상담, 클렌징과 딥 클렌징, 피부유형별 화장품 선택, 팩·마스크 관리",
+            "2개월: 미용기기 사용, 얼굴축소 경락마사지와 매뉴얼 테크닉, 기능성 제품 특수관리, 관리사 기본교육",
+            "교육시간: 10시~13시, 14시~17시, 19시~21시"
+          ]
+        },
+        {
+          title: "속성 코스 로드맵",
+          variant: "schedule",
+          items: [
+            "1주차: 오리엔테이션, 피부유형 분석, 고객 상담, 클렌징과 딥 클렌징",
+            "2~3주차: 화장품·팩·마스크 선택, 미용기기 사용, 얼굴축소 경락마사지 집중 실습",
+            "4주차: 미백·주름·얼굴축소·비타민·한방 팩 등 특수관리와 관리사 이미지 교육"
+          ]
+        },
+        {
+          title: "핵심 실무 테크닉",
+          variant: "chips",
+          items: [
+            "피부유형 분석",
+            "고객 상담 차트",
+            "클렌징",
+            "딥 클렌징",
+            "팩·마스크",
+            "미용기기 사용",
+            "얼굴축소 경락마사지",
+            "매뉴얼 테크닉",
+            "기능성 제품",
+            "예절·이미지 관리"
+          ]
+        },
+        {
+          title: "교육 특징",
+          items: [
+            "단체 지도, 일대일 개인지도, 2인 1조 상호 실습을 병행",
+            "실무 중심 문제 해결 학습으로 원리와 이론을 자연스럽게 연결",
+            "취업 시 필요한 고객 응대, 소양교육, 예절교육까지 함께 훈련"
+          ]
+        },
+        {
+          title: "피부 고민 대응",
+          items: [
+            "여드름, 모공, 기미·색소침착, 잔주름과 노화 피부 관리 이해",
+            "민감성·건성 피부의 자극 요인과 타입별 제품 선택",
+            "수분 공급, 혈액순환, 탄력 유지, 피부 톤 개선을 목표로 한 관리 흐름"
+          ]
+        },
+        {
+          title: "관리 태도와 위생",
+          items: [
+            "고객이 편안한 자세를 취하도록 안내하고 압의 강약을 확인",
+            "관리사는 손톱, 손 위생, 복장, 호흡과 자세를 안정적으로 유지",
+            "얼굴축소경락 관리 시 속도, 힘의 원리, 호흡 조절을 반복 훈련"
+          ]
+        },
+        {
+          title: "진출 분야",
+          items: [
+            "피부미용전문관리샵, 피부미용학원 강사, 한의원·피부과·성형외과 부속 관리실",
+            "산후조리원 부설 관리실, 뷰티샵·마사지샵 창업, 토탈미용실",
+            "호텔·스파·스포츠센터 관리실, 개인관리실 창업, 해외취업 및 해외창업 상담"
+          ]
+        }
+      ]
     }
   },
   en: {
@@ -1896,6 +1984,94 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           ]
         }
       ]
+    },
+    "얼굴축소경락": {
+      summary: "A practical course connecting skin analysis, facial contouring meridian massage, manual technique, and client care.",
+      overview:
+        "Facial Contouring Meridian Care trains learners to analyze skin condition and facial-contour concerns, then practice cleansing, deep cleansing, masks, beauty devices, meridian massage, and manual techniques step by step. The original regular and intensive course flow is reorganized into a modern practical learning path.",
+      audience: "Learners preparing for skin-care salon employment, beauty shop startup, or facial contouring and skin-care practice",
+      curriculum: [
+        "Skin-type analysis and client consultation chart practice",
+        "Cleansing, deep cleansing, masks, and functional product selection",
+        "Two-person practice for facial contouring meridian massage and manual techniques",
+        "Client response, etiquette, hygiene, image management, and career guidance"
+      ],
+      certificationNote:
+        "The regular course is guided as a two-month track and the intensive course as a one-month track. Class times are arranged through consultation around 10:00-13:00, 14:00-17:00, and 19:00-21:00 blocks.",
+      durationHighlights: ["2-month regular", "1-month intensive", "10 / 14 / 19 time blocks"],
+      keyMetrics: [
+        { label: "Track", value: "Practical" },
+        { label: "Duration", value: "1-2 months" },
+        { label: "Practice", value: "Pair work" }
+      ],
+      detailSections: [
+        {
+          title: "Regular Course Roadmap",
+          variant: "schedule",
+          items: [
+            "Month 1: skin analysis and consultation, cleansing and deep cleansing, skin-type cosmetics, pack and mask care",
+            "Month 2: beauty-device use, facial contouring meridian massage and manual technique, functional product special care, therapist basics",
+            "Class times: 10:00-13:00, 14:00-17:00, 19:00-21:00"
+          ]
+        },
+        {
+          title: "Intensive Course Roadmap",
+          variant: "schedule",
+          items: [
+            "Week 1: orientation, skin-type analysis, client consultation, cleansing and deep cleansing",
+            "Weeks 2-3: cosmetics, packs, masks, beauty-device practice, focused facial meridian massage practice",
+            "Week 4: whitening, wrinkle, facial contouring, vitamin, herbal pack special care and therapist image training"
+          ]
+        },
+        {
+          title: "Core Practical Techniques",
+          variant: "chips",
+          items: [
+            "Skin analysis",
+            "Client chart",
+            "Cleansing",
+            "Deep cleansing",
+            "Packs and masks",
+            "Beauty devices",
+            "Facial meridian massage",
+            "Manual technique",
+            "Functional products",
+            "Etiquette and image"
+          ]
+        },
+        {
+          title: "Training Features",
+          items: [
+            "Group instruction, one-to-one coaching, and two-person mutual practice",
+            "Problem-solving practice that connects technique principles with theory",
+            "Client response, professional attitude, and etiquette training for employment"
+          ]
+        },
+        {
+          title: "Skin Concerns Covered",
+          items: [
+            "Acne, pores, pigmentation, fine lines, and aging skin-care concepts",
+            "Sensitive and dry skin factors with type-specific product selection",
+            "Care flow focused on moisture, circulation, elasticity, and clearer skin tone"
+          ]
+        },
+        {
+          title: "Therapist Conduct and Hygiene",
+          items: [
+            "Guide clients into a comfortable posture and check preferred pressure level",
+            "Keep nails, hand hygiene, clothing, breathing, and posture controlled",
+            "Practice stable speed, pressure principles, and breathing during facial contouring care"
+          ]
+        },
+        {
+          title: "Career Fields",
+          items: [
+            "Skin-care salons, beauty academy instructor roles, oriental clinic, dermatology, and plastic-surgery care rooms",
+            "Postpartum care center treatment rooms, beauty and massage shop startup, total beauty salons",
+            "Hotel, spa, and sports-center care rooms, private salon startup, overseas employment and startup consultation"
+          ]
+        }
+      ]
     }
   },
   es: {
@@ -2158,6 +2334,94 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
             "Clase sábado: 10:00-13:00 o 14:00-17:00",
             "Clase domingo: 10:00-13:00 o 14:00-17:00",
             "Nota de consulta: El horario por materia puede variar según calendario."
+          ]
+        }
+      ]
+    },
+    "얼굴축소경락": {
+      summary: "Curso práctico que conecta análisis de piel, masaje meridiano de contorno facial, técnica manual y atención al cliente.",
+      overview:
+        "El cuidado meridiano de contorno facial enseña a analizar el estado de la piel y las necesidades del rostro, y practica limpieza, limpieza profunda, mascarillas, equipos de belleza, masaje meridiano y técnicas manuales paso a paso. El flujo original regular e intensivo se reorganiza como una ruta práctica moderna.",
+      audience: "Estudiantes que preparan empleo en cabinas de estética, apertura de salón o práctica de contorno facial y cuidado de piel",
+      curriculum: [
+        "Análisis de tipo de piel y práctica de ficha de consulta",
+        "Limpieza, limpieza profunda, mascarillas y selección de productos funcionales",
+        "Práctica en pareja de masaje meridiano de contorno facial y técnica manual",
+        "Atención al cliente, etiqueta, higiene, imagen profesional y orientación laboral"
+      ],
+      certificationNote:
+        "El curso regular se orienta como ruta de dos meses y el intensivo como ruta de un mes. Los horarios se coordinan por consulta en bloques de 10:00-13:00, 14:00-17:00 y 19:00-21:00.",
+      durationHighlights: ["Regular 2 meses", "Intensivo 1 mes", "Bloques 10 / 14 / 19"],
+      keyMetrics: [
+        { label: "Ruta", value: "Práctica" },
+        { label: "Duración", value: "1-2 meses" },
+        { label: "Práctica", value: "En pareja" }
+      ],
+      detailSections: [
+        {
+          title: "Mapa del Curso Regular",
+          variant: "schedule",
+          items: [
+            "Mes 1: análisis de piel y consulta, limpieza y limpieza profunda, cosméticos por tipo de piel, packs y mascarillas",
+            "Mes 2: uso de equipos, masaje meridiano facial y técnica manual, cuidados especiales con productos funcionales, bases del terapeuta",
+            "Horarios: 10:00-13:00, 14:00-17:00, 19:00-21:00"
+          ]
+        },
+        {
+          title: "Mapa del Curso Intensivo",
+          variant: "schedule",
+          items: [
+            "Semana 1: orientación, análisis de tipo de piel, consulta de cliente, limpieza y limpieza profunda",
+            "Semanas 2-3: cosméticos, packs, mascarillas, equipos de belleza y práctica intensiva de masaje facial",
+            "Semana 4: blanqueamiento, arrugas, contorno facial, vitamina, pack herbal y entrenamiento de imagen"
+          ]
+        },
+        {
+          title: "Técnicas Principales",
+          variant: "chips",
+          items: [
+            "Análisis de piel",
+            "Ficha de cliente",
+            "Limpieza",
+            "Limpieza profunda",
+            "Packs y mascarillas",
+            "Equipos de belleza",
+            "Masaje meridiano facial",
+            "Técnica manual",
+            "Productos funcionales",
+            "Etiqueta e imagen"
+          ]
+        },
+        {
+          title: "Características de Formación",
+          items: [
+            "Instrucción grupal, guía individual y práctica mutua en pareja",
+            "Aprendizaje práctico de resolución de problemas que conecta principios y teoría",
+            "Atención al cliente, actitud profesional y etiqueta para el empleo"
+          ]
+        },
+        {
+          title: "Problemas de Piel Cubiertos",
+          items: [
+            "Acné, poros, pigmentación, líneas finas y conceptos de piel envejecida",
+            "Factores de piel sensible y seca con selección de productos por tipo",
+            "Flujo de cuidado centrado en hidratación, circulación, elasticidad y tono más claro"
+          ]
+        },
+        {
+          title: "Conducta e Higiene",
+          items: [
+            "Guiar al cliente a una postura cómoda y confirmar la presión deseada",
+            "Mantener uñas, higiene de manos, ropa, respiración y postura controladas",
+            "Practicar velocidad estable, principios de presión y respiración durante el cuidado facial"
+          ]
+        },
+        {
+          title: "Campos Profesionales",
+          items: [
+            "Salones de estética, instructor de academia, clínicas orientales, dermatología y salas de cirugía plástica",
+            "Centros posparto, apertura de beauty shop y massage shop, salones integrales",
+            "Hoteles, spas, centros deportivos, salón privado, empleo y emprendimiento en el exterior"
           ]
         }
       ]
