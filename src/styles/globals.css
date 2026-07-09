@@ -736,6 +736,111 @@ p {
   word-break: keep-all;
 }
 
+.about-next {
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+  margin-top: clamp(32px, 6vw, 72px);
+  padding-top: 24px;
+}
+
+.about-next a {
+  align-items: center;
+  background: var(--ink);
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 900;
+  min-height: 46px;
+  padding: 0 22px;
+}
+
+.greeting-list {
+  display: grid;
+  gap: 18px;
+}
+
+.greeting-card {
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 58%, #f5faf7 100%);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: clamp(22px, 4vw, 56px);
+  grid-template-columns: 86px minmax(0, 1fr);
+  padding: clamp(22px, 4vw, 46px);
+}
+
+.greeting-index {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.greeting-body {
+  display: grid;
+  gap: 24px;
+}
+
+.greeting-heading {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 20px;
+}
+
+.greeting-heading span {
+  color: var(--green);
+  display: block;
+  font-size: 13px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.greeting-heading h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: 0;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.greeting-heading p,
+.greeting-contact {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+  margin: 10px 0 0;
+}
+
+.greeting-copy {
+  display: grid;
+  gap: 14px;
+}
+
+.greeting-copy p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.82;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.greeting-contact {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.source-note {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+
+.source-note a {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 900;
+}
+
 .course-grid {
   display: grid;
   gap: 18px;
@@ -1499,6 +1604,7 @@ p {
   .hero-card,
   .platform-shell,
   .about-feature,
+  .greeting-card,
   .course-detail-hero,
   .course-detail-body,
   .activity-showcase,

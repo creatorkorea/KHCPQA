@@ -76,6 +76,14 @@ type FeatureCopy = {
   body: string;
 };
 
+type GreetingCopy = {
+  name: string;
+  role: string;
+  meta?: string;
+  paragraphs: string[];
+  contact?: string;
+};
+
 type Copy = {
   brand: string;
   brandFull: string;
@@ -121,7 +129,16 @@ type Copy = {
   about: {
     eyebrow: string;
     lead: string;
+    greetingCta: string;
     features: FeatureCopy[];
+  };
+  greetingPage: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    sourceLabel: string;
+    sourceUrl: string;
+    greetings: GreetingCopy[];
   };
   curriculumPage: {
     eyebrow: string;
@@ -285,6 +302,7 @@ export const copy = {
       eyebrow: "KHCPQA 소개",
       lead:
         "한국건강관리사자격협회는 건강미용 교육의 새로운 틀을 세우고, 자격증 취득부터 취업과 창업까지 이어지는 실무 중심 교육을 운영합니다.",
+      greetingCta: "인사말 보기",
       features: [
         {
           title: "국가자격증 합격과 맞춤형 교육",
@@ -305,6 +323,57 @@ export const copy = {
         {
           title: "만족도 10의 교육 시스템",
           body: "수강생이 1에서 10까지 평가했을 때 10을 받을 수 있는 교육을 목표로 수업의 질과 깊이를 높입니다. 전임강사의 밀착형 담당 지도, 요구사항 점검, 체계적인 조직 관리를 통해 지도부터 접수, 취업, 창업까지 지원하며 수강생과 꾸준히 소통하는 만족도 높은 교육을 지향합니다."
+        }
+      ]
+    },
+    greetingPage: {
+      eyebrow: "인사말",
+      title: "협회 인사말",
+      lead: "협회장, 서울총본부, 대림캠퍼스, 강남마사지교육원의 인사말을 원본 페이지 흐름에 맞춰 정리했습니다.",
+      sourceLabel: "원본 인사말 페이지",
+      sourceUrl: "https://www.smc365.ac/academy/academy02.asp",
+      greetings: [
+        {
+          name: "황인근",
+          role: "한국건강관리사자격협회 협회장",
+          meta: "연세대학교 의과대학 특성화 학생실습 지도교수",
+          contact: "H : 010-6283-1206",
+          paragraphs: [
+            "협회는 한류의 성장과 함께 무한한 잠재력을 지닌 대체의학과 서비스 산업의 발전에 발맞춰 건강미용 산업 교육의 시너지를 만들 수 있는 체계를 갖추고 있습니다.",
+            "수강생 여러분이 현재에서 미래로 성장할 수 있도록 함께 협력하고 상부상조하는 교류 시스템을 마련했으며, 세계 수준의 교육시스템과 체계적인 조직 관리로 맡은 역할에 충실하겠습니다.",
+            "한국건강관리사자격협회는 새로운 가능성의 프로그램을 지속적으로 개발하며 회원 여러분과 동반성장을 목표로 운영합니다. 최고의 기술과 일류 교육기관으로 자리매김하며, 분명한 목표의식을 갖춘 기관으로 여러분과 함께 성장하겠습니다."
+          ]
+        },
+        {
+          name: "문순영",
+          role: "한국건강관리사자격협회 부회장 / 서울총본부 본원 원장",
+          contact: "H : 010-7712-3362",
+          paragraphs: [
+            "한국건강관리사자격협회 서울총본부는 지하철 1, 3, 5호선이 환승되는 종로3가역 인근, 교통이 편리한 서울 중심지에 위치하고 있습니다.",
+            "전문 피부미용사, 네일미용사, 메이크업미용사, 헤어미용사, 마사지사로 취업과 창업을 준비한다면 처음 학원 선택이 중요합니다. 서울총본부는 국가기술자격 이론과 실기 교육은 물론 현장 실무용 살롱테크닉, 메디컬 스킨케어, 아로마, 경락, 스포츠, 발 마사지까지 기초부터 전문가 과정까지 체계적으로 교육합니다.",
+            "수강생의 자부심과 실력이 최고가 되어야 한다는 생각으로 일류 기술 교육을 지향하며, 수강생들이 이루고자 하는 꿈을 반드시 이룰 수 있도록 지도하고 양성합니다."
+          ]
+        },
+        {
+          name: "황유진",
+          role: "대림캠퍼스 원장",
+          meta: "Skin-care Management Consultant",
+          contact: "T : 02-845-8820",
+          paragraphs: [
+            "한국건강관리사자격협회 대림캠퍼스는 지하철 2, 7호선이 환승되는 대림역 12번 출구 1분 거리에 위치해 교통이 매우 편리하며, 넓고 쾌적한 교육 환경을 제공합니다.",
+            "대림캠퍼스는 피부미용사, 네일아트미용사, 헤어미용사, 전문 마사지사의 취업과 창업에 필요한 국가자격증 단기 속성 교육과 취업 실무 교육을 운영합니다. 피부관리와 마사지 교육뿐 아니라 전문관리사가 갖춰야 할 기본 소양교육과 예절교육도 철저히 진행합니다.",
+            "핵심과 요약을 접목한 1~2개월 단기 특수교육을 통해 많은 수강생이 단기간에 피부미용사 국가자격증을 취득하고 있습니다. 졸업생들이 다양한 현장에서 자신감을 가지고 활동하듯, 대림캠퍼스에서 공부하고 전문관리사로 성공하시기를 기원합니다."
+          ]
+        },
+        {
+          name: "이용호",
+          role: "강남마사지교육원 교육부장",
+          contact: "T : 02-845-8890",
+          paragraphs: [
+            "강남마사지교육원은 대림역 12번 출구 1분 거리에 위치한 마사지 전문 교육원입니다. 국제화 시대와 서비스 산업 발전에 맞춰 스포츠마사지, 경락마사지, 피부마사지, 발마사지 교육을 진행합니다.",
+            "피부관리실, 스파, 마사지샵, 호텔, 사우나 등 취업 알선과 창업 상담, 해외취업 추천 및 유학 컨설팅까지 지원하며, 국내외에서 인정받는 기술력과 체계적인 교육으로 높은 취업률을 지향합니다.",
+            "취업을 원하는 수강생에게는 일대일 개인상담을 통해 적성, 희망 근무처, 근무시간, 보수, 지역 등을 파악하고 적합한 취업처를 최대한 빠르게 연결합니다. 마사지 전문관리사 취업과 창업을 준비하는 분들을 성심껏 상담하겠습니다."
+          ]
         }
       ]
     },
@@ -475,6 +544,7 @@ export const copy = {
       eyebrow: "About KHCPQA",
       lead:
         "KHCPQA builds a practical education pathway for health and beauty learners, connecting certification, employment, and business goals.",
+      greetingCta: "Read greetings",
       features: [
         {
           title: "Certification Success and Tailored Training",
@@ -495,6 +565,57 @@ export const copy = {
         {
           title: "A Satisfaction-Focused System",
           body: "The academy aims for education that learners can rate highly in both quality and depth. Close instructor guidance, careful feedback checks, and organized support cover training, enrollment, employment, and business preparation."
+        }
+      ]
+    },
+    greetingPage: {
+      eyebrow: "Greetings",
+      title: "Leadership Greetings",
+      lead: "Messages from KHCPQA leadership and campus directors, organized from the original greeting page.",
+      sourceLabel: "Original greeting page",
+      sourceUrl: "https://www.smc365.ac/academy/academy02.asp",
+      greetings: [
+        {
+          name: "Hwang In-geun",
+          role: "President, Korea Health Manager Approved Association",
+          meta: "Specialized student practice advisor, Yonsei University College of Medicine",
+          contact: "H : 010-6283-1206",
+          paragraphs: [
+            "The association is structured to create new educational synergy for the health and beauty industry in step with the growth of alternative medicine and service industries.",
+            "KHCPQA maintains an exchange system that helps learners grow from the present into the future, and it will continue to fulfill its role through a world-class education system and organized management.",
+            "The association develops programs with new possibilities and aims for shared growth with its members. It will grow as an institution with clear goals, advanced techniques, and first-class education."
+          ]
+        },
+        {
+          name: "Moon Soon-young",
+          role: "Vice President / Director, Seoul Headquarters",
+          contact: "H : 010-7712-3362",
+          paragraphs: [
+            "The Seoul Headquarters is located in central Seoul near Jongno 3-ga Station, where subway lines 1, 3, and 5 connect.",
+            "For learners preparing for careers and business in skincare, nail, makeup, hair, and massage fields, the first academy choice is important. Seoul Headquarters provides national certification theory and practical training as well as salon techniques, medical skincare, aroma, meridian, sports, and foot massage from fundamentals to expert levels.",
+            "The headquarters pursues first-class technical education so learners can build both pride and skill, and it guides students toward achieving their professional dreams."
+          ]
+        },
+        {
+          name: "Hwang Yu-jin",
+          role: "Director, Daerim Campus",
+          meta: "Skin-care Management Consultant",
+          contact: "T : 02-845-8820",
+          paragraphs: [
+            "Daerim Campus is located one minute from Exit 12 of Daerim Station, where subway lines 2 and 7 connect, offering convenient access and a clean, comfortable learning environment.",
+            "The campus provides accelerated national certification education and practical employment training for skincare, nail art, hair, and massage careers, along with character and etiquette education required of professional practitioners.",
+            "Through focused one- to two-month special programs, many students earn skincare national certification quickly. The campus hopes learners will study with confidence and succeed as professional practitioners."
+          ]
+        },
+        {
+          name: "Lee Yong-ho",
+          role: "Education Director, Gangnam Massage Institute",
+          contact: "T : 02-845-8890",
+          paragraphs: [
+            "Gangnam Massage Institute is a professional massage education center located one minute from Exit 12 of Daerim Station. It teaches sports massage, meridian massage, skincare massage, and foot massage for the global service industry.",
+            "The institute supports employment placement, business consulting, overseas employment recommendations, and study-abroad consulting for spas, massage shops, hotels, saunas, and skincare workplaces.",
+            "Through one-on-one counseling, the institute identifies each learner's aptitude, desired workplace, schedule, compensation, and region, then connects them to suitable employment as quickly as possible."
+          ]
         }
       ]
     },
@@ -665,6 +786,7 @@ export const copy = {
       eyebrow: "Acerca de KHCPQA",
       lead:
         "KHCPQA ofrece una ruta educativa práctica para salud y belleza, conectando certificación, empleo y preparación para emprendimiento.",
+      greetingCta: "Ver saludos",
       features: [
         {
           title: "Certificación y formación personalizada",
@@ -685,6 +807,57 @@ export const copy = {
         {
           title: "Sistema centrado en satisfacción",
           body: "La academia busca una educación valorada por su calidad y profundidad. La guía cercana de instructores, la revisión de necesidades y el soporte organizado cubren formación, inscripción, empleo y emprendimiento."
+        }
+      ]
+    },
+    greetingPage: {
+      eyebrow: "Saludos",
+      title: "Saludos de la Dirección",
+      lead: "Mensajes de la dirección de KHCPQA y de los responsables de campus, organizados desde la página original de saludos.",
+      sourceLabel: "Página original de saludos",
+      sourceUrl: "https://www.smc365.ac/academy/academy02.asp",
+      greetings: [
+        {
+          name: "Hwang In-geun",
+          role: "Presidente de Korea Health Manager Approved Association",
+          meta: "Profesor guía de práctica estudiantil especializada, Yonsei University College of Medicine",
+          contact: "H : 010-6283-1206",
+          paragraphs: [
+            "La asociación cuenta con un sistema educativo diseñado para crear sinergia en la formación de salud y belleza junto con el crecimiento de la medicina alternativa y la industria de servicios.",
+            "KHCPQA mantiene un sistema de intercambio para ayudar a los estudiantes a crecer desde el presente hacia el futuro, y seguirá cumpliendo su papel mediante educación de nivel mundial y gestión organizada.",
+            "La asociación desarrolla programas con nuevas posibilidades y busca crecer junto con sus miembros como una institución con objetivos claros, tecnología avanzada y educación de primer nivel."
+          ]
+        },
+        {
+          name: "Moon Soon-young",
+          role: "Vicepresidenta / Directora de la Sede Central de Seúl",
+          contact: "H : 010-7712-3362",
+          paragraphs: [
+            "La sede central de Seúl está ubicada en el centro de la ciudad, cerca de la estación Jongno 3-ga, donde conectan las líneas 1, 3 y 5 del metro.",
+            "Para quienes preparan empleo o emprendimiento en estética, uñas, maquillaje, peluquería y masaje, la primera elección de academia es importante. La sede ofrece teoría y práctica para certificación nacional, además de técnicas de salón, skincare médico, aroma, meridiano, deportes y masaje de pies desde nivel básico hasta experto.",
+            "La sede busca una educación técnica de primer nivel para que los estudiantes desarrollen orgullo y capacidad, y los guía para alcanzar sus sueños profesionales."
+          ]
+        },
+        {
+          name: "Hwang Yu-jin",
+          role: "Directora del Campus Daerim",
+          meta: "Skin-care Management Consultant",
+          contact: "T : 02-845-8820",
+          paragraphs: [
+            "El Campus Daerim está a un minuto de la salida 12 de la estación Daerim, donde conectan las líneas 2 y 7, con acceso cómodo y un ambiente amplio, limpio y agradable.",
+            "El campus ofrece educación intensiva para certificaciones nacionales y formación práctica para empleo en estética, uñas, peluquería y masaje, junto con educación de actitud y etiqueta profesional.",
+            "Mediante programas especiales de uno a dos meses, muchos estudiantes obtienen rápidamente la certificación nacional de estética. El campus desea que los estudiantes aprendan con confianza y tengan éxito como profesionales."
+          ]
+        },
+        {
+          name: "Lee Yong-ho",
+          role: "Director de Educación, Gangnam Massage Institute",
+          contact: "T : 02-845-8890",
+          paragraphs: [
+            "Gangnam Massage Institute es un centro especializado en masaje ubicado a un minuto de la salida 12 de la estación Daerim. Enseña masaje deportivo, meridiano, facial/corporal y de pies para la industria global de servicios.",
+            "El instituto apoya colocación laboral, consultoría de emprendimiento, recomendaciones de empleo en el extranjero y consultoría de estudios para spas, centros de masaje, hoteles, saunas y espacios de skincare.",
+            "Mediante asesoría individual, identifica la aptitud, lugar de trabajo deseado, horario, remuneración y zona de cada estudiante para conectarlo con oportunidades adecuadas lo antes posible."
+          ]
         }
       ]
     },

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
@@ -59,6 +60,9 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               </article>
             );
           })}
+        </div>
+        <div className="about-next">
+          <Link href={`/${locale}/about/greeting`}>{t.about.greetingCta}</Link>
         </div>
       </section>
     </>
