@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, BadgeCheck, BookOpen, Users } from "lucide-react";
+import { ArrowRight, BadgeCheck, BookOpen, CalendarDays, Users } from "lucide-react";
 import { getCopy, getCourseBySlug, getCourseSlugs, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
@@ -108,6 +108,17 @@ export default async function CourseDetailPage({
         </div>
 
         <aside className="course-detail-aside">
+          {course.durationHighlights ? (
+            <div className="course-duration-card">
+              <CalendarDays size={22} />
+              <h3>{t.courseDetail.durationTitle}</h3>
+              <div className="course-duration-list">
+                {course.durationHighlights.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
+            </div>
+          ) : null}
           <div>
             <Users size={22} />
             <h3>{t.courseDetail.audienceTitle}</h3>
@@ -118,11 +129,18 @@ export default async function CourseDetailPage({
             <h3>{isGoalCourse ? t.courseDetail.goalOutcomeTitle : t.courseDetail.certificationTitle}</h3>
             <p>{course.certificationNote}</p>
           </div>
-          <div>
-            <h3>{t.courseDetail.sourceTitle}</h3>
-            <p>{course.source}</p>
-          </div>
         </aside>
+      </section>
+
+      <section className="course-detail-cta">
+        <div>
+          <span className="eyebrow">{course.category}</span>
+          <h2>{course.title}</h2>
+          <p>{course.summary}</p>
+        </div>
+        <Link className="primary-button" href={`/${locale}/partner-inquiry`}>
+          {t.courseDetail.inquiryCta} <ArrowRight size={16} />
+        </Link>
       </section>
     </article>
   );

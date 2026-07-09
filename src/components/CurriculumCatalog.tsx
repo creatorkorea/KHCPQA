@@ -94,7 +94,6 @@ export function CurriculumCatalog({
                 <Link className="card-link" href={`/${locale}/curriculum/${course.slug}`}>
                   {t.viewDetails} <ArrowRight size={14} />
                 </Link>
-                <small>{course.source}</small>
               </article>
             ))}
           </div>

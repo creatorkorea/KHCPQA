@@ -1782,6 +1782,7 @@ p {
 }
 
 .course-detail-sections {
+  counter-reset: course-section;
   display: grid;
   gap: 18px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1791,7 +1792,23 @@ p {
   background: #ffffff;
   border: 1px solid var(--line);
   border-radius: var(--radius);
+  counter-increment: course-section;
   padding: 20px;
+}
+
+.course-detail-sections section::before {
+  align-items: center;
+  background: #e8f5ee;
+  border-radius: 999px;
+  color: var(--green);
+  content: counter(course-section, decimal-leading-zero);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 900;
+  height: 28px;
+  justify-content: center;
+  margin-bottom: 14px;
+  width: 42px;
 }
 
 .course-detail-sections h2 {
@@ -1819,6 +1836,9 @@ p {
 .course-detail-aside {
   display: grid;
   gap: 14px;
+  height: fit-content;
+  position: sticky;
+  top: 96px;
 }
 
 .course-detail-aside > div {
@@ -1830,6 +1850,68 @@ p {
 
 .course-detail-aside h3 {
   margin: 10px 0 8px;
+}
+
+.course-detail-aside > .course-duration-card {
+  background: linear-gradient(135deg, #073f2a 0%, #0a7548 100%);
+  border: 0;
+  color: white;
+}
+
+.course-duration-card svg {
+  color: #b9f6d3;
+}
+
+.course-duration-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.course-duration-list span {
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  color: white;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 8px 10px;
+}
+
+.course-detail-cta {
+  align-items: center;
+  background: #06291c;
+  border-radius: var(--radius);
+  color: white;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin: clamp(34px, 5vw, 64px) auto 0;
+  max-width: 1320px;
+  padding: clamp(22px, 4vw, 34px);
+}
+
+.course-detail-cta h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  margin: 8px 0 8px;
+}
+
+.course-detail-cta p {
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 760px;
+}
+
+.course-detail-cta .eyebrow {
+  color: #b9f6d3;
+}
+
+.course-detail-cta .primary-button {
+  background: white;
+  color: var(--green-dark);
+  flex: 0 0 auto;
 }
 
 .inquiry-form {
@@ -2458,6 +2540,15 @@ p {
   .location-grid,
   .inquiry-form {
     grid-template-columns: 1fr;
+  }
+
+  .course-detail-aside {
+    position: static;
+  }
+
+  .course-detail-cta {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .hero-card {
