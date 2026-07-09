@@ -1889,6 +1889,15 @@ p {
   color: #fff;
 }
 
+.location-section:not(:has(.location-detail:target)) .location-tabs a[href="#seoul"],
+.location-section:has(#seoul:target) .location-tabs a[href="#seoul"],
+.location-section:has(#gangnam:target) .location-tabs a[href="#gangnam"],
+.location-section:has(#daerim:target) .location-tabs a[href="#daerim"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
 .location-detail-list {
   display: grid;
   gap: 28px;
@@ -1900,8 +1909,14 @@ p {
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 8px;
+  display: none;
   overflow: hidden;
   scroll-margin-top: 136px;
+}
+
+.location-section:not(:has(.location-detail:target)) .location-detail:first-child,
+.location-detail:target {
+  display: block;
 }
 
 .location-detail-head {
