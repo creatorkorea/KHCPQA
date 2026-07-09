@@ -1222,7 +1222,7 @@ const courseImages = [
   "/assets/course-startup-consulting.jpg",
   "/assets/course-weekend-hobby.jpg",
   "/assets/course-facial-contouring.jpg",
-  "/assets/course-thumb-aromatherapy.png",
+  "/assets/course-medical-skincare-detail.jpg",
   "/assets/course-thumb-skincare.png",
   "/assets/course-thumb-skincare.png",
   "/assets/course-thumb-aromatherapy.png",
@@ -1719,6 +1719,95 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           ]
         }
       ]
+    },
+    "메디컬 스킨케어": {
+      summary: "문제성 피부 진단, 전문 기기, 제품 분석, 핸드테크닉을 연결해 현장 고객관리 능력을 기르는 과정입니다.",
+      overview:
+        "메디컬 스킨케어는 피부 타입과 문제성 피부를 분석하고, 전문 피부미용기기와 제품·화장품, 핸드테크닉을 함께 활용해 피부 회복과 예방 관리를 돕는 실무 과정입니다. 원본의 정규·속성 커리큘럼을 최신 교육 상세 페이지 흐름으로 정리해, 이론과 샵 테크닉이 자연스럽게 연결되도록 구성했습니다.",
+      audience: "피부과·성형외과 부속 관리실, 피부관리샵, 스킨케어 실무 취업·창업을 준비하는 수강생",
+      curriculum: [
+        "메디컬 스킨케어 정의, 목적, 효과, 관리 시 주의사항 이해",
+        "피부 타입별 관리법과 문제성 피부 대응",
+        "스킨 스크러버, 이온투입기, 고주파, 초음파 등 미용기기 실습",
+        "클렌징, 매뉴얼 테크닉, 딥 클렌징, 실전 샵 테크닉과 고객 응대"
+      ],
+      certificationNote:
+        "정규코스는 2개월, 속성코스는 1개월 기준으로 안내되며 교육시간은 10시~13시, 14시~17시, 19시~21시 시간대에서 상담 후 조정됩니다.",
+      durationHighlights: ["정규 2개월", "속성 1개월", "기기·핸드테크닉"],
+      keyMetrics: [
+        { label: "교육 형태", value: "메디컬 케어" },
+        { label: "기간", value: "1~2개월" },
+        { label: "핵심", value: "기기+손기술" }
+      ],
+      detailSections: [
+        {
+          title: "정규 코스 로드맵",
+          variant: "schedule",
+          items: [
+            "1개월: 메디컬 스킨케어 이론, 피부타입별 관리, 제품·화장품 분석, 스킨 스크러버·이온투입기",
+            "2개월: 고주파·초음파 기계관리, 클렌징·매뉴얼 테크닉, 딥 클렌징, 호르몬 관리와 실전 샵 테크닉",
+            "교육시간: 10시~13시, 14시~17시, 19시~21시"
+          ]
+        },
+        {
+          title: "속성 코스 로드맵",
+          variant: "schedule",
+          items: [
+            "1주차: 메디컬 스킨케어 정의·목적·효과, 피부타입별 관리, 준비물과 주의사항",
+            "2~3주차: 문제성 피부 관리, 스킨 스크러버·이온투입기, 고주파·초음파 실전 테크닉",
+            "4주차: 클렌징, 매뉴얼 테크닉, 딥 클렌징, 호르몬 관리와 실전 샵 테크닉"
+          ]
+        },
+        {
+          title: "핵심 실무 테크닉",
+          variant: "chips",
+          items: [
+            "피부타입 분석",
+            "문제성 피부 관리",
+            "제품·화장품 분석",
+            "스킨 스크러버",
+            "이온투입기",
+            "고주파",
+            "초음파",
+            "클렌징",
+            "매뉴얼 테크닉",
+            "딥 클렌징",
+            "호르몬 관리"
+          ]
+        },
+        {
+          title: "교육 특징",
+          items: [
+            "단체 지도, 일대일 개인지도, 2인 1조 상호 실습을 병행",
+            "실무 중심 문제 해결 학습으로 기기 원리와 현장 테크닉을 연결",
+            "전문 손기술과 피부미용기기를 결합해 고객관리 효과를 높이는 흐름"
+          ]
+        },
+        {
+          title: "피부 관리 범위",
+          items: [
+            "정상, 건성, 지성, 민감, 여드름, 아토피, 색소침착, 노화 피부 관리",
+            "미백, 잡티, 트러블 관리 후 피부 회복과 예방 관리",
+            "문제성 피부를 전문 기기와 제품 선택으로 체계적으로 관리"
+          ]
+        },
+        {
+          title: "관리 태도와 고객 응대",
+          items: [
+            "고객이 편안한 자세를 취하도록 안내하고 압의 강약을 확인",
+            "관리사는 손톱, 손 위생, 복장, 호흡과 자세를 안정적으로 유지",
+            "메디컬 스킨케어 관리 시 속도, 힘의 원리, 위생 기준을 반복 훈련"
+          ]
+        },
+        {
+          title: "진출 분야",
+          items: [
+            "성형외과·피부과·한의원·산부인과 부속 관리실",
+            "산후조리원 부설 관리실, 피부미용전문관리샵, 피부미용학원 강사",
+            "뷰티샵·마사지샵 창업, 호텔·스파·스포츠센터 관리실, 해외취업 및 해외창업 상담"
+          ]
+        }
+      ]
     }
   },
   en: {
@@ -2072,6 +2161,95 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           ]
         }
       ]
+    },
+    "메디컬 스킨케어": {
+      summary: "A field-focused course connecting problem-skin diagnosis, professional devices, product analysis, and hand techniques.",
+      overview:
+        "Medical Skin Care trains learners to analyze skin types and problem skin, then combine professional beauty devices, products, cosmetics, and manual techniques for recovery-oriented and preventive care. The original regular and intensive curriculum is reorganized into a modern detail-page flow that connects theory with salon technique.",
+      audience: "Learners preparing for dermatology or plastic-surgery care rooms, skin-care salons, or skin-care employment and startup",
+      curriculum: [
+        "Definition, purpose, effect, and precautions of medical skin care",
+        "Skin-type care and problem-skin response",
+        "Device practice with skin scrubber, ion introducer, high frequency, and ultrasound",
+        "Cleansing, manual technique, deep cleansing, salon practice, and client care"
+      ],
+      certificationNote:
+        "The regular course is guided as a two-month track and the intensive course as a one-month track. Class times are arranged through consultation around 10:00-13:00, 14:00-17:00, and 19:00-21:00 blocks.",
+      durationHighlights: ["2-month regular", "1-month intensive", "Device + hand technique"],
+      keyMetrics: [
+        { label: "Track", value: "Medical care" },
+        { label: "Duration", value: "1-2 months" },
+        { label: "Core", value: "Device + touch" }
+      ],
+      detailSections: [
+        {
+          title: "Regular Course Roadmap",
+          variant: "schedule",
+          items: [
+            "Month 1: theory, skin-type care, product and cosmetics analysis, skin scrubber and ion-introduction devices",
+            "Month 2: high-frequency and ultrasound practice, cleansing and manual techniques, deep cleansing, hormone care and salon practice",
+            "Class times: 10:00-13:00, 14:00-17:00, 19:00-21:00"
+          ]
+        },
+        {
+          title: "Intensive Course Roadmap",
+          variant: "schedule",
+          items: [
+            "Week 1: definition, purpose, effects, skin-type care, preparation items, and precautions",
+            "Weeks 2-3: problem-skin care, skin scrubber, ion introducer, high-frequency, and ultrasound practice",
+            "Week 4: cleansing, manual technique, deep cleansing, hormone care, and salon technique"
+          ]
+        },
+        {
+          title: "Core Practical Techniques",
+          variant: "chips",
+          items: [
+            "Skin-type analysis",
+            "Problem-skin care",
+            "Product analysis",
+            "Skin scrubber",
+            "Ion introducer",
+            "High frequency",
+            "Ultrasound",
+            "Cleansing",
+            "Manual technique",
+            "Deep cleansing",
+            "Hormone care"
+          ]
+        },
+        {
+          title: "Training Features",
+          items: [
+            "Group instruction, one-to-one coaching, and two-person mutual practice",
+            "Problem-solving practice that connects device principles with field technique",
+            "A combined approach using professional hand skills and beauty devices for client-care quality"
+          ]
+        },
+        {
+          title: "Skin-Care Scope",
+          items: [
+            "Normal, dry, oily, sensitive, acne, atopic, pigmented, and aging skin care",
+            "Whitening, blemish care, recovery after trouble treatment, and preventive care",
+            "Structured problem-skin care through devices and product selection"
+          ]
+        },
+        {
+          title: "Client Care and Hygiene",
+          items: [
+            "Guide clients into a comfortable posture and check preferred pressure level",
+            "Keep nails, hand hygiene, clothing, breathing, and posture controlled",
+            "Practice stable speed, pressure principles, and hygiene standards during medical skin care"
+          ]
+        },
+        {
+          title: "Career Fields",
+          items: [
+            "Plastic-surgery, dermatology, oriental clinic, and obstetrics-related care rooms",
+            "Postpartum center care rooms, skin-care salons, and beauty academy instructor roles",
+            "Beauty or massage shop startup, hotel, spa, sports-center care rooms, and overseas employment or startup consultation"
+          ]
+        }
+      ]
     }
   },
   es: {
@@ -2422,6 +2600,95 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
             "Salones de estética, instructor de academia, clínicas orientales, dermatología y salas de cirugía plástica",
             "Centros posparto, apertura de beauty shop y massage shop, salones integrales",
             "Hoteles, spas, centros deportivos, salón privado, empleo y emprendimiento en el exterior"
+          ]
+        }
+      ]
+    },
+    "메디컬 스킨케어": {
+      summary: "Curso práctico que conecta diagnóstico de piel problemática, equipos profesionales, análisis de productos y técnicas manuales.",
+      overview:
+        "Medical Skin Care enseña a analizar tipos de piel y piel problemática, y combina equipos profesionales, productos, cosméticos y técnicas manuales para cuidados de recuperación y prevención. El currículo regular e intensivo original se reorganiza como una página educativa moderna que conecta teoría y técnica de salón.",
+      audience: "Estudiantes que preparan trabajo en dermatología, cirugía plástica, salones de cuidado de piel o emprendimiento en skin care",
+      curriculum: [
+        "Definición, propósito, efectos y precauciones de medical skin care",
+        "Cuidado por tipo de piel y respuesta a piel problemática",
+        "Práctica con skin scrubber, ion introducer, alta frecuencia y ultrasonido",
+        "Limpieza, técnica manual, limpieza profunda, práctica de salón y atención al cliente"
+      ],
+      certificationNote:
+        "El curso regular se orienta como ruta de dos meses y el intensivo como ruta de un mes. Los horarios se coordinan por consulta en bloques de 10:00-13:00, 14:00-17:00 y 19:00-21:00.",
+      durationHighlights: ["Regular 2 meses", "Intensivo 1 mes", "Equipo + técnica manual"],
+      keyMetrics: [
+        { label: "Ruta", value: "Medical care" },
+        { label: "Duración", value: "1-2 meses" },
+        { label: "Núcleo", value: "Equipo + mano" }
+      ],
+      detailSections: [
+        {
+          title: "Mapa del Curso Regular",
+          variant: "schedule",
+          items: [
+            "Mes 1: teoría, cuidado por tipo de piel, análisis de productos y cosméticos, skin scrubber e ion introducer",
+            "Mes 2: alta frecuencia y ultrasonido, limpieza y técnicas manuales, limpieza profunda, cuidado hormonal y práctica de salón",
+            "Horarios: 10:00-13:00, 14:00-17:00, 19:00-21:00"
+          ]
+        },
+        {
+          title: "Mapa del Curso Intensivo",
+          variant: "schedule",
+          items: [
+            "Semana 1: definición, propósito, efectos, cuidado por tipo de piel, preparación y precauciones",
+            "Semanas 2-3: piel problemática, skin scrubber, ion introducer, alta frecuencia y ultrasonido",
+            "Semana 4: limpieza, técnica manual, limpieza profunda, cuidado hormonal y técnica de salón"
+          ]
+        },
+        {
+          title: "Técnicas Principales",
+          variant: "chips",
+          items: [
+            "Análisis de piel",
+            "Piel problemática",
+            "Análisis de productos",
+            "Skin scrubber",
+            "Ion introducer",
+            "Alta frecuencia",
+            "Ultrasonido",
+            "Limpieza",
+            "Técnica manual",
+            "Limpieza profunda",
+            "Cuidado hormonal"
+          ]
+        },
+        {
+          title: "Características de Formación",
+          items: [
+            "Instrucción grupal, guía individual y práctica mutua en pareja",
+            "Aprendizaje práctico que conecta principios de equipos y técnica de campo",
+            "Combinación de habilidad manual profesional y equipos de belleza para mejorar la atención"
+          ]
+        },
+        {
+          title: "Alcance de Cuidado",
+          items: [
+            "Piel normal, seca, grasa, sensible, acné, atópica, pigmentada y envejecida",
+            "Blanqueamiento, manchas, recuperación después de problemas y cuidado preventivo",
+            "Cuidado estructurado de piel problemática con equipos y selección de productos"
+          ]
+        },
+        {
+          title: "Atención e Higiene",
+          items: [
+            "Guiar al cliente a una postura cómoda y confirmar la presión deseada",
+            "Mantener uñas, higiene de manos, ropa, respiración y postura controladas",
+            "Practicar velocidad estable, principios de presión e higiene durante medical skin care"
+          ]
+        },
+        {
+          title: "Campos Profesionales",
+          items: [
+            "Salas de cirugía plástica, dermatología, clínicas orientales y áreas relacionadas con obstetricia",
+            "Centros posparto, salones de skin care e instructor de academia de belleza",
+            "Apertura de beauty shop o massage shop, hoteles, spas, centros deportivos, empleo y emprendimiento exterior"
           ]
         }
       ]
