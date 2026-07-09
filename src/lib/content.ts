@@ -1220,7 +1220,7 @@ export const copy = {
 const courseImages = [
   "/assets/course-employment-consulting.jpg",
   "/assets/course-startup-consulting.jpg",
-  "/assets/course-thumb-business-planning.png",
+  "/assets/course-weekend-hobby.jpg",
   "/assets/course-thumb-business-planning.png",
   "/assets/course-thumb-aromatherapy.png",
   "/assets/course-thumb-skincare.png",
@@ -1552,6 +1552,85 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           ]
         }
       ]
+    },
+    "주말반/취미반": {
+      summary: "평일 시간이 어려운 수강생과 취미로 실무 관리를 배우고 싶은 입문자를 위한 주말 집중 과정입니다.",
+      overview:
+        "주말반/취미반은 이직을 준비하거나 취미로 피부·마사지 실무를 배우고 싶은 분들이 토요일 또는 일요일에 집중적으로 수강할 수 있도록 구성한 과정입니다. 오전·오후 시간대를 나누어 생활 일정에 맞춰 기본 실무와 관심 과목을 선택해 배울 수 있습니다.",
+      audience: "평일 수강이 어려운 직장인, 이직 준비생, 취미로 뷰티·웰니스 관리를 배우려는 입문자",
+      curriculum: [
+        "수강 목적과 가능한 요일·시간 상담",
+        "피부미용, 아로마, 경락, 스포츠, 발 관리 등 관심 과목 선택",
+        "주말 오전·오후 집중 실습",
+        "취미 학습 또는 후속 취업·창업 과정 연계 상담"
+      ],
+      certificationNote:
+        "주말반/취미반은 토요일 또는 일요일 오전·오후 시간대로 운영되며, 세부 과목과 수료 기준은 선택 과목과 상담 결과에 따라 안내됩니다.",
+      durationHighlights: ["토요일반", "일요일반", "오전·오후 선택"],
+      keyMetrics: [
+        { label: "교육 형태", value: "주말 집중" },
+        { label: "요일", value: "토·일" },
+        { label: "시간", value: "10시~17시" }
+      ],
+      detailSections: [
+        {
+          title: "추천 대상",
+          items: [
+            "평일 수업 참여가 어려운 직장인과 예비 전직자",
+            "피부·마사지 관리를 취미로 배우고 싶은 입문자",
+            "후속 취업·창업 과정 전 기초 실무를 경험해보고 싶은 수강생"
+          ]
+        },
+        {
+          title: "선택 가능 과목",
+          variant: "chips",
+          items: [
+            "피부미용사",
+            "얼굴축소경락",
+            "메디컬 스킨케어",
+            "아로마 테라피",
+            "경락 마사지",
+            "스포츠 마사지",
+            "발 마사지",
+            "스웨디시",
+            "산모 마사지"
+          ]
+        },
+        {
+          title: "학습 흐름",
+          items: [
+            "관심 과목과 수강 목적 상담",
+            "기본 이론과 관리 순서 이해",
+            "전문가 시연 후 단계별 실습",
+            "취미 활용 또는 심화 과정 연결"
+          ]
+        },
+        {
+          title: "활용 방향",
+          items: [
+            "가족·지인 케어를 위한 취미 실습",
+            "뷰티·웰니스 분야 이직 전 기초 경험",
+            "취업전문과정 또는 창업전문과정으로 확장 상담"
+          ]
+        },
+        {
+          title: "연계 강의안내",
+          items: [
+            "피부미용사 국가자격증, 얼굴축소경락, 아로마 테라피",
+            "경락 마사지, 스포츠 마사지, 발 마사지",
+            "스웨디시, 산모 마사지 등 관심 분야에 맞춰 선택 상담"
+          ]
+        },
+        {
+          title: "주말 강의시간 안내",
+          variant: "schedule",
+          items: [
+            "토요일반: 10시~13시 또는 14시~17시",
+            "일요일반: 10시~13시 또는 14시~17시",
+            "상담 안내: 과목별 운영 시간은 개설 일정에 따라 달라질 수 있습니다."
+          ]
+        }
+      ]
     }
   },
   en: {
@@ -1738,6 +1817,85 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           ]
         }
       ]
+    },
+    "주말반/취미반": {
+      summary: "A weekend-focused track for learners with weekday constraints or hobby-oriented practical study.",
+      overview:
+        "The Weekend and Hobby Class is designed for learners who want to prepare for a career change or study skin and massage care as a hobby while keeping weekday schedules. Saturday and Sunday morning or afternoon sessions allow learners to choose practical subjects around their interests.",
+      audience: "Working adults, career-change learners, and beginners who want to study beauty and wellness care as a hobby",
+      curriculum: [
+        "Consultation on learning goal, available day, and schedule",
+        "Subject selection across esthetics, aroma, meridian, sports, and foot care",
+        "Focused weekend morning or afternoon practice",
+        "Guidance toward hobby use or follow-up employment and startup tracks"
+      ],
+      certificationNote:
+        "Weekend classes operate on Saturday or Sunday morning and afternoon blocks. Detailed subjects and completion standards are guided according to selected subjects and consultation.",
+      durationHighlights: ["Saturday class", "Sunday class", "Morning / afternoon"],
+      keyMetrics: [
+        { label: "Track", value: "Weekend" },
+        { label: "Days", value: "Sat / Sun" },
+        { label: "Time", value: "10:00-17:00" }
+      ],
+      detailSections: [
+        {
+          title: "Recommended For",
+          items: [
+            "Working adults and career-change learners who cannot attend weekday classes",
+            "Beginners who want to learn skin and massage care as a hobby",
+            "Learners who want to experience practical basics before employment or startup tracks"
+          ]
+        },
+        {
+          title: "Selectable Subjects",
+          variant: "chips",
+          items: [
+            "Esthetician",
+            "Facial contouring care",
+            "Medical skin care",
+            "Aromatherapy",
+            "Meridian massage",
+            "Sports massage",
+            "Foot massage",
+            "Swedish massage",
+            "Maternity massage"
+          ]
+        },
+        {
+          title: "Learning Flow",
+          items: [
+            "Consultation on interests and learning purpose",
+            "Basic theory and care sequence understanding",
+            "Expert demonstration and step-by-step practice",
+            "Connection to hobby use or advanced courses"
+          ]
+        },
+        {
+          title: "How It Can Be Used",
+          items: [
+            "Hobby practice for family and acquaintances",
+            "Introductory experience before career change in beauty and wellness",
+            "Consultation toward employment or startup programs"
+          ]
+        },
+        {
+          title: "Linked Course Guidance",
+          items: [
+            "National esthetician certification, facial contouring meridian care, aromatherapy",
+            "Meridian massage, sports massage, and foot massage",
+            "Swedish and maternity massage can be selected by interest"
+          ]
+        },
+        {
+          title: "Weekend Class Time Guide",
+          variant: "schedule",
+          items: [
+            "Saturday class: 10:00-13:00 or 14:00-17:00",
+            "Sunday class: 10:00-13:00 or 14:00-17:00",
+            "Consultation note: Subject schedules may vary by opening calendar."
+          ]
+        }
+      ]
     }
   },
   es: {
@@ -1921,6 +2079,85 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
             "Certificación nacional de estética, cuidado meridiano facial y aromaterapia",
             "Masaje meridiano, deportivo y de pies",
             "Masaje sueco y de maternidad según el concepto de emprendimiento"
+          ]
+        }
+      ]
+    },
+    "주말반/취미반": {
+      summary: "Ruta de fin de semana para quienes tienen poco tiempo entre semana o desean aprender como hobby.",
+      overview:
+        "La clase de fin de semana y hobby está diseñada para personas que preparan un cambio de carrera o desean aprender cuidado de piel y masaje como hobby manteniendo su agenda semanal. Las sesiones de sábado o domingo por la mañana y tarde permiten elegir materias prácticas según el interés.",
+      audience: "Adultos trabajadores, estudiantes que preparan cambio de carrera y principiantes interesados en belleza y bienestar",
+      curriculum: [
+        "Consulta sobre objetivo, día disponible y horario",
+        "Selección de materias de estética, aroma, meridiano, deportivo y pies",
+        "Práctica intensiva de fin de semana por la mañana o tarde",
+        "Orientación hacia uso como hobby o rutas de empleo y emprendimiento"
+      ],
+      certificationNote:
+        "Las clases de fin de semana operan en bloques de sábado o domingo por la mañana y tarde. Las materias y criterios de finalización se guían según selección y consulta.",
+      durationHighlights: ["Clase sábado", "Clase domingo", "Mañana / tarde"],
+      keyMetrics: [
+        { label: "Ruta", value: "Fin de semana" },
+        { label: "Días", value: "Sáb / Dom" },
+        { label: "Horario", value: "10:00-17:00" }
+      ],
+      detailSections: [
+        {
+          title: "Recomendado Para",
+          items: [
+            "Adultos trabajadores y estudiantes que no pueden asistir entre semana",
+            "Principiantes que desean aprender cuidado de piel y masaje como hobby",
+            "Personas que desean probar práctica básica antes de empleo o emprendimiento"
+          ]
+        },
+        {
+          title: "Materias Seleccionables",
+          variant: "chips",
+          items: [
+            "Estética",
+            "Contorno facial",
+            "Cuidado médico de la piel",
+            "Aromaterapia",
+            "Masaje meridiano",
+            "Masaje deportivo",
+            "Masaje de pies",
+            "Masaje sueco",
+            "Masaje de maternidad"
+          ]
+        },
+        {
+          title: "Flujo de Aprendizaje",
+          items: [
+            "Consulta sobre intereses y propósito",
+            "Comprensión de teoría básica y secuencia de cuidado",
+            "Demostración experta y práctica paso a paso",
+            "Conexión con uso como hobby o cursos avanzados"
+          ]
+        },
+        {
+          title: "Formas de Uso",
+          items: [
+            "Práctica como hobby para familia y conocidos",
+            "Experiencia inicial antes de cambiar a belleza y bienestar",
+            "Consulta hacia programas de empleo o emprendimiento"
+          ]
+        },
+        {
+          title: "Cursos Relacionados",
+          items: [
+            "Certificación nacional de estética, cuidado meridiano facial y aromaterapia",
+            "Masaje meridiano, deportivo y de pies",
+            "Masaje sueco y de maternidad según interés"
+          ]
+        },
+        {
+          title: "Horario de Fin de Semana",
+          variant: "schedule",
+          items: [
+            "Clase sábado: 10:00-13:00 o 14:00-17:00",
+            "Clase domingo: 10:00-13:00 o 14:00-17:00",
+            "Nota de consulta: El horario por materia puede variar según calendario."
           ]
         }
       ]
