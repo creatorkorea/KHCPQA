@@ -1219,7 +1219,7 @@ export const copy = {
 
 const courseImages = [
   "/assets/course-employment-consulting.jpg",
-  "/assets/course-thumb-instructor-class.png",
+  "/assets/course-startup-consulting.jpg",
   "/assets/course-thumb-business-planning.png",
   "/assets/course-thumb-business-planning.png",
   "/assets/course-thumb-aromatherapy.png",
@@ -1459,6 +1459,99 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           ]
         }
       ]
+    },
+    "창업전문과정": {
+      summary: "창업에 필요한 실무 테크닉, 입지 선정, 마케팅, 운영 노하우를 함께 설계하는 목표형 과정입니다.",
+      overview:
+        "창업전문과정은 고급 실무기술과 고객 관리 역량을 기반으로 샵 콘셉트, 입지 선정, 인테리어, 비품·재료 선택, 직원 수급과 서비스 교육, 운영관리까지 신규 오픈에 필요한 흐름을 종합적으로 안내합니다. 졸업생 창업 사례와 샵 운영 노하우를 참고해 현실적인 창업 준비를 돕습니다.",
+      audience: "1인 창업, 신규 샵 오픈, 기존 샵 인수를 준비하며 실무와 운영을 함께 배우고 싶은 교육생",
+      curriculum: [
+        "창업 목표와 희망 업종 진단",
+        "고객 선호도가 높은 인기 관리 프로그램 조합 설계",
+        "입지 선정, 비용 절감 인테리어, 비품·재료 선택 체크",
+        "운영관리, 직원 교육, 마케팅과 경영 노하우 상담"
+      ],
+      certificationNote:
+        "창업 준비 범위와 예상 수익은 지역, 시설, 상권, 마케팅, 운영 방식에 따라 달라질 수 있으며 세부 내용은 상담을 통해 안내됩니다.",
+      durationHighlights: ["창업 준비 상담", "샵 오픈 설계", "운영관리 코칭"],
+      keyMetrics: [
+        { label: "교육 형태", value: "창업 전문" },
+        { label: "준비 범위", value: "16개 체크" },
+        { label: "오픈 유형", value: "1인·샵 오픈" }
+      ],
+      detailSections: [
+        {
+          title: "주요 교육 종목",
+          variant: "chips",
+          items: [
+            "아로마경락 마사지",
+            "산모 마사지",
+            "국가자격증",
+            "스웨디시 마사지",
+            "얼굴축소경락",
+            "브라질리언 왁싱",
+            "스포츠 마사지",
+            "피부관리 샬롱테크닉",
+            "병원 코디네이터",
+            "발 마사지",
+            "메디컬 스킨케어",
+            "카이로 체형관리"
+          ]
+        },
+        {
+          title: "창업 준비 체크포인트",
+          items: [
+            "경쟁력 있는 기술과 단골고객 확보·관리 방법",
+            "수익형 콘셉트와 프로그램 설계, 입지·점포 위치 선정",
+            "사업자등록, 비용절감 마케팅, 인테리어와 비품·재료 선택",
+            "직원 수급·기술점검, 힐링프로그램 시스템, 경영 노하우와 운영관리"
+          ]
+        },
+        {
+          title: "오픈 형태",
+          items: [
+            "스웨디시 + 왁싱 + 아로마경락 + 스포츠",
+            "아로마경락 + 아로마테라피 + 스킨케어",
+            "스포츠 + 경락 + 발 + 스웨디시",
+            "오피스텔 오픈, 일반상가 오픈, 신규 샵 또는 기존 샵 인수"
+          ]
+        },
+        {
+          title: "샵 창업 월 예상 매출",
+          variant: "income",
+          items: [
+            "A타입 상담 기준: 월 8,000만원 ~ 1억원 안내",
+            "B타입 상담 기준: 월 5,000만원 ~ 8,000만원 안내",
+            "예상 매출은 샵 지역, 시설, 마케팅, 운영 방식에 따라 달라질 수 있습니다."
+          ]
+        },
+        {
+          title: "1인 창업 월 예상 수입",
+          variant: "income",
+          items: [
+            "A타입 상담 기준: 월 1,500만원 ~ 2,000만원 안내",
+            "B타입 상담 기준: 월 1,000만원 ~ 1,500만원 안내",
+            "예상 수입은 운영 형태와 고객 확보 방식에 따라 달라질 수 있습니다."
+          ]
+        },
+        {
+          title: "강의시간 안내",
+          variant: "schedule",
+          items: [
+            "속성반: 월~금 10시~13시 또는 14시~17시",
+            "오전반: 월~금 10시~13시 / 오후반: 월~금 14시~17시",
+            "야간반: 월·수·금 19시~21시"
+          ]
+        },
+        {
+          title: "연계 강의안내",
+          items: [
+            "피부미용사 국가자격증, 얼굴축소경락, 아로마 테라피",
+            "경락 마사지, 스포츠 마사지, 발 마사지",
+            "스웨디시, 산모 마사지 등 창업 콘셉트에 맞춰 선택 상담"
+          ]
+        }
+      ]
     }
   },
   en: {
@@ -1552,6 +1645,99 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
           ]
         }
       ]
+    },
+    "창업전문과정": {
+      summary: "A startup-focused pathway covering practical techniques, shop planning, marketing, and operation.",
+      overview:
+        "This track combines advanced practical techniques with startup planning, including shop concept, location selection, interior planning, supplies, staffing, service training, marketing, and daily operation. It helps learners prepare a realistic opening plan using field-oriented guidance.",
+      audience: "Trainees preparing for one-person business, new shop opening, or acquisition of an existing shop",
+      curriculum: [
+        "Startup goal and target business diagnosis",
+        "Service menu planning around high-demand care programs",
+        "Location, cost-conscious interior, supplies, and material checklist",
+        "Operation, staff training, marketing, and business know-how consultation"
+      ],
+      certificationNote:
+        "Startup scope and projected revenue may vary by location, facilities, trade area, marketing, and operation model. Details are guided through consultation.",
+      durationHighlights: ["Startup consultation", "Shop opening plan", "Operation coaching"],
+      keyMetrics: [
+        { label: "Track", value: "Startup" },
+        { label: "Checklist", value: "16 items" },
+        { label: "Opening Type", value: "Solo / Shop" }
+      ],
+      detailSections: [
+        {
+          title: "Core Training Subjects",
+          variant: "chips",
+          items: [
+            "Aroma meridian massage",
+            "Maternity massage",
+            "National certification",
+            "Swedish massage",
+            "Facial contouring care",
+            "Brazilian waxing",
+            "Sports massage",
+            "Skin-care salon technique",
+            "Hospital coordinator",
+            "Foot massage",
+            "Medical skin care",
+            "Chiropractic body care"
+          ]
+        },
+        {
+          title: "Startup Checklist",
+          items: [
+            "Competitive technique and repeat-customer acquisition",
+            "Revenue-oriented concept, program planning, and location selection",
+            "Business registration, cost-conscious marketing, interior, supplies, and materials",
+            "Staffing, skill checks, healing program system, business know-how, and operation management"
+          ]
+        },
+        {
+          title: "Opening Models",
+          items: [
+            "Swedish + waxing + aroma meridian + sports",
+            "Aroma meridian + aromatherapy + skin care",
+            "Sports + meridian + foot + Swedish",
+            "Officetel opening, commercial shop opening, new shop or existing shop acquisition"
+          ]
+        },
+        {
+          title: "Projected Monthly Shop Revenue",
+          variant: "income",
+          items: [
+            "Type A consultation guide: KRW 80,000,000 to 100,000,000 per month",
+            "Type B consultation guide: KRW 50,000,000 to 80,000,000 per month",
+            "Projected revenue may vary by shop location, facilities, marketing, and operation."
+          ]
+        },
+        {
+          title: "Projected Monthly Solo Income",
+          variant: "income",
+          items: [
+            "Type A consultation guide: KRW 15,000,000 to 20,000,000 per month",
+            "Type B consultation guide: KRW 10,000,000 to 15,000,000 per month",
+            "Projected income may vary by operation model and customer acquisition."
+          ]
+        },
+        {
+          title: "Class Time Guide",
+          variant: "schedule",
+          items: [
+            "Intensive class: Mon-Fri 10:00-13:00 or 14:00-17:00",
+            "Morning class: Mon-Fri 10:00-13:00 / Afternoon class: Mon-Fri 14:00-17:00",
+            "Evening class: Mon, Wed, Fri 19:00-21:00"
+          ]
+        },
+        {
+          title: "Linked Course Guidance",
+          items: [
+            "National esthetician certification, facial contouring meridian care, aromatherapy",
+            "Meridian massage, sports massage, and foot massage",
+            "Swedish and maternity massage can be selected according to the startup concept"
+          ]
+        }
+      ]
     }
   },
   es: {
@@ -1642,6 +1828,99 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
             "Certificación nacional de estética, cuidado meridiano facial y aromaterapia",
             "Masaje meridiano, deportivo y de pies",
             "Masaje sueco y de maternidad según el objetivo laboral"
+          ]
+        }
+      ]
+    },
+    "창업전문과정": {
+      summary: "Ruta para emprendimiento que cubre técnicas prácticas, planificación de salón, marketing y operación.",
+      overview:
+        "Esta ruta combina técnicas prácticas avanzadas con planificación de emprendimiento: concepto del salón, ubicación, interior, materiales, personal, formación de servicio, marketing y operación diaria. Ayuda a preparar un plan realista de apertura.",
+      audience: "Estudiantes que preparan negocio individual, apertura de nuevo salón o adquisición de un salón existente",
+      curriculum: [
+        "Diagnóstico de objetivo de emprendimiento y tipo de negocio",
+        "Diseño de menú de servicios con programas de alta demanda",
+        "Lista de ubicación, interior con control de costos, suministros y materiales",
+        "Consulta sobre operación, formación de personal, marketing y gestión"
+      ],
+      certificationNote:
+        "El alcance de apertura y los ingresos proyectados pueden variar por ubicación, instalaciones, zona comercial, marketing y modelo operativo.",
+      durationHighlights: ["Consulta de emprendimiento", "Plan de apertura", "Coaching operativo"],
+      keyMetrics: [
+        { label: "Ruta", value: "Emprendimiento" },
+        { label: "Lista", value: "16 puntos" },
+        { label: "Tipo", value: "Individual / Salón" }
+      ],
+      detailSections: [
+        {
+          title: "Materias Principales",
+          variant: "chips",
+          items: [
+            "Masaje aroma meridiano",
+            "Masaje para maternidad",
+            "Certificación nacional",
+            "Masaje sueco",
+            "Contorno facial",
+            "Depilación brasileña",
+            "Masaje deportivo",
+            "Técnica de salón",
+            "Coordinador hospitalario",
+            "Masaje de pies",
+            "Cuidado médico de la piel",
+            "Cuidado quiropráctico"
+          ]
+        },
+        {
+          title: "Lista de Preparación",
+          items: [
+            "Técnica competitiva y captación de clientes frecuentes",
+            "Concepto rentable, diseño de programas y selección de ubicación",
+            "Registro comercial, marketing económico, interior, suministros y materiales",
+            "Personal, revisión técnica, sistema de programas, gestión y operación"
+          ]
+        },
+        {
+          title: "Modelos de Apertura",
+          items: [
+            "Sueco + waxing + aroma meridiano + deportivo",
+            "Aroma meridiano + aromaterapia + cuidado de la piel",
+            "Deportivo + meridiano + pies + sueco",
+            "Apertura en officetel, local comercial, nuevo salón o adquisición"
+          ]
+        },
+        {
+          title: "Ingreso Mensual Proyectado del Salón",
+          variant: "income",
+          items: [
+            "Guía de consulta tipo A: KRW 80.000.000 a 100.000.000 al mes",
+            "Guía de consulta tipo B: KRW 50.000.000 a 80.000.000 al mes",
+            "La proyección puede variar por ubicación, instalaciones, marketing y operación."
+          ]
+        },
+        {
+          title: "Ingreso Mensual Proyectado Individual",
+          variant: "income",
+          items: [
+            "Guía de consulta tipo A: KRW 15.000.000 a 20.000.000 al mes",
+            "Guía de consulta tipo B: KRW 10.000.000 a 15.000.000 al mes",
+            "El ingreso puede variar por modelo operativo y captación de clientes."
+          ]
+        },
+        {
+          title: "Horario de Clase",
+          variant: "schedule",
+          items: [
+            "Clase intensiva: lun-vie 10:00-13:00 o 14:00-17:00",
+            "Clase matutina: lun-vie 10:00-13:00 / tarde: lun-vie 14:00-17:00",
+            "Clase nocturna: lun, mie, vie 19:00-21:00"
+          ]
+        },
+        {
+          title: "Cursos Relacionados",
+          items: [
+            "Certificación nacional de estética, cuidado meridiano facial y aromaterapia",
+            "Masaje meridiano, deportivo y de pies",
+            "Masaje sueco y de maternidad según el concepto de emprendimiento"
           ]
         }
       ]
