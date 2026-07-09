@@ -29,7 +29,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
   const activityGroups = getActivityGroups(locale);
   const stats = getStats(locale).slice(0, 3);
   const platformIcons = [ShieldCheck, BookOpen, BadgeCheck];
-  const previewCourses = courses.slice(3, 11);
+  const previewCourseIndexes = [5, 3, 4, 6, 7, 8, 9, 13];
+  const previewCourses = previewCourseIndexes.flatMap((index) => (courses[index] ? [courses[index]] : []));
   const quickNavItems = [
     { label: courses[0]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[0]?.slug ?? ""}` },
     { label: courses[1]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[1]?.slug ?? ""}` },
@@ -82,7 +83,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
           </div>
 
           <div className="hero-visual">
-            <Image src="/assets/hero-professionals.png" alt={t.home.heroImageAlt} width={960} height={620} priority />
+            <Image src="/assets/premium-hero-wellness-education.png" alt={t.home.heroImageAlt} width={960} height={620} priority />
             <Link className="hero-floating-card" href={`/${locale}/partner-inquiry`}>
               <BadgeCheck size={24} />
               <span>

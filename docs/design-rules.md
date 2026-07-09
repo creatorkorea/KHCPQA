@@ -125,6 +125,15 @@
 - `/assets/design-reference-premium.png`
 - `/assets/design-reference.png`
 - `/assets/design-reference-uiux.png`
+- `/assets/premium-hero-wellness-education.png`
+- `/assets/premium-course-aroma.png`
+- `/assets/premium-course-facial-contouring.png`
+- `/assets/premium-course-medical-skincare.png`
+- `/assets/premium-course-meridian.png`
+- `/assets/premium-course-sports.png`
+- `/assets/premium-course-foot.png`
+- `/assets/premium-course-maternity.png`
+- `/assets/premium-course-swedish.png`
 - `/assets/hero-professionals.png`
 - `/assets/course-medical-skincare.png`
 - `/assets/course-aroma-therapy.png`

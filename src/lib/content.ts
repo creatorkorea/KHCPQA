@@ -1221,15 +1221,21 @@ const courseImages = [
   "/assets/course-employment-consulting.jpg",
   "/assets/course-startup-consulting.jpg",
   "/assets/course-weekend-hobby.jpg",
-  "/assets/course-facial-contouring.jpg",
-  "/assets/course-medical-skincare-detail.jpg",
-  "/assets/course-thumb-skincare.png",
-  "/assets/course-thumb-skincare.png",
-  "/assets/course-thumb-aromatherapy.png",
-  "/assets/course-thumb-massage-training.png",
-  "/assets/course-thumb-massage-training.png",
-  "/assets/course-thumb-foot-reflexology.png",
-  "/assets/course-thumb-foot-reflexology.png"
+  "/assets/premium-course-facial-contouring.png",
+  "/assets/premium-course-medical-skincare.png",
+  "/assets/premium-course-aroma.png",
+  "/assets/premium-course-meridian.png",
+  "/assets/premium-course-sports.png",
+  "/assets/premium-course-foot.png",
+  "/assets/premium-course-maternity.png",
+  "/assets/premium-course-maternity.png",
+  "/assets/premium-course-meridian.png",
+  "/assets/premium-course-sports.png",
+  "/assets/premium-course-swedish.png",
+  "/assets/premium-course-aroma.png",
+  "/assets/premium-course-medical-skincare.png",
+  "/assets/premium-course-medical-skincare.png",
+  "/assets/premium-course-facial-contouring.png"
 ];
 
 const courseTitleTranslations = [
