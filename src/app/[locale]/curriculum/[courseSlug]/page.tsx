@@ -87,6 +87,24 @@ export default async function CourseDetailPage({
               ))}
             </ul>
           </div>
+
+          {course.detailSections ? (
+            <div className="course-detail-sections">
+              {course.detailSections.map((section) => (
+                <section key={section.title}>
+                  <h2>{section.title}</h2>
+                  <ul className="detail-list compact">
+                    {section.items.map((item) => (
+                      <li key={item}>
+                        <BookOpen size={18} />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         <aside className="course-detail-aside">

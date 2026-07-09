@@ -1231,17 +1231,22 @@ const courseTitleTranslations = [
   }
 ] satisfies Array<Record<Locale, string> & { sourcePath: string; categoryKey: Exclude<CourseCategory, "all"> }>;
 
-const courseTextByLocale: Record<
-  Locale,
-  Record<Exclude<CourseCategory, "all">, {
-    category: string;
-    summary: string;
-    overview: string;
-    audience: string;
-    curriculum: string[];
-    certificationNote: string;
-  }>
-> = {
+type CourseDetailSection = {
+  title: string;
+  items: string[];
+};
+
+type CourseText = {
+  category: string;
+  summary: string;
+  overview: string;
+  audience: string;
+  curriculum: string[];
+  certificationNote: string;
+  detailSections?: CourseDetailSection[];
+};
+
+const courseTextByLocale: Record<Locale, Record<Exclude<CourseCategory, "all">, CourseText>> = {
   ko: {
     certification: {
       category: "자격 과정",
@@ -1331,6 +1336,141 @@ const courseTextByLocale: Record<
   }
 };
 
+const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<CourseText>>>> = {
+  ko: {
+    "취업전문과정": {
+      summary: "취업 경쟁력을 높이기 위해 현장 실무 테크닉, 고객 응대, 매너까지 함께 훈련하는 목표형 과정입니다.",
+      overview:
+        "취업전문과정은 취업 현장에서 바로 고객 관리를 맡을 수 있도록 종목별 실무 테크닉을 집중적으로 익히는 과정입니다. 고급 기술 습득과 함께 고객 관리, 예의, 매너를 함께 다루어 실무 직장 적응력을 높이는 흐름으로 구성됩니다.",
+      audience: "뷰티·웰니스 분야 취업을 준비하며 여러 실무 테크닉을 조합해 경쟁력을 만들고 싶은 교육생",
+      curriculum: [
+        "취업 목표와 희망 분야 상담",
+        "아로마경락, 스웨디시, 스포츠, 발 관리 등 실무 테크닉 조합 설계",
+        "고객 관리, 응대 매너, 현장 실습 기준 훈련",
+        "취업 가능 분야와 후속 과정 상담"
+      ],
+      certificationNote:
+        "교육 기간은 2주 단기, 1개월 속성, 2개월 정규 과정으로 안내되며 세부 운영은 상담과 선택 과목에 따라 달라질 수 있습니다.",
+      detailSections: [
+        {
+          title: "주요 교육 종목",
+          items: [
+            "아로마경락 마사지, 산모 마사지, 국가자격증",
+            "스웨디시 마사지, 얼굴축소경락, 브라질리언 왁싱",
+            "스포츠 마사지, 피부관리 샬롱테크닉, 병원 코디네이터",
+            "발 마사지, 메디컬 스킨케어, 카이로 체형관리"
+          ]
+        },
+        {
+          title: "추천 과목 조합",
+          items: [
+            "스웨디시 + 왁싱 + 아로마경락 + 스포츠",
+            "아로마경락 + 아로마테라피 + 스킨케어",
+            "스포츠 + 경락 + 발 + 스웨디시",
+            "산모 + 아로마경락 + 얼굴축소"
+          ]
+        },
+        {
+          title: "취업 및 진로 방향",
+          items: [
+            "고급 스웨디시, 호텔 스파샵, 전문 스포츠마사지샵 취업 연계",
+            "전문 마사지샵, 뷰티샵, 병원·산부인과, 산후조리원 분야 진출",
+            "프리랜서 활동 또는 1인 마사지샵 운영 상담"
+          ]
+        }
+      ]
+    }
+  },
+  en: {
+    "취업전문과정": {
+      summary: "A job-focused pathway for practical techniques, client care, and workplace readiness.",
+      overview:
+        "This track prepares trainees to enter beauty and wellness workplaces with practical technique combinations, client-care standards, and professional manners. The program is planned around the learner's target field and current skill level.",
+      audience: "Trainees preparing for employment in beauty, wellness, massage, spa, or related service fields",
+      curriculum: [
+        "Employment goal and target-field consultation",
+        "Practical technique plan across aroma meridian, Swedish, sports, foot care, and related subjects",
+        "Client-care, communication, and workplace-manner training",
+        "Career-field guidance and follow-up program consultation"
+      ],
+      certificationNote:
+        "Program duration may be guided as short-term, one-month intensive, or two-month regular training depending on consultation and selected subjects.",
+      detailSections: [
+        {
+          title: "Core Training Subjects",
+          items: [
+            "Aroma meridian massage, maternity massage, national certification preparation",
+            "Swedish massage, facial contouring meridian care, Brazilian waxing",
+            "Sports massage, skin-care salon technique, hospital coordinator",
+            "Foot massage, medical skin care, chiropractic body care"
+          ]
+        },
+        {
+          title: "Recommended Combinations",
+          items: [
+            "Swedish + waxing + aroma meridian + sports",
+            "Aroma meridian + aromatherapy + skin care",
+            "Sports + meridian + foot + Swedish",
+            "Maternity + aroma meridian + facial contouring"
+          ]
+        },
+        {
+          title: "Career Direction",
+          items: [
+            "Premium Swedish, hotel spa, and sports massage shop employment",
+            "Massage shops, boutique beauty shops, hospitals, maternity clinics, and postpartum care centers",
+            "Freelance work or one-person shop operation consultation"
+          ]
+        }
+      ]
+    }
+  },
+  es: {
+    "취업전문과정": {
+      summary: "Ruta orientada al empleo con técnicas prácticas, atención al cliente y preparación laboral.",
+      overview:
+        "Esta ruta prepara a los estudiantes para incorporarse al trabajo en belleza y bienestar mediante combinaciones de técnicas prácticas, atención al cliente y modales profesionales. El plan se ajusta al objetivo laboral y al nivel actual.",
+      audience: "Estudiantes que preparan empleo en belleza, bienestar, masaje, spa o servicios relacionados",
+      curriculum: [
+        "Consulta sobre objetivo laboral y campo deseado",
+        "Plan de técnicas prácticas con masaje aroma meridiano, sueco, deportivo, pies y materias relacionadas",
+        "Entrenamiento en atención al cliente, comunicación y modales profesionales",
+        "Orientación de carrera y consulta sobre programas posteriores"
+      ],
+      certificationNote:
+        "La duración puede orientarse como formación corta, intensiva de un mes o regular de dos meses según consulta y materias seleccionadas.",
+      detailSections: [
+        {
+          title: "Materias Principales",
+          items: [
+            "Masaje aroma meridiano, masaje para maternidad, preparación de certificación nacional",
+            "Masaje sueco, cuidado meridiano de contorno facial, depilación brasileña",
+            "Masaje deportivo, técnica de salón de cuidado facial, coordinador hospitalario",
+            "Masaje de pies, cuidado médico de la piel, cuidado corporal quiropráctico"
+          ]
+        },
+        {
+          title: "Combinaciones Recomendadas",
+          items: [
+            "Sueco + waxing + aroma meridiano + deportivo",
+            "Aroma meridiano + aromaterapia + cuidado de la piel",
+            "Deportivo + meridiano + pies + sueco",
+            "Maternidad + aroma meridiano + contorno facial"
+          ]
+        },
+        {
+          title: "Ruta Profesional",
+          items: [
+            "Empleo en sueco premium, spa de hotel y centros de masaje deportivo",
+            "Centros de masaje, boutiques de belleza, hospitales, clínicas de maternidad y centros posparto",
+            "Consulta para trabajo freelance u operación de salón individual"
+          ]
+        }
+      ]
+    }
+  }
+};
+
 function getSlug(title: string) {
   return title
     .replace(/[^\w가-힣]+/g, "-")
@@ -1349,6 +1489,7 @@ export type Course = {
   audience: string;
   curriculum: string[];
   certificationNote: string;
+  detailSections?: CourseDetailSection[];
   source: string;
 };
 
@@ -1362,18 +1503,21 @@ export function getCourses(locale: string): Course[] {
   return courseTitleTranslations.map((titles, index) => {
     const categoryKey = titles.categoryKey;
     const text = courseTextByLocale[activeLocale][categoryKey];
+    const override = courseOverridesByLocale[activeLocale][titles.ko] ?? {};
+    const courseText = { ...text, ...override };
 
     return {
       title: titles[activeLocale],
       slug: getSlug(titles.ko),
       categoryKey,
-      category: text.category,
-      summary: text.summary,
+      category: courseText.category,
+      summary: courseText.summary,
       imageUrl: courseImages[index % courseImages.length],
-      overview: text.overview,
-      audience: text.audience,
-      curriculum: text.curriculum,
-      certificationNote: text.certificationNote,
+      overview: courseText.overview,
+      audience: courseText.audience,
+      curriculum: courseText.curriculum,
+      certificationNote: courseText.certificationNote,
+      detailSections: courseText.detailSections,
       source: `https://www.smc365.ac/curriculum/${titles.sourcePath}`
     };
   });
