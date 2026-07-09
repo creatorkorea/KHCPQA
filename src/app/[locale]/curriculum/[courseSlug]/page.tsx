@@ -55,6 +55,16 @@ export default async function CourseDetailPage({
           <span className="eyebrow">{course.category}</span>
           <h1>{course.title}</h1>
           <p>{course.summary}</p>
+          {course.keyMetrics ? (
+            <dl className="course-hero-metrics">
+              {course.keyMetrics.map((metric) => (
+                <div key={metric.label}>
+                  <dt>{metric.label}</dt>
+                  <dd>{metric.value}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
           <div className="course-detail-actions">
             <Link className="primary-button" href={`/${locale}/partner-inquiry`}>
               {t.courseDetail.inquiryCta} <ArrowRight size={16} />
@@ -90,8 +100,11 @@ export default async function CourseDetailPage({
 
           {course.detailSections ? (
             <div className="course-detail-sections">
-              {course.detailSections.map((section) => (
-                <section key={section.title}>
+              {course.detailSections.map((section, index) => (
+                <section className={index < 3 ? "featured" : ""} key={section.title}>
+                  <span className="course-section-kicker">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                   <h2>{section.title}</h2>
                   <ul className="detail-list compact">
                     {section.items.map((item) => (

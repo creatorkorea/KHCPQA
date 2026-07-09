@@ -1248,6 +1248,7 @@ type CourseText = {
   curriculum: string[];
   certificationNote: string;
   durationHighlights?: string[];
+  keyMetrics?: Array<{ label: string; value: string }>;
   detailSections?: CourseDetailSection[];
 };
 
@@ -1357,6 +1358,11 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
       certificationNote:
         "교육 기간은 2주 단기, 1개월 속성, 2개월 정규 과정으로 안내되며 세부 운영은 상담과 선택 과목에 따라 달라질 수 있습니다.",
       durationHighlights: ["2주 단기 교육", "1개월 속성 교육", "2개월 정규 교육"],
+      keyMetrics: [
+        { label: "교육 형태", value: "취업 전문" },
+        { label: "기간", value: "2주~2개월" },
+        { label: "연계 분야", value: "12개 영역" }
+      ],
       detailSections: [
         {
           title: "주요 교육 종목",
@@ -1434,6 +1440,11 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
       certificationNote:
         "Program duration may be guided as short-term, one-month intensive, or two-month regular training depending on consultation and selected subjects.",
       durationHighlights: ["Short-term training", "1-month intensive", "2-month regular"],
+      keyMetrics: [
+        { label: "Track", value: "Employment" },
+        { label: "Duration", value: "2 weeks-2 months" },
+        { label: "Fields", value: "12 areas" }
+      ],
       detailSections: [
         {
           title: "Core Training Subjects",
@@ -1511,6 +1522,11 @@ const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<Cou
       certificationNote:
         "La duración puede orientarse como formación corta, intensiva de un mes o regular de dos meses según consulta y materias seleccionadas.",
       durationHighlights: ["Formación corta", "Intensivo de 1 mes", "Regular de 2 meses"],
+      keyMetrics: [
+        { label: "Ruta", value: "Empleo" },
+        { label: "Duración", value: "2 semanas-2 meses" },
+        { label: "Campos", value: "12 áreas" }
+      ],
       detailSections: [
         {
           title: "Materias Principales",
@@ -1595,6 +1611,7 @@ export type Course = {
   certificationNote: string;
   detailSections?: CourseDetailSection[];
   durationHighlights?: string[];
+  keyMetrics?: Array<{ label: string; value: string }>;
   source: string;
 };
 
@@ -1624,6 +1641,7 @@ export function getCourses(locale: string): Course[] {
       certificationNote: courseText.certificationNote,
       detailSections: courseText.detailSections,
       durationHighlights: courseText.durationHighlights,
+      keyMetrics: courseText.keyMetrics,
       source: `https://www.smc365.ac/curriculum/${titles.sourcePath}`
     };
   });
