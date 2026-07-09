@@ -1,17 +1,31 @@
 import { MapPin, Phone } from "lucide-react";
 import { PageIntro } from "@/components/SiteShell";
-import { getCopy, locations, type Locale } from "@/lib/content";
+import { getCopy, getLocations, type Locale } from "@/lib/content";
+import { buildLocaleMetadata } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = getCopy(locale);
+
+  return buildLocaleMetadata({
+    locale,
+    path: "contact",
+    title: `${t.nav.contact} | KHCPQA`,
+    description: t.contact.lead
+  });
+}
 
 export default async function ContactPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
+  const locations = getLocations(locale);
 
   return (
     <>
       <PageIntro
-        eyebrow="Contact"
+        eyebrow={t.contact.eyebrow}
         title={t.nav.contact}
-        lead="기존 SMC365 하단의 본사, 본점, 지점, 캠퍼스 연락처를 신규 Contact 페이지와 푸터에 반영합니다."
+        lead={t.contact.lead}
       />
       <section className="content-section">
         <div className="location-grid">

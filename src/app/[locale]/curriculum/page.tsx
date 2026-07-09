@@ -1,17 +1,31 @@
 import { PageIntro } from "@/components/SiteShell";
-import { courses, getCopy, type Locale } from "@/lib/content";
+import { getCopy, getCourses, type Locale } from "@/lib/content";
 import { CurriculumCatalog } from "@/components/CurriculumCatalog";
+import { buildLocaleMetadata } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = getCopy(locale);
+
+  return buildLocaleMetadata({
+    locale,
+    path: "curriculum",
+    title: `${t.curriculumTitle} | KHCPQA`,
+    description: t.curriculumPage.lead
+  });
+}
 
 export default async function CurriculumPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
+  const courses = getCourses(locale);
 
   return (
     <>
       <PageIntro
-        eyebrow="Curriculum"
+        eyebrow={t.curriculumPage.eyebrow}
         title={t.curriculumTitle}
-        lead="기존 SMC365 과정 콘텐츠를 글로벌 교육기관형 과정 카드와 상세 템플릿으로 재구성합니다."
+        lead={t.curriculumPage.lead}
       />
       <section className="content-section">
         <CurriculumCatalog courses={courses} locale={locale} />

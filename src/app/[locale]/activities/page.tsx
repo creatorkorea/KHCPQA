@@ -1,17 +1,31 @@
 import Image from "next/image";
 import { PageIntro } from "@/components/SiteShell";
-import { activityGroups, getCopy, type Locale } from "@/lib/content";
+import { getActivityGroups, getCopy, type Locale } from "@/lib/content";
+import { buildLocaleMetadata } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = getCopy(locale);
+
+  return buildLocaleMetadata({
+    locale,
+    path: "activities",
+    title: `${t.activitiesTitle} | KHCPQA`,
+    description: t.activitiesPage.lead
+  });
+}
 
 export default async function ActivitiesPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
+  const activityGroups = getActivityGroups(locale);
 
   return (
     <>
       <PageIntro
-        eyebrow="Global Activities"
+        eyebrow={t.activitiesPage.eyebrow}
         title={t.activitiesTitle}
-        lead="공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 방송/언론, 봉사활동을 글로벌 신뢰 콘텐츠로 재배치합니다."
+        lead={t.activitiesPage.lead}
       />
       <section className="content-section">
         <div className="activity-grid large">
@@ -21,7 +35,7 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
               <article className="activity-card" key={activity.key}>
                 <Image
                   src={activity.imageUrl}
-                  alt=""
+                  alt={activity.title}
                   width={640}
                   height={400}
                   unoptimized

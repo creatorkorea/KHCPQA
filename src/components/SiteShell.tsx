@@ -1,15 +1,14 @@
 import Link from "next/link";
-import { Menu, UserRound } from "lucide-react";
-import { getCopy, navItems, type Locale } from "@/lib/content";
+import { UserRound } from "lucide-react";
+import {
+  getCopy,
+  getTranslationStatusLabel,
+  navItems,
+  type Locale,
+  type TranslationStatus
+} from "@/lib/content";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-
-const headerNavLabels = {
-  about: "About KHCPQA",
-  curriculum: "Curriculum",
-  activities: "Global Activities",
-  partner: "Partner Inquiry",
-  contact: "Contact"
-} as const;
+import { MobileNav } from "@/components/MobileNav";
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const t = getCopy(locale);
@@ -23,7 +22,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       <nav className="desktop-nav" aria-label="Primary navigation">
         {navItems.map((item) => (
           <Link key={item.key} href={`/${locale}/${item.href}`}>
-            {headerNavLabels[item.key]}
+            {t.nav[item.key]}
           </Link>
         ))}
       </nav>
@@ -31,12 +30,10 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       <div className="header-actions">
         <LanguageSwitcher locale={locale} />
         <Link className="icon-link" href={`/${locale}/login`} aria-label={t.nav.login}>
-          <span>Login</span>
+          <span>{t.nav.login}</span>
           <UserRound size={13} />
         </Link>
-        <button className="mobile-menu" aria-label="Open menu" type="button">
-          <Menu size={22} />
-        </button>
+        <MobileNav locale={locale} />
       </div>
     </header>
   );
@@ -82,4 +79,23 @@ export function PageIntro({
 
 export function StatusBadge({ children }: { children: React.ReactNode }) {
   return <span className="status-badge">{children}</span>;
+}
+
+export function TranslationNotice({
+  locale,
+  status
+}: {
+  locale: Locale;
+  status: TranslationStatus;
+}) {
+  if (status === "ready") {
+    return null;
+  }
+
+  return (
+    <div className="translation-notice" role="status">
+      <StatusBadge>{getTranslationStatusLabel(locale, status)}</StatusBadge>
+      <span>{getCopy(locale).pageReady}</span>
+    </div>
+  );
 }

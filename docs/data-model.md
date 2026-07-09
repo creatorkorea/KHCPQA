@@ -19,7 +19,7 @@
 | title | 제목 |
 | body | 본문 |
 | status | draft/published/archived |
-| translation_status | draft/translated/reviewed/published |
+| translation_status | ready/reviewing/draft |
 | seo_title | SEO 제목 |
 | seo_description | SEO 설명 |
 | source_url | 기존 사이트 원본 URL |
@@ -37,6 +37,7 @@
 | summary | 요약 |
 | body | 상세 본문 |
 | image_url | 대표 이미지 |
+| translation_status | ready/reviewing/draft |
 | status | 게시 상태 |
 | source_url | 기존 사이트 원본 URL |
 
@@ -51,6 +52,7 @@
 | body | 본문 |
 | thumbnail_url | 썸네일 |
 | published_at | 게시일 |
+| translation_status | ready/reviewing/draft |
 | status | 게시 상태 |
 | source_url | 기존 사이트 원본 URL |
 

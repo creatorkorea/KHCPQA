@@ -1,14 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { locales, type Locale } from "@/lib/content";
-
-const languageLabels: Record<Locale, string> = {
-  ko: "KO",
-  en: "EN",
-  es: "ES"
-};
+import type { ChangeEvent } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { localeLabels, locales, type Locale } from "@/lib/content";
 
 function getLocalizedHref(pathname: string, targetLocale: Locale) {
   const segments = pathname.split("/");
@@ -23,18 +17,22 @@ function getLocalizedHref(pathname: string, targetLocale: Locale) {
 
 export function LanguageSwitcher({ locale }: { locale: Locale }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  function handleLocaleChange(event: ChangeEvent<HTMLSelectElement>) {
+    router.push(getLocalizedHref(pathname, event.target.value as Locale));
+  }
 
   return (
-    <div className="language-switcher" aria-label="Language switcher">
-      {locales.map((item) => (
-        <Link
-          key={item}
-          className={item === locale ? "active" : ""}
-          href={getLocalizedHref(pathname, item)}
-        >
-          {languageLabels[item]}
-        </Link>
-      ))}
-    </div>
+    <label className="language-switcher">
+      <span className="sr-only">Language switcher</span>
+      <select aria-label="Language switcher" value={locale} onChange={handleLocaleChange}>
+        {locales.map((item) => (
+          <option key={item} value={item}>
+            {localeLabels[item]}
+          </option>
+        ))}
+      </select>
+    </label>
   );
 }

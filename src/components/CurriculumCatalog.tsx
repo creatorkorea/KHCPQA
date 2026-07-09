@@ -4,11 +4,9 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Search } from "lucide-react";
-import type { courses, Locale } from "@/lib/content";
+import { getCopy, type Course, type CourseCategory, type Locale } from "@/lib/content";
 
-type Course = (typeof courses)[number];
-
-const categories = ["All", "Certification", "Professional Track", "Practical Program"] as const;
+const categories: CourseCategory[] = ["all", "certification", "professional", "practical"];
 
 export function CurriculumCatalog({
   courses,
@@ -17,11 +15,12 @@ export function CurriculumCatalog({
   courses: Course[];
   locale: Locale;
 }) {
+  const t = getCopy(locale).curriculumCatalog;
   const [query, setQuery] = React.useState("");
-  const [category, setCategory] = React.useState<(typeof categories)[number]>("All");
+  const [category, setCategory] = React.useState<CourseCategory>("all");
 
   const filteredCourses = courses.filter((course) => {
-    const matchesCategory = category === "All" || course.category === category;
+    const matchesCategory = category === "all" || course.categoryKey === category;
     const normalizedQuery = query.trim().toLowerCase();
     const matchesQuery =
       normalizedQuery.length === 0 ||
@@ -33,16 +32,16 @@ export function CurriculumCatalog({
   return (
     <>
       <div className="toolbar curriculum-toolbar">
-        <label className="search-box" aria-label="Search curriculum">
+        <label className="search-box" aria-label={t.searchLabel}>
           <Search size={18} />
           <input
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search courses"
+            placeholder={t.searchPlaceholder}
           />
         </label>
-        <div className="filter-pills" aria-label="Course categories">
+        <div className="filter-pills" aria-label={t.categoryLabel}>
           {categories.map((item) => (
             <button
               key={item}
@@ -50,7 +49,7 @@ export function CurriculumCatalog({
               className={item === category ? "active" : ""}
               onClick={() => setCategory(item)}
             >
-              {item}
+              {t.categories[item]}
             </button>
           ))}
         </div>
@@ -59,12 +58,12 @@ export function CurriculumCatalog({
       <div className="course-grid">
         {filteredCourses.map((course) => (
           <article className="course-card" key={course.title}>
-            <Image src={course.imageUrl} alt="" width={640} height={320} />
+            <Image src={course.imageUrl} alt={course.title} width={640} height={320} />
             <span>{course.category}</span>
             <h3>{course.title}</h3>
             <p>{course.summary}</p>
             <Link className="card-link" href={`/${locale}/curriculum/${course.slug}`}>
-              View Details <ArrowRight size={14} />
+              {t.viewDetails} <ArrowRight size={14} />
             </Link>
             <small>{course.source}</small>
           </article>
@@ -72,7 +71,7 @@ export function CurriculumCatalog({
       </div>
 
       {filteredCourses.length === 0 ? (
-        <p className="empty-state">조건에 맞는 과정이 없습니다. 검색어 또는 카테고리를 조정해 주세요.</p>
+        <p className="empty-state">{t.emptyState}</p>
       ) : null}
     </>
   );

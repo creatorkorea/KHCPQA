@@ -2,14 +2,36 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, BadgeCheck, BookOpen, Users } from "lucide-react";
-import { courses, getCourseBySlug, type Locale } from "@/lib/content";
+import { getCopy, getCourseBySlug, getCourseSlugs, type Locale } from "@/lib/content";
+import { buildLocaleMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
-  return courses.flatMap((course) => [
-    { locale: "ko", courseSlug: course.slug },
-    { locale: "en", courseSlug: course.slug },
-    { locale: "es", courseSlug: course.slug }
+  return getCourseSlugs().flatMap((courseSlug) => [
+    { locale: "ko", courseSlug },
+    { locale: "en", courseSlug },
+    { locale: "es", courseSlug }
   ]);
+}
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: Locale; courseSlug: string }>;
+}) {
+  const { locale, courseSlug } = await params;
+  const decodedSlug = decodeURIComponent(courseSlug);
+  const course = getCourseBySlug(decodedSlug, locale);
+
+  if (!course) {
+    return {};
+  }
+
+  return buildLocaleMetadata({
+    locale,
+    path: `curriculum/${decodedSlug}`,
+    title: `${course.title} | KHCPQA`,
+    description: course.summary
+  });
 }
 
 export default async function CourseDetailPage({
@@ -18,7 +40,8 @@ export default async function CourseDetailPage({
   params: Promise<{ locale: Locale; courseSlug: string }>;
 }) {
   const { locale, courseSlug } = await params;
-  const course = getCourseBySlug(decodeURIComponent(courseSlug));
+  const t = getCopy(locale);
+  const course = getCourseBySlug(decodeURIComponent(courseSlug), locale);
 
   if (!course) {
     notFound();
@@ -33,27 +56,27 @@ export default async function CourseDetailPage({
           <p>{course.summary}</p>
           <div className="course-detail-actions">
             <Link className="primary-button" href={`/${locale}/partner-inquiry`}>
-              문의하기 <ArrowRight size={16} />
+              {t.courseDetail.inquiryCta} <ArrowRight size={16} />
             </Link>
             <Link className="secondary-button" href={`/${locale}/curriculum`}>
-              전체 과정 보기
+              {t.courseDetail.allCoursesCta}
             </Link>
           </div>
         </div>
-        <Image src={course.imageUrl} alt="" width={960} height={540} priority />
+        <Image src={course.imageUrl} alt={course.title} width={960} height={540} priority />
       </section>
 
       <section className="course-detail-body">
         <div className="course-detail-main">
           <div>
-            <span className="eyebrow">Overview</span>
-            <h2>과정 개요</h2>
+            <span className="eyebrow">{t.courseDetail.overviewEyebrow}</span>
+            <h2>{t.courseDetail.overviewTitle}</h2>
             <p>{course.overview}</p>
           </div>
 
           <div>
-            <span className="eyebrow">Curriculum</span>
-            <h2>주요 교육 내용</h2>
+            <span className="eyebrow">{t.courseDetail.curriculumEyebrow}</span>
+            <h2>{t.courseDetail.curriculumTitle}</h2>
             <ul className="detail-list">
               {course.curriculum.map((item) => (
                 <li key={item}>
@@ -68,16 +91,16 @@ export default async function CourseDetailPage({
         <aside className="course-detail-aside">
           <div>
             <Users size={22} />
-            <h3>교육 대상</h3>
+            <h3>{t.courseDetail.audienceTitle}</h3>
             <p>{course.audience}</p>
           </div>
           <div>
             <BadgeCheck size={22} />
-            <h3>수료/자격 안내</h3>
+            <h3>{t.courseDetail.certificationTitle}</h3>
             <p>{course.certificationNote}</p>
           </div>
           <div>
-            <h3>Source URL</h3>
+            <h3>{t.courseDetail.sourceTitle}</h3>
             <p>{course.source}</p>
           </div>
         </aside>
