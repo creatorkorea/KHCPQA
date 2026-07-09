@@ -85,6 +85,12 @@ type GreetingCopy = {
   contact?: string;
 };
 
+type InstructorCopy = {
+  name: string;
+  role: string;
+  imageUrl: string;
+};
+
 type AboutSubnavItem = {
   key: string;
   title: string;
@@ -146,6 +152,12 @@ type Copy = {
     title: string;
     lead: string;
     greetings: GreetingCopy[];
+  };
+  instructorsPage: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    instructors: InstructorCopy[];
   };
   curriculumPage: {
     eyebrow: string;
@@ -336,7 +348,7 @@ export const copy = {
     aboutSubnav: [
       { key: "intro", title: "소개", href: "about" },
       { key: "greeting", title: "인사말", href: "about/greeting" },
-      { key: "instructors", title: "수석강사 프로필", disabled: true },
+      { key: "instructors", title: "수석강사 프로필", href: "about/instructors" },
       { key: "history", title: "연혁", disabled: true },
       { key: "organization", title: "조직도", disabled: true },
       { key: "location", title: "찾아오시는 길", href: "contact" }
@@ -392,6 +404,28 @@ export const copy = {
             "취업을 원하는 수강생에게는 일대일 개인상담을 통해 적성, 희망 근무처, 근무시간, 보수, 지역 등을 파악하고 적합한 취업처를 최대한 빠르게 연결합니다. 마사지 전문관리사 취업과 창업을 준비하는 분들을 성심껏 상담하겠습니다."
           ]
         }
+      ]
+    },
+    instructorsPage: {
+      eyebrow: "수석강사 프로필",
+      title: "수석강사 프로필",
+      lead: "건강미용 실무교육과 자격증 교육을 이끄는 수석강사 프로필입니다.",
+      instructors: [
+        { name: "이정화", role: "수석강사", imageUrl: "/assets/instructor-lee-junghwa.jpg" },
+        { name: "이유지", role: "수석강사", imageUrl: "/assets/instructor-lee-yuji.jpg" },
+        { name: "윤인은", role: "수석강사", imageUrl: "/assets/instructor-yoon-euneun.jpg" },
+        { name: "남태현", role: "수석강사", imageUrl: "/assets/instructor-nam-taehyun.jpg" },
+        { name: "차영일", role: "수석강사", imageUrl: "/assets/instructor-cha-youngil.jpg" },
+        { name: "이다연", role: "수석강사", imageUrl: "/assets/instructor-lee-dayeon.jpg" },
+        { name: "심은아", role: "수석강사", imageUrl: "/assets/instructor-shim-euna.jpg" },
+        { name: "조은진", role: "수석강사", imageUrl: "/assets/instructor-jo-eunjin.jpg" },
+        { name: "주미현", role: "수석강사", imageUrl: "/assets/instructor-ju-mihyun.jpg" },
+        { name: "김문선", role: "수석강사", imageUrl: "/assets/instructor-kim-moonsun.jpg" },
+        { name: "이선화", role: "수석강사", imageUrl: "/assets/instructor-lee-seonhwa.jpg" },
+        { name: "이용호", role: "수석강사", imageUrl: "/assets/instructor-lee-yongho.jpg" },
+        { name: "김해림", role: "수석강사", imageUrl: "/assets/instructor-kim-haerim.jpg" },
+        { name: "박재영", role: "수석강사", imageUrl: "/assets/instructor-park-jaeyoung.jpg" },
+        { name: "송진화", role: "수석강사", imageUrl: "/assets/instructor-song-jinhwa.jpg" }
       ]
     },
     curriculumPage: {
@@ -588,7 +622,7 @@ export const copy = {
     aboutSubnav: [
       { key: "intro", title: "Introduction", href: "about" },
       { key: "greeting", title: "Greetings", href: "about/greeting" },
-      { key: "instructors", title: "Senior Instructor Profiles", disabled: true },
+      { key: "instructors", title: "Senior Instructor Profiles", href: "about/instructors" },
       { key: "history", title: "History", disabled: true },
       { key: "organization", title: "Organization", disabled: true },
       { key: "location", title: "Location", href: "contact" }
@@ -644,6 +678,28 @@ export const copy = {
             "Through one-on-one counseling, the institute identifies each learner's aptitude, desired workplace, schedule, compensation, and region, then connects them to suitable employment as quickly as possible."
           ]
         }
+      ]
+    },
+    instructorsPage: {
+      eyebrow: "Senior Instructors",
+      title: "Senior Instructor Profiles",
+      lead: "Senior instructors leading practical health and beauty training and certification education.",
+      instructors: [
+        { name: "Lee Jung-hwa", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-junghwa.jpg" },
+        { name: "Lee Yu-ji", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-yuji.jpg" },
+        { name: "Yoon Eun-eun", role: "Senior Instructor", imageUrl: "/assets/instructor-yoon-euneun.jpg" },
+        { name: "Nam Tae-hyun", role: "Senior Instructor", imageUrl: "/assets/instructor-nam-taehyun.jpg" },
+        { name: "Cha Young-il", role: "Senior Instructor", imageUrl: "/assets/instructor-cha-youngil.jpg" },
+        { name: "Lee Da-yeon", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-dayeon.jpg" },
+        { name: "Shim Eun-a", role: "Senior Instructor", imageUrl: "/assets/instructor-shim-euna.jpg" },
+        { name: "Jo Eun-jin", role: "Senior Instructor", imageUrl: "/assets/instructor-jo-eunjin.jpg" },
+        { name: "Ju Mi-hyun", role: "Senior Instructor", imageUrl: "/assets/instructor-ju-mihyun.jpg" },
+        { name: "Kim Moon-sun", role: "Senior Instructor", imageUrl: "/assets/instructor-kim-moonsun.jpg" },
+        { name: "Lee Seon-hwa", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-seonhwa.jpg" },
+        { name: "Lee Yong-ho", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-yongho.jpg" },
+        { name: "Kim Hae-rim", role: "Senior Instructor", imageUrl: "/assets/instructor-kim-haerim.jpg" },
+        { name: "Park Jae-young", role: "Senior Instructor", imageUrl: "/assets/instructor-park-jaeyoung.jpg" },
+        { name: "Song Jin-hwa", role: "Senior Instructor", imageUrl: "/assets/instructor-song-jinhwa.jpg" }
       ]
     },
     curriculumPage: {
@@ -840,7 +896,7 @@ export const copy = {
     aboutSubnav: [
       { key: "intro", title: "Introducción", href: "about" },
       { key: "greeting", title: "Saludos", href: "about/greeting" },
-      { key: "instructors", title: "Instructores principales", disabled: true },
+      { key: "instructors", title: "Instructores principales", href: "about/instructors" },
       { key: "history", title: "Historia", disabled: true },
       { key: "organization", title: "Organización", disabled: true },
       { key: "location", title: "Ubicación", href: "contact" }
@@ -896,6 +952,28 @@ export const copy = {
             "Mediante asesoría individual, identifica la aptitud, lugar de trabajo deseado, horario, remuneración y zona de cada estudiante para conectarlo con oportunidades adecuadas lo antes posible."
           ]
         }
+      ]
+    },
+    instructorsPage: {
+      eyebrow: "Instructores principales",
+      title: "Perfiles de instructores principales",
+      lead: "Instructores principales que dirigen la formación práctica en salud, belleza y certificación.",
+      instructors: [
+        { name: "Lee Jung-hwa", role: "Instructora principal", imageUrl: "/assets/instructor-lee-junghwa.jpg" },
+        { name: "Lee Yu-ji", role: "Instructora principal", imageUrl: "/assets/instructor-lee-yuji.jpg" },
+        { name: "Yoon Eun-eun", role: "Instructora principal", imageUrl: "/assets/instructor-yoon-euneun.jpg" },
+        { name: "Nam Tae-hyun", role: "Instructor principal", imageUrl: "/assets/instructor-nam-taehyun.jpg" },
+        { name: "Cha Young-il", role: "Instructor principal", imageUrl: "/assets/instructor-cha-youngil.jpg" },
+        { name: "Lee Da-yeon", role: "Instructora principal", imageUrl: "/assets/instructor-lee-dayeon.jpg" },
+        { name: "Shim Eun-a", role: "Instructora principal", imageUrl: "/assets/instructor-shim-euna.jpg" },
+        { name: "Jo Eun-jin", role: "Instructora principal", imageUrl: "/assets/instructor-jo-eunjin.jpg" },
+        { name: "Ju Mi-hyun", role: "Instructora principal", imageUrl: "/assets/instructor-ju-mihyun.jpg" },
+        { name: "Kim Moon-sun", role: "Instructora principal", imageUrl: "/assets/instructor-kim-moonsun.jpg" },
+        { name: "Lee Seon-hwa", role: "Instructora principal", imageUrl: "/assets/instructor-lee-seonhwa.jpg" },
+        { name: "Lee Yong-ho", role: "Instructor principal", imageUrl: "/assets/instructor-lee-yongho.jpg" },
+        { name: "Kim Hae-rim", role: "Instructora principal", imageUrl: "/assets/instructor-kim-haerim.jpg" },
+        { name: "Park Jae-young", role: "Instructor principal", imageUrl: "/assets/instructor-park-jaeyoung.jpg" },
+        { name: "Song Jin-hwa", role: "Instructora principal", imageUrl: "/assets/instructor-song-jinhwa.jpg" }
       ]
     },
     curriculumPage: {

@@ -3,7 +3,17 @@ import { getCourseSlugs, locales } from "@/lib/content";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://khcpqa.vercel.app";
 
-const publicPaths = ["", "about", "about/greeting", "activities", "contact", "curriculum", "login", "partner-inquiry"];
+const publicPaths = [
+  "",
+  "about",
+  "about/greeting",
+  "about/instructors",
+  "activities",
+  "contact",
+  "curriculum",
+  "login",
+  "partner-inquiry"
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = locales.flatMap((locale) =>

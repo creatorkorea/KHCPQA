@@ -888,6 +888,48 @@ p {
   padding-top: 18px;
 }
 
+.instructor-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.instructor-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.instructor-photo {
+  aspect-ratio: 55 / 76;
+  background: var(--soft);
+  overflow: hidden;
+}
+
+.instructor-photo img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.instructor-card > div:last-child {
+  padding: 18px;
+}
+
+.instructor-card h2 {
+  font-size: 20px;
+  letter-spacing: 0;
+  margin: 0 0 6px;
+}
+
+.instructor-card p {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 900;
+  margin: 0;
+}
+
 .course-grid {
   display: grid;
   gap: 18px;
@@ -1552,6 +1594,7 @@ p {
   .course-grid,
   .activity-grid,
   .activity-grid.large,
+  .instructor-grid,
   .account-grid,
   .admin-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1659,6 +1702,7 @@ p {
   .course-grid,
   .activity-grid,
   .activity-grid.large,
+  .instructor-grid,
   .account-grid,
   .admin-grid,
   .location-grid,
