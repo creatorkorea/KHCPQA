@@ -58,7 +58,7 @@ export default async function InstructorsPage({ params }: { params: Promise<{ lo
                     alt={`${instructor.name} ${instructor.role}`}
                     width={915}
                     height={1320}
-                    sizes="(max-width: 720px) 92vw, 720px"
+                    sizes="(max-width: 720px) 94vw, 920px"
                   />
                 </div>
               </div>

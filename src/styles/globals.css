@@ -945,7 +945,7 @@ p {
   display: none;
   inset: 0;
   justify-content: center;
-  padding: 24px;
+  padding: 16px;
   position: fixed;
   z-index: 80;
 }
@@ -964,10 +964,10 @@ p {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
-  max-height: calc(100vh - 48px);
-  max-width: min(760px, calc(100vw - 48px));
+  max-height: calc(100dvh - 32px);
+  max-width: min(980px, calc(100vw - 32px));
   overflow: auto;
-  padding: 18px;
+  padding: 14px;
   position: relative;
   z-index: 1;
 }
@@ -989,6 +989,18 @@ p {
   margin-bottom: 12px;
   min-height: 36px;
   padding: 0 14px;
+}
+
+@media (max-width: 720px) {
+  .instructor-modal {
+    padding: 10px;
+  }
+
+  .instructor-modal-panel {
+    max-height: calc(100dvh - 20px);
+    max-width: calc(100vw - 20px);
+    padding: 10px;
+  }
 }
 
 .course-grid {
