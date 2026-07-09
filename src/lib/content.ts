@@ -89,6 +89,7 @@ type InstructorCopy = {
   name: string;
   role: string;
   imageUrl: string;
+  profileImageUrl: string;
 };
 
 type AboutSubnavItem = {
@@ -411,21 +412,21 @@ export const copy = {
       title: "수석강사 프로필",
       lead: "건강미용 실무교육과 자격증 교육을 이끄는 수석강사 프로필입니다.",
       instructors: [
-        { name: "이정화", role: "수석강사", imageUrl: "/assets/instructor-lee-junghwa.jpg" },
-        { name: "이유지", role: "수석강사", imageUrl: "/assets/instructor-lee-yuji.jpg" },
-        { name: "윤인은", role: "수석강사", imageUrl: "/assets/instructor-yoon-euneun.jpg" },
-        { name: "남태현", role: "수석강사", imageUrl: "/assets/instructor-nam-taehyun.jpg" },
-        { name: "차영일", role: "수석강사", imageUrl: "/assets/instructor-cha-youngil.jpg" },
-        { name: "이다연", role: "수석강사", imageUrl: "/assets/instructor-lee-dayeon.jpg" },
-        { name: "심은아", role: "수석강사", imageUrl: "/assets/instructor-shim-euna.jpg" },
-        { name: "조은진", role: "수석강사", imageUrl: "/assets/instructor-jo-eunjin.jpg" },
-        { name: "주미현", role: "수석강사", imageUrl: "/assets/instructor-ju-mihyun.jpg" },
-        { name: "김문선", role: "수석강사", imageUrl: "/assets/instructor-kim-moonsun.jpg" },
-        { name: "이선화", role: "수석강사", imageUrl: "/assets/instructor-lee-seonhwa.jpg" },
-        { name: "이용호", role: "수석강사", imageUrl: "/assets/instructor-lee-yongho.jpg" },
-        { name: "김해림", role: "수석강사", imageUrl: "/assets/instructor-kim-haerim.jpg" },
-        { name: "박재영", role: "수석강사", imageUrl: "/assets/instructor-park-jaeyoung.jpg" },
-        { name: "송진화", role: "수석강사", imageUrl: "/assets/instructor-song-jinhwa.jpg" }
+        { name: "이정화", role: "수석강사", imageUrl: "/assets/instructor-lee-junghwa.jpg", profileImageUrl: "/assets/instructor-profile-lee-junghwa.jpg" },
+        { name: "이유지", role: "수석강사", imageUrl: "/assets/instructor-lee-yuji.jpg", profileImageUrl: "/assets/instructor-profile-lee-yuji.jpg" },
+        { name: "윤인은", role: "수석강사", imageUrl: "/assets/instructor-yoon-euneun.jpg", profileImageUrl: "/assets/instructor-profile-yoon-euneun.jpg" },
+        { name: "남태현", role: "수석강사", imageUrl: "/assets/instructor-nam-taehyun.jpg", profileImageUrl: "/assets/instructor-profile-nam-taehyun.jpg" },
+        { name: "차영일", role: "수석강사", imageUrl: "/assets/instructor-cha-youngil.jpg", profileImageUrl: "/assets/instructor-profile-cha-youngil.jpg" },
+        { name: "이다연", role: "수석강사", imageUrl: "/assets/instructor-lee-dayeon.jpg", profileImageUrl: "/assets/instructor-profile-lee-dayeon.jpg" },
+        { name: "심은아", role: "수석강사", imageUrl: "/assets/instructor-shim-euna.jpg", profileImageUrl: "/assets/instructor-profile-shim-euna.jpg" },
+        { name: "조은진", role: "수석강사", imageUrl: "/assets/instructor-jo-eunjin.jpg", profileImageUrl: "/assets/instructor-profile-jo-eunjin.jpg" },
+        { name: "주미현", role: "수석강사", imageUrl: "/assets/instructor-ju-mihyun.jpg", profileImageUrl: "/assets/instructor-profile-ju-mihyun.jpg" },
+        { name: "김문선", role: "수석강사", imageUrl: "/assets/instructor-kim-moonsun.jpg", profileImageUrl: "/assets/instructor-profile-kim-moonsun.jpg" },
+        { name: "이선화", role: "수석강사", imageUrl: "/assets/instructor-lee-seonhwa.jpg", profileImageUrl: "/assets/instructor-profile-lee-seonhwa.jpg" },
+        { name: "이용호", role: "수석강사", imageUrl: "/assets/instructor-lee-yongho.jpg", profileImageUrl: "/assets/instructor-profile-lee-yongho.jpg" },
+        { name: "김해림", role: "수석강사", imageUrl: "/assets/instructor-kim-haerim.jpg", profileImageUrl: "/assets/instructor-profile-kim-haerim.jpg" },
+        { name: "박재영", role: "수석강사", imageUrl: "/assets/instructor-park-jaeyoung.jpg", profileImageUrl: "/assets/instructor-profile-park-jaeyoung.jpg" },
+        { name: "송진화", role: "수석강사", imageUrl: "/assets/instructor-song-jinhwa.jpg", profileImageUrl: "/assets/instructor-profile-song-jinhwa.jpg" }
       ]
     },
     curriculumPage: {
@@ -685,21 +686,21 @@ export const copy = {
       title: "Senior Instructor Profiles",
       lead: "Senior instructors leading practical health and beauty training and certification education.",
       instructors: [
-        { name: "Lee Jung-hwa", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-junghwa.jpg" },
-        { name: "Lee Yu-ji", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-yuji.jpg" },
-        { name: "Yoon Eun-eun", role: "Senior Instructor", imageUrl: "/assets/instructor-yoon-euneun.jpg" },
-        { name: "Nam Tae-hyun", role: "Senior Instructor", imageUrl: "/assets/instructor-nam-taehyun.jpg" },
-        { name: "Cha Young-il", role: "Senior Instructor", imageUrl: "/assets/instructor-cha-youngil.jpg" },
-        { name: "Lee Da-yeon", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-dayeon.jpg" },
-        { name: "Shim Eun-a", role: "Senior Instructor", imageUrl: "/assets/instructor-shim-euna.jpg" },
-        { name: "Jo Eun-jin", role: "Senior Instructor", imageUrl: "/assets/instructor-jo-eunjin.jpg" },
-        { name: "Ju Mi-hyun", role: "Senior Instructor", imageUrl: "/assets/instructor-ju-mihyun.jpg" },
-        { name: "Kim Moon-sun", role: "Senior Instructor", imageUrl: "/assets/instructor-kim-moonsun.jpg" },
-        { name: "Lee Seon-hwa", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-seonhwa.jpg" },
-        { name: "Lee Yong-ho", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-yongho.jpg" },
-        { name: "Kim Hae-rim", role: "Senior Instructor", imageUrl: "/assets/instructor-kim-haerim.jpg" },
-        { name: "Park Jae-young", role: "Senior Instructor", imageUrl: "/assets/instructor-park-jaeyoung.jpg" },
-        { name: "Song Jin-hwa", role: "Senior Instructor", imageUrl: "/assets/instructor-song-jinhwa.jpg" }
+        { name: "Lee Jung-hwa", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-junghwa.jpg", profileImageUrl: "/assets/instructor-profile-lee-junghwa.jpg" },
+        { name: "Lee Yu-ji", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-yuji.jpg", profileImageUrl: "/assets/instructor-profile-lee-yuji.jpg" },
+        { name: "Yoon Eun-eun", role: "Senior Instructor", imageUrl: "/assets/instructor-yoon-euneun.jpg", profileImageUrl: "/assets/instructor-profile-yoon-euneun.jpg" },
+        { name: "Nam Tae-hyun", role: "Senior Instructor", imageUrl: "/assets/instructor-nam-taehyun.jpg", profileImageUrl: "/assets/instructor-profile-nam-taehyun.jpg" },
+        { name: "Cha Young-il", role: "Senior Instructor", imageUrl: "/assets/instructor-cha-youngil.jpg", profileImageUrl: "/assets/instructor-profile-cha-youngil.jpg" },
+        { name: "Lee Da-yeon", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-dayeon.jpg", profileImageUrl: "/assets/instructor-profile-lee-dayeon.jpg" },
+        { name: "Shim Eun-a", role: "Senior Instructor", imageUrl: "/assets/instructor-shim-euna.jpg", profileImageUrl: "/assets/instructor-profile-shim-euna.jpg" },
+        { name: "Jo Eun-jin", role: "Senior Instructor", imageUrl: "/assets/instructor-jo-eunjin.jpg", profileImageUrl: "/assets/instructor-profile-jo-eunjin.jpg" },
+        { name: "Ju Mi-hyun", role: "Senior Instructor", imageUrl: "/assets/instructor-ju-mihyun.jpg", profileImageUrl: "/assets/instructor-profile-ju-mihyun.jpg" },
+        { name: "Kim Moon-sun", role: "Senior Instructor", imageUrl: "/assets/instructor-kim-moonsun.jpg", profileImageUrl: "/assets/instructor-profile-kim-moonsun.jpg" },
+        { name: "Lee Seon-hwa", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-seonhwa.jpg", profileImageUrl: "/assets/instructor-profile-lee-seonhwa.jpg" },
+        { name: "Lee Yong-ho", role: "Senior Instructor", imageUrl: "/assets/instructor-lee-yongho.jpg", profileImageUrl: "/assets/instructor-profile-lee-yongho.jpg" },
+        { name: "Kim Hae-rim", role: "Senior Instructor", imageUrl: "/assets/instructor-kim-haerim.jpg", profileImageUrl: "/assets/instructor-profile-kim-haerim.jpg" },
+        { name: "Park Jae-young", role: "Senior Instructor", imageUrl: "/assets/instructor-park-jaeyoung.jpg", profileImageUrl: "/assets/instructor-profile-park-jaeyoung.jpg" },
+        { name: "Song Jin-hwa", role: "Senior Instructor", imageUrl: "/assets/instructor-song-jinhwa.jpg", profileImageUrl: "/assets/instructor-profile-song-jinhwa.jpg" }
       ]
     },
     curriculumPage: {
@@ -959,21 +960,21 @@ export const copy = {
       title: "Perfiles de instructores principales",
       lead: "Instructores principales que dirigen la formación práctica en salud, belleza y certificación.",
       instructors: [
-        { name: "Lee Jung-hwa", role: "Instructora principal", imageUrl: "/assets/instructor-lee-junghwa.jpg" },
-        { name: "Lee Yu-ji", role: "Instructora principal", imageUrl: "/assets/instructor-lee-yuji.jpg" },
-        { name: "Yoon Eun-eun", role: "Instructora principal", imageUrl: "/assets/instructor-yoon-euneun.jpg" },
-        { name: "Nam Tae-hyun", role: "Instructor principal", imageUrl: "/assets/instructor-nam-taehyun.jpg" },
-        { name: "Cha Young-il", role: "Instructor principal", imageUrl: "/assets/instructor-cha-youngil.jpg" },
-        { name: "Lee Da-yeon", role: "Instructora principal", imageUrl: "/assets/instructor-lee-dayeon.jpg" },
-        { name: "Shim Eun-a", role: "Instructora principal", imageUrl: "/assets/instructor-shim-euna.jpg" },
-        { name: "Jo Eun-jin", role: "Instructora principal", imageUrl: "/assets/instructor-jo-eunjin.jpg" },
-        { name: "Ju Mi-hyun", role: "Instructora principal", imageUrl: "/assets/instructor-ju-mihyun.jpg" },
-        { name: "Kim Moon-sun", role: "Instructora principal", imageUrl: "/assets/instructor-kim-moonsun.jpg" },
-        { name: "Lee Seon-hwa", role: "Instructora principal", imageUrl: "/assets/instructor-lee-seonhwa.jpg" },
-        { name: "Lee Yong-ho", role: "Instructor principal", imageUrl: "/assets/instructor-lee-yongho.jpg" },
-        { name: "Kim Hae-rim", role: "Instructora principal", imageUrl: "/assets/instructor-kim-haerim.jpg" },
-        { name: "Park Jae-young", role: "Instructor principal", imageUrl: "/assets/instructor-park-jaeyoung.jpg" },
-        { name: "Song Jin-hwa", role: "Instructora principal", imageUrl: "/assets/instructor-song-jinhwa.jpg" }
+        { name: "Lee Jung-hwa", role: "Instructora principal", imageUrl: "/assets/instructor-lee-junghwa.jpg", profileImageUrl: "/assets/instructor-profile-lee-junghwa.jpg" },
+        { name: "Lee Yu-ji", role: "Instructora principal", imageUrl: "/assets/instructor-lee-yuji.jpg", profileImageUrl: "/assets/instructor-profile-lee-yuji.jpg" },
+        { name: "Yoon Eun-eun", role: "Instructora principal", imageUrl: "/assets/instructor-yoon-euneun.jpg", profileImageUrl: "/assets/instructor-profile-yoon-euneun.jpg" },
+        { name: "Nam Tae-hyun", role: "Instructor principal", imageUrl: "/assets/instructor-nam-taehyun.jpg", profileImageUrl: "/assets/instructor-profile-nam-taehyun.jpg" },
+        { name: "Cha Young-il", role: "Instructor principal", imageUrl: "/assets/instructor-cha-youngil.jpg", profileImageUrl: "/assets/instructor-profile-cha-youngil.jpg" },
+        { name: "Lee Da-yeon", role: "Instructora principal", imageUrl: "/assets/instructor-lee-dayeon.jpg", profileImageUrl: "/assets/instructor-profile-lee-dayeon.jpg" },
+        { name: "Shim Eun-a", role: "Instructora principal", imageUrl: "/assets/instructor-shim-euna.jpg", profileImageUrl: "/assets/instructor-profile-shim-euna.jpg" },
+        { name: "Jo Eun-jin", role: "Instructora principal", imageUrl: "/assets/instructor-jo-eunjin.jpg", profileImageUrl: "/assets/instructor-profile-jo-eunjin.jpg" },
+        { name: "Ju Mi-hyun", role: "Instructora principal", imageUrl: "/assets/instructor-ju-mihyun.jpg", profileImageUrl: "/assets/instructor-profile-ju-mihyun.jpg" },
+        { name: "Kim Moon-sun", role: "Instructora principal", imageUrl: "/assets/instructor-kim-moonsun.jpg", profileImageUrl: "/assets/instructor-profile-kim-moonsun.jpg" },
+        { name: "Lee Seon-hwa", role: "Instructora principal", imageUrl: "/assets/instructor-lee-seonhwa.jpg", profileImageUrl: "/assets/instructor-profile-lee-seonhwa.jpg" },
+        { name: "Lee Yong-ho", role: "Instructor principal", imageUrl: "/assets/instructor-lee-yongho.jpg", profileImageUrl: "/assets/instructor-profile-lee-yongho.jpg" },
+        { name: "Kim Hae-rim", role: "Instructora principal", imageUrl: "/assets/instructor-kim-haerim.jpg", profileImageUrl: "/assets/instructor-profile-kim-haerim.jpg" },
+        { name: "Park Jae-young", role: "Instructor principal", imageUrl: "/assets/instructor-park-jaeyoung.jpg", profileImageUrl: "/assets/instructor-profile-park-jaeyoung.jpg" },
+        { name: "Song Jin-hwa", role: "Instructora principal", imageUrl: "/assets/instructor-song-jinhwa.jpg", profileImageUrl: "/assets/instructor-profile-song-jinhwa.jpg" }
       ]
     },
     curriculumPage: {

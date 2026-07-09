@@ -901,6 +901,15 @@ p {
   overflow: hidden;
 }
 
+.instructor-card > a {
+  color: inherit;
+  display: block;
+}
+
+.instructor-card > a:hover .instructor-photo img {
+  transform: scale(1.035);
+}
+
 .instructor-photo {
   aspect-ratio: 55 / 76;
   background: var(--soft);
@@ -910,6 +919,7 @@ p {
 .instructor-photo img {
   height: 100%;
   object-fit: cover;
+  transition: transform 220ms ease;
   width: 100%;
 }
 
@@ -928,6 +938,57 @@ p {
   font-size: 13px;
   font-weight: 900;
   margin: 0;
+}
+
+.instructor-modal {
+  align-items: center;
+  display: none;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 80;
+}
+
+.instructor-modal:target {
+  display: flex;
+}
+
+.instructor-modal-backdrop {
+  background: rgba(13, 30, 24, 0.78);
+  inset: 0;
+  position: absolute;
+}
+
+.instructor-modal-panel {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+  max-height: calc(100vh - 48px);
+  max-width: min(760px, calc(100vw - 48px));
+  overflow: auto;
+  padding: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.instructor-modal-panel img {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.instructor-modal-close {
+  align-items: center;
+  background: var(--ink);
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  min-height: 36px;
+  padding: 0 14px;
 }
 
 .course-grid {
