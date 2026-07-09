@@ -677,6 +677,65 @@ p {
   line-height: 1.6;
 }
 
+.about-story {
+  display: grid;
+  gap: clamp(24px, 5vw, 64px);
+}
+
+.about-feature {
+  align-items: center;
+  display: grid;
+  gap: clamp(22px, 5vw, 72px);
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+}
+
+.about-feature:nth-child(even) .about-feature-media {
+  order: 2;
+}
+
+.about-feature-media {
+  aspect-ratio: 16 / 10;
+  background: var(--soft);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.about-feature-media img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.about-feature-copy {
+  border-top: 1px solid var(--line);
+  padding-top: clamp(18px, 3vw, 32px);
+}
+
+.about-feature-copy span {
+  color: var(--green);
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.about-feature-copy h3 {
+  font-size: clamp(28px, 4vw, 50px);
+  letter-spacing: 0;
+  line-height: 1.08;
+  margin: 0 0 18px;
+  word-break: keep-all;
+}
+
+.about-feature-copy p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.82;
+  margin: 0;
+  max-width: 620px;
+  word-break: keep-all;
+}
+
 .course-grid {
   display: grid;
   gap: 18px;
@@ -1439,6 +1498,7 @@ p {
   .home-stage,
   .hero-card,
   .platform-shell,
+  .about-feature,
   .course-detail-hero,
   .course-detail-body,
   .activity-showcase,
@@ -1456,6 +1516,10 @@ p {
 
   .hero-card {
     padding: 22px;
+  }
+
+  .about-feature:nth-child(even) .about-feature-media {
+    order: 0;
   }
 
   .hero-copy,
