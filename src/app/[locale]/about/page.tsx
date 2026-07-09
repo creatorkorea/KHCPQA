@@ -5,9 +5,9 @@ import { buildLocaleMetadata } from "@/lib/seo";
 
 const aboutImages = [
   "/assets/about-certification-training.jpg",
-  "/assets/about-certification-coaching.jpg",
   "/assets/about-career-practice.jpg",
   "/assets/about-psl-learning.jpg",
+  "/assets/about-certification-coaching.jpg",
   "/assets/about-goal-achievement.jpg"
 ];
 

@@ -284,27 +284,27 @@ export const copy = {
     about: {
       eyebrow: "KHCPQA 소개",
       lead:
-        "한국건강관리사자격협회는 건강미용 교육계의 새로운 틀을 확립하고, 자격증 취득과 취업 실무 역량을 함께 키우는 교육을 운영합니다.",
+        "한국건강관리사자격협회는 건강미용 교육의 새로운 틀을 세우고, 자격증 취득부터 취업과 창업까지 이어지는 실무 중심 교육을 운영합니다.",
       features: [
         {
-          title: "국가자격증 합격 목표 교육",
-          body: "건강미용 관련 산업이 활성화되면서 건강미용 교육계의 새로운 틀을 확립하고자 글로벌 시대와 스마트 시대에 앞선 교육을 진행합니다. 국가자격증 시험 100% 합격을 목표로 효율적인 교육을 운영하며, 자격증 취득 노하우 교육 동영상을 통해 체계적이고 합리적인 학습을 제공합니다."
-        },
-        {
-          title: "수강생 맞춤형 자격증 교육",
-          body: "국가자격증을 취득하고자 하는 수강생들의 열망에 부응할 수 있도록 맞춤형 교육을 진행합니다. 자격증 합격을 위한 교육의 기틀을 확립하고, 풍부한 경험을 바탕으로 한 수준 높은 전임 강사진이 자격증 합격자를 원활하게 배출할 수 있도록 지도합니다."
+          title: "국가자격증 합격과 맞춤형 교육",
+          body: "건강미용 산업의 성장에 맞춰 글로벌 시대와 스마트 시대에 앞선 교육을 진행합니다. 국가자격증 시험 합격을 목표로 효율적인 수업을 운영하고, 자격증 취득 노하우 영상과 수강생 맞춤형 지도를 통해 체계적인 학습을 제공합니다. 풍부한 경험을 갖춘 전임 강사진이 자격증 합격자를 원활하게 배출할 수 있도록 준비되어 있습니다."
         },
         {
           title: "취업을 위한 실무 중심 교육",
-          body: "현 취업난 시대에 수강생들의 취업을 위하여 건강미용 산업 트렌드에 앞선 기술로 취업교육의 틀을 확립했습니다. SMC만의 전문적인 기술과 실무 위주의 교육 프로그램을 제공하고, 기초부터 전문가 과정까지 이해하기 쉽고 감각적 능력을 가질 수 있도록 교육합니다."
+          body: "수강생들의 취업을 돕기 위해 건강미용 산업 트렌드에 앞선 기술과 취업교육 체계를 마련했습니다. SMC만의 전문 기술과 실무 위주의 교육 프로그램을 바탕으로 기초부터 전문가 과정까지 이해하기 쉽게 교육하며, 상담과 교류를 통해 원하는 취업 방향에 맞는 지원을 제공합니다."
         },
         {
           title: "문제 해결 학습 PSL",
-          body: "주입식 이론교육을 탈피하고 실무를 중심으로 원리를 바탕으로 이론을 자연스럽게 습득하는 실습 지향 문제 해결 학습 교육법을 도입했습니다. 수강생들이 고객의 입장에서 체험하는 모델과 실무 관리사의 입장에서 체험하는 시술자로 함께 실습하며 바른 학습을 진행합니다."
+          body: "주입식 이론교육에서 벗어나 실무를 중심으로 원리와 이론을 자연스럽게 익히는 실습 지향 문제 해결 학습을 도입했습니다. 수강생은 고객의 입장을 체험하는 모델과 실무 관리사의 입장을 체험하는 시술자로 함께 실습하며, 단계적으로 실력을 높이는 맞춤식 교육을 받습니다."
         },
         {
-          title: "목표 달성과 만족도 10의 교육",
-          body: "수강생들이 목적을 가지고 목표를 달성할 수 있도록 단계적인 실무교육, 소양교육, 예절교육을 진행합니다. 전임강사의 밀착형 담당 지도와 체계적인 조직 관리를 통해 자격증 취득, 취업, 대입, 창업을 지원하며, 수강생과 꾸준히 소통하는 만족도 높은 교육을 지향합니다."
+          title: "목표 달성을 위한 단계 교육",
+          body: "수강생이 목적을 가지고 목표를 달성할 수 있도록 단계적인 실무교육, 소양교육, 예절교육을 진행합니다. 전임 강사진은 바른 실무 지도와 마음가짐을 함께 전달하며, 서비스 교육과 고객 관리 방법까지 교육해 자격증 취득, 취업, 대입, 창업으로 이어질 수 있도록 지원합니다."
+        },
+        {
+          title: "만족도 10의 교육 시스템",
+          body: "수강생이 1에서 10까지 평가했을 때 10을 받을 수 있는 교육을 목표로 수업의 질과 깊이를 높입니다. 전임강사의 밀착형 담당 지도, 요구사항 점검, 체계적인 조직 관리를 통해 지도부터 접수, 취업, 창업까지 지원하며 수강생과 꾸준히 소통하는 만족도 높은 교육을 지향합니다."
         }
       ]
     },
@@ -474,27 +474,27 @@ export const copy = {
     about: {
       eyebrow: "About KHCPQA",
       lead:
-        "KHCPQA develops professional talent for the health and beauty industry through structured certification, practical employment, and business-readiness education.",
+        "KHCPQA builds a practical education pathway for health and beauty learners, connecting certification, employment, and business goals.",
       features: [
         {
-          title: "Health and Beauty Education",
-          body: "As the health and beauty industry grows, KHCPQA builds a modern education framework and guides learners toward national certification success."
+          title: "Certification Success and Tailored Training",
+          body: "KHCPQA responds to the growth of the health and beauty industry with forward-looking education for national certification success. Learners receive efficient classes, certification know-how videos, tailored guidance, and support from experienced full-time instructors."
         },
         {
-          title: "Certification Success System",
-          body: "The association delivers practical, high-quality training and supports systematic learning with certification know-how videos and efficient instruction."
-        },
-        {
-          title: "Practical Career Training",
-          body: "Programs focus on SMC's professional techniques and practice-based training, helping learners progress from fundamentals to expert-level capability with career support."
+          title: "Practice-Based Employment Education",
+          body: "The academy provides SMC's professional techniques and hands-on programs to support employment. Learners build practical skills from fundamentals to expert-level training, with counseling and career support aligned to their goals."
         },
         {
           title: "PSL Problem-Solving Learning",
-          body: "KHCPQA applies practice-centered PSL education so learners understand principles, absorb theory naturally, and experience both client and practitioner perspectives."
+          body: "KHCPQA moves beyond lecture-only theory and applies practice-oriented PSL education. Learners understand principles through hands-on work, alternate between client and practitioner perspectives, and develop skills step by step."
         },
         {
-          title: "Goal Achievement and Satisfaction",
-          body: "Step-by-step practical, character, etiquette, and close instructor guidance help learners pursue certification, employment, college admission, and business goals."
+          title: "Step-by-Step Goal Achievement",
+          body: "Learners receive practical training, character education, and etiquette education so they can pursue clear goals. Instructors guide technical skills, service mindset, customer care, certification, employment, admission, and business preparation."
+        },
+        {
+          title: "A Satisfaction-Focused System",
+          body: "The academy aims for education that learners can rate highly in both quality and depth. Close instructor guidance, careful feedback checks, and organized support cover training, enrollment, employment, and business preparation."
         }
       ]
     },
@@ -664,27 +664,27 @@ export const copy = {
     about: {
       eyebrow: "Acerca de KHCPQA",
       lead:
-        "KHCPQA forma profesionales para la industria de salud y belleza mediante educación estructurada en certificación, empleo práctico y preparación para negocios.",
+        "KHCPQA ofrece una ruta educativa práctica para salud y belleza, conectando certificación, empleo y preparación para emprendimiento.",
       features: [
         {
-          title: "Educación en salud y belleza",
-          body: "A medida que crece la industria de salud y belleza, KHCPQA establece un sistema educativo moderno y orienta a los estudiantes hacia la certificación nacional."
+          title: "Certificación y formación personalizada",
+          body: "KHCPQA responde al crecimiento de la industria de salud y belleza con educación orientada a la certificación nacional. Los estudiantes reciben clases eficientes, videos de know-how, guía personalizada y apoyo de instructores con experiencia."
         },
         {
-          title: "Sistema para aprobar certificaciones",
-          body: "La asociación ofrece formación práctica y de calidad, apoyada por videos de know-how para certificación e instrucción eficiente."
-        },
-        {
-          title: "Formación práctica para empleo",
-          body: "Los programas se centran en técnicas profesionales de SMC y educación práctica para que los estudiantes avancen desde lo básico hasta un nivel experto con apoyo laboral."
+          title: "Educación práctica para empleo",
+          body: "La academia ofrece técnicas profesionales de SMC y programas prácticos para apoyar el empleo. Los estudiantes desarrollan habilidades desde lo básico hasta un nivel experto, con asesoría y apoyo profesional según sus objetivos."
         },
         {
           title: "Aprendizaje PSL",
-          body: "KHCPQA aplica aprendizaje basado en resolución de problemas para que los estudiantes comprendan principios, asimilen teoría y experimenten perspectivas de cliente y profesional."
+          body: "KHCPQA supera la educación teórica tradicional y aplica aprendizaje práctico de resolución de problemas. Los estudiantes comprenden principios mediante práctica, alternan perspectivas de cliente y profesional, y desarrollan habilidades paso a paso."
         },
         {
-          title: "Objetivos y satisfacción",
-          body: "La formación práctica, la educación en actitud y etiqueta, y la guía cercana de instructores ayudan a alcanzar metas de certificación, empleo, estudios y emprendimiento."
+          title: "Logro de objetivos por etapas",
+          body: "Los estudiantes reciben formación práctica, educación de actitud y etiqueta para avanzar hacia metas claras. Los instructores guían técnica, servicio, atención al cliente, certificación, empleo, admisión y preparación de negocio."
+        },
+        {
+          title: "Sistema centrado en satisfacción",
+          body: "La academia busca una educación valorada por su calidad y profundidad. La guía cercana de instructores, la revisión de necesidades y el soporte organizado cubren formación, inscripción, empleo y emprendimiento."
         }
       ]
     },
