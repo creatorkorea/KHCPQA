@@ -102,7 +102,17 @@ export default async function CourseDetailPage({
             </Link>
           </div>
         </div>
-        <Image src={course.imageUrl} alt={course.title} width={960} height={540} priority />
+        <div className="course-hero-media">
+          <Image src={course.imageUrl} alt={course.title} width={960} height={540} priority />
+          <Link className="course-hero-floating" href={`/${locale}/partner-inquiry`}>
+            <BadgeCheck size={22} />
+            <span>
+              <strong>{t.courseDetail.inquiryCta}</strong>
+              <small>{course.category}</small>
+            </span>
+            <ArrowRight size={15} />
+          </Link>
+        </div>
       </section>
 
       <section className="course-detail-body">
