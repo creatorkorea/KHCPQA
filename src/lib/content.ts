@@ -171,6 +171,13 @@ type Copy = {
     dateLabel: string;
     titleLabel: string;
   };
+  organizationPage: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    imageAlt: string;
+    units: Array<{ title: string; body: string }>;
+  };
   curriculumPage: {
     eyebrow: string;
     lead: string;
@@ -362,7 +369,7 @@ export const copy = {
       { key: "greeting", title: "인사말", href: "about/greeting" },
       { key: "instructors", title: "수석강사 프로필", href: "about/instructors" },
       { key: "history", title: "연혁", href: "about/history" },
-      { key: "organization", title: "조직도", disabled: true },
+      { key: "organization", title: "조직도", href: "about/organization" },
       { key: "location", title: "찾아오시는 길", href: "contact" }
     ],
     greetingPage: {
@@ -450,6 +457,17 @@ export const copy = {
       detailNote: "원본 연혁자료의 연도별 항목을 기준으로 정리했습니다.",
       dateLabel: "년월",
       titleLabel: "제목"
+    },
+    organizationPage: {
+      eyebrow: "조직도",
+      title: "KHCPQA 조직도",
+      lead: "협회와 아카데미 운영 체계를 한눈에 확인할 수 있는 조직도입니다.",
+      imageAlt: "한국건강관리사자격협회 SMC아카데미 조직도",
+      units: [
+        { title: "협회 운영", body: "한국건강관리사자격협회를 중심으로 교육, 자격, 지부 운영 체계를 관리합니다." },
+        { title: "교육 운영", body: "SMC아카데미와 각 캠퍼스가 자격증 교육과 실무 교육을 담당합니다." },
+        { title: "현장 지원", body: "수강 상담, 취업·창업 지원, 대외 행사와 협력 활동을 연결합니다." }
+      ]
     },
     curriculumPage: {
       eyebrow: "커리큘럼",
@@ -647,7 +665,7 @@ export const copy = {
       { key: "greeting", title: "Greetings", href: "about/greeting" },
       { key: "instructors", title: "Senior Instructor Profiles", href: "about/instructors" },
       { key: "history", title: "History", href: "about/history" },
-      { key: "organization", title: "Organization", disabled: true },
+      { key: "organization", title: "Organization", href: "about/organization" },
       { key: "location", title: "Location", href: "contact" }
     ],
     greetingPage: {
@@ -735,6 +753,17 @@ export const copy = {
       detailNote: "Organized from the year-by-year records on the original history page.",
       dateLabel: "Date",
       titleLabel: "Title"
+    },
+    organizationPage: {
+      eyebrow: "Organization",
+      title: "KHCPQA Organization",
+      lead: "An overview of the association and academy operating structure.",
+      imageAlt: "KHCPQA and SMC Academy organization chart",
+      units: [
+        { title: "Association Operations", body: "KHCPQA manages the education, certification, and branch operating framework." },
+        { title: "Education Operations", body: "SMC Academy and campus teams deliver certification training and practical education." },
+        { title: "Field Support", body: "Counseling, employment and business support, public events, and partner activities are coordinated together." }
+      ]
     },
     curriculumPage: {
       eyebrow: "Curriculum",
@@ -932,7 +961,7 @@ export const copy = {
       { key: "greeting", title: "Saludos", href: "about/greeting" },
       { key: "instructors", title: "Instructores principales", href: "about/instructors" },
       { key: "history", title: "Historia", href: "about/history" },
-      { key: "organization", title: "Organización", disabled: true },
+      { key: "organization", title: "Organización", href: "about/organization" },
       { key: "location", title: "Ubicación", href: "contact" }
     ],
     greetingPage: {
@@ -1020,6 +1049,17 @@ export const copy = {
       detailNote: "Organizado a partir de los registros por año de la página original.",
       dateLabel: "Fecha",
       titleLabel: "Título"
+    },
+    organizationPage: {
+      eyebrow: "Organización",
+      title: "Organización de KHCPQA",
+      lead: "Una vista general de la estructura operativa de la asociación y la academia.",
+      imageAlt: "Organigrama de KHCPQA y SMC Academy",
+      units: [
+        { title: "Operación de la asociación", body: "KHCPQA gestiona el marco de educación, certificación y operación de sedes." },
+        { title: "Operación educativa", body: "SMC Academy y los campus imparten formación de certificación y educación práctica." },
+        { title: "Soporte de campo", body: "La asesoría, el apoyo laboral y de emprendimiento, los eventos y las alianzas se coordinan de forma integrada." }
+      ]
     },
     curriculumPage: {
       eyebrow: "Currículo",

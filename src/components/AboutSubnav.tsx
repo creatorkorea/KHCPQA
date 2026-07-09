@@ -14,7 +14,7 @@ export function AboutSubnav({ locale, activeKey }: AboutSubnavProps) {
       {items.map((item) => {
         const isActive = item.key === activeKey;
 
-        if (item.disabled || !item.href) {
+        if (("disabled" in item && item.disabled) || !item.href) {
           return (
             <span className="is-disabled" aria-disabled="true" key={item.key}>
               {item.title}

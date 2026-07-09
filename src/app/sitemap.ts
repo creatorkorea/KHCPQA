@@ -9,6 +9,7 @@ const publicPaths = [
   "about/greeting",
   "about/history",
   "about/instructors",
+  "about/organization",
   "activities",
   "contact",
   "curriculum",
