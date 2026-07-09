@@ -949,69 +949,6 @@ export function getCourseBySlug(slug: string, locale: string) {
   return getCourses(locale).find((course) => course.slug === slug);
 }
 
-const activityRecentItems: Record<string, Array<{ title: string; sourceUrl: string }>> = {
-  notice: [
-    {
-      title: "[자세체형 심화전문가 과정 무료설명회] - 2026년 6월 19일(금) 5시부터",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=notice&num=7851&locations=&searchterm=&searchstr=&page=1"
-    },
-    {
-      title: "[제 38회 한국휴먼 올림픽대회 개최] 대회일- 5월 1일(금)",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=notice&num=7836&locations=&searchterm=&searchstr=&page=1"
-    }
-  ],
-  pass: [
-    {
-      title: "05월 피부미용 국가자격증 취득 합격자 명단 [놀라운 합격률!!]",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=pass&num=5652"
-    },
-    {
-      title: "02월 피부미용 국가자격증 취득 합격자 명단 [놀라운 합격률!!]",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=pass&num=5403"
-    }
-  ],
-  photo: [
-    {
-      title: "(주)올스프링랜드 업무협약 체결식",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=photo&num=7859&locations=&searchterm=&searchstr=&page=1"
-    },
-    {
-      title: "제35회 국제휴먼 올림픽 대회",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=photo&num=7641&locations=&searchterm=&searchstr=&page=1"
-    }
-  ],
-  awards: [
-    {
-      title: "제 38회 한국휴먼(미용&건강)올림픽대회 피부관리 심사위원",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=awards&num=7846&locations=&searchterm=&searchstr=&page=1"
-    },
-    {
-      title: "세계뷰티문화산업진흥원 서울특별시 임명장 황인근 협회장님",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=awards&num=6914&locations=&searchterm=&searchstr=&page=1"
-    }
-  ],
-  competition: [
-    {
-      title: "제38회 한국휴먼 올림픽 대회[이수빈님]-체형관리",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=beauty&num=7853&locations=&searchterm=&searchstr=&page=1"
-    },
-    {
-      title: "제38회 한국휴먼 올림픽 대회[손길옥님]-스포츠",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=beauty&num=7850&locations=&searchterm=&searchstr=&page=1"
-    }
-  ],
-  media: [
-    {
-      title: "한국경제 WOW-TV 취재",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=media&num=753"
-    },
-    {
-      title: "KBS 방송국 SMC아카데미 수강생 외부 활동 취재",
-      sourceUrl: "https://www.smc365.ac/sboard/board_view.asp?boardName=media&num=885"
-    }
-  ]
-};
-
 const activityGroupsByLocale: Record<Locale, Array<{
   title: string;
   key: string;
@@ -1019,79 +956,72 @@ const activityGroupsByLocale: Record<Locale, Array<{
   source: string;
   summary: string;
   imageUrl: string;
-  recentItems: Array<{ title: string; sourceUrl: string }>;
 }>> = {
   ko: [
   {
     title: "공지/시험일정",
     key: "notice",
     icon: CalendarDays,
-    source: "SMC365 notice",
-    summary: "원본 사이트 공지와 시험일정 중 최신 공개 항목을 연결합니다.",
-    imageUrl: "/assets/activity-training.png",
-    recentItems: activityRecentItems.notice
+    source: "관리자 입력 게시판",
+    summary: "운영자가 관리자에서 공지와 시험일정 게시글을 직접 등록합니다.",
+    imageUrl: "/assets/activity-training.png"
   },
   {
     title: "합격현황/합격률",
     key: "pass",
     icon: BadgeCheck,
-    source: "SMC365 pass",
-    summary: "피부미용 국가자격증 합격자 명단과 합격률 관련 게시글을 연결합니다.",
-    imageUrl: "/assets/course-medical-skincare.png",
-    recentItems: activityRecentItems.pass
+    source: "관리자 입력 게시판",
+    summary: "운영자가 관리자에서 합격자 명단과 합격률 관련 소식을 직접 등록합니다.",
+    imageUrl: "/assets/course-medical-skincare.png"
   },
   {
     title: "포토갤러리",
     key: "photo",
     icon: Image,
-    source: "SMC365 photo",
-    summary: "업무협약, 대회, 수료자, 교육 현장 사진 콘텐츠를 연결합니다.",
-    imageUrl: "/assets/activity-wellness.png",
-    recentItems: activityRecentItems.photo
+    source: "관리자 입력 게시판",
+    summary: "운영자가 관리자에서 업무협약, 대회, 수료자, 교육 현장 사진을 직접 등록합니다.",
+    imageUrl: "/assets/activity-wellness.png"
   },
   {
     title: "심사위원/수상경력",
     key: "awards",
     icon: Award,
-    source: "SMC365 awards",
-    summary: "심사위원 위촉, 표창, 수상 이력 등 신뢰 콘텐츠를 연결합니다.",
-    imageUrl: "/assets/partner-network.png",
-    recentItems: activityRecentItems.awards
+    source: "관리자 입력 게시판",
+    summary: "운영자가 관리자에서 심사위원 위촉, 표창, 수상 이력 콘텐츠를 직접 등록합니다.",
+    imageUrl: "/assets/partner-network.png"
   },
   {
     title: "국제미용대회",
     key: "competition",
     icon: Globe2,
-    source: "SMC365 beauty",
-    summary: "한국휴먼 올림픽대회와 국제 미용·건강 대회 활동을 연결합니다.",
-    imageUrl: "/assets/hero-professionals.png",
-    recentItems: activityRecentItems.competition
+    source: "관리자 입력 게시판",
+    summary: "운영자가 관리자에서 한국휴먼 올림픽대회와 국제 미용·건강 대회 활동을 직접 등록합니다.",
+    imageUrl: "/assets/hero-professionals.png"
   },
   {
     title: "방송/언론",
     key: "media",
     icon: Newspaper,
-    source: "SMC365 media",
-    summary: "방송국, 언론사 취재와 미디어 노출 이력을 연결합니다.",
-    imageUrl: "/assets/course-aroma-therapy.png",
-    recentItems: activityRecentItems.media
+    source: "관리자 입력 게시판",
+    summary: "운영자가 관리자에서 방송국, 언론사 취재와 미디어 노출 이력을 직접 등록합니다.",
+    imageUrl: "/assets/course-aroma-therapy.png"
   }
   ],
   en: [
-    { title: "Notices / Exam Schedule", key: "notice", icon: CalendarDays, source: "SMC365 notice", summary: "Connects current notices and exam schedule posts from the original site.", imageUrl: "/assets/activity-training.png", recentItems: activityRecentItems.notice },
-    { title: "Pass Records / Pass Rate", key: "pass", icon: BadgeCheck, source: "SMC365 pass", summary: "Connects certification pass lists and pass-rate related records.", imageUrl: "/assets/course-medical-skincare.png", recentItems: activityRecentItems.pass },
-    { title: "Photo Gallery", key: "photo", icon: Image, source: "SMC365 photo", summary: "Connects partnership ceremonies, competitions, completion records, and training photos.", imageUrl: "/assets/activity-wellness.png", recentItems: activityRecentItems.photo },
-    { title: "Judges / Awards", key: "awards", icon: Award, source: "SMC365 awards", summary: "Connects judge appointments, commendations, and award history.", imageUrl: "/assets/partner-network.png", recentItems: activityRecentItems.awards },
-    { title: "International Beauty Competitions", key: "competition", icon: Globe2, source: "SMC365 beauty", summary: "Connects Korea Human Olympic and international beauty and wellness competition records.", imageUrl: "/assets/hero-professionals.png", recentItems: activityRecentItems.competition },
-    { title: "Media Coverage", key: "media", icon: Newspaper, source: "SMC365 media", summary: "Connects broadcast and media coverage from the original site.", imageUrl: "/assets/course-aroma-therapy.png", recentItems: activityRecentItems.media }
+    { title: "Notices / Exam Schedule", key: "notice", icon: CalendarDays, source: "Admin-managed board", summary: "Operators will manually publish notices and exam schedule posts from the admin area.", imageUrl: "/assets/activity-training.png" },
+    { title: "Pass Records / Pass Rate", key: "pass", icon: BadgeCheck, source: "Admin-managed board", summary: "Operators will manually publish pass lists and pass-rate updates from the admin area.", imageUrl: "/assets/course-medical-skincare.png" },
+    { title: "Photo Gallery", key: "photo", icon: Image, source: "Admin-managed board", summary: "Operators will manually publish partnership, competition, completion, and training photos from the admin area.", imageUrl: "/assets/activity-wellness.png" },
+    { title: "Judges / Awards", key: "awards", icon: Award, source: "Admin-managed board", summary: "Operators will manually publish judge appointments, commendations, and award history from the admin area.", imageUrl: "/assets/partner-network.png" },
+    { title: "International Beauty Competitions", key: "competition", icon: Globe2, source: "Admin-managed board", summary: "Operators will manually publish Korea Human Olympic and international competition records from the admin area.", imageUrl: "/assets/hero-professionals.png" },
+    { title: "Media Coverage", key: "media", icon: Newspaper, source: "Admin-managed board", summary: "Operators will manually publish broadcast and media coverage records from the admin area.", imageUrl: "/assets/course-aroma-therapy.png" }
   ],
   es: [
-    { title: "Avisos / Calendario de Exámenes", key: "notice", icon: CalendarDays, source: "SMC365 notice", summary: "Conecta avisos y calendarios de exámenes publicados en el sitio original.", imageUrl: "/assets/activity-training.png", recentItems: activityRecentItems.notice },
-    { title: "Resultados / Tasa de Aprobación", key: "pass", icon: BadgeCheck, source: "SMC365 pass", summary: "Conecta listas de aprobados y registros relacionados con tasas de aprobación.", imageUrl: "/assets/course-medical-skincare.png", recentItems: activityRecentItems.pass },
-    { title: "Galería de Fotos", key: "photo", icon: Image, source: "SMC365 photo", summary: "Conecta ceremonias, competencias, finalizaciones y fotos de formación.", imageUrl: "/assets/activity-wellness.png", recentItems: activityRecentItems.photo },
-    { title: "Jueces / Premios", key: "awards", icon: Award, source: "SMC365 awards", summary: "Conecta designaciones de jueces, reconocimientos e historial de premios.", imageUrl: "/assets/partner-network.png", recentItems: activityRecentItems.awards },
-    { title: "Concursos Internacionales de Belleza", key: "competition", icon: Globe2, source: "SMC365 beauty", summary: "Conecta registros de Korea Human Olympic y competencias internacionales.", imageUrl: "/assets/hero-professionals.png", recentItems: activityRecentItems.competition },
-    { title: "Cobertura en Medios", key: "media", icon: Newspaper, source: "SMC365 media", summary: "Conecta cobertura de televisión y prensa desde el sitio original.", imageUrl: "/assets/course-aroma-therapy.png", recentItems: activityRecentItems.media }
+    { title: "Avisos / Calendario de Exámenes", key: "notice", icon: CalendarDays, source: "Tablero administrado", summary: "Los operadores publicarán manualmente avisos y calendarios de exámenes desde el área de administración.", imageUrl: "/assets/activity-training.png" },
+    { title: "Resultados / Tasa de Aprobación", key: "pass", icon: BadgeCheck, source: "Tablero administrado", summary: "Los operadores publicarán manualmente listas de aprobados y actualizaciones de tasas desde el área de administración.", imageUrl: "/assets/course-medical-skincare.png" },
+    { title: "Galería de Fotos", key: "photo", icon: Image, source: "Tablero administrado", summary: "Los operadores publicarán manualmente fotos de alianzas, competencias, finalizaciones y formación desde el área de administración.", imageUrl: "/assets/activity-wellness.png" },
+    { title: "Jueces / Premios", key: "awards", icon: Award, source: "Tablero administrado", summary: "Los operadores publicarán manualmente designaciones de jueces, reconocimientos e historial de premios desde el área de administración.", imageUrl: "/assets/partner-network.png" },
+    { title: "Concursos Internacionales de Belleza", key: "competition", icon: Globe2, source: "Tablero administrado", summary: "Los operadores publicarán manualmente registros de Korea Human Olympic y competencias internacionales desde el área de administración.", imageUrl: "/assets/hero-professionals.png" },
+    { title: "Cobertura en Medios", key: "media", icon: Newspaper, source: "Tablero administrado", summary: "Los operadores publicarán manualmente registros de televisión y prensa desde el área de administración.", imageUrl: "/assets/course-aroma-therapy.png" }
   ]
 };
 

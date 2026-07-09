@@ -795,26 +795,6 @@ p {
   margin-top: 14px;
 }
 
-.source-list {
-  display: grid;
-  gap: 8px;
-  list-style: none;
-  margin: 14px 0 0;
-  padding: 0;
-}
-
-.source-list a {
-  color: var(--ink);
-  display: block;
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.42;
-}
-
-.source-list a:hover {
-  color: var(--green);
-}
-
 .activities-preview {
   padding-top: 54px;
 }
