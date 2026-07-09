@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AboutSubnav } from "@/components/AboutSubnav";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
@@ -35,6 +36,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         title={t.nav.about}
         lead={t.about.lead}
       />
+      <AboutSubnav locale={locale} activeKey="intro" />
       <section className="content-section">
         <div className="about-story">
           {t.about.features.map((feature, index) => {

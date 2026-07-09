@@ -84,6 +84,13 @@ type GreetingCopy = {
   contact?: string;
 };
 
+type AboutSubnavItem = {
+  key: string;
+  title: string;
+  href?: string;
+  disabled?: boolean;
+};
+
 type Copy = {
   brand: string;
   brandFull: string;
@@ -132,6 +139,7 @@ type Copy = {
     greetingCta: string;
     features: FeatureCopy[];
   };
+  aboutSubnav: AboutSubnavItem[];
   greetingPage: {
     eyebrow: string;
     title: string;
@@ -326,6 +334,14 @@ export const copy = {
         }
       ]
     },
+    aboutSubnav: [
+      { key: "intro", title: "소개", href: "about" },
+      { key: "greeting", title: "인사말", href: "about/greeting" },
+      { key: "instructors", title: "수석강사 프로필", disabled: true },
+      { key: "history", title: "연혁", disabled: true },
+      { key: "organization", title: "조직도", disabled: true },
+      { key: "location", title: "찾아오시는 길", href: "contact" }
+    ],
     greetingPage: {
       eyebrow: "인사말",
       title: "협회 인사말",
@@ -568,6 +584,14 @@ export const copy = {
         }
       ]
     },
+    aboutSubnav: [
+      { key: "intro", title: "Introduction", href: "about" },
+      { key: "greeting", title: "Greetings", href: "about/greeting" },
+      { key: "instructors", title: "Senior Instructor Profiles", disabled: true },
+      { key: "history", title: "History", disabled: true },
+      { key: "organization", title: "Organization", disabled: true },
+      { key: "location", title: "Location", href: "contact" }
+    ],
     greetingPage: {
       eyebrow: "Greetings",
       title: "Leadership Greetings",
@@ -810,6 +834,14 @@ export const copy = {
         }
       ]
     },
+    aboutSubnav: [
+      { key: "intro", title: "Introducción", href: "about" },
+      { key: "greeting", title: "Saludos", href: "about/greeting" },
+      { key: "instructors", title: "Instructores principales", disabled: true },
+      { key: "history", title: "Historia", disabled: true },
+      { key: "organization", title: "Organización", disabled: true },
+      { key: "location", title: "Ubicación", href: "contact" }
+    ],
     greetingPage: {
       eyebrow: "Saludos",
       title: "Saludos de la Dirección",

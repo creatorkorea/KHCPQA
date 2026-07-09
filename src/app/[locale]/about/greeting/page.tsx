@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AboutSubnav } from "@/components/AboutSubnav";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
@@ -26,6 +27,7 @@ export default async function GreetingPage({ params }: { params: Promise<{ local
         title={t.greetingPage.title}
         lead={t.greetingPage.lead}
       />
+      <AboutSubnav locale={locale} activeKey="greeting" />
       <section className="content-section">
         <div className="greeting-list">
           {t.greetingPage.greetings.map((greeting, index) => (
