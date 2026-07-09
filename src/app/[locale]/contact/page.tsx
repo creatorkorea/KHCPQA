@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Bus, Car, MapPin, Phone, Train } from "lucide-react";
+import { Bus, Car, ExternalLink, MapPin, Phone, Train } from "lucide-react";
 import { AboutSubnav } from "@/components/AboutSubnav";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
@@ -17,6 +17,7 @@ type AcademyLocation = {
   roadAddress: string;
   lotAddress: string;
   phone: string;
+  primaryPhone: string;
   parking: string;
   subway: string[];
   imageUrl: string;
@@ -31,6 +32,7 @@ const academyLocations: AcademyLocation[] = [
     roadAddress: "서울특별시 종로구 수표로 120 내인빌딩 8층",
     lotAddress: "서울특별시 종로구 낙원동 141번지 내인빌딩 8층",
     phone: "010-7712-3362 / 02-763-1271",
+    primaryPhone: "01077123362",
     parking: "1층 무료주차장 또는 주변 유료주차장 이용",
     subway: [
       "1호선 1번 출구에서 직진 3분 정도 이동 후 대한보청기에서 오른쪽 방향으로 1분 직진",
@@ -53,6 +55,7 @@ const academyLocations: AcademyLocation[] = [
     roadAddress: "서울특별시 관악구 시흥대로 558-1 G밸리마인드 5층, 505호",
     lotAddress: "서울특별시 관악구 신림동 1655-17 G밸리마인드 5층, 505호",
     phone: "010-6283-1206 / 02-867-2280",
+    primaryPhone: "01062831206",
     parking: "건물 주차장",
     subway: [
       "2호선 6번 출구에서 직진 3분 정도 이동",
@@ -79,6 +82,7 @@ const academyLocations: AcademyLocation[] = [
     roadAddress: "서울특별시 영등포구 대림로 23길 30-1 골든타워 6층",
     lotAddress: "서울특별시 영등포구 대림동 1049 골든타워 6층",
     phone: "010-5589-9812",
+    primaryPhone: "01055899812",
     parking: "건물 주차장",
     subway: [
       "2호선, 7호선 12번 출구에서 바로 왼쪽 길로 이동",
@@ -138,10 +142,31 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                   <span>{location.station}</span>
                   <h2>{location.name}</h2>
                 </div>
-                <p>
-                  <Phone size={18} />
-                  {location.phone}
-                </p>
+                <div className="location-actions">
+                  <a href={`tel:${location.primaryPhone}`}>
+                    <Phone size={18} />
+                    전화하기
+                  </a>
+                  <a href={`https://map.kakao.com/link/search/${encodeURIComponent(location.roadAddress)}`} target="_blank" rel="noreferrer">
+                    <ExternalLink size={18} />
+                    지도 열기
+                  </a>
+                </div>
+              </div>
+
+              <div className="location-summary">
+                <div>
+                  <span>가까운 역</span>
+                  <strong>{location.station}</strong>
+                </div>
+                <div>
+                  <span>대표 전화</span>
+                  <strong>{location.phone}</strong>
+                </div>
+                <div>
+                  <span>주차</span>
+                  <strong>{location.parking}</strong>
+                </div>
               </div>
 
               <div className="location-map-frame">
@@ -174,8 +199,11 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                 </section>
               </div>
 
-              <section className="location-bus">
-                <h3><Bus size={18} /> 버스 이용</h3>
+              <details className="location-bus">
+                <summary>
+                  <span><Bus size={18} /> 버스 이용</span>
+                  <strong>{location.busStops.length}개 정류장</strong>
+                </summary>
                 <div className="location-bus-table">
                   {location.busStops.map((stop) => (
                     <div className="location-bus-row" key={stop.stop}>
@@ -188,7 +216,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                     </div>
                   ))}
                 </div>
-              </section>
+              </details>
             </article>
           ))}
         </div>
