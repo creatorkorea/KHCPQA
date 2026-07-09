@@ -279,7 +279,7 @@ export const copy = {
       curriculum: "커리큘럼",
       activities: "글로벌 활동",
       partner: "파트너 문의",
-      contact: "연락처",
+      contact: "찾아오시는 길",
       login: "로그인"
     },
     heroBadge: "KHCPQA 글로벌 교육",
@@ -489,8 +489,8 @@ export const copy = {
       lead: "공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 방송/언론, 봉사활동을 글로벌 신뢰 콘텐츠로 재배치합니다."
     },
     contact: {
-      eyebrow: "연락처",
-      lead: "기존 SMC365 하단의 본사, 본점, 지점, 캠퍼스 연락처를 신규 Contact 페이지와 푸터에 반영합니다."
+      eyebrow: "찾아오시는 길",
+      lead: "서울총본부, 강남SMC아카데미, 대림캠퍼스의 주소와 지하철·버스 이용 안내입니다."
     },
     partnerInquiry: {
       eyebrow: "파트너 문의",
@@ -785,8 +785,8 @@ export const copy = {
       lead: "Notices, pass records, galleries, awards, international beauty competitions, media, and volunteer activities are reorganized as global trust content."
     },
     contact: {
-      eyebrow: "Contact",
-      lead: "Headquarters, main branch, campus, and branch contact details from the existing SMC365 footer are reflected in the new Contact page and footer."
+      eyebrow: "Location",
+      lead: "Addresses and subway, bus, and parking guidance for Seoul Headquarters, Gangnam SMC Academy, and Daerim Campus."
     },
     partnerInquiry: {
       eyebrow: "Partner Inquiry",
@@ -1081,8 +1081,8 @@ export const copy = {
       lead: "Avisos, resultados, galerías, premios, concursos internacionales de belleza, medios y voluntariado se reorganizan como contenido global de confianza."
     },
     contact: {
-      eyebrow: "Contacto",
-      lead: "Los datos de contacto de la sede, sucursal principal, campus y sedes del pie de página existente de SMC365 se reflejan en la nueva página de Contacto y en el footer."
+      eyebrow: "Ubicación",
+      lead: "Direcciones e información de metro, autobús y estacionamiento para la sede de Seúl, Gangnam SMC Academy y el Campus Daerim."
     },
     partnerInquiry: {
       eyebrow: "Consulta de Asociación",
