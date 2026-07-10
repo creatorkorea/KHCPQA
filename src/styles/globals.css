@@ -38,6 +38,7 @@ body {
     linear-gradient(180deg, #ffffff 0%, #fbfaff 38%, #f9f6ff 100%);
   margin: 0;
   min-width: 320px;
+  overflow-x: hidden;
 }
 
 a {
@@ -700,7 +701,7 @@ p {
 .curriculum-hero-visual {
   align-self: end;
   height: clamp(430px, 34vw, 526px);
-  margin: -52px -92px 0 -42px;
+  margin: -52px 0 0 -42px;
   position: relative;
   z-index: 1;
 }
@@ -736,9 +737,9 @@ p {
   object-fit: cover;
   object-position: 72% center;
   opacity: 1;
-  transform: translateX(6px) scale(1.08);
+  transform: scale(1.06);
   transform-origin: center right;
-  width: calc(100% + 24px);
+  width: 100%;
   -webkit-mask-image: radial-gradient(106% 98% at 72% 46%, #000 0%, #000 66%, rgba(0, 0, 0, 0.82) 80%, transparent 100%);
   mask-image: radial-gradient(106% 98% at 72% 46%, #000 0%, #000 66%, rgba(0, 0, 0, 0.82) 80%, transparent 100%);
 }
@@ -3806,7 +3807,7 @@ p {
 
   .curriculum-hero-visual {
     height: 470px;
-    margin: -34px -52px 0 -90px;
+    margin: -34px 0 0 -64px;
   }
 
   .curriculum-quick-nav {
@@ -4129,7 +4130,7 @@ p {
 
   .curriculum-hero-visual {
     height: 300px;
-    margin: 10px -18px 0;
+    margin: 10px 0 0;
   }
 
   .curriculum-hero-visual::before,
