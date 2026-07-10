@@ -41,12 +41,6 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
     { label: t.primaryCta, href: `/${locale}/curriculum#curriculum-list` },
     { label: t.courseDetail.inquiryCta, href: `/${locale}/partner-inquiry` }
   ];
-  const heroMetrics = [
-    { label: locale === "ko" ? "목표별 과정" : "Goal Tracks", value: "3" },
-    { label: locale === "ko" ? "실무 과목" : "Practical Programs", value: "15+" },
-    { label: locale === "ko" ? "상담 연계" : "Advising Flow", value: "1:1" }
-  ];
-
   return (
     <>
       <section className="curriculum-hero">
@@ -64,14 +58,6 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
             )}
           </h1>
           <p>{t.curriculumPage.lead}</p>
-          <dl className="curriculum-hero-metrics">
-            {heroMetrics.map((metric) => (
-              <div key={metric.label}>
-                <dt>{metric.label}</dt>
-                <dd>{metric.value}</dd>
-              </div>
-            ))}
-          </dl>
           <div className="hero-actions">
             <Link className="primary-button" href={`/${locale}/partner-inquiry`}>
               {t.courseDetail.inquiryCta}
@@ -85,13 +71,6 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
 
         <div className="curriculum-hero-visual">
           <Image src="/assets/premium-hero-wellness-education.png" alt={t.home.heroImageAlt} width={960} height={620} priority />
-          <div className="curriculum-hero-note">
-            <HeartPulse size={22} />
-            <span>
-              <strong>{locale === "ko" ? "과정 선택 상담" : t.home.curriculumEyebrow}</strong>
-              <small>{locale === "ko" ? "목표에 맞는 과정을 추천해드려요" : t.home.curriculumLead}</small>
-            </span>
-          </div>
         </div>
 
         <nav className="curriculum-quick-nav" aria-label={t.curriculumTitle}>
