@@ -19,29 +19,36 @@ import {
 import { getCopy, getCourseBySlug, getCourseSlugs, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
-const processImages = [
-  "/assets/premium-course-facial-contouring.png",
-  "/assets/course-facial-contouring.jpg",
-  "/assets/premium-course-medical-skincare.png",
-  "/assets/premium-course-meridian.png",
-  "/assets/premium-course-foot.png",
-  "/assets/premium-course-maternity.png",
-  "/assets/course-generated-medical-skincare.png",
-  "/assets/course-thumb-massage-training.png",
-  "/assets/course-generated-aromatherapy.png",
-  "/assets/course-thumb-business-planning.png"
-];
+const smcContentBaseUrl = "https://www.smc365.ac/images/content";
 
-const galleryImages = [
-  "/assets/premium-course-facial-contouring.png",
-  "/assets/course-facial-contouring.jpg",
-  "/assets/premium-course-medical-skincare.png",
-  "/assets/course-medical-skincare-detail.jpg",
-  "/assets/premium-course-meridian.png",
-  "/assets/premium-course-swedish.png",
-  "/assets/premium-course-foot.png",
-  "/assets/course-generated-aromatherapy.png"
-];
+const originalProcessLabelsByCourseNumber: Record<string, string[]> = {
+  "08": [
+    "포인트 메이크업 클렌징 배우기",
+    "해면 타월 사용 방법 배우기",
+    "프로 메뉴얼 테크닉 배우기",
+    "프로 얼굴 축소 경락 테라피 배우기",
+    "딥 클렌징 스크럽, 효소 사용방법 배우기",
+    "마스크 팩 모델링, 석고, 벨벳 배우기",
+    "종합 미용기기 사용 방법 배우기",
+    "스킨 스크러버 리프팅, 마사지, 딥클렌징 배우기",
+    "이온투입기 수분, 미백, 리프팅관리 배우기",
+    "초음파 얼굴 축소, 재생, 리프팅관리 배우기",
+    "고주파 진정, 세정, 미백관리 배우기"
+  ],
+  "09": [
+    "포인트 메이크업 클렌징 배우기",
+    "해면 타월 사용 방법 배우기",
+    "프로 메뉴얼 테크닉 배우기",
+    "프로 얼굴 축소 경락 테라피 배우기",
+    "딥 클렌징 스크럽, 효소 사용방법 배우기",
+    "마스크 팩 모델링, 석고, 벨벳 배우기",
+    "종합 미용기기 사용 방법 배우기",
+    "스킨 스크러버 리프팅, 마사지, 딥클렌징 배우기",
+    "이온투입기 수분, 미백, 리프팅관리 배우기",
+    "초음파 얼굴 축소, 재생, 리프팅관리 배우기",
+    "고주파 진정, 세정, 미백관리 배우기"
+  ]
+};
 
 function takeUnique(items: string[], fallback: string[], count: number) {
   const merged = [...items, ...fallback].filter(Boolean);
@@ -54,6 +61,21 @@ function splitAudience(audience: string) {
     .map((item) => item.trim())
     .filter(Boolean)
     .slice(0, 5);
+}
+
+function getOriginalCourseNumber(source: string) {
+  const match = source.match(/curriculum(\d+)\.asp/);
+  return match?.[1] ?? "08";
+}
+
+function getOriginalCourseImage(source: string, imageName: string) {
+  return `${smcContentBaseUrl}/curriculum${getOriginalCourseNumber(source)}_${imageName}`;
+}
+
+function getOriginalProcessImages(source: string, count: number) {
+  return Array.from({ length: count }, (_, index) =>
+    getOriginalCourseImage(source, `img${String(index + 10).padStart(2, "0")}.jpg`)
+  );
 }
 
 export function generateStaticParams() {
@@ -117,6 +139,11 @@ export default async function CourseDetailPage({
     8
   );
   const processItems = takeUnique(allSectionItems, course.curriculum, 10);
+  const originalCourseNumber = getOriginalCourseNumber(course.source);
+  const processLabels = originalProcessLabelsByCourseNumber[originalCourseNumber] ?? processItems;
+  const originalHeroImage = getOriginalCourseImage(course.source, "img01.jpg");
+  const originalSupportImage = getOriginalCourseImage(course.source, "img02.jpg");
+  const originalProcessImages = getOriginalProcessImages(course.source, processLabels.length);
   const audienceItems = splitAudience(course.audience);
   const careerItems = [
     locale === "ko" ? "전문 샵 취업" : "Professional salon employment",
@@ -149,7 +176,7 @@ export default async function CourseDetailPage({
           </dl>
         </div>
         <div className="course-landing-media">
-          <Image src={course.imageUrl} alt={course.title} width={960} height={620} priority />
+          <Image src={originalHeroImage} alt={course.title} width={960} height={620} priority />
         </div>
       </section>
 
@@ -236,16 +263,16 @@ export default async function CourseDetailPage({
             ))}
           </div>
         </div>
-        <Image src={course.imageUrl} alt="" width={460} height={220} />
+        <Image src={originalSupportImage} alt="" width={460} height={220} />
       </section>
 
       <section className="course-process-section">
         <h2>{locale === "ko" ? "관리 순서 (수업 프로세스)" : "Class Process"}</h2>
         <div>
-          {processItems.map((item, index) => (
+          {processLabels.map((item, index) => (
             <article key={`${item}-${index}`}>
               <span>{String(index + 1).padStart(2, "0")}</span>
-              <Image src={processImages[index % processImages.length]} alt="" width={240} height={150} />
+              <Image src={originalProcessImages[index]} alt="" width={240} height={150} />
               <p>{item}</p>
             </article>
           ))}
@@ -277,15 +304,6 @@ export default async function CourseDetailPage({
         </article>
       </section>
 
-      <section className="course-gallery-section">
-        <h2>{locale === "ko" ? "수업 장면 & 결과 예시" : "Class Scenes & Examples"}</h2>
-        <div>
-          {galleryImages.map((image, index) => (
-            <Image src={index === 0 ? course.imageUrl : image} alt="" width={260} height={150} key={`${image}-${index}`} />
-          ))}
-        </div>
-      </section>
-
       <section className="course-landing-cta">
         <div>
           <span>{locale === "ko" ? "전문 테크닉으로 완성하는" : "Build professional technique"}</span>
@@ -295,7 +313,7 @@ export default async function CourseDetailPage({
         <Link href={`/${locale}/partner-inquiry`}>
           {t.courseDetail.inquiryCta} <ArrowRight size={18} />
         </Link>
-        <Image src={course.imageUrl} alt="" width={520} height={260} />
+        <Image src={originalHeroImage} alt="" width={520} height={260} />
       </section>
     </article>
   );

@@ -3644,7 +3644,6 @@ p {
 .course-technique-band,
 .course-process-section,
 .course-career-cert,
-.course-gallery-section,
 .course-landing-cta {
   margin: 0 auto;
   max-width: 1160px;
@@ -3695,7 +3694,6 @@ p {
 .course-landing-overview h2,
 .course-curriculum-flow h2,
 .course-process-section h2,
-.course-gallery-section h2,
 .course-career-cert h2 {
   color: var(--purple-dark);
   font-size: clamp(26px, 3.1vw, 38px);
@@ -3742,8 +3740,7 @@ p {
 }
 
 .course-curriculum-flow > h2,
-.course-process-section > h2,
-.course-gallery-section > h2 {
+.course-process-section > h2 {
   text-align: center;
 }
 
@@ -3886,8 +3883,7 @@ p {
   width: 100%;
 }
 
-.course-process-section,
-.course-gallery-section {
+.course-process-section {
   background: white;
   border: 1px solid #e5dcf7;
   border-radius: 18px;
@@ -3991,19 +3987,6 @@ p {
   min-height: 118px;
   padding: 18px;
   width: 110px;
-}
-
-.course-gallery-section > div {
-  display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.course-gallery-section img {
-  aspect-ratio: 1.78 / 1;
-  border-radius: 12px;
-  object-fit: cover;
-  width: 100%;
 }
 
 .course-landing-cta {
@@ -4837,8 +4820,7 @@ p {
   .course-curriculum-flow > div,
   .course-info-panels,
   .course-process-section > div,
-  .course-career-cert article > div:not(.certificate-card),
-  .course-gallery-section > div {
+  .course-career-cert article > div:not(.certificate-card) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -4993,8 +4975,7 @@ p {
   .course-curriculum-flow > div,
   .course-info-panels,
   .course-process-section > div,
-  .course-career-cert article > div:not(.certificate-card),
-  .course-gallery-section > div {
+  .course-career-cert article > div:not(.certificate-card) {
     grid-template-columns: 1fr;
   }
 
@@ -5025,7 +5006,6 @@ p {
   .course-technique-band,
   .course-process-section,
   .course-career-cert article,
-  .course-gallery-section,
   .course-landing-cta {
     padding: 22px;
   }
