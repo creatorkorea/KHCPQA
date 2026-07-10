@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { UserRound } from "lucide-react";
+import { Instagram, MessageCircle, UserRound, Youtube } from "lucide-react";
 import {
   getCopy,
   getTranslationStatusLabel,
@@ -12,6 +12,17 @@ import { MobileNav } from "@/components/MobileNav";
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const t = getCopy(locale);
+  const headerNavItems =
+    locale === "ko"
+      ? [
+          { label: "협회소개", href: "about" },
+          { label: "교육과정", href: "curriculum" },
+          { label: "수강안내", href: "curriculum" },
+          { label: "커뮤니티", href: "activities" },
+          { label: "취업/창업", href: "partner-inquiry" },
+          { label: "찾아오시는 길", href: "contact" }
+        ]
+      : navItems.map((item) => ({ label: t.nav[item.key], href: item.href }));
 
   return (
     <header className="site-header">
@@ -24,9 +35,9 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       </Link>
 
       <nav className="desktop-nav" aria-label="Primary navigation">
-        {navItems.map((item) => (
-          <Link key={item.key} href={`/${locale}/${item.href}`}>
-            {t.nav[item.key]}
+        {headerNavItems.map((item) => (
+          <Link key={`${item.href}-${item.label}`} href={`/${locale}/${item.href}`}>
+            {item.label}
           </Link>
         ))}
       </nav>
@@ -48,16 +59,33 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
   return (
     <footer className="site-footer">
-      <div>
-        <div className="footer-brand">{t.brand}</div>
-        <p>{t.brandFull}</p>
+      <div className="footer-brand-block">
+        <Link className="footer-logo" href={`/${locale}`}>
+          <span className="brand-symbol" aria-hidden="true" />
+          <span>
+            <strong>{t.brand}</strong>
+            <small>{t.brandFull}</small>
+          </span>
+        </Link>
+        <p>체계적인 교육과 취업·창업 지원을 연결하는 프리미엄 전문 교육 플랫폼입니다.</p>
       </div>
-      <div className="footer-grid">
-        <Link href={`/${locale}/about`}>{t.nav.about}</Link>
-        <Link href={`/${locale}/curriculum`}>{t.nav.curriculum}</Link>
-        <Link href={`/${locale}/activities`}>{t.nav.activities}</Link>
-        <Link href={`/${locale}/partner-inquiry`}>{t.nav.partner}</Link>
-        <Link href={`/${locale}/contact`}>{t.nav.contact}</Link>
+      <div className="footer-contact">
+        <strong>Customer Center</strong>
+        <span>전화 02-581-1278</span>
+        <span>이메일 khcpqa@naver.com</span>
+        <span>주소 서울특별시 강남구 테헤란로 123, 5층</span>
+      </div>
+      <div className="footer-links">
+        <div className="footer-policy">
+          <Link href={`/${locale}/about`}>개인정보처리방침</Link>
+          <Link href={`/${locale}/about`}>이용약관</Link>
+          <Link href={`/${locale}/curriculum`}>사이트맵</Link>
+        </div>
+        <div className="footer-social" aria-label="Social links">
+          <Link href={`/${locale}/activities`} aria-label="Instagram"><Instagram size={18} /></Link>
+          <Link href={`/${locale}/activities`} aria-label="Kakao"><MessageCircle size={18} /></Link>
+          <Link href={`/${locale}/activities`} aria-label="YouTube"><Youtube size={18} /></Link>
+        </div>
       </div>
     </footer>
   );

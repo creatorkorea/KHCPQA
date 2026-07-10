@@ -2,9 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
-  Award,
   BadgeCheck,
-  BookOpen,
   BriefcaseBusiness,
   CalendarDays,
   ClipboardPenLine,
@@ -12,23 +10,23 @@ import {
   HandHeart,
   Headphones,
   HeartPulse,
-  ShieldCheck,
+  Lightbulb,
+  Megaphone,
+  MessageCircle,
   Store,
   Users
 } from "lucide-react";
-import { getActivityGroups, getCopy, getCourses, getStats, type Locale } from "@/lib/content";
+import { getCopy, getCourses, type Locale } from "@/lib/content";
 import { StatusBadge } from "@/components/SiteShell";
 
-const heroStatIcons = [GraduationCap, BriefcaseBusiness, Store];
 const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, HeartPulse, HandHeart, ClipboardPenLine, Headphones];
+const heroSummaryIcons = [GraduationCap, BriefcaseBusiness, Store];
+const supportIcons = [Users, BadgeCheck, Lightbulb, Megaphone];
 
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
   const courses = getCourses(locale);
-  const activityGroups = getActivityGroups(locale);
-  const stats = getStats(locale).slice(0, 3);
-  const platformIcons = [ShieldCheck, BookOpen, BadgeCheck];
   const previewCourseIndexes = [5, 3, 4, 6, 7, 8, 9, 13];
   const previewCourses = previewCourseIndexes.flatMap((index) => (courses[index] ? [courses[index]] : []));
   const quickNavItems = [
@@ -40,6 +38,28 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
     { label: t.primaryCta, href: `/${locale}/curriculum` },
     { label: t.courseDetail.inquiryCta, href: `/${locale}/partner-inquiry` }
   ];
+  const heroSummaries = [
+    { title: "실무 중심 교육", body: "현장 중심 커리큘럼" },
+    { title: "취업 연계 지원", body: "맞춤형 취업 상담" },
+    { title: "창업 지원", body: "1인 창업 컨설팅" }
+  ];
+  const supportPrograms = [
+    { title: "1:1 취업 상담", body: "전문 상담사와 함께 맞춤형 취업 설계" },
+    { title: "취업 연계 시스템", body: "협회 협력업체 연계를 통한 취업 기회 제공" },
+    { title: "창업 컨설팅", body: "1인 창업을 위한 맞춤 컨설팅 지원" },
+    { title: "마케팅 & 운영 지원", body: "홍보, 마케팅, 운영 노하우 제공" }
+  ];
+  const notices = [
+    "2024년 하반기 신규 교육과정 안내",
+    "수강료 할인 이벤트 안내",
+    "자격증 시험 일정 안내",
+    "5월 개강반 모집 안내"
+  ];
+  const schedules = [
+    ["오전반", "월~금 10:00 - 13:00"],
+    ["오후반", "월~금 14:00 - 17:00"],
+    ["야간반", "월~금 19:00 - 21:00"]
+  ];
 
   return (
     <>
@@ -50,7 +70,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
             <h1>
               {locale === "ko" ? (
                 <>
-                  당신의 기술이 <span>미래</span>가 되는 곳
+                  당신의 기술이
+                  <br />
+                  <span>미래</span>가 되는 곳
                 </>
               ) : (
                 t.heroTitle
@@ -58,14 +80,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
             </h1>
             <p>{t.heroLead}</p>
             <div className="hero-trust-row">
-              {stats.map((item, index) => {
-                const Icon = heroStatIcons[index];
+              {heroSummaries.map((item, index) => {
+                const Icon = heroSummaryIcons[index];
                 return (
-                  <div key={item.label}>
+                  <div key={item.title}>
                     <Icon aria-hidden="true" size={22} strokeWidth={1.65} />
                     <span>
-                      <strong>{item.value}</strong>
-                      <small>{item.label}</small>
+                      <strong>{item.title}</strong>
+                      <small>{item.body}</small>
                     </span>
                   </div>
                 );
@@ -87,8 +109,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
             <Link className="hero-floating-card" href={`/${locale}/partner-inquiry`}>
               <BadgeCheck size={24} />
               <span>
-                <strong>{t.courseDetail.inquiryCta}</strong>
-                <small>{t.home.certificationLead}</small>
+                <strong>수강료 문의</strong>
+                <small>맞춤 상담을 받아보세요</small>
               </span>
               <ArrowRight size={16} />
             </Link>
@@ -108,41 +130,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         </div>
       </section>
 
-      <section className="section-band platform-section">
-        <div className="platform-shell">
-          <div className="platform-copy">
-            <span className="eyebrow">{t.home.platformEyebrow}</span>
-            <h2>{t.trustTitle}</h2>
-            <p>{t.home.platformLead}</p>
-            <div className="platform-actions">
-              <Link href={`/${locale}/about`}>{t.home.learnMore} <ArrowRight size={15} /></Link>
-              <Link href={`/${locale}/curriculum`}>{t.home.viewCurriculum} <ArrowRight size={15} /></Link>
-            </div>
-          </div>
-
-          <div className="platform-feature-list">
-            {t.home.platformFeatures.map((feature, index) => {
-              const Icon = platformIcons[index];
-              return (
-                <article key={feature.title}>
-                  <Icon size={24} />
-                  <div>
-                    <h3>{feature.title}</h3>
-                    <p>{feature.body}</p>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       <section className="content-section curriculum-preview">
         <div className="section-heading inline">
           <div>
-            <span className="eyebrow">{t.home.curriculumEyebrow}</span>
             <h2>{t.curriculumTitle}</h2>
-            <p>{t.home.curriculumLead}</p>
+            <p>현장 경험이 풍부한 강사진과 체계적인 커리큘럼으로 전문가로 성장할 수 있도록 지원합니다.</p>
           </div>
           <Link href={`/${locale}/curriculum`}>
             {t.home.viewAll} <ArrowRight size={15} />
@@ -151,7 +143,18 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         <div className="curriculum-preview-shell">
           <aside className="curriculum-side-tabs" aria-label={t.curriculumTitle}>
             <Link className="active" href={`/${locale}/curriculum`}>{t.home.viewAll}</Link>
-            {courses.slice(0, 9).map((course) => (
+            {[
+              courses[0],
+              courses[1],
+              courses[2],
+              courses[3],
+              courses[4],
+              courses[5],
+              courses[6],
+              courses[7],
+              courses[8],
+              courses[9]
+            ].filter(Boolean).map((course) => (
               <Link key={course.title} href={`/${locale}/curriculum/${course.slug}`}>
                 {course.title}
               </Link>
@@ -173,45 +176,78 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         </div>
       </section>
 
-      <section className="content-section activities-preview">
-        <div className="section-heading inline">
-          <div>
-            <span className="eyebrow">{t.home.activitiesEyebrow}</span>
-            <h2>{t.activitiesTitle}</h2>
-            <p>{t.home.activitiesLead}</p>
-          </div>
-          <Link href={`/${locale}/activities`}>
-            {t.home.viewAll} <ArrowRight size={15} />
-          </Link>
+      <section className="support-program-section">
+        <div className="section-heading centered">
+          <h2>취업 & 창업 지원 프로그램</h2>
+          <p>교육부터 취업, 창업까지 원스톱으로 지원합니다.</p>
         </div>
-        <div className="activity-showcase">
-          <div className="activity-tile-grid" aria-label="Global activity categories">
-            {activityGroups.map((activity) => {
-              const Icon = activity.icon;
-              return (
-                <Link className="activity-tile" href={`/${locale}/activities`} key={activity.key}>
-                  <Icon size={24} strokeWidth={1.7} />
-                  <span>{activity.title}</span>
-                </Link>
-              );
-            })}
-          </div>
+        <div className="support-program-grid">
+          {supportPrograms.map((program, index) => {
+            const Icon = supportIcons[index];
+            return (
+              <article key={program.title}>
+                <Icon size={30} strokeWidth={1.55} />
+                <h3>{program.title}</h3>
+                <p>{program.body}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
 
-          <article className="certification-card">
-            <div>
-              <span className="eyebrow">{t.home.certificationEyebrow}</span>
-              <h3>{t.home.certificationTitle}</h3>
-              <p>{t.home.certificationLead}</p>
-              <Link href={`/${locale}/login`}>
-                {t.home.certificationCta} <ArrowRight size={15} />
-              </Link>
+      <section className="landing-info-section">
+        <div className="landing-info-grid">
+          <article className="landing-info-card">
+            <div className="landing-info-head">
+              <h2>공지사항</h2>
+              <Link href={`/${locale}/activities`}>더보기 <ArrowRight size={14} /></Link>
             </div>
-            <div className="certificate-preview" aria-hidden="true">
-              <BadgeCheck size={34} />
-              <strong>KHCPQA</strong>
-              <span>{t.home.certificateLabel}</span>
+            <ul>
+              {notices.map((notice, index) => (
+                <li key={notice}>
+                  <span>{notice}</span>
+                  <time>{`2024.05.${20 - index * 5}`}</time>
+                </li>
+              ))}
+            </ul>
+          </article>
+          <article className="landing-info-card">
+            <div className="landing-info-head">
+              <h2>강의시간 안내</h2>
+              <Link href={`/${locale}/contact`}>더보기 <ArrowRight size={14} /></Link>
+            </div>
+            <div className="schedule-list">
+              {schedules.map(([label, time]) => (
+                <div key={label}>
+                  <strong>{label}</strong>
+                  <span>{time}</span>
+                </div>
+              ))}
             </div>
           </article>
+          <article className="consult-card">
+            <div>
+              <MessageCircle size={28} />
+              <h2>지금 상담받고<br />미래를 준비하세요!</h2>
+              <p>전문 상담사가 친절하게 안내해 드립니다.</p>
+              <Link href={`/${locale}/partner-inquiry`}>
+                상담 신청하기 <ArrowRight size={15} />
+              </Link>
+            </div>
+            <span className="consult-plant" aria-hidden="true" />
+          </article>
+        </div>
+      </section>
+
+      <section className="bottom-cta-section">
+        <div className="bottom-cta-banner">
+          <div>
+            <h2>전문가의 꿈, KHCPQA가 함께합니다</h2>
+            <p>체계적인 교육과 든든한 지원으로 당신의 미래를 응원합니다.</p>
+          </div>
+          <Link href={`/${locale}/partner-inquiry`}>
+            수강 상담 신청하기 <ArrowRight size={15} />
+          </Link>
         </div>
       </section>
     </>
