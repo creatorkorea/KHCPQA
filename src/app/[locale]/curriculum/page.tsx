@@ -1,11 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BriefcaseBusiness, CalendarDays, HeartPulse, Store } from "lucide-react";
+import {
+  ArrowRight,
+  BriefcaseBusiness,
+  CalendarDays,
+  ClipboardPenLine,
+  Headphones,
+  HeartPulse,
+  Sparkles,
+  Store
+} from "lucide-react";
 import { getCopy, getCourses, type Locale } from "@/lib/content";
 import { CurriculumCatalog } from "@/components/CurriculumCatalog";
 import { buildLocaleMetadata } from "@/lib/seo";
 
-const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, HeartPulse];
+const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, Sparkles, HeartPulse, ClipboardPenLine, Headphones];
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
@@ -23,7 +32,15 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
   const { locale } = await params;
   const t = getCopy(locale);
   const courses = getCourses(locale);
-  const featuredCourses = courses.slice(0, 4);
+  const heroQuickItems = [
+    { label: courses[0]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[0]?.slug ?? ""}` },
+    { label: courses[1]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[1]?.slug ?? ""}` },
+    { label: courses[2]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[2]?.slug ?? ""}` },
+    { label: courses[4]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[4]?.slug ?? ""}` },
+    { label: locale === "ko" ? "마사지 과정" : "Massage Programs", href: `/${locale}/curriculum/${courses[6]?.slug ?? ""}` },
+    { label: t.primaryCta, href: `/${locale}/curriculum#curriculum-list` },
+    { label: t.courseDetail.inquiryCta, href: `/${locale}/partner-inquiry` }
+  ];
   const heroMetrics = [
     { label: locale === "ko" ? "목표별 과정" : "Goal Tracks", value: "3" },
     { label: locale === "ko" ? "실무 과목" : "Practical Programs", value: "15+" },
@@ -35,7 +52,15 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
       <section className="curriculum-hero">
         <div className="curriculum-hero-copy">
           <span className="eyebrow">{t.curriculumPage.eyebrow}</span>
-          <h1>{t.curriculumTitle}</h1>
+          <h1>
+            {locale === "ko" ? (
+              <>
+                내 목표에 맞는 <span>전문 과정</span>
+              </>
+            ) : (
+              t.curriculumTitle
+            )}
+          </h1>
           <p>{t.curriculumPage.lead}</p>
           <dl className="curriculum-hero-metrics">
             {heroMetrics.map((metric) => (
@@ -68,12 +93,12 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
         </div>
 
         <nav className="curriculum-quick-nav" aria-label={t.curriculumTitle}>
-          {featuredCourses.map((course, index) => {
+          {heroQuickItems.map((item, index) => {
             const Icon = quickNavIcons[index] ?? HeartPulse;
             return (
-              <Link key={course.title} href={`/${locale}/curriculum/${course.slug}`}>
+              <Link key={`${item.label}-${index}`} href={item.href}>
                 <Icon aria-hidden="true" size={23} strokeWidth={1.55} />
-                <span>{course.title}</span>
+                <span>{item.label}</span>
               </Link>
             );
           })}
