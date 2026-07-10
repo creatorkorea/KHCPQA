@@ -88,8 +88,8 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
           <div className="curriculum-hero-note">
             <HeartPulse size={22} />
             <span>
-              <strong>{t.home.curriculumEyebrow}</strong>
-              <small>{t.home.curriculumLead}</small>
+              <strong>{locale === "ko" ? "과정 선택 상담" : t.home.curriculumEyebrow}</strong>
+              <small>{locale === "ko" ? "목표에 맞는 과정을 추천해드려요" : t.home.curriculumLead}</small>
             </span>
           </div>
         </div>
