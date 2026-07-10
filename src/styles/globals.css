@@ -1166,14 +1166,18 @@ p {
 }
 
 .about-subnav {
+  background: #fbfaff;
+  border-bottom: 1px solid rgba(229, 222, 242, 0.72);
   display: flex;
   gap: 8px;
-  margin: -24px auto 0;
-  max-width: 1320px;
+  margin: 0;
+  max-width: none;
   overflow-x: auto;
-  padding: 0 clamp(20px, 4vw, 48px) 18px;
+  padding: 30px max(clamp(20px, 4vw, 48px), calc((100vw - 1200px) / 2)) 26px;
+  position: relative;
   scrollbar-width: none;
   white-space: nowrap;
+  z-index: 2;
 }
 
 .about-subnav::-webkit-scrollbar {
