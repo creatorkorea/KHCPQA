@@ -16,7 +16,11 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   return (
     <header className="site-header">
       <Link className="brand-mark" href={`/${locale}`} aria-label="KHCPQA home">
-        <strong>{t.brand}</strong>
+        <span className="brand-symbol" aria-hidden="true" />
+        <span>
+          <strong>{t.brand}</strong>
+          <small>{t.brandFull}</small>
+        </span>
       </Link>
 
       <nav className="desktop-nav" aria-label="Primary navigation">
