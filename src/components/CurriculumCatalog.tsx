@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, MessageCircle, Search, Sparkles } from "lucide-react";
 import { getCopy, type Course, type CourseCategory, type Locale } from "@/lib/content";
 
 const categories: CourseCategory[] = ["all", "certification", "professional", "practical"];
@@ -30,6 +30,7 @@ export function CurriculumCatalog({
   });
   const goalCourses = filteredCourses.filter((course) => course.categoryKey === "professional");
   const catalogCourses = filteredCourses.filter((course) => course.categoryKey !== "professional");
+  const activeCategoryLabel = t.categories[category];
 
   return (
     <div className="catalog-layout">
@@ -60,6 +61,11 @@ export function CurriculumCatalog({
               placeholder={t.searchPlaceholder}
             />
           </label>
+          <div className="catalog-result-summary" aria-live="polite">
+            <span>{activeCategoryLabel}</span>
+            <strong>{filteredCourses.length}</strong>
+            <small>/ {courses.length} {locale === "ko" ? "과정" : "courses"}</small>
+          </div>
         </div>
 
         {goalCourses.length > 0 ? (
@@ -72,8 +78,10 @@ export function CurriculumCatalog({
               {goalCourses.map((course) => (
                 <article className="goal-course-card" key={course.title}>
                   <span>{course.category}</span>
-                  <h3>{course.title}</h3>
-                  <p>{course.summary}</p>
+                  <div>
+                    <h3>{course.title}</h3>
+                    <p>{course.summary}</p>
+                  </div>
                   <Link className="card-link" href={`/${locale}/curriculum/${course.slug}`}>
                     {t.viewDetails} <ArrowRight size={14} />
                   </Link>
@@ -93,9 +101,11 @@ export function CurriculumCatalog({
               {catalogCourses.map((course) => (
                 <article className="course-card" key={course.title}>
                   <Image src={course.imageUrl} alt={course.title} width={640} height={320} />
-                  <span>{course.category}</span>
-                  <h3>{course.title}</h3>
-                  <p>{course.summary}</p>
+                  <div className="course-card-body">
+                    <span>{course.category}</span>
+                    <h3>{course.title}</h3>
+                    <p>{course.summary}</p>
+                  </div>
                   <Link className="card-link" href={`/${locale}/curriculum/${course.slug}`}>
                     {t.viewDetails} <ArrowRight size={14} />
                   </Link>
@@ -108,6 +118,23 @@ export function CurriculumCatalog({
         {filteredCourses.length === 0 ? (
           <p className="empty-state">{t.emptyState}</p>
         ) : null}
+
+        <section className="catalog-consult-cta" aria-label={locale === "ko" ? "과정 상담 안내" : "Program consultation"}>
+          <div>
+            <Sparkles size={22} />
+            <h2>{locale === "ko" ? "어떤 과정을 선택해야 할지 고민되시나요?" : "Need help choosing a program?"}</h2>
+            <p>
+              {locale === "ko"
+                ? "목표와 현재 역량에 맞춰 취업, 창업, 주말 학습 과정을 함께 설계해 드립니다."
+                : "We help match your goals and current skills with the right employment, startup, or weekend learning path."}
+            </p>
+          </div>
+          <Link href={`/${locale}/partner-inquiry`}>
+            <MessageCircle size={17} />
+            {locale === "ko" ? "맞춤 상담 신청" : "Request advising"}
+            <ArrowRight size={15} />
+          </Link>
+        </section>
       </div>
     </div>
   );

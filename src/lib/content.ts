@@ -1228,13 +1228,13 @@ const courseImages = [
   "/assets/premium-course-sports.png",
   "/assets/premium-course-foot.png",
   "/assets/premium-course-maternity.png",
-  "/assets/premium-course-maternity.png",
-  "/assets/premium-course-meridian.png",
-  "/assets/premium-course-sports.png",
+  "/assets/course-thumb-massage-training.png",
+  "/assets/course-generated-aromatherapy.png",
+  "/assets/course-generated-sports-massage.png",
   "/assets/premium-course-swedish.png",
-  "/assets/premium-course-aroma.png",
-  "/assets/premium-course-medical-skincare.png",
-  "/assets/premium-course-medical-skincare.png",
+  "/assets/course-thumb-aromatherapy.png",
+  "/assets/course-generated-medical-skincare.png",
+  "/assets/course-thumb-business-planning.png",
   "/assets/premium-course-facial-contouring.png"
 ];
 

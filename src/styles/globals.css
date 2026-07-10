@@ -1779,7 +1779,7 @@ p {
 
 .course-grid {
   display: grid;
-  gap: 18px;
+  gap: 24px;
   grid-template-columns: repeat(3, 1fr);
 }
 
@@ -2393,61 +2393,73 @@ p {
 .catalog-layout {
   align-items: start;
   display: grid;
-  gap: clamp(22px, 4vw, 42px);
-  grid-template-columns: 210px minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 44px);
+  grid-template-columns: 220px minmax(0, 1fr);
   margin: 0 auto;
-  max-width: 1320px;
+  max-width: 1200px;
 }
 
 .catalog-rail {
-  background: linear-gradient(180deg, #ffffff 0%, #faf8ff 100%);
+  background: rgba(255, 255, 255, 0.88);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: 0 16px 40px rgba(64, 48, 118, 0.07);
-  overflow: hidden;
+  border-radius: 22px;
+  box-shadow: 0 18px 50px rgba(64, 48, 118, 0.08);
+  padding: 10px;
   position: sticky;
   top: 92px;
 }
 
 .catalog-rail > span {
   background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+  border-radius: 16px;
   color: white;
   display: block;
   font-size: 13px;
   font-weight: 900;
-  padding: 16px 18px;
+  margin-bottom: 8px;
+  padding: 15px 16px;
 }
 
 .catalog-rail-pills {
   display: grid;
+  gap: 4px;
 }
 
 .catalog-rail-pills button {
   background: transparent;
   border: 0;
-  border-bottom: 1px solid var(--line);
+  border-radius: 14px;
   color: var(--ink);
   cursor: pointer;
   font-size: 14px;
   font-weight: 850;
   line-height: 1.35;
-  min-height: 48px;
-  padding: 14px 18px;
+  min-height: 44px;
+  padding: 12px 14px;
   text-align: left;
   word-break: keep-all;
 }
 
-.catalog-rail-pills button:last-child {
-  border-bottom: 0;
-}
-
 .catalog-rail-pills button.active {
-  background: var(--purple-soft);
+  background: linear-gradient(135deg, rgba(123, 79, 214, 0.14), rgba(243, 239, 255, 0.92));
   color: var(--purple-dark);
 }
 
 .catalog-main {
   min-width: 0;
+}
+
+.curriculum-toolbar {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 16px 44px rgba(64, 48, 118, 0.06);
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 34px;
+  padding: 14px 16px;
 }
 
 .search-box,
@@ -2459,12 +2471,14 @@ p {
 }
 
 .search-box {
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  background: #fbfaff;
+  border: 1px solid rgba(229, 222, 242, 0.92);
+  border-radius: 999px;
   color: var(--muted);
-  min-height: 48px;
-  padding: 11px 14px;
+  flex: 1;
+  max-width: 420px;
+  min-height: 46px;
+  padding: 10px 16px;
 }
 
 .search-box svg {
@@ -2475,12 +2489,43 @@ p {
   background: transparent;
   border: 0;
   color: var(--ink);
+  font-size: 14px;
   min-width: min(260px, 60vw);
   outline: 0;
 }
 
 .search-box input::placeholder {
   color: var(--muted);
+}
+
+.catalog-result-summary {
+  align-items: center;
+  background: var(--purple-soft);
+  border: 1px solid rgba(222, 210, 251, 0.84);
+  border-radius: 999px;
+  color: var(--purple-dark);
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 7px;
+  min-height: 42px;
+  padding: 8px 14px;
+}
+
+.catalog-result-summary span,
+.catalog-result-summary small {
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.catalog-result-summary strong {
+  color: var(--purple);
+  font-size: 18px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.catalog-result-summary small {
+  color: rgba(81, 57, 128, 0.62);
 }
 
 .filter-pills span,
@@ -2508,7 +2553,7 @@ p {
 }
 
 .program-course-section {
-  margin-top: 36px;
+  margin-top: 42px;
 }
 
 .catalog-heading {
@@ -2530,7 +2575,7 @@ p {
 
 .goal-course-grid {
   display: grid;
-  gap: 16px;
+  gap: 20px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -2538,11 +2583,13 @@ p {
   background:
     linear-gradient(180deg, rgba(248, 245, 255, 0.82), rgba(255, 255, 255, 0.98));
   border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: 0 12px 30px rgba(64, 48, 118, 0.05);
-  min-height: 204px;
+  border-radius: 22px;
+  box-shadow: 0 18px 44px rgba(64, 48, 118, 0.07);
+  display: flex;
+  flex-direction: column;
+  min-height: 224px;
   overflow: hidden;
-  padding: 22px 24px;
+  padding: 24px;
   position: relative;
 }
 
@@ -2574,6 +2621,102 @@ p {
   font-size: 14px;
   line-height: 1.65;
   margin: 0 0 18px;
+}
+
+.goal-course-card .card-link {
+  margin-top: auto;
+}
+
+.program-course-section .course-card {
+  border-radius: 22px;
+  box-shadow: 0 12px 34px rgba(64, 48, 118, 0.05);
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+  padding: 18px;
+}
+
+.program-course-section .course-card img {
+  aspect-ratio: 1.24 / 1;
+  border: 0;
+  border-radius: 18px;
+  margin: 0 0 18px;
+  width: 100%;
+}
+
+.course-card-body {
+  display: grid;
+  gap: 8px;
+}
+
+.program-course-section .course-card span {
+  font-size: 11px;
+}
+
+.program-course-section .course-card h3 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.program-course-section .course-card p {
+  font-size: 14px;
+  line-height: 1.62;
+  margin: 0;
+  min-height: 70px;
+}
+
+.program-course-section .course-card .card-link {
+  margin-top: auto;
+  width: fit-content;
+}
+
+.catalog-consult-cta {
+  align-items: center;
+  background:
+    linear-gradient(90deg, rgba(31, 31, 41, 0.94), rgba(47, 38, 71, 0.82)),
+    url("/assets/premium-hero-wellness-education.png") center right / cover;
+  border-radius: 24px;
+  color: white;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin-top: 54px;
+  overflow: hidden;
+  padding: 34px 38px;
+}
+
+.catalog-consult-cta div {
+  max-width: 640px;
+}
+
+.catalog-consult-cta svg {
+  color: #d9c8ff;
+}
+
+.catalog-consult-cta h2 {
+  color: white;
+  font-size: clamp(24px, 2.6vw, 34px);
+  margin: 10px 0 10px;
+}
+
+.catalog-consult-cta p {
+  color: rgba(255, 255, 255, 0.76);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.catalog-consult-cta a {
+  align-items: center;
+  background: white;
+  border-radius: 999px;
+  color: var(--purple-dark);
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 14px;
+  font-weight: 900;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 18px;
 }
 
 .empty-state {
@@ -3786,6 +3929,26 @@ p {
     border-right: 1px solid var(--line);
     flex: 0 0 auto;
     text-align: center;
+  }
+
+  .curriculum-toolbar,
+  .catalog-consult-cta {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .search-box {
+    max-width: none;
+    width: 100%;
+  }
+
+  .catalog-result-summary,
+  .catalog-consult-cta a {
+    width: fit-content;
+  }
+
+  .catalog-consult-cta {
+    padding: 28px 24px;
   }
 
   .activity-showcase {
