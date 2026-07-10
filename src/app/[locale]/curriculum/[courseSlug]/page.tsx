@@ -279,6 +279,41 @@ export default async function CourseDetailPage({
         </div>
       </section>
 
+      {sections.length ? (
+        <section className="course-original-detail-section">
+          <div className="course-section-heading">
+            <span className="eyebrow">{locale === "ko" ? "원본 과정 내용" : "Original Course Content"}</span>
+            <h2>{locale === "ko" ? "상세 교육 안내" : "Detailed Program Guide"}</h2>
+            <p>
+              {locale === "ko"
+                ? "기존 SMC365 과정 페이지의 주요 교육 내용, 운영 안내, 교육 특징, 진출 분야를 과정별로 정리했습니다."
+                : "Key training content, operating guidance, course features, and career fields from the original SMC365 course page."}
+            </p>
+          </div>
+          <div>
+            {sections.map((section, index) => (
+              <article className={section.variant === "chips" ? "chip-detail" : ""} key={`${section.title}-${index}`}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{section.title}</h3>
+                {section.variant === "chips" ? (
+                  <div>
+                    {section.items.map((item) => (
+                      <em key={item}>{item}</em>
+                    ))}
+                  </div>
+                ) : (
+                  <ul>
+                    {section.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <section className="course-career-cert">
         <article>
           <h2>{locale === "ko" ? "수료 후 진로 및 활용" : "After Completion"}</h2>
