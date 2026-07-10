@@ -17,6 +17,7 @@ import {
   Users
 } from "lucide-react";
 import { getCopy, getCourseBySlug, getCourseSlugs, type Locale } from "@/lib/content";
+import { originalCourseDetails } from "@/lib/original-course-details";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 const smcContentBaseUrl = "https://www.smc365.ac/images/content";
@@ -144,6 +145,7 @@ export default async function CourseDetailPage({
   const originalHeroImage = getOriginalCourseImage(course.source, "img01.jpg");
   const originalSupportImage = getOriginalCourseImage(course.source, "img02.jpg");
   const originalProcessImages = getOriginalProcessImages(course.source, processLabels.length);
+  const originalCourseDetail = originalCourseDetails[originalCourseNumber];
   const audienceItems = splitAudience(course.audience);
   const careerItems = [
     locale === "ko" ? "전문 샵 취업" : "Professional salon employment",
@@ -308,6 +310,48 @@ export default async function CourseDetailPage({
                     ))}
                   </ul>
                 )}
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {originalCourseDetail?.sections.length ? (
+        <section className="course-source-archive-section">
+          <div className="course-section-heading">
+            <span className="eyebrow">{locale === "ko" ? "원본 전체 자료" : "Original Source Archive"}</span>
+            <h2>{locale === "ko" ? "원본 페이지 컨텐츠" : "Original Page Content"}</h2>
+            <p>
+              {locale === "ko"
+                ? "SMC365 원본 과정 페이지의 문단, 목록, 이미지 자료를 과정별로 다시 구성했습니다."
+                : "Paragraphs, lists, and image resources from the original SMC365 course page."}
+            </p>
+          </div>
+          <div>
+            {originalCourseDetail.sections.map((section, index) => (
+              <article key={`${section.title ?? section.titleImage ?? "source"}-${index}`}>
+                <div className="source-section-title">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {section.titleImage ? (
+                    <Image src={section.titleImage} alt="" width={360} height={80} />
+                  ) : (
+                    <h3>{section.title}</h3>
+                  )}
+                </div>
+                {section.text ? (
+                  <div className="source-section-copy">
+                    {section.text.split("\n").map((line, lineIndex) => (
+                      <p key={`${line}-${lineIndex}`}>{line}</p>
+                    ))}
+                  </div>
+                ) : null}
+                {section.images.length ? (
+                  <div className="source-section-images">
+                    {section.images.map((image) => (
+                      <Image src={image} alt="" width={360} height={220} key={image} />
+                    ))}
+                  </div>
+                ) : null}
               </article>
             ))}
           </div>
