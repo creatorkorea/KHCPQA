@@ -55,7 +55,9 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
           <h1>
             {locale === "ko" ? (
               <>
-                내 목표에 맞는 <span>전문 과정</span>
+                내 목표에 맞는
+                <br />
+                <span>전문 과정</span>
               </>
             ) : (
               t.curriculumTitle

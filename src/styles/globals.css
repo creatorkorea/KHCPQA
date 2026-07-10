@@ -614,8 +614,8 @@ p {
 
 .curriculum-hero {
   background:
-    radial-gradient(circle at 58% 8%, rgba(111, 69, 199, 0.13) 0 7%, transparent 28%),
-    linear-gradient(105deg, #ffffff 0%, #ffffff 44%, #f6f0ff 44%, #fbf9ff 100%);
+    radial-gradient(circle at 58% 8%, rgba(111, 69, 199, 0.12) 0 6%, transparent 27%),
+    linear-gradient(105deg, #ffffff 0%, #ffffff 45%, #f7f2ff 45%, #fbf9ff 100%);
   display: grid;
   gap: 0 clamp(26px, 4vw, 70px);
   grid-template-columns: minmax(420px, 0.82fr) minmax(520px, 1.08fr);
@@ -627,16 +627,17 @@ p {
 }
 
 .curriculum-hero::after {
-  background: rgba(111, 69, 199, 0.32);
-  border-radius: 999px;
+  background: transparent;
+  border-left: 64px solid rgba(111, 69, 199, 0.34);
+  border-radius: 50%;
   content: "";
-  height: 760px;
-  left: 45%;
+  height: 780px;
+  left: 42.5%;
   pointer-events: none;
   position: absolute;
-  top: -120px;
-  transform: rotate(16deg);
-  width: 74px;
+  top: -180px;
+  transform: rotate(13deg);
+  width: 330px;
   z-index: 1;
 }
 
@@ -648,11 +649,11 @@ p {
 }
 
 .curriculum-hero-copy h1 {
-  font-size: clamp(44px, 4.45vw, 64px);
+  font-size: clamp(42px, 4.1vw, 58px);
   font-weight: 950;
   line-height: 1.08;
   margin: 20px 0 20px;
-  max-width: 620px;
+  max-width: 560px;
   word-break: keep-all;
 }
 
@@ -664,7 +665,7 @@ p {
   color: var(--muted);
   font-size: clamp(16px, 1.5vw, 19px);
   line-height: 1.72;
-  max-width: 520px;
+  max-width: 455px;
 }
 
 .curriculum-hero-metrics {
@@ -707,14 +708,14 @@ p {
 
 .curriculum-hero-visual {
   align-self: end;
-  height: clamp(390px, 30vw, 460px);
-  margin: -34px -92px 0 -150px;
+  height: clamp(390px, 31vw, 475px);
+  margin: -34px -92px 0 -34px;
   position: relative;
   z-index: 1;
 }
 
 .curriculum-hero-visual::before {
-  background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.78) 28%, rgba(255, 255, 255, 0) 58%);
+  background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.72) 24%, rgba(255, 255, 255, 0) 54%);
   content: "";
   inset: 0 auto 0 0;
   pointer-events: none;
@@ -742,12 +743,13 @@ p {
   height: 100%;
   max-width: none;
   object-fit: cover;
-  object-position: 58% center;
+  object-position: 72% center;
   opacity: 0.96;
-  transform: translateX(22px);
+  transform: translateX(8px) scale(1.12);
+  transform-origin: center right;
   width: calc(100% + 24px);
-  -webkit-mask-image: radial-gradient(105% 92% at 69% 46%, #000 0%, #000 58%, rgba(0, 0, 0, 0.72) 73%, transparent 100%);
-  mask-image: radial-gradient(105% 92% at 69% 46%, #000 0%, #000 58%, rgba(0, 0, 0, 0.72) 73%, transparent 100%);
+  -webkit-mask-image: radial-gradient(104% 96% at 72% 46%, #000 0%, #000 61%, rgba(0, 0, 0, 0.7) 76%, transparent 100%);
+  mask-image: radial-gradient(104% 96% at 72% 46%, #000 0%, #000 61%, rgba(0, 0, 0, 0.7) 76%, transparent 100%);
 }
 
 .curriculum-hero-note {
@@ -764,7 +766,7 @@ p {
   max-width: 330px;
   padding: 16px 18px;
   position: absolute;
-  right: 86px;
+  right: 74px;
   z-index: 6;
 }
 
@@ -815,10 +817,10 @@ p {
   border-right: 1px solid var(--line);
   color: var(--ink);
   display: grid;
-  gap: 9px;
+  gap: 8px;
   justify-items: center;
-  min-height: 96px;
-  padding: 15px 14px;
+  min-height: 88px;
+  padding: 13px 14px;
   text-align: center;
 }
 
@@ -828,11 +830,13 @@ p {
 
 .curriculum-quick-nav svg {
   color: var(--purple);
+  height: 20px;
+  width: 20px;
 }
 
 .curriculum-quick-nav span {
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 850;
   line-height: 1.25;
   word-break: keep-all;
 }
@@ -2201,16 +2205,16 @@ p {
 }
 
 .program-course-section {
-  margin-top: 42px;
+  margin-top: 36px;
 }
 
 .catalog-heading {
-  margin-bottom: 22px;
+  margin-bottom: 18px;
   position: relative;
 }
 
 .catalog-heading h2 {
-  font-size: clamp(26px, 3vw, 40px);
+  font-size: clamp(26px, 2.7vw, 36px);
   margin: 0 0 8px;
 }
 
@@ -2223,20 +2227,20 @@ p {
 
 .goal-course-grid {
   display: grid;
-  gap: 18px;
+  gap: 16px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .goal-course-card {
   background:
-    linear-gradient(135deg, rgba(111, 69, 199, 0.12), rgba(255, 255, 255, 0.98));
+    linear-gradient(180deg, rgba(248, 245, 255, 0.82), rgba(255, 255, 255, 0.98));
   border: 1px solid var(--line);
   border-radius: 8px;
-  box-shadow: 0 16px 40px rgba(64, 48, 118, 0.07);
-  min-height: 230px;
-  padding: 24px;
-  position: relative;
+  box-shadow: 0 12px 30px rgba(64, 48, 118, 0.05);
+  min-height: 204px;
   overflow: hidden;
+  padding: 22px 24px;
+  position: relative;
 }
 
 .goal-course-card::before {
@@ -2252,18 +2256,19 @@ p {
 .goal-course-card span {
   color: var(--purple);
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 900;
   margin-bottom: 12px;
 }
 
 .goal-course-card h3 {
-  font-size: 24px;
+  font-size: 22px;
   margin: 0 0 12px;
 }
 
 .goal-course-card p {
   color: var(--muted);
+  font-size: 14px;
   line-height: 1.65;
   margin: 0 0 18px;
 }
