@@ -17,7 +17,7 @@ import {
   Users
 } from "lucide-react";
 import { getCopy, getCourseBySlug, getCourseSlugs, type Locale } from "@/lib/content";
-import { originalCourseDetails } from "@/lib/original-course-details";
+import { originalCourseDetails, type OriginalCourseDetailSection } from "@/lib/original-course-details";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 const smcContentBaseUrl = "https://www.smc365.ac/images/content";
@@ -77,6 +77,55 @@ function getOriginalProcessImages(source: string, count: number) {
   return Array.from({ length: count }, (_, index) =>
     getOriginalCourseImage(source, `img${String(index + 10).padStart(2, "0")}.jpg`)
   );
+}
+
+function getAdvancedSectionTitle(section: OriginalCourseDetailSection, index: number, locale: Locale) {
+  const text = section.text;
+  const title = section.title;
+
+  if (title && !title.includes("원본 섹션")) {
+    return title;
+  }
+
+  const labels = {
+    ko: {
+      overview: "과정 핵심 안내",
+      curriculum: "커리큘럼",
+      method: "교육 방식",
+      goals: "교육 목표",
+      theory: "관리 이론",
+      needs: "대상 및 필요성",
+      practice: "실습 과정",
+      career: "진출 분야",
+      materials: "교재 및 수료 안내",
+      detail: "상세 교육 자료"
+    },
+    default: {
+      overview: "Course Highlights",
+      curriculum: "Curriculum",
+      method: "Training Method",
+      goals: "Learning Goals",
+      theory: "Theory Guide",
+      needs: "Needs & Audience",
+      practice: "Practice Process",
+      career: "Career Pathways",
+      materials: "Materials & Completion",
+      detail: "Detailed Guide"
+    }
+  };
+  const l = locale === "ko" ? labels.ko : labels.default;
+
+  if (/정규코스|속성코스|커리큘럼|주차|교육시간/.test(text)) return l.curriculum;
+  if (/문제 해결 학습|PSL|실무자 교육|일대일 개인지도|상호실습/.test(text)) return l.method;
+  if (/인정받는|기술 습득|교육 목표|기본 인성교육|예절교육/.test(text)) return l.goals;
+  if (/정의|효과|원리|피부|신경|림프|혈액순환/.test(text)) return l.theory;
+  if (/필요성|이런 분|추천|대상|증상/.test(text)) return l.needs;
+  if (/취업|창업|진출|활동영역|수입|연봉/.test(text)) return l.career;
+  if (/자격증|수료증|교재|문제집|등록증/.test(text)) return l.materials;
+  if (section.images.length >= 4) return l.practice;
+  if (index === 0 || section.images.length) return l.overview;
+
+  return l.detail;
 }
 
 export function generateStaticParams() {
@@ -146,6 +195,8 @@ export default async function CourseDetailPage({
   const originalSupportImage = getOriginalCourseImage(course.source, "img02.jpg");
   const originalProcessImages = getOriginalProcessImages(course.source, processLabels.length);
   const originalCourseDetail = originalCourseDetails[originalCourseNumber];
+  const advancedCourseSections =
+    originalCourseDetail?.sections.filter((section) => section.text.trim() || section.images.length) ?? [];
   const audienceItems = splitAudience(course.audience);
   const careerItems = [
     locale === "ko" ? "전문 샵 취업" : "Professional salon employment",
@@ -284,12 +335,12 @@ export default async function CourseDetailPage({
       {sections.length ? (
         <section className="course-original-detail-section">
           <div className="course-section-heading">
-            <span className="eyebrow">{locale === "ko" ? "원본 과정 내용" : "Original Course Content"}</span>
-            <h2>{locale === "ko" ? "상세 교육 안내" : "Detailed Program Guide"}</h2>
+            <span className="eyebrow">{locale === "ko" ? "과정 요약" : "Program Summary"}</span>
+            <h2>{locale === "ko" ? "핵심 교육 포인트" : "Core Training Points"}</h2>
             <p>
               {locale === "ko"
-                ? "기존 SMC365 과정 페이지의 주요 교육 내용, 운영 안내, 교육 특징, 진출 분야를 과정별로 정리했습니다."
-                : "Key training content, operating guidance, course features, and career fields from the original SMC365 course page."}
+                ? "수업 목표, 추천 대상, 주요 테크닉과 진로 방향을 먼저 확인할 수 있도록 정리했습니다."
+                : "Review learning goals, audience, core techniques, and career direction before the detailed guide."}
             </p>
           </div>
           <div>
@@ -316,27 +367,32 @@ export default async function CourseDetailPage({
         </section>
       ) : null}
 
-      {originalCourseDetail?.sections.length ? (
-        <section className="course-source-archive-section">
+      {advancedCourseSections.length ? (
+        <section className="course-advanced-detail-section">
           <div className="course-section-heading">
-            <span className="eyebrow">{locale === "ko" ? "원본 전체 자료" : "Original Source Archive"}</span>
-            <h2>{locale === "ko" ? "원본 페이지 컨텐츠" : "Original Page Content"}</h2>
+            <span className="eyebrow">{locale === "ko" ? "심화 과정" : "Advanced Guide"}</span>
+            <h2>{locale === "ko" ? "깊이 있게 배우는 상세 커리큘럼" : "In-Depth Curriculum Guide"}</h2>
             <p>
               {locale === "ko"
-                ? "SMC365 원본 과정 페이지의 문단, 목록, 이미지 자료를 과정별로 다시 구성했습니다."
-                : "Paragraphs, lists, and image resources from the original SMC365 course page."}
+                ? "이론, 실습, 관리 원리와 진로 활용까지 단계별로 확인할 수 있습니다."
+                : "Explore theory, practice, care principles, and career pathways step by step."}
             </p>
           </div>
           <div>
-            {originalCourseDetail.sections.map((section, index) => (
-              <article key={`${section.title ?? section.titleImage ?? "source"}-${index}`}>
+            {advancedCourseSections.map((section, index) => (
+              <article
+                className={[
+                  section.text.length > 900 ? "text-heavy" : "",
+                  section.images.length >= 4 ? "media-rich" : ""
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                key={`${section.title ?? section.titleImage ?? "source"}-${index}`}
+              >
                 <div className="source-section-title">
                   <span>{String(index + 1).padStart(2, "0")}</span>
-                  {section.titleImage ? (
-                    <Image src={section.titleImage} alt="" width={360} height={80} />
-                  ) : (
-                    <h3>{section.title}</h3>
-                  )}
+                  <h3>{getAdvancedSectionTitle(section, index, locale)}</h3>
+                  {section.titleImage ? <Image src={section.titleImage} alt="" width={320} height={72} /> : null}
                 </div>
                 {section.text ? (
                   <div className="source-section-copy">
