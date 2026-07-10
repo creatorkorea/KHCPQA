@@ -17,9 +17,9 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       ? [
           { label: "협회소개", href: "about" },
           { label: "교육과정", href: "curriculum" },
-          { label: "수강안내", href: "curriculum" },
+          { label: "자격안내", href: "curriculum" },
+          { label: "취업지원", href: "partner-inquiry" },
           { label: "커뮤니티", href: "activities" },
-          { label: "취업/창업", href: "partner-inquiry" },
           { label: "찾아오시는 길", href: "contact" }
         ]
       : navItems.map((item) => ({ label: t.nav[item.key], href: item.href }));
@@ -47,6 +47,9 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <Link className="icon-link" href={`/${locale}/login`} aria-label={t.nav.login}>
           <span>{t.nav.login}</span>
           <UserRound size={13} />
+        </Link>
+        <Link className="consult-link" href={`/${locale}/partner-inquiry`}>
+          상담문의
         </Link>
         <MobileNav locale={locale} />
       </div>
