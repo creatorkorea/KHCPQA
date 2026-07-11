@@ -17,7 +17,6 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       ? [
           { label: "협회소개", href: "about" },
           { label: "교육과정", href: "curriculum" },
-          { label: "자격안내", href: "curriculum" },
           { label: "취업지원", href: "partner-inquiry" },
           { label: "커뮤니티", href: "activities" }
         ]
