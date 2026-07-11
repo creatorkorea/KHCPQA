@@ -10,9 +10,10 @@ My Page는 공개 메뉴에 노출하지 않는다.
 | Curriculum | 과정 및 자격 프로그램 안내 | `/[locale]/curriculum` |
 | Global Activities | 활동성과 커뮤니티 자료 | `/[locale]/activities` |
 | Partner Inquiry | 해외 기관 및 협업 문의 | `/[locale]/partner-inquiry` |
-| Contact | 지점, 연락처, 오시는 길 | `/[locale]/contact` |
 | Language | 한국어/English/Español 전환 | 현재 페이지의 같은 언어 라우트 |
 | Login | 로그인 진입 | `/[locale]/login` |
+
+Contact와 오시는 길은 공개 헤더 1차 메뉴에서는 제외하고, 푸터와 문의/상담 진입 흐름에서 제공한다.
 
 ## 로그인 후 계정 메뉴
 

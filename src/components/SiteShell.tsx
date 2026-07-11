@@ -3,7 +3,7 @@ import { Instagram, MessageCircle, UserRound, Youtube } from "lucide-react";
 import {
   getCopy,
   getTranslationStatusLabel,
-  navItems,
+  headerNavItems,
   type Locale,
   type TranslationStatus
 } from "@/lib/content";
@@ -12,17 +12,16 @@ import { MobileNav } from "@/components/MobileNav";
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const t = getCopy(locale);
-  const headerNavItems =
+  const visibleHeaderNavItems =
     locale === "ko"
       ? [
           { label: "협회소개", href: "about" },
           { label: "교육과정", href: "curriculum" },
           { label: "자격안내", href: "curriculum" },
           { label: "취업지원", href: "partner-inquiry" },
-          { label: "커뮤니티", href: "activities" },
-          { label: "찾아오시는 길", href: "contact" }
+          { label: "커뮤니티", href: "activities" }
         ]
-      : navItems.map((item) => ({ label: t.nav[item.key], href: item.href }));
+      : headerNavItems.map((item) => ({ label: t.nav[item.key], href: item.href }));
 
   return (
     <header className="site-header">
@@ -35,7 +34,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       </Link>
 
       <nav className="desktop-nav" aria-label="Primary navigation">
-        {headerNavItems.map((item) => (
+        {visibleHeaderNavItems.map((item) => (
           <Link key={`${item.href}-${item.label}`} href={`/${locale}/${item.href}`}>
             {item.label}
           </Link>

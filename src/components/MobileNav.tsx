@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { getCopy, navItems, type Locale } from "@/lib/content";
+import { getCopy, headerNavItems, type Locale } from "@/lib/content";
 
 export function MobileNav({ locale }: { locale: Locale }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +24,7 @@ export function MobileNav({ locale }: { locale: Locale }) {
 
       {isOpen ? (
         <nav className="mobile-nav-panel" id="mobile-nav-panel" aria-label="Mobile navigation">
-          {navItems.map((item) => (
+          {headerNavItems.map((item) => (
             <Link key={item.key} href={`/${locale}/${item.href}`} onClick={() => setIsOpen(false)}>
               {t.nav[item.key]}
             </Link>
