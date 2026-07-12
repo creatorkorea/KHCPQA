@@ -80,10 +80,11 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 - 환경변수가 있을 때 signup/login/reset form이 Supabase Auth를 호출하도록 연결
 - 환경변수가 없을 때는 기존 검수용 프리뷰 흐름 유지
 - `/[locale]/account/**`, `/admin/**` 보호 미들웨어 추가
+- `profiles`, `inquiries`, `certifications` 테이블과 RLS 정책 마이그레이션 초안 추가
 
 남은 구현:
 1. Supabase 프로젝트 생성 및 환경변수 주입
-2. profiles, inquiries, certifications 테이블 생성
-3. profiles, inquiries, certifications RLS 정책 연결
-4. signup 후 profiles 테이블 upsert 또는 trigger 구성
-5. 관리자 role 조회 및 `/admin/**` role 제한 강화
+2. Supabase 마이그레이션 적용 및 실제 프로젝트에서 RLS 검증
+3. account/profile, inquiries, certifications 화면을 Supabase 데이터로 연결
+4. 관리자 role 조회 및 `/admin/**` role 제한 강화
+5. 관리자 화면에서 회원 role/status 관리 기능 추가
