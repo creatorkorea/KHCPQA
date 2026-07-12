@@ -130,6 +130,7 @@ src/
 - Supabase Auth 사용
 - 이메일/비밀번호 로그인 기본
 - 비밀번호 찾기 제공
+- 회원가입은 공개 가입 방식으로 운영하며, 가입 사용자는 기본 `user` role로 생성
 
 권한:
 - `user`
@@ -200,6 +201,7 @@ NAVER_SITE_VERIFICATION=
 주의:
 - `SUPABASE_SERVICE_ROLE_KEY`는 서버 전용이며 클라이언트에 노출 금지.
 - 배포 환경과 로컬 환경의 값을 분리한다.
+- 로컬 개발용 예시는 `.env.example`을 기준으로 한다.
 
 ## 10. SEO/메타데이터
 

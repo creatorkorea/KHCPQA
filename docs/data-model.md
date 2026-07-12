@@ -67,6 +67,7 @@
 | country | 국가 |
 | preferred_locale | 선호 언어 |
 | role | user/admin role |
+| status | active/suspended/deleted |
 | created_at | 가입일 |
 
 ## certifications
