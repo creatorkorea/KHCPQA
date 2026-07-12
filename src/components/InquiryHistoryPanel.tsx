@@ -2,19 +2,20 @@
 
 import { useMemo, useState } from "react";
 import { ClipboardList } from "lucide-react";
+import type { AccountInquiry } from "@/lib/account-data";
 import { getCopy, type Locale } from "@/lib/content";
 
-export function InquiryHistoryPanel({ locale }: { locale: Locale }) {
+export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]; locale: Locale }) {
   const t = getCopy(locale);
   const statuses = useMemo(
-    () => [t.account.inquiries.allLabel, ...Array.from(new Set(t.account.inquiries.items.map((item) => item.status)))],
-    [t.account.inquiries.allLabel, t.account.inquiries.items]
+    () => [t.account.inquiries.allLabel, ...Array.from(new Set(items.map((item) => item.status)))],
+    [items, t.account.inquiries.allLabel]
   );
   const [activeStatus, setActiveStatus] = useState(statuses[0]);
   const visibleItems =
     activeStatus === t.account.inquiries.allLabel
-      ? t.account.inquiries.items
-      : t.account.inquiries.items.filter((item) => item.status === activeStatus);
+      ? items
+      : items.filter((item) => item.status === activeStatus);
 
   return (
     <section className="inquiry-history-panel">

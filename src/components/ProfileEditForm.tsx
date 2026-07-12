@@ -3,31 +3,27 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { CheckCircle2, Save } from "lucide-react";
+import type { ProfileFormValue } from "@/lib/account-data";
 import { getCopy, localeLabels, locales, type Locale } from "@/lib/content";
+import { createClient } from "@/lib/supabase/client";
+import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 
-type ProfileFormState = {
-  name: string;
-  email: string;
-  country: string;
-  preferredLanguage: Locale;
+type ProfileFormState = ProfileFormValue & {
+  form: string;
 };
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-export function ProfileEditForm({ locale }: { locale: Locale }) {
+export function ProfileEditForm({ initialProfile, locale }: { initialProfile: ProfileFormValue; locale: Locale }) {
   const t = getCopy(locale);
-  const [form, setForm] = useState<ProfileFormState>({
-    name: t.account.profile.fields[0]?.value ?? "",
-    email: t.account.profile.fields[1]?.value ?? "",
-    country: t.account.profile.fields[2]?.value ?? "",
-    preferredLanguage: locale
-  });
+  const [form, setForm] = useState<ProfileFormValue>(initialProfile);
   const [errors, setErrors] = useState<Partial<Record<keyof ProfileFormState, string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function updateField<Key extends keyof ProfileFormState>(field: Key, value: ProfileFormState[Key]) {
+  function updateField<Key extends keyof ProfileFormValue>(field: Key, value: ProfileFormValue[Key]) {
     setForm((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: undefined }));
     setIsSubmitted(false);
@@ -54,9 +50,46 @@ export function ProfileEditForm({ locale }: { locale: Locale }) {
     return Object.keys(nextErrors).length === 0;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsSubmitted(validate());
+    if (!validate()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrors({});
+
+    if (hasSupabaseBrowserEnv()) {
+      const supabase = createClient();
+      const {
+        data: { user },
+        error: userError
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        setErrors({ form: t.login.validation.emailRequired });
+        setIsSubmitting(false);
+        return;
+      }
+
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          country: form.country.trim(),
+          full_name: form.name.trim(),
+          preferred_locale: form.preferredLanguage
+        })
+        .eq("id", user.id);
+
+      if (error) {
+        setErrors({ form: error.message });
+        setIsSubmitting(false);
+        return;
+      }
+    }
+
+    setIsSubmitted(true);
+    setIsSubmitting(false);
   }
 
   return (
@@ -117,9 +150,10 @@ export function ProfileEditForm({ locale }: { locale: Locale }) {
             </span>
           </div>
         ) : null}
-        <button className="primary-button" type="submit">
+        {errors.form ? <span className="form-error full">{errors.form}</span> : null}
+        <button className="primary-button" disabled={isSubmitting} type="submit">
           <Save size={16} />
-          <span>{t.account.profile.saveCta}</span>
+          <span>{isSubmitting ? "..." : t.account.profile.saveCta}</span>
         </button>
       </form>
     </section>

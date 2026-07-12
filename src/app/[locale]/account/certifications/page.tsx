@@ -1,6 +1,7 @@
 import { AccountNav, AccountSection } from "@/components/AccountShell";
 import { CertificationLookupForm } from "@/components/CertificationLookupForm";
 import { PageIntro } from "@/components/SiteShell";
+import { getAccountData } from "@/lib/account-data";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
@@ -20,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 export default async function AccountCertificationsPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
+  const accountData = await getAccountData(locale);
 
   return (
     <>
@@ -33,7 +35,7 @@ export default async function AccountCertificationsPage({ params }: { params: Pr
         <CertificationLookupForm locale={locale} />
         <AccountSection title={t.account.certifications.title} lead={t.account.certifications.lead}>
           <div className="cert-records">
-            {t.account.certificates.map((certificate) => (
+            {accountData.certificates.map((certificate) => (
               <article key={certificate.number}>
                 <dl>
                   <div>

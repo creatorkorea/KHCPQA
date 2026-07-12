@@ -1,0 +1,171 @@
+import { getCopy, localeLabels, type Locale } from "@/lib/content";
+import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
+import { createClient } from "@/lib/supabase/server";
+
+export type ProfileFormValue = {
+  name: string;
+  email: string;
+  country: string;
+  preferredLanguage: Locale;
+};
+
+export type AccountCertificate = {
+  title: string;
+  number: string;
+  issuedAt: string;
+  status: string;
+  verificationCode: string;
+};
+
+export type AccountInquiry = {
+  receipt: string;
+  title: string;
+  type: string;
+  message: string;
+  submittedAt: string;
+  status: string;
+};
+
+export type AccountData = {
+  profileFields: Array<{ label: string; value: string }>;
+  profileForm: ProfileFormValue;
+  certificates: AccountCertificate[];
+  inquiries: AccountInquiry[];
+};
+
+type ProfileRow = {
+  email: string | null;
+  full_name: string | null;
+  country: string | null;
+  preferred_locale: Locale | null;
+};
+
+type CertificateRow = {
+  certificate_number: string;
+  course_title: string;
+  issued_at: string;
+  status: string;
+  verification_code: string;
+};
+
+type InquiryRow = {
+  id: string;
+  inquiry_type: string;
+  message: string;
+  created_at: string;
+  status: string;
+};
+
+function formatDate(locale: Locale, value: string) {
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(new Date(value));
+}
+
+function fallbackAccountData(locale: Locale): AccountData {
+  const t = getCopy(locale);
+
+  return {
+    profileFields: t.account.profile.fields,
+    profileForm: {
+      name: t.account.profile.fields[0]?.value ?? "",
+      email: t.account.profile.fields[1]?.value ?? "",
+      country: t.account.profile.fields[2]?.value ?? "",
+      preferredLanguage: locale
+    },
+    certificates: t.account.certificates,
+    inquiries: t.account.inquiries.items
+  };
+}
+
+function buildProfileData(locale: Locale, profile: ProfileRow | null, email?: string | null) {
+  const t = getCopy(locale);
+  const preferredLanguage = profile?.preferred_locale ?? locale;
+  const profileForm = {
+    name: profile?.full_name ?? "",
+    email: profile?.email ?? email ?? "",
+    country: profile?.country ?? "",
+    preferredLanguage
+  };
+
+  return {
+    profileFields: [
+      { label: t.account.profile.fields[0]?.label ?? "Name", value: profileForm.name || "-" },
+      { label: t.account.profile.fields[1]?.label ?? "Email", value: profileForm.email || "-" },
+      { label: t.account.profile.fields[2]?.label ?? "Country", value: profileForm.country || "-" },
+      {
+        label: t.account.profile.fields[3]?.label ?? "Language",
+        value: localeLabels[profileForm.preferredLanguage] ?? profileForm.preferredLanguage
+      }
+    ],
+    profileForm
+  };
+}
+
+function mapCertificate(locale: Locale, row: CertificateRow): AccountCertificate {
+  return {
+    title: row.course_title,
+    number: row.certificate_number,
+    issuedAt: formatDate(locale, row.issued_at),
+    status: row.status,
+    verificationCode: row.verification_code
+  };
+}
+
+function mapInquiry(locale: Locale, row: InquiryRow): AccountInquiry {
+  return {
+    receipt: row.id.slice(0, 8).toUpperCase(),
+    title: row.inquiry_type,
+    type: row.inquiry_type,
+    message: row.message,
+    submittedAt: formatDate(locale, row.created_at),
+    status: row.status
+  };
+}
+
+export async function getAccountData(locale: Locale): Promise<AccountData> {
+  if (!hasSupabaseBrowserEnv()) {
+    return fallbackAccountData(locale);
+  }
+
+  const fallback = fallbackAccountData(locale);
+  const supabase = createClient();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return fallback;
+  }
+
+  const [{ data: profile }, { data: certificates }, { data: inquiries }] = await Promise.all([
+    supabase.from("profiles").select("email, full_name, country, preferred_locale").eq("id", user.id).maybeSingle(),
+    supabase
+      .from("certifications")
+      .select("certificate_number, course_title, issued_at, status, verification_code")
+      .eq("user_id", user.id)
+      .order("issued_at", { ascending: false }),
+    supabase
+      .from("inquiries")
+      .select("id, inquiry_type, message, created_at, status")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+  ]);
+
+  const profileData = buildProfileData(locale, profile as ProfileRow | null, user.email);
+
+  return {
+    profileFields: profileData.profileFields,
+    profileForm: profileData.profileForm,
+    certificates:
+      certificates && certificates.length > 0
+        ? (certificates as CertificateRow[]).map((certificate) => mapCertificate(locale, certificate))
+        : fallback.certificates,
+    inquiries:
+      inquiries && inquiries.length > 0
+        ? (inquiries as InquiryRow[]).map((inquiry) => mapInquiry(locale, inquiry))
+        : fallback.inquiries
+  };
+}

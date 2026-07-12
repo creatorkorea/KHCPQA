@@ -1,6 +1,7 @@
 import { AccountNav, AccountSection } from "@/components/AccountShell";
 import { PageIntro } from "@/components/SiteShell";
 import { ProfileEditForm } from "@/components/ProfileEditForm";
+import { getAccountData } from "@/lib/account-data";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
@@ -20,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 export default async function AccountProfilePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
+  const accountData = await getAccountData(locale);
 
   return (
     <>
@@ -28,7 +30,7 @@ export default async function AccountProfilePage({ params }: { params: Promise<{
         <AccountNav locale={locale} activeHref="account/profile" />
         <AccountSection title={t.account.profile.title} lead={t.account.profile.lead}>
           <dl className="account-detail-list">
-            {t.account.profile.fields.map((field) => (
+            {accountData.profileFields.map((field) => (
               <div key={field.label}>
                 <dt>{field.label}</dt>
                 <dd>{field.value}</dd>
@@ -36,7 +38,7 @@ export default async function AccountProfilePage({ params }: { params: Promise<{
             ))}
           </dl>
         </AccountSection>
-        <ProfileEditForm locale={locale} />
+        <ProfileEditForm initialProfile={accountData.profileForm} locale={locale} />
       </section>
     </>
   );

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck, FileText, Lock, UserRound } from "lucide-react";
 import { AccountNav, AccountSection } from "@/components/AccountShell";
 import { PageIntro } from "@/components/SiteShell";
+import { getAccountData } from "@/lib/account-data";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
@@ -21,6 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 export default async function AccountPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
+  const accountData = await getAccountData(locale);
   const moduleIcons = [UserRound, BadgeCheck, FileText, Lock];
 
   return (
@@ -47,7 +49,7 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
         </div>
         </AccountSection>
         <div className="cert-table">
-          {t.account.certificates.map((certificate) => (
+          {accountData.certificates.map((certificate) => (
             <div key={certificate.number}>
               <strong>{certificate.title}</strong>
               <span>{certificate.number} · {certificate.issuedAt}</span>
