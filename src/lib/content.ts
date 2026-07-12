@@ -208,10 +208,25 @@ type Copy = {
   activitiesPage: {
     eyebrow: string;
     lead: string;
+    detailEyebrow: string;
+    latestPostsTitle: string;
+    sourceLabel: string;
+    statusLabel: string;
+    allActivitiesCta: string;
+    detailCta: string;
   };
   contact: {
     eyebrow: string;
     lead: string;
+  };
+  legal: {
+    privacyTitle: string;
+    termsTitle: string;
+    eyebrow: string;
+    lead: string;
+    pendingTitle: string;
+    pendingBody: string;
+    requiredItems: string[];
   };
   partnerInquiry: {
     eyebrow: string;
@@ -305,6 +320,15 @@ type Copy = {
     profile: {
       title: string;
       lead: string;
+      editTitle: string;
+      editLead: string;
+      saveCta: string;
+      successTitle: string;
+      successMessage: string;
+      validation: {
+        required: string;
+        email: string;
+      };
       fields: Array<{
         label: string;
         value: string;
@@ -331,10 +355,18 @@ type Copy = {
     inquiries: {
       title: string;
       lead: string;
+      allLabel: string;
+      receiptLabel: string;
+      typeLabel: string;
+      messageLabel: string;
+      emptyState: string;
       statusLabel: string;
       submittedLabel: string;
       items: Array<{
+        receipt: string;
         title: string;
+        type: string;
+        message: string;
         submittedAt: string;
         status: string;
       }>;
@@ -590,11 +622,32 @@ export const copy = {
     },
     activitiesPage: {
       eyebrow: "글로벌 활동",
-      lead: "공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 방송/언론, 봉사활동을 글로벌 신뢰 콘텐츠로 재배치합니다."
+      lead: "공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 방송/언론, 봉사활동을 글로벌 신뢰 콘텐츠로 재배치합니다.",
+      detailEyebrow: "활동 상세",
+      latestPostsTitle: "최근 게시글 미리보기",
+      sourceLabel: "원본 출처",
+      statusLabel: "게시 상태",
+      allActivitiesCta: "전체 활동 보기",
+      detailCta: "상세 보기"
     },
     contact: {
       eyebrow: "찾아오시는 길",
       lead: "서울총본부, 강남SMC아카데미, 대림캠퍼스의 주소와 지하철·버스 이용 안내입니다."
+    },
+    legal: {
+      privacyTitle: "개인정보처리방침",
+      termsTitle: "이용약관",
+      eyebrow: "법무 문서",
+      lead: "최종 원문 확보 전 검수용 페이지입니다. 실제 공개 전 발주사 제공 원문과 법무 검토본으로 교체해야 합니다.",
+      pendingTitle: "최종 원문 확보 필요",
+      pendingBody: "현재 페이지는 링크 구조와 노출 위치를 확인하기 위한 검수용 안내입니다. 개인정보처리방침과 이용약관 원문은 실제 운영 정책에 맞춰 확정해야 합니다.",
+      requiredItems: [
+        "개인정보 수집 항목 및 이용 목적",
+        "보유 및 이용 기간",
+        "제3자 제공 및 처리 위탁 여부",
+        "회원 탈퇴와 권리 행사 방법",
+        "서비스 이용 제한 및 책임 범위"
+      ]
     },
     partnerInquiry: {
       eyebrow: "파트너 문의",
@@ -693,6 +746,15 @@ export const copy = {
       profile: {
         title: "Profile",
         lead: "실제 회원 정보 수정은 인증과 데이터베이스 연결 후 저장 기능을 활성화합니다.",
+        editTitle: "프로필 수정",
+        editLead: "이름, 이메일, 국가, 선호 언어를 수정하는 검수용 폼입니다.",
+        saveCta: "수정 미리보기",
+        successTitle: "프로필 수정 흐름이 확인되었습니다.",
+        successMessage: "실제 저장은 인증 세션과 회원 DB 연결 후 활성화됩니다.",
+        validation: {
+          required: "필수 항목을 입력해 주세요.",
+          email: "올바른 이메일 주소를 입력해 주세요."
+        },
         fields: [
           { label: "이름", value: "KHCPQA Demo Member" },
           { label: "이메일", value: "member@example.com" },
@@ -721,11 +783,30 @@ export const copy = {
       inquiries: {
         title: "Inquiry History",
         lead: "파트너 문의와 상담 요청의 접수 상태를 확인하는 사용자 화면입니다.",
+        allLabel: "전체",
+        receiptLabel: "접수번호",
+        typeLabel: "문의 유형",
+        messageLabel: "문의 내용",
+        emptyState: "해당 상태의 문의 내역이 없습니다.",
         statusLabel: "처리 상태",
         submittedLabel: "접수일",
         items: [
-          { title: "해외 파트너 교육 협약 문의", submittedAt: "2026-07-04", status: "접수 완료" },
-          { title: "아로마 테라피 과정 상담", submittedAt: "2026-06-28", status: "답변 준비 중" }
+          {
+            receipt: "KHCPQA-2026-PREVIEW",
+            title: "해외 파트너 교육 협약 문의",
+            type: "partner",
+            message: "해외 교육기관과의 커리큘럼 제휴 및 강사 파견 가능성을 문의했습니다.",
+            submittedAt: "2026-07-04",
+            status: "접수 완료"
+          },
+          {
+            receipt: "KHCPQA-2026-COURSE",
+            title: "아로마 테라피 과정 상담",
+            type: "course",
+            message: "아로마 테라피 정규 과정의 수강 기간과 수료 기준을 문의했습니다.",
+            submittedAt: "2026-06-28",
+            status: "답변 준비 중"
+          }
         ]
       },
       modules: [
@@ -982,11 +1063,32 @@ export const copy = {
     },
     activitiesPage: {
       eyebrow: "Global Activities",
-      lead: "Notices, pass records, galleries, awards, international beauty competitions, media, and volunteer activities are reorganized as global trust content."
+      lead: "Notices, pass records, galleries, awards, international beauty competitions, media, and volunteer activities are reorganized as global trust content.",
+      detailEyebrow: "Activity Detail",
+      latestPostsTitle: "Recent Post Preview",
+      sourceLabel: "Source",
+      statusLabel: "Publish Status",
+      allActivitiesCta: "All Activities",
+      detailCta: "View Details"
     },
     contact: {
       eyebrow: "Location",
       lead: "Addresses and subway, bus, and parking guidance for Seoul Headquarters, Gangnam SMC Academy, and Daerim Campus."
+    },
+    legal: {
+      privacyTitle: "Privacy Policy",
+      termsTitle: "Terms of Use",
+      eyebrow: "Legal Documents",
+      lead: "Review-stage pages before final legal text is provided. Replace with client-approved legal copy before production release.",
+      pendingTitle: "Final Legal Copy Required",
+      pendingBody: "This page confirms the link structure and placement only. Privacy Policy and Terms of Use must be finalized according to the actual operating policy.",
+      requiredItems: [
+        "Personal information collected and purpose of use",
+        "Retention and usage period",
+        "Third-party sharing and processing delegation",
+        "Account deletion and user rights process",
+        "Service restrictions and liability scope"
+      ]
     },
     partnerInquiry: {
       eyebrow: "Partner Inquiry",
@@ -1085,6 +1187,15 @@ export const copy = {
       profile: {
         title: "Profile",
         lead: "Profile editing will be enabled after authentication and database storage are connected.",
+        editTitle: "Edit Profile",
+        editLead: "A preview form for editing name, email, country, and preferred language.",
+        saveCta: "Preview Update",
+        successTitle: "Profile update flow confirmed.",
+        successMessage: "Actual saving will be enabled after auth session and member database connection.",
+        validation: {
+          required: "Please complete this required field.",
+          email: "Please enter a valid email address."
+        },
         fields: [
           { label: "Name", value: "KHCPQA Demo Member" },
           { label: "Email", value: "member@example.com" },
@@ -1113,11 +1224,30 @@ export const copy = {
       inquiries: {
         title: "Inquiry History",
         lead: "A user-facing view for partnership inquiries and consultation request status.",
+        allLabel: "All",
+        receiptLabel: "Receipt No.",
+        typeLabel: "Inquiry Type",
+        messageLabel: "Message",
+        emptyState: "No inquiries match this status.",
         statusLabel: "Status",
         submittedLabel: "Submitted",
         items: [
-          { title: "Overseas partner training agreement inquiry", submittedAt: "2026-07-04", status: "Received" },
-          { title: "Aromatherapy program consultation", submittedAt: "2026-06-28", status: "Preparing response" }
+          {
+            receipt: "KHCPQA-2026-PREVIEW",
+            title: "Overseas partner training agreement inquiry",
+            type: "partner",
+            message: "Asked about curriculum partnerships and instructor dispatch with an overseas education institution.",
+            submittedAt: "2026-07-04",
+            status: "Received"
+          },
+          {
+            receipt: "KHCPQA-2026-COURSE",
+            title: "Aromatherapy program consultation",
+            type: "course",
+            message: "Asked about the Aromatherapy regular program duration and completion criteria.",
+            submittedAt: "2026-06-28",
+            status: "Preparing response"
+          }
         ]
       },
       modules: [
@@ -1374,11 +1504,32 @@ export const copy = {
     },
     activitiesPage: {
       eyebrow: "Actividades Globales",
-      lead: "Avisos, resultados, galerías, premios, concursos internacionales de belleza, medios y voluntariado se reorganizan como contenido global de confianza."
+      lead: "Avisos, resultados, galerías, premios, concursos internacionales de belleza, medios y voluntariado se reorganizan como contenido global de confianza.",
+      detailEyebrow: "Detalle de Actividad",
+      latestPostsTitle: "Vista previa de publicaciones recientes",
+      sourceLabel: "Fuente",
+      statusLabel: "Estado de publicación",
+      allActivitiesCta: "Todas las actividades",
+      detailCta: "Ver detalles"
     },
     contact: {
       eyebrow: "Ubicación",
       lead: "Direcciones e información de metro, autobús y estacionamiento para la sede de Seúl, Gangnam SMC Academy y el Campus Daerim."
+    },
+    legal: {
+      privacyTitle: "Política de Privacidad",
+      termsTitle: "Términos de Uso",
+      eyebrow: "Documentos Legales",
+      lead: "Páginas de revisión antes de recibir el texto legal final. Deben reemplazarse con el texto aprobado por el cliente antes del lanzamiento.",
+      pendingTitle: "Texto legal final requerido",
+      pendingBody: "Esta página confirma únicamente la estructura de enlaces y ubicación. La política de privacidad y los términos deben finalizarse según la política real de operación.",
+      requiredItems: [
+        "Información personal recopilada y finalidad de uso",
+        "Periodo de retención y uso",
+        "Cesión a terceros y delegación de tratamiento",
+        "Eliminación de cuenta y ejercicio de derechos",
+        "Restricciones del servicio y alcance de responsabilidad"
+      ]
     },
     partnerInquiry: {
       eyebrow: "Consulta de Asociación",
@@ -1477,6 +1628,15 @@ export const copy = {
       profile: {
         title: "Perfil",
         lead: "La edición del perfil se activará después de conectar autenticación y base de datos.",
+        editTitle: "Editar Perfil",
+        editLead: "Formulario de vista previa para editar nombre, email, país e idioma preferido.",
+        saveCta: "Vista previa de actualización",
+        successTitle: "Flujo de actualización de perfil confirmado.",
+        successMessage: "El guardado real se activará después de conectar sesión de autenticación y base de datos de miembros.",
+        validation: {
+          required: "Complete este campo obligatorio.",
+          email: "Ingrese una dirección de email válida."
+        },
         fields: [
           { label: "Nombre", value: "KHCPQA Demo Member" },
           { label: "Email", value: "member@example.com" },
@@ -1505,11 +1665,30 @@ export const copy = {
       inquiries: {
         title: "Historial de Consultas",
         lead: "Vista de usuario para consultas de asociación y estado de solicitudes.",
+        allLabel: "Todo",
+        receiptLabel: "No. de recepción",
+        typeLabel: "Tipo de consulta",
+        messageLabel: "Mensaje",
+        emptyState: "No hay consultas con este estado.",
         statusLabel: "Estado",
         submittedLabel: "Enviado",
         items: [
-          { title: "Consulta de acuerdo de formación para socios internacionales", submittedAt: "2026-07-04", status: "Recibido" },
-          { title: "Consulta sobre programa de aromaterapia", submittedAt: "2026-06-28", status: "Preparando respuesta" }
+          {
+            receipt: "KHCPQA-2026-PREVIEW",
+            title: "Consulta de acuerdo de formación para socios internacionales",
+            type: "partner",
+            message: "Consultó sobre alianzas curriculares y envío de instructores con una institución educativa extranjera.",
+            submittedAt: "2026-07-04",
+            status: "Recibido"
+          },
+          {
+            receipt: "KHCPQA-2026-COURSE",
+            title: "Consulta sobre programa de aromaterapia",
+            type: "course",
+            message: "Consultó duración del programa regular de aromaterapia y criterios de finalización.",
+            submittedAt: "2026-06-28",
+            status: "Preparando respuesta"
+          }
         ]
       },
       modules: [
@@ -3170,6 +3349,67 @@ const activityGroupsByLocale: Record<Locale, Array<{
 
 export function getActivityGroups(locale: string) {
   return activityGroupsByLocale[getActiveLocale(locale)];
+}
+
+export function getActivityKeys() {
+  return activityGroupsByLocale[defaultLocale].map((activity) => activity.key);
+}
+
+export function getActivityGroupByKey(locale: string, activityKey: string) {
+  return getActivityGroups(locale).find((activity) => activity.key === activityKey);
+}
+
+export function getActivityPosts(locale: string, activityKey: string) {
+  const activeLocale = getActiveLocale(locale);
+  const activity = getActivityGroupByKey(activeLocale, activityKey);
+
+  if (!activity) {
+    return [];
+  }
+
+  const copyByLocale: Record<Locale, {
+    previewStatus: string;
+    reviewStatus: string;
+    firstBody: string;
+    secondBody: string;
+  }> = {
+    ko: {
+      previewStatus: "게시 예정",
+      reviewStatus: "검수 중",
+      firstBody: "기존 SMC365 콘텐츠를 관리자 게시판 구조로 이관하기 위한 대표 게시글 미리보기입니다.",
+      secondBody: "발주사 검수 후 최종 이미지, 원문 링크, 게시 상태를 확정해 공개합니다."
+    },
+    en: {
+      previewStatus: "Scheduled",
+      reviewStatus: "Under review",
+      firstBody: "A representative post preview for migrating existing SMC365 content into the admin board structure.",
+      secondBody: "Final images, source links, and publish status will be confirmed after client review."
+    },
+    es: {
+      previewStatus: "Programado",
+      reviewStatus: "En revisión",
+      firstBody: "Vista previa de publicación representativa para migrar contenido existente de SMC365 a la estructura del tablero.",
+      secondBody: "Las imágenes finales, enlaces de origen y estado se confirmarán después de la revisión del cliente."
+    }
+  };
+  const text = copyByLocale[activeLocale];
+
+  return [
+    {
+      title: activity.title,
+      date: "2026-07-12",
+      status: text.previewStatus,
+      body: text.firstBody,
+      sourceUrl: "https://www.smc365.ac/index.asp"
+    },
+    {
+      title: `${activity.title} 02`,
+      date: "2026-07-05",
+      status: text.reviewStatus,
+      body: text.secondBody,
+      sourceUrl: "https://www.smc365.ac/index.asp"
+    }
+  ];
 }
 
 const statsByLocale: Record<Locale, Array<{ label: string; value: string }>> = {

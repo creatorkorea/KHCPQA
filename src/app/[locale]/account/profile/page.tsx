@@ -1,5 +1,6 @@
 import { AccountNav, AccountSection } from "@/components/AccountShell";
 import { PageIntro } from "@/components/SiteShell";
+import { ProfileEditForm } from "@/components/ProfileEditForm";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
@@ -35,6 +36,7 @@ export default async function AccountProfilePage({ params }: { params: Promise<{
             ))}
           </dl>
         </AccountSection>
+        <ProfileEditForm locale={locale} />
       </section>
     </>
   );

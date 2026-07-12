@@ -13,10 +13,16 @@ export default function robots(): MetadataRoute.Robots {
           "/admin/",
           "/ko/account",
           "/ko/account/",
+          "/ko/privacy",
+          "/ko/terms",
           "/en/account",
           "/en/account/",
+          "/en/privacy",
+          "/en/terms",
           "/es/account",
-          "/es/account/"
+          "/es/account/",
+          "/es/privacy",
+          "/es/terms"
         ]
       }
     ],

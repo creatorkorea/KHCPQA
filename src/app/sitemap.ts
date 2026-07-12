@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getCourseSlugs, locales } from "@/lib/content";
+import { getActivityKeys, getCourseSlugs, locales } from "@/lib/content";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://khcpqa.vercel.app";
 
@@ -37,5 +37,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  return [...staticRoutes, ...courseRoutes];
+  const activityRoutes = locales.flatMap((locale) =>
+    getActivityKeys().map((activityKey) => ({
+      url: `${siteUrl}/${locale}/activities/${activityKey}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.55
+    }))
+  );
+
+  return [...staticRoutes, ...courseRoutes, ...activityRoutes];
 }

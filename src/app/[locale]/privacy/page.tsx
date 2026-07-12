@@ -1,0 +1,22 @@
+import { LegalPage } from "@/components/LegalPage";
+import { getCopy, type Locale } from "@/lib/content";
+import { buildLocaleMetadata } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = getCopy(locale);
+
+  return buildLocaleMetadata({
+    locale,
+    path: "privacy",
+    title: `${t.legal.privacyTitle} | KHCPQA`,
+    description: t.legal.lead,
+    noIndex: true
+  });
+}
+
+export default async function PrivacyPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+
+  return <LegalPage locale={locale} kind="privacy" />;
+}

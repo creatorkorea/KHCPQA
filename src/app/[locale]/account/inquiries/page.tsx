@@ -1,4 +1,5 @@
 import { AccountNav, AccountSection } from "@/components/AccountShell";
+import { InquiryHistoryPanel } from "@/components/InquiryHistoryPanel";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
@@ -26,23 +27,7 @@ export default async function AccountInquiriesPage({ params }: { params: Promise
       <section className="content-section">
         <AccountNav locale={locale} activeHref="account/inquiries" />
         <AccountSection title={t.account.inquiries.title} lead={t.account.inquiries.lead}>
-          <div className="inquiry-list">
-            {t.account.inquiries.items.map((item) => (
-              <article key={`${item.title}-${item.submittedAt}`}>
-                <strong>{item.title}</strong>
-                <dl>
-                  <div>
-                    <dt>{t.account.inquiries.submittedLabel}</dt>
-                    <dd>{item.submittedAt}</dd>
-                  </div>
-                  <div>
-                    <dt>{t.account.inquiries.statusLabel}</dt>
-                    <dd>{item.status}</dd>
-                  </div>
-                </dl>
-              </article>
-            ))}
-          </div>
+          <InquiryHistoryPanel locale={locale} />
         </AccountSection>
       </section>
     </>

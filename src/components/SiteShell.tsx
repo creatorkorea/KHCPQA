@@ -78,8 +78,8 @@ export function SiteFooter({ locale }: { locale: Locale }) {
       </div>
       <div className="footer-links">
         <div className="footer-policy">
-          <Link href={`/${locale}/about`}>개인정보처리방침</Link>
-          <Link href={`/${locale}/about`}>이용약관</Link>
+          <Link href={`/${locale}/privacy`}>{t.legal.privacyTitle}</Link>
+          <Link href={`/${locale}/terms`}>{t.legal.termsTitle}</Link>
           <Link href={`/${locale}/curriculum`}>사이트맵</Link>
         </div>
         <div className="footer-social" aria-label="Social links">
