@@ -703,7 +703,7 @@ export const copy = {
         emailRequired: "이메일을 입력해 주세요.",
         emailInvalid: "올바른 이메일 주소를 입력해 주세요.",
         passwordRequired: "비밀번호를 입력해 주세요.",
-        passwordLength: "비밀번호는 6자 이상 입력해 주세요."
+        passwordLength: "비밀번호는 8자 이상 입력해 주세요."
       }
     },
     signup: {
@@ -717,7 +717,7 @@ export const copy = {
       country: "국가",
       countryPlaceholder: "국가",
       password: "비밀번호",
-      passwordPlaceholder: "6자 이상",
+      passwordPlaceholder: "8자 이상",
       confirmPassword: "비밀번호 확인",
       confirmPasswordPlaceholder: "비밀번호를 다시 입력하세요",
       consent: "개인정보 수집 및 회원 계정 생성에 동의합니다.",
@@ -731,7 +731,7 @@ export const copy = {
       validation: {
         required: "필수 항목을 입력해 주세요.",
         email: "올바른 이메일 주소를 입력해 주세요.",
-        passwordLength: "비밀번호는 6자 이상 입력해 주세요.",
+        passwordLength: "비밀번호는 8자 이상 입력해 주세요.",
         passwordMatch: "비밀번호가 일치하지 않습니다.",
         consent: "개인정보 수집 및 회원 계정 생성에 동의해 주세요."
       }
@@ -1146,7 +1146,7 @@ export const copy = {
         emailRequired: "Please enter your email.",
         emailInvalid: "Please enter a valid email address.",
         passwordRequired: "Please enter your password.",
-        passwordLength: "Password must be at least 6 characters."
+        passwordLength: "Password must be at least 8 characters."
       }
     },
     signup: {
@@ -1160,7 +1160,7 @@ export const copy = {
       country: "Country",
       countryPlaceholder: "Country",
       password: "Password",
-      passwordPlaceholder: "At least 6 characters",
+      passwordPlaceholder: "At least 8 characters",
       confirmPassword: "Confirm Password",
       confirmPasswordPlaceholder: "Enter password again",
       consent: "I agree to personal information collection and account creation.",
@@ -1174,7 +1174,7 @@ export const copy = {
       validation: {
         required: "Please complete this required field.",
         email: "Please enter a valid email address.",
-        passwordLength: "Password must be at least 6 characters.",
+        passwordLength: "Password must be at least 8 characters.",
         passwordMatch: "Passwords do not match.",
         consent: "Please agree to personal information collection and account creation."
       }
@@ -1589,7 +1589,7 @@ export const copy = {
         emailRequired: "Ingrese su email.",
         emailInvalid: "Ingrese una dirección de email válida.",
         passwordRequired: "Ingrese su contraseña.",
-        passwordLength: "La contraseña debe tener al menos 6 caracteres."
+        passwordLength: "La contraseña debe tener al menos 8 caracteres."
       }
     },
     signup: {
@@ -1603,7 +1603,7 @@ export const copy = {
       country: "País",
       countryPlaceholder: "País",
       password: "Contraseña",
-      passwordPlaceholder: "Al menos 6 caracteres",
+      passwordPlaceholder: "Al menos 8 caracteres",
       confirmPassword: "Confirmar contraseña",
       confirmPasswordPlaceholder: "Ingrese la contraseña nuevamente",
       consent: "Acepto la recopilación de información personal y la creación de cuenta.",
@@ -1617,7 +1617,7 @@ export const copy = {
       validation: {
         required: "Complete este campo obligatorio.",
         email: "Ingrese una dirección de email válida.",
-        passwordLength: "La contraseña debe tener al menos 6 caracteres.",
+        passwordLength: "La contraseña debe tener al menos 8 caracteres.",
         passwordMatch: "Las contraseñas no coinciden.",
         consent: "Acepte la recopilación de información personal y la creación de cuenta."
       }

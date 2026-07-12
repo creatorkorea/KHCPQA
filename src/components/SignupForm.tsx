@@ -65,7 +65,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
       nextErrors.email = t.signup.validation.email;
     }
 
-    if (form.password.length > 0 && form.password.length < 6) {
+    if (form.password.length > 0 && form.password.length < 8) {
       nextErrors.password = t.signup.validation.passwordLength;
     }
 

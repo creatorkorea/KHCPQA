@@ -34,7 +34,7 @@ export function LoginForm({ locale }: { locale: Locale }) {
 
     if (password.length === 0) {
       nextErrors.password = t.login.validation.passwordRequired;
-    } else if (password.length < 6) {
+    } else if (password.length < 8) {
       nextErrors.password = t.login.validation.passwordLength;
     }
 
