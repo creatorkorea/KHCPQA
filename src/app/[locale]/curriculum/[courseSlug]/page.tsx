@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { getCopy, getCourseBySlug, getCourseSlugs, type Locale } from "@/lib/content";
 import { originalCourseDetails, type OriginalCourseDetailSection } from "@/lib/original-course-details";
+import { getPublishedContentIntro } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 const smcContentBaseUrl = "https://www.smc365.ac/images/content";
@@ -170,6 +171,18 @@ export default async function CourseDetailPage({
     notFound();
   }
 
+  const content = await getPublishedContentIntro({
+    contentType: "Course",
+    fallback: {
+      lead: course.summary,
+      title: course.title
+    },
+    locale,
+    slug: course.slug
+  });
+  const courseTitle = content.title;
+  const courseSummary = content.lead || course.summary;
+  const courseOverview = content.body || content.lead || course.overview;
   const sections = course.detailSections ?? [];
   const allSectionItems = sections.flatMap((section) => section.items);
   const metricItems = course.keyMetrics?.length
@@ -210,9 +223,9 @@ export default async function CourseDetailPage({
     <article className="course-detail course-landing">
       <section className="course-landing-hero">
         <div className="course-landing-copy">
-          <span className="eyebrow">{course.summary}</span>
-          <h1>{course.title}</h1>
-          <p>{course.overview}</p>
+          <span className="eyebrow">{courseSummary}</span>
+          <h1>{courseTitle}</h1>
+          <p>{courseOverview}</p>
           <dl className="course-landing-metrics">
             {metricItems.slice(0, 3).map((metric, index) => {
               const MetricIcon = [Sparkles, CalendarDays, Layers3][index] ?? Sparkles;
@@ -229,7 +242,7 @@ export default async function CourseDetailPage({
           </dl>
         </div>
         <div className="course-landing-media">
-          <Image src={originalHeroImage} alt={course.title} width={960} height={620} priority />
+          <Image src={originalHeroImage} alt={courseTitle} width={960} height={620} priority />
         </div>
       </section>
 
@@ -255,7 +268,7 @@ export default async function CourseDetailPage({
         <div>
           <span className="eyebrow">{t.courseDetail.overviewEyebrow}</span>
           <h2>{t.courseDetail.overviewTitle}</h2>
-          <p>{course.overview}</p>
+          <p>{courseOverview}</p>
         </div>
         <ul>
           {overviewPoints.map((item) => (

@@ -21,6 +21,7 @@ import {
   Users
 } from "lucide-react";
 import { getCopy, getCourses, type Locale } from "@/lib/content";
+import { getPublishedBanners, type PublishedBanner } from "@/lib/public-content";
 import { StatusBadge } from "@/components/SiteShell";
 
 const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, HeartPulse, Leaf, Mountain, Headphones, MessageCircle];
@@ -31,6 +32,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
   const { locale } = await params;
   const t = getCopy(locale);
   const courses = getCourses(locale);
+  const banners = await getPublishedBanners({ placement: "home" });
   const previewCourseIndexes = [5, 3, 4, 6, 7, 8];
   const previewCourses = previewCourseIndexes.flatMap((index) => (courses[index] ? [courses[index]] : []));
   const quickNavItems = [
@@ -140,6 +142,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
           </div>
         </div>
       </section>
+
+      {banners.length > 0 ? (
+        <section className="home-admin-banner-section" aria-label="운영 배너">
+          {banners.map((banner) => (
+            <HomeBanner banner={banner} fallbackHref={`/${locale}/partner-inquiry`} key={`${banner.placement}-${banner.title}`} />
+          ))}
+        </section>
+      ) : null}
 
       <section className="content-section curriculum-preview">
         {renderSectionTitle("주요 교육과정", "현장에서 바로 활용 가능한 실무 중심 교육과정")}
@@ -270,4 +280,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
 
 function GraduationCapIcon() {
   return <BadgeCheck size={24} aria-hidden="true" />;
+}
+
+function HomeBanner({ banner, fallbackHref }: { banner: PublishedBanner; fallbackHref: string }) {
+  const href = banner.targetUrl || fallbackHref;
+  const isExternal = href.startsWith("http://") || href.startsWith("https://");
+
+  return (
+    <Link className="home-admin-banner" href={href} rel={isExternal ? "noreferrer" : undefined} target={isExternal ? "_blank" : undefined}>
+      <span className="home-admin-banner-icon">
+        <Megaphone size={20} aria-hidden="true" />
+      </span>
+      <span>{banner.title}</span>
+      <ArrowRight size={16} aria-hidden="true" />
+    </Link>
+  );
 }

@@ -10,6 +10,7 @@ import {
   getCopy,
   type Locale
 } from "@/lib/content";
+import { getPublishedActivityPosts, getPublishedContentIntro } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
@@ -51,23 +52,39 @@ export default async function ActivityDetailPage({
     notFound();
   }
 
-  const posts = getActivityPosts(locale, activityKey);
+  const content = await getPublishedContentIntro({
+    contentType: "Activity",
+    fallback: {
+      lead: activity.summary,
+      title: activity.title
+    },
+    locale,
+    slug: activity.key
+  });
+  const activityTitle = content.title;
+  const activitySummary = content.lead || activity.summary;
+  const activityBody = content.body || activitySummary;
+  const posts = await getPublishedActivityPosts({
+    activityKey,
+    fallback: getActivityPosts(locale, activityKey),
+    locale
+  });
   const Icon = activity.icon;
 
   return (
     <>
-      <PageIntro eyebrow={t.activitiesPage.detailEyebrow} title={activity.title} lead={activity.summary} />
+      <PageIntro eyebrow={t.activitiesPage.detailEyebrow} title={activityTitle} lead={activitySummary} />
       <section className="activity-detail-section">
         <Link className="activity-back-link" href={`/${locale}/activities`}>
           <ArrowLeft size={16} />
           <span>{t.activitiesPage.allActivitiesCta}</span>
         </Link>
         <div className="activity-detail-hero">
-          <Image src={activity.imageUrl} alt={activity.title} width={960} height={540} unoptimized />
+          <Image src={activity.imageUrl} alt={activityTitle} width={960} height={540} unoptimized />
           <div>
             <Icon size={28} />
-            <h2>{activity.title}</h2>
-            <p>{activity.summary}</p>
+            <h2>{activityTitle}</h2>
+            <p>{activityBody}</p>
             <dl>
               <div>
                 <dt>{t.activitiesPage.sourceLabel}</dt>
@@ -81,7 +98,7 @@ export default async function ActivityDetailPage({
           </div>
         </div>
         <div className="section-heading">
-          <span className="eyebrow">CMS Preview</span>
+          <span className="eyebrow">CMS</span>
           <h2>{t.activitiesPage.latestPostsTitle}</h2>
         </div>
         <div className="activity-post-list">

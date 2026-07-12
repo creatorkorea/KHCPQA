@@ -2,13 +2,19 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { CheckCircle2, FilePenLine, ImagePlus, Save, ShieldCheck } from "lucide-react";
+import { CheckCircle2, FilePenLine, ImagePlus, Save, ShieldCheck, Trash2 } from "lucide-react";
 import {
+  deleteAdminManagedItem,
+  saveAdminBanner,
   saveAdminCertification,
+  saveAdminContent,
   saveAdminInquiry,
+  type DeleteAdminContentResult,
   type SaveAdminCertificationResult,
+  type SaveAdminContentResult,
   type SaveAdminInquiryResult
 } from "@/app/admin/actions";
+import type { AdminContentRow } from "@/lib/admin-data";
 
 type AdminFormType = "content" | "inquiry" | "certification" | "banner";
 
@@ -20,6 +26,8 @@ type AdminField = {
   placeholder?: string;
   required?: boolean;
 };
+
+type ActionResult = SaveAdminCertificationResult | SaveAdminContentResult | SaveAdminInquiryResult | DeleteAdminContentResult;
 
 const adminForms: Record<AdminFormType, {
   title: string;
@@ -34,10 +42,12 @@ const adminForms: Record<AdminFormType, {
     fields: [
       { label: "콘텐츠 유형", name: "contentType", type: "select", options: ["Page", "Course", "Activity", "Review"], required: true },
       { label: "언어", name: "locale", type: "select", options: ["ko", "en", "es"], required: true },
+      { label: "Slug", name: "slug", placeholder: "about 또는 activity-notice", required: true },
       { label: "제목", name: "title", placeholder: "콘텐츠 제목", required: true },
       { label: "게시 상태", name: "status", type: "select", options: ["draft", "translated", "reviewed", "published", "archived"], required: true },
       { label: "원본 URL", name: "sourceUrl", placeholder: "https://www.smc365.ac/..." },
-      { label: "본문 요약", name: "summary", type: "textarea", placeholder: "관리자 목록과 SEO에 사용할 요약" }
+      { label: "본문 요약", name: "summary", type: "textarea", placeholder: "관리자 목록과 SEO에 사용할 요약" },
+      { label: "상세 본문", name: "body", type: "textarea", placeholder: "공개 상세 페이지 소개 문단에 사용할 본문" }
     ]
   },
   inquiry: {
@@ -82,14 +92,17 @@ const adminForms: Record<AdminFormType, {
 
 const formOrder: AdminFormType[] = ["content", "inquiry", "certification", "banner"];
 
-export function AdminCrudPreview() {
+export function AdminCrudPreview({ contentItems = [] }: { contentItems?: AdminContentRow[] }) {
   const [activeForm, setActiveForm] = useState<AdminFormType>("content");
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
   const [submittedForm, setSubmittedForm] = useState<AdminFormType | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [result, setResult] = useState<SaveAdminCertificationResult | SaveAdminInquiryResult | null>(null);
+  const [result, setResult] = useState<ActionResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const currentForm = adminForms[activeForm];
   const ActiveIcon = currentForm.icon;
+  const editableItems = contentItems.filter((item) => (activeForm === "content" ? item.type !== "Banner" : item.type === "Banner"));
+  const selectedItemId = fieldValues.itemId ?? "";
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -111,27 +124,8 @@ export function AdminCrudPreview() {
       return;
     }
 
-    if (activeForm !== "certification" && activeForm !== "inquiry") {
-      setSubmittedForm(activeForm);
-      return;
-    }
-
     setIsSubmitting(true);
-    const nextResult =
-      activeForm === "certification"
-        ? await saveAdminCertification({
-            certificateNumber: String(formData.get("certificateNumber") ?? ""),
-            courseTitle: String(formData.get("course") ?? ""),
-            issuedAt: String(formData.get("issuedAt") ?? ""),
-            status: String(formData.get("certificateStatus") ?? ""),
-            userEmail: String(formData.get("user") ?? ""),
-            verificationCode: String(formData.get("verificationCode") ?? "")
-          })
-        : await saveAdminInquiry({
-            managerNote: String(formData.get("memo") ?? ""),
-            receipt: String(formData.get("receipt") ?? ""),
-            status: String(formData.get("inquiryStatus") ?? "")
-          });
+    const nextResult = await saveActiveForm(activeForm, formData);
     setResult(nextResult);
     setSubmittedForm(nextResult.ok ? activeForm : null);
     setIsSubmitting(false);
@@ -139,9 +133,67 @@ export function AdminCrudPreview() {
 
   function switchForm(nextForm: AdminFormType) {
     setActiveForm(nextForm);
+    setFieldValues({});
     setSubmittedForm(null);
     setErrors({});
     setResult(null);
+  }
+
+  function updateField(name: string, value: string) {
+    setFieldValues((current) => ({ ...current, [name]: value }));
+  }
+
+  function selectManagedItem(itemId: string) {
+    const item = editableItems.find((candidate) => candidate.id === itemId);
+
+    if (!item) {
+      setFieldValues({});
+      return;
+    }
+
+    if (activeForm === "banner") {
+      setFieldValues({
+        bannerStatus: item.status,
+        bannerTitle: item.title,
+        endsAt: item.endsAt?.slice(0, 10) ?? "",
+        itemId: item.id ?? "",
+        placement: item.locale,
+        startsAt: item.startsAt?.slice(0, 10) ?? "",
+        targetUrl: item.sourceUrl ?? ""
+      });
+      return;
+    }
+
+    setFieldValues({
+      body: item.body ?? "",
+      contentType: item.type,
+      itemId: item.id ?? "",
+      locale: item.locale,
+      slug: item.slug ?? "",
+      sourceUrl: item.sourceUrl ?? "",
+      status: item.status,
+      summary: item.summary ?? "",
+      title: item.title
+    });
+  }
+
+  async function handleDelete() {
+    if (!selectedItemId || !["content", "banner"].includes(activeForm)) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setResult(null);
+    const nextResult = await deleteAdminManagedItem({
+      id: selectedItemId,
+      itemType: activeForm === "banner" ? "banner" : "content"
+    });
+    setResult(nextResult);
+    setSubmittedForm(nextResult.ok ? activeForm : null);
+    if (nextResult.ok) {
+      setFieldValues({});
+    }
+    setIsSubmitting(false);
   }
 
   return (
@@ -168,6 +220,7 @@ export function AdminCrudPreview() {
         })}
       </div>
       <form className="admin-editor-form" onSubmit={handleSubmit} noValidate>
+        <input name="itemId" type="hidden" value={selectedItemId} />
         <div className="admin-editor-heading">
           <ActiveIcon size={22} />
           <div>
@@ -175,21 +228,52 @@ export function AdminCrudPreview() {
             <p>{currentForm.description}</p>
           </div>
         </div>
+        {(activeForm === "content" || activeForm === "banner") && editableItems.length > 0 ? (
+          <label className="admin-existing-select">
+            기존 항목 불러오기
+            <select onChange={(event) => selectManagedItem(event.target.value)} value={selectedItemId}>
+              <option value="">새 항목 작성</option>
+              {editableItems.map((item) => (
+                <option key={item.id ?? `${item.type}-${item.title}`} value={item.id}>
+                  {item.type} · {item.locale} · {item.title}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
         <div className="admin-editor-grid">
           {currentForm.fields.map((field) => (
             <label className={field.type === "textarea" ? "full" : undefined} key={field.name}>
               {field.label}
               {field.type === "select" ? (
-                <select aria-invalid={Boolean(errors[field.name])} name={field.name} defaultValue="">
+                <select
+                  aria-invalid={Boolean(errors[field.name])}
+                  name={field.name}
+                  onChange={(event) => updateField(field.name, event.target.value)}
+                  value={fieldValues[field.name] ?? ""}
+                >
                   <option value="" disabled>선택</option>
                   {field.options?.map((option) => (
                     <option key={option} value={option}>{option}</option>
                   ))}
                 </select>
               ) : field.type === "textarea" ? (
-                <textarea aria-invalid={Boolean(errors[field.name])} name={field.name} placeholder={field.placeholder} rows={5} />
+                <textarea
+                  aria-invalid={Boolean(errors[field.name])}
+                  name={field.name}
+                  onChange={(event) => updateField(field.name, event.target.value)}
+                  placeholder={field.placeholder}
+                  rows={5}
+                  value={fieldValues[field.name] ?? ""}
+                />
               ) : (
-                <input aria-invalid={Boolean(errors[field.name])} name={field.name} placeholder={field.placeholder} />
+                <input
+                  aria-invalid={Boolean(errors[field.name])}
+                  name={field.name}
+                  onChange={(event) => updateField(field.name, event.target.value)}
+                  placeholder={field.placeholder}
+                  value={fieldValues[field.name] ?? ""}
+                />
               )}
               {errors[field.name] ? <span className="form-error">{errors[field.name]}</span> : null}
             </label>
@@ -199,27 +283,109 @@ export function AdminCrudPreview() {
           <div className="form-success" role="status">
             <CheckCircle2 size={20} />
             <span>
-              <strong>{activeForm === "certification" ? "자격 데이터 저장 완료" : "검수용 저장 흐름 확인"}</strong>
-              {activeForm === "certification" || activeForm === "inquiry"
-                ? result?.message
-                : "실제 저장은 관리자 API와 데이터베이스 연결 후 활성화됩니다."}
+              <strong>{getSuccessTitle(activeForm, result?.message ?? "")}</strong>
+              {result?.message}
             </span>
           </div>
         ) : null}
         {result && !result.ok ? <span className="form-error full">{result.message}</span> : null}
-        <button className="primary-button" disabled={isSubmitting} type="submit">
-          <Save size={16} />
-          <span>
-            {isSubmitting
-              ? "..."
-              : activeForm === "certification"
-                ? "자격 데이터 저장"
-                : activeForm === "inquiry"
-                  ? "문의 처리 저장"
-                  : "저장 미리보기"}
-          </span>
-        </button>
+        <div className="admin-editor-actions">
+          <button className="primary-button" disabled={isSubmitting} type="submit">
+            <Save size={16} />
+            <span>{getSubmitLabel(activeForm, selectedItemId, isSubmitting)}</span>
+          </button>
+          {(activeForm === "content" || activeForm === "banner") && selectedItemId ? (
+            <button className="secondary-button danger" disabled={isSubmitting} onClick={handleDelete} type="button">
+              <Trash2 size={16} />
+              <span>선택 항목 삭제</span>
+            </button>
+          ) : null}
+        </div>
       </form>
     </section>
   );
+}
+
+function getSuccessTitle(activeForm: AdminFormType, message: string) {
+  if (message.includes("삭제")) {
+    return "삭제 완료";
+  }
+
+  if (activeForm === "certification") {
+    return "자격 데이터 저장 완료";
+  }
+
+  if (activeForm === "inquiry") {
+    return "문의 처리 저장 완료";
+  }
+
+  if (activeForm === "banner") {
+    return "배너 저장 완료";
+  }
+
+  return "콘텐츠 저장 완료";
+}
+
+function getSubmitLabel(activeForm: AdminFormType, selectedItemId: string, isSubmitting: boolean) {
+  if (isSubmitting) {
+    return "...";
+  }
+
+  if (activeForm === "certification") {
+    return "자격 데이터 저장";
+  }
+
+  if (activeForm === "inquiry") {
+    return "문의 처리 저장";
+  }
+
+  if (selectedItemId) {
+    return "선택 항목 수정";
+  }
+
+  return activeForm === "banner" ? "배너 저장" : "콘텐츠 저장";
+}
+
+async function saveActiveForm(activeForm: AdminFormType, formData: FormData) {
+  if (activeForm === "certification") {
+    return saveAdminCertification({
+      certificateNumber: String(formData.get("certificateNumber") ?? ""),
+      courseTitle: String(formData.get("course") ?? ""),
+      issuedAt: String(formData.get("issuedAt") ?? ""),
+      status: String(formData.get("certificateStatus") ?? ""),
+      userEmail: String(formData.get("user") ?? ""),
+      verificationCode: String(formData.get("verificationCode") ?? "")
+    });
+  }
+
+  if (activeForm === "inquiry") {
+    return saveAdminInquiry({
+      managerNote: String(formData.get("memo") ?? ""),
+      receipt: String(formData.get("receipt") ?? ""),
+      status: String(formData.get("inquiryStatus") ?? "")
+    });
+  }
+
+  if (activeForm === "banner") {
+    return saveAdminBanner({
+      endsAt: String(formData.get("endsAt") ?? ""),
+      id: String(formData.get("itemId") ?? ""),
+      placement: String(formData.get("placement") ?? ""),
+      startsAt: String(formData.get("startsAt") ?? ""),
+      status: String(formData.get("bannerStatus") ?? ""),
+      targetUrl: String(formData.get("targetUrl") ?? ""),
+      title: String(formData.get("bannerTitle") ?? "")
+    });
+  }
+
+  return saveAdminContent({
+    body: String(formData.get("body") ?? ""),
+    contentType: String(formData.get("contentType") ?? ""),
+    locale: String(formData.get("locale") ?? ""),
+    slug: String(formData.get("slug") ?? ""),
+    sourceUrl: String(formData.get("sourceUrl") ?? ""),
+    status: String(formData.get("status") ?? ""),
+    summary: String(formData.get("summary") ?? ""),
+    title: String(formData.get("title") ?? "")
+  });
 }

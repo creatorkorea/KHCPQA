@@ -87,10 +87,21 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 - 공개 파트너 문의를 `inquiries` 테이블에 저장하는 server action과 anon insert RLS 추가
 - 자격 관리자/최고 관리자용 자격 데이터 저장 server action 추가
 - 문의 관리자/최고 관리자용 문의 처리 상태와 담당자 메모 저장 server action 추가
+- 콘텐츠/배너 관리자 저장 테이블과 server action 추가
+- 관리자 콘텐츠 목록이 `admin_content_items`와 `banners` 데이터를 읽도록 연결
+- `/[locale]/about` PageIntro가 published 관리자 콘텐츠(`Page/about`)를 우선 사용하도록 연결
+- `/[locale]/contact`, `/[locale]/activities`, `/[locale]/curriculum` 첫 화면 문구도 published 관리자 콘텐츠를 우선 사용하도록 연결
+- 활동 카드(`Activity/[key]`)와 과정 카드(`Course/[slug]`) 제목/요약이 published 관리자 콘텐츠를 우선 사용하도록 연결
+- 활동 상세와 과정 상세의 제목/요약/개요가 published 관리자 콘텐츠를 우선 사용하도록 연결
+- 관리자 콘텐츠 상세 본문(`body`)을 저장하고 공개 상세 소개 문단에 우선 적용
+- 활동 상세 게시글 목록이 `Activity/[key]-...` published 관리자 콘텐츠를 우선 사용하도록 연결
+- 홈 첫 화면에서 published `home/global` 배너를 운영 CTA로 노출하도록 연결
+- 관리자 입력 폼에서 기존 콘텐츠/배너 항목을 불러와 수정·삭제할 수 있도록 연결
+- 콘텐츠/배너 저장·수정·삭제·발행 이벤트를 `admin_publish_events`에 기록하고 관리자 화면에 최근 이력 표시
 
 남은 구현:
 1. Supabase 프로젝트 생성 및 환경변수 주입
 2. Supabase 마이그레이션 적용 및 실제 프로젝트에서 RLS 검증
-3. account/profile, inquiries, certifications 화면을 Supabase 데이터로 연결
-4. 관리자 API/server action에서 role별 쓰기 권한 분리
-5. 콘텐츠/배너 관리자 저장 흐름 연결
+3. 실제 Supabase 프로젝트에서 가입/로그인/계정/관리자 저장 흐름 E2E 검증
+4. 공개 상세 페이지의 고급 레이아웃 섹션을 관리자 콘텐츠 구조로 단계적 전환
+5. 관리자 발행 이력 상세 필터와 작업자 이름 표시 개선

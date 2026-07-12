@@ -2,6 +2,7 @@ import Image from "next/image";
 import { AboutSubnav } from "@/components/AboutSubnav";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
+import { getPublishedContentIntro } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 const aboutImages = [
@@ -27,13 +28,22 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 export default async function AboutPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
+  const intro = await getPublishedContentIntro({
+    contentType: "Page",
+    fallback: {
+      lead: t.about.lead,
+      title: t.nav.about
+    },
+    locale,
+    slug: "about"
+  });
 
   return (
     <>
       <PageIntro
         eyebrow={t.about.eyebrow}
-        title={t.nav.about}
-        lead={t.about.lead}
+        title={intro.title}
+        lead={intro.lead}
       />
       <AboutSubnav locale={locale} activeKey="intro" />
       <section className="content-section">

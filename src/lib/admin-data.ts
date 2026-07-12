@@ -1,4 +1,4 @@
-import { adminCertificationRows, adminInquiryRows, adminUserRows } from "@/lib/content";
+import { adminCertificationRows, adminContentRows, adminInquiryRows, adminUserRows } from "@/lib/content";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 
@@ -29,6 +29,31 @@ export type AdminInquiryRow = {
   type: string;
 };
 
+export type AdminContentRow = {
+  body?: string;
+  endsAt?: string;
+  id?: string;
+  locale: string;
+  sourceUrl?: string;
+  startsAt?: string;
+  status: string;
+  summary?: string;
+  title: string;
+  type: string;
+  updatedAt: string;
+  updatedBy: string;
+  slug?: string;
+};
+
+export type AdminPublishEventRow = {
+  action: string;
+  actor: string;
+  itemType: string;
+  status: string;
+  title: string;
+  updatedAt: string;
+};
+
 type ProfileRow = {
   id: string;
   email: string | null;
@@ -54,6 +79,41 @@ type InquiryRow = {
   name: string;
   organization: string | null;
   status: string;
+};
+
+type ContentRow = {
+  body: string | null;
+  content_type: string;
+  created_by: string | null;
+  id: string;
+  locale: string;
+  source_url: string | null;
+  slug: string;
+  status: string;
+  summary: string | null;
+  title: string;
+  updated_at: string;
+};
+
+type BannerRow = {
+  created_by: string | null;
+  ends_at: string | null;
+  id: string;
+  placement: string;
+  starts_at: string | null;
+  status: string;
+  target_url: string | null;
+  title: string;
+  updated_at: string;
+};
+
+type PublishEventRow = {
+  action: string;
+  actor_id: string | null;
+  created_at: string;
+  item_type: string;
+  status: string;
+  title: string;
 };
 
 function formatDate(value: string) {
@@ -152,5 +212,92 @@ export async function getAdminInquiries(): Promise<AdminInquiryRow[]> {
     status: inquiry.status,
     submittedAt: formatDate(inquiry.created_at),
     type: inquiry.inquiry_type
+  }));
+}
+
+export async function getAdminContentRows(): Promise<AdminContentRow[]> {
+  if (!hasSupabaseBrowserEnv()) {
+    return adminContentRows;
+  }
+
+  const supabase = createClient();
+  const [{ data: contentItems, error: contentError }, { data: banners, error: bannerError }] = await Promise.all([
+    supabase
+      .from("admin_content_items")
+      .select("id, content_type, title, locale, slug, status, summary, body, source_url, created_by, updated_at")
+      .order("updated_at", { ascending: false })
+      .limit(40),
+    supabase
+      .from("banners")
+      .select("id, title, placement, status, target_url, starts_at, ends_at, created_by, updated_at")
+      .order("updated_at", { ascending: false })
+      .limit(20)
+  ]);
+
+  if ((contentError || !contentItems || contentItems.length === 0) && (bannerError || !banners || banners.length === 0)) {
+    return adminContentRows;
+  }
+
+  const rows = [
+    ...((contentItems as ContentRow[] | null) ?? []).map((item) => ({
+      body: item.body || "",
+      id: item.id,
+      locale: item.locale,
+      slug: item.slug,
+      sourceUrl: item.source_url || "",
+      status: item.status,
+      summary: item.summary || "",
+      title: item.title,
+      type: item.content_type,
+      updatedAt: formatDate(item.updated_at),
+      updatedBy: "Admin"
+    })),
+    ...((banners as BannerRow[] | null) ?? []).map((banner) => ({
+      endsAt: banner.ends_at || "",
+      id: banner.id,
+      locale: banner.placement,
+      sourceUrl: banner.target_url || "",
+      startsAt: banner.starts_at || "",
+      status: banner.status,
+      title: banner.title,
+      type: "Banner",
+      updatedAt: formatDate(banner.updated_at),
+      updatedBy: "Admin"
+    }))
+  ];
+
+  return rows.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 50);
+}
+
+export async function getAdminPublishEvents(): Promise<AdminPublishEventRow[]> {
+  if (!hasSupabaseBrowserEnv()) {
+    return adminContentRows.slice(0, 5).map((row, index) => ({
+      action: index === 0 ? "published" : "updated",
+      actor: "Admin",
+      itemType: row.type === "Banner" ? "banner" : "content",
+      status: row.status,
+      title: row.title,
+      updatedAt: row.updatedAt
+    }));
+  }
+
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("admin_publish_events")
+    .select("item_type, action, title, status, actor_id, created_at")
+    .order("created_at", { ascending: false })
+    .limit(20);
+
+  if (error || !data || data.length === 0) {
+    return [];
+  }
+
+  return (data as PublishEventRow[]).map((event) => ({
+    action: event.action,
+    actor: event.actor_id ? event.actor_id.slice(0, 8) : "System",
+    itemType: event.item_type,
+    status: event.status,
+    title: event.title,
+    updatedAt: formatDate(event.created_at)
   }));
 }

@@ -2,11 +2,10 @@ import { LockKeyhole, Search, ShieldCheck } from "lucide-react";
 import { AdminCrudPreview } from "@/components/AdminCrudPreview";
 import { AdminUserRolePreview } from "@/components/AdminUserRolePreview";
 import {
-  adminContentRows,
   adminModules,
   adminReleaseTasks
 } from "@/lib/content";
-import { getAdminCertifications, getAdminInquiries, getAdminUsers } from "@/lib/admin-data";
+import { getAdminCertifications, getAdminContentRows, getAdminInquiries, getAdminPublishEvents, getAdminUsers } from "@/lib/admin-data";
 
 export const metadata = {
   title: "KHCPQA Admin",
@@ -17,10 +16,12 @@ export const metadata = {
 };
 
 export default async function AdminPage() {
-  const [adminUsers, adminCertifications, adminInquiries] = await Promise.all([
+  const [adminUsers, adminCertifications, adminInquiries, adminContent, adminPublishEvents] = await Promise.all([
     getAdminUsers(),
     getAdminCertifications(),
-    getAdminInquiries()
+    getAdminInquiries(),
+    getAdminContentRows(),
+    getAdminPublishEvents()
   ]);
 
   return (
@@ -70,7 +71,7 @@ export default async function AdminPage() {
         <div className="admin-panel-grid">
           <section className="admin-table-card admin-editor-card">
             <h3>관리자 입력 폼</h3>
-            <AdminCrudPreview />
+            <AdminCrudPreview contentItems={adminContent} />
           </section>
           <section className="admin-table-card admin-editor-card">
             <h3>회원 권한 관리</h3>
@@ -78,8 +79,13 @@ export default async function AdminPage() {
           </section>
           <AdminTable
             columns={["유형", "제목", "언어", "상태", "수정자", "수정일"]}
-            rows={adminContentRows.map((row) => [row.type, row.title, row.locale, row.status, row.updatedBy, row.updatedAt])}
+            rows={adminContent.map((row) => [row.type, row.title, row.locale, row.status, row.updatedBy, row.updatedAt])}
             title="콘텐츠 관리"
+          />
+          <AdminTable
+            columns={["대상", "작업", "제목", "상태", "작업자", "일시"]}
+            rows={adminPublishEvents.map((row) => [row.itemType, row.action, row.title, row.status, row.actor, row.updatedAt])}
+            title="발행 이력"
           />
           <AdminTable
             columns={["접수번호", "이름", "기관", "국가", "유형", "상태", "접수일"]}

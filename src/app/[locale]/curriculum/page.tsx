@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { getCopy, getCourses, type Locale } from "@/lib/content";
 import { CurriculumCatalog } from "@/components/CurriculumCatalog";
+import { getPublishedContentIntro, getPublishedContentMap } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, Sparkles, HeartPulse, ClipboardPenLine, Headphones];
@@ -32,12 +33,35 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
   const { locale } = await params;
   const t = getCopy(locale);
   const courses = getCourses(locale);
+  const courseContent = await getPublishedContentMap({
+    contentType: "Course",
+    locale,
+    slugs: courses.map((course) => course.slug)
+  });
+  const mergedCourses = courses.map((course) => {
+    const content = courseContent.get(course.slug);
+
+    return {
+      ...course,
+      summary: content?.lead || course.summary,
+      title: content?.title || course.title
+    };
+  });
+  const intro = await getPublishedContentIntro({
+    contentType: "Page",
+    fallback: {
+      lead: t.curriculumPage.lead,
+      title: t.curriculumTitle
+    },
+    locale,
+    slug: "curriculum"
+  });
   const heroQuickItems = [
-    { label: courses[0]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[0]?.slug ?? ""}` },
-    { label: courses[1]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[1]?.slug ?? ""}` },
-    { label: courses[2]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[2]?.slug ?? ""}` },
-    { label: courses[4]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[4]?.slug ?? ""}` },
-    { label: locale === "ko" ? "마사지 과정" : "Massage Programs", href: `/${locale}/curriculum/${courses[6]?.slug ?? ""}` },
+    { label: mergedCourses[0]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[0]?.slug ?? ""}` },
+    { label: mergedCourses[1]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[1]?.slug ?? ""}` },
+    { label: mergedCourses[2]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[2]?.slug ?? ""}` },
+    { label: mergedCourses[4]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[4]?.slug ?? ""}` },
+    { label: locale === "ko" ? "마사지 과정" : "Massage Programs", href: `/${locale}/curriculum/${mergedCourses[6]?.slug ?? ""}` },
     { label: t.primaryCta, href: `/${locale}/curriculum#curriculum-list` },
     { label: t.courseDetail.inquiryCta, href: `/${locale}/partner-inquiry` }
   ];
@@ -54,10 +78,10 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
                 <span>전문 과정</span>
               </>
             ) : (
-              t.curriculumTitle
+              intro.title
             )}
           </h1>
-          <p>{t.curriculumPage.lead}</p>
+          <p>{intro.lead}</p>
           <div className="hero-actions">
             <Link className="primary-button" href={`/${locale}/partner-inquiry`}>
               {t.courseDetail.inquiryCta}
@@ -87,7 +111,7 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
       </section>
       <section className="content-section">
         <div id="curriculum-list">
-          <CurriculumCatalog courses={courses} locale={locale} />
+          <CurriculumCatalog courses={mergedCourses} locale={locale} />
         </div>
       </section>
     </>

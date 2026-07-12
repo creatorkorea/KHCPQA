@@ -3,6 +3,7 @@ import { Bus, Car, ExternalLink, MapPin, Phone, Train } from "lucide-react";
 import { AboutSubnav } from "@/components/AboutSubnav";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
+import { getPublishedContentIntro } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 type TransitStop = {
@@ -116,13 +117,22 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 export default async function ContactPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
+  const intro = await getPublishedContentIntro({
+    contentType: "Page",
+    fallback: {
+      lead: t.contact.lead,
+      title: t.nav.contact
+    },
+    locale,
+    slug: "contact"
+  });
 
   return (
     <>
       <PageIntro
         eyebrow={t.contact.eyebrow}
-        title={t.nav.contact}
-        lead={t.contact.lead}
+        title={intro.title}
+        lead={intro.lead}
       />
       <AboutSubnav locale={locale} activeKey="location" />
       <section className="content-section location-section">
