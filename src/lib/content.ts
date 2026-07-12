@@ -313,10 +313,20 @@ type Copy = {
     certifications: {
       title: string;
       lead: string;
+      lookupTitle: string;
+      lookupLead: string;
       numberLabel: string;
+      numberPlaceholder: string;
+      verificationCodeLabel: string;
+      verificationCodePlaceholder: string;
       issuedLabel: string;
       statusLabel: string;
       courseLabel: string;
+      lookupCta: string;
+      lookupSuccessTitle: string;
+      lookupEmptyTitle: string;
+      lookupEmptyMessage: string;
+      demoHint: string;
     };
     inquiries: {
       title: string;
@@ -335,6 +345,7 @@ type Copy = {
       number: string;
       issuedAt: string;
       status: string;
+      verificationCode: string;
     }>;
   };
   curriculumCatalog: {
@@ -692,10 +703,20 @@ export const copy = {
       certifications: {
         title: "Certification Inquiry",
         lead: "샘플 자격 데이터 기준으로 자격번호, 과정명, 발급일, 상태를 표시합니다.",
+        lookupTitle: "자격번호 조회",
+        lookupLead: "자격번호와 검증 코드를 입력하면 샘플 자격 데이터와 대조해 결과를 표시합니다.",
         numberLabel: "자격번호",
+        numberPlaceholder: "SMC-2026-001",
+        verificationCodeLabel: "검증 코드",
+        verificationCodePlaceholder: "PUBLIC-CODE-001",
         issuedLabel: "발급일",
         statusLabel: "상태",
-        courseLabel: "과정명"
+        courseLabel: "과정명",
+        lookupCta: "조회하기",
+        lookupSuccessTitle: "자격 정보가 확인되었습니다.",
+        lookupEmptyTitle: "일치하는 자격 정보가 없습니다.",
+        lookupEmptyMessage: "자격번호와 검증 코드를 다시 확인해 주세요. 실제 데이터 조회는 관리자 자격 DB 연결 후 활성화됩니다.",
+        demoHint: "검수용 예시: SMC-2026-001 / PUBLIC-CODE-001"
       },
       inquiries: {
         title: "Inquiry History",
@@ -714,8 +735,8 @@ export const copy = {
         { title: "검색엔진 비노출", body: "계정 페이지는 검색엔진 노출을 금지합니다." }
       ],
       certificates: [
-        { title: "피부미용사 국가자격증", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "활성" },
-        { title: "아로마 테라피", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "검수 대기" }
+        { title: "피부미용사 국가자격증", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "활성", verificationCode: "PUBLIC-CODE-001" },
+        { title: "아로마 테라피", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "검수 대기", verificationCode: "PUBLIC-CODE-014" }
       ]
     },
     curriculumCatalog: {
@@ -1074,10 +1095,20 @@ export const copy = {
       certifications: {
         title: "Certification Inquiry",
         lead: "Sample certification data displays certificate number, program, issue date, and status.",
+        lookupTitle: "Certificate Lookup",
+        lookupLead: "Enter a certificate number and verification code to compare against sample certification data.",
         numberLabel: "Certificate No.",
+        numberPlaceholder: "SMC-2026-001",
+        verificationCodeLabel: "Verification Code",
+        verificationCodePlaceholder: "PUBLIC-CODE-001",
         issuedLabel: "Issue Date",
         statusLabel: "Status",
-        courseLabel: "Program"
+        courseLabel: "Program",
+        lookupCta: "Look Up",
+        lookupSuccessTitle: "Certification record found.",
+        lookupEmptyTitle: "No matching certification record.",
+        lookupEmptyMessage: "Please check the certificate number and verification code. Real data lookup will be enabled after the certification database is connected.",
+        demoHint: "Preview example: SMC-2026-001 / PUBLIC-CODE-001"
       },
       inquiries: {
         title: "Inquiry History",
@@ -1096,8 +1127,8 @@ export const copy = {
         { title: "Noindex", body: "Account pages are blocked from search engine indexing." }
       ],
       certificates: [
-        { title: "National Esthetician Certification", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "Active" },
-        { title: "Aromatherapy", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "Pending review" }
+        { title: "National Esthetician Certification", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "Active", verificationCode: "PUBLIC-CODE-001" },
+        { title: "Aromatherapy", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "Pending review", verificationCode: "PUBLIC-CODE-014" }
       ]
     },
     curriculumCatalog: {
@@ -1456,10 +1487,20 @@ export const copy = {
       certifications: {
         title: "Consulta de Certificación",
         lead: "Los datos de muestra muestran número de certificado, programa, fecha de emisión y estado.",
+        lookupTitle: "Búsqueda de Certificado",
+        lookupLead: "Ingrese el número de certificado y el código de verificación para comparar con los datos de muestra.",
         numberLabel: "Certificado No.",
+        numberPlaceholder: "SMC-2026-001",
+        verificationCodeLabel: "Código de verificación",
+        verificationCodePlaceholder: "PUBLIC-CODE-001",
         issuedLabel: "Fecha de emisión",
         statusLabel: "Estado",
-        courseLabel: "Programa"
+        courseLabel: "Programa",
+        lookupCta: "Consultar",
+        lookupSuccessTitle: "Registro de certificación encontrado.",
+        lookupEmptyTitle: "No hay registro coincidente.",
+        lookupEmptyMessage: "Revise el número de certificado y el código de verificación. La consulta real se activará después de conectar la base de datos.",
+        demoHint: "Ejemplo de vista previa: SMC-2026-001 / PUBLIC-CODE-001"
       },
       inquiries: {
         title: "Historial de Consultas",
@@ -1478,8 +1519,8 @@ export const copy = {
         { title: "Noindex", body: "Las páginas de cuenta se bloquean para indexación en motores de búsqueda." }
       ],
       certificates: [
-        { title: "Certificación Nacional de Estética", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "Activo" },
-        { title: "Aromaterapia", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "Revisión pendiente" }
+        { title: "Certificación Nacional de Estética", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "Activo", verificationCode: "PUBLIC-CODE-001" },
+        { title: "Aromaterapia", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "Revisión pendiente", verificationCode: "PUBLIC-CODE-014" }
       ]
     },
     curriculumCatalog: {

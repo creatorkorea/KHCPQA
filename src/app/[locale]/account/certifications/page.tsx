@@ -1,4 +1,5 @@
 import { AccountNav, AccountSection } from "@/components/AccountShell";
+import { CertificationLookupForm } from "@/components/CertificationLookupForm";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
@@ -29,6 +30,7 @@ export default async function AccountCertificationsPage({ params }: { params: Pr
       />
       <section className="content-section">
         <AccountNav locale={locale} activeHref="account/certifications" />
+        <CertificationLookupForm locale={locale} />
         <AccountSection title={t.account.certifications.title} lead={t.account.certifications.lead}>
           <div className="cert-records">
             {t.account.certificates.map((certificate) => (
