@@ -263,7 +263,7 @@ type Copy = {
     emailPlaceholder: string;
     password: string;
     passwordPlaceholder: string;
-    previewCta: string;
+    submitCta: string;
     forgotPassword: string;
     backToLogin: string;
     resetCta: string;
@@ -624,7 +624,7 @@ export const copy = {
       eyebrow: "글로벌 활동",
       lead: "공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 방송/언론, 봉사활동을 글로벌 신뢰 콘텐츠로 재배치합니다.",
       detailEyebrow: "활동 상세",
-      latestPostsTitle: "최근 게시글 미리보기",
+      latestPostsTitle: "최근 게시글",
       sourceLabel: "원본 출처",
       statusLabel: "게시 상태",
       allActivitiesCta: "전체 활동 보기",
@@ -652,8 +652,8 @@ export const copy = {
     partnerInquiry: {
       eyebrow: "파트너 문의",
       lead: "해외 기관, 교육 파트너, 교육생 문의를 관리자 문의함으로 저장하는 폼입니다. 이메일/문자 자동 발송은 1차 범위에서 제외합니다.",
-      successTitle: "문의가 접수 준비되었습니다.",
-      successMessage: "실제 저장은 관리자 문의함 연동 후 활성화됩니다. 입력 내용은 검수용 화면 흐름에서 확인되었습니다.",
+      successTitle: "문의가 접수되었습니다.",
+      successMessage: "관리자 문의함에 접수되었습니다. 담당자가 내용을 확인한 뒤 처리 상태를 업데이트합니다.",
       receiptLabel: "접수번호",
       submittedSummaryTitle: "접수 요약",
       nextStepTitle: "관리자 처리 흐름",
@@ -683,20 +683,20 @@ export const copy = {
     },
     login: {
       eyebrow: "보안 로그인",
-      lead: "Supabase Auth 연결 전 UI 단계입니다. 로그인 후 My Page와 자격 조회 메뉴가 노출되는 정책을 화면에 반영합니다.",
+      lead: "회원 전용 My Page와 자격 조회를 이용하려면 로그인해 주세요.",
       email: "이메일",
       emailPlaceholder: "name@example.com",
       password: "비밀번호",
       passwordPlaceholder: "비밀번호",
-      previewCta: "My Page 미리보기",
+      submitCta: "로그인",
       forgotPassword: "비밀번호를 잊으셨나요?",
       backToLogin: "로그인으로 돌아가기",
       resetCta: "비밀번호 재설정 안내 받기",
-      note: "실제 인증은 Supabase 환경변수 설정 후 연결합니다.",
-      successTitle: "데모 로그인이 준비되었습니다.",
-      successMessage: "잠시 후 My Page 미리보기로 이동합니다.",
-      resetSuccessTitle: "재설정 안내가 준비되었습니다.",
-      resetSuccessMessage: "실제 이메일 발송은 Supabase Auth 연결 후 활성화됩니다.",
+      note: "로그인 후 My Page에서 프로필, 자격 조회, 문의 내역을 확인할 수 있습니다.",
+      successTitle: "로그인되었습니다.",
+      successMessage: "잠시 후 My Page로 이동합니다.",
+      resetSuccessTitle: "재설정 안내를 보냈습니다.",
+      resetSuccessMessage: "입력하신 이메일로 비밀번호 재설정 안내를 보냈습니다.",
       validation: {
         emailRequired: "이메일을 입력해 주세요.",
         emailInvalid: "올바른 이메일 주소를 입력해 주세요.",
@@ -722,8 +722,8 @@ export const copy = {
       submitCta: "회원가입",
       loginCta: "이미 계정이 있으신가요?",
       note: "회원가입은 공개 가입 방식으로 운영됩니다. 이메일 확인이 필요한 경우 받은 편지함의 확인 링크를 눌러 주세요.",
-      successTitle: "회원가입이 접수되었습니다.",
-      successMessage: "이메일 확인이 필요한 경우 받은 편지함의 확인 링크를 눌러 가입을 완료해 주세요.",
+      successTitle: "회원가입 신청이 완료되었습니다.",
+      successMessage: "입력하신 이메일로 확인 메일을 보냈습니다. 메일 안의 링크를 눌러 가입을 완료해 주세요.",
       validation: {
         required: "필수 항목을 입력해 주세요.",
         email: "올바른 이메일 주소를 입력해 주세요.",
@@ -734,9 +734,9 @@ export const copy = {
     },
     account: {
       eyebrow: "보호된 계정 영역",
-      lead: "공개 메뉴에는 노출되지 않는 로그인 후 사용자 전용 영역입니다. 실제 배포 전 서버 인증 보호를 연결합니다.",
+      lead: "로그인한 회원만 이용할 수 있는 개인 계정 영역입니다.",
       overviewTitle: "계정 요약",
-      overviewLead: "프로필, 자격 조회, 문의 내역을 한 화면에서 확인하는 My Page 미리보기입니다.",
+      overviewLead: "프로필, 자격 조회, 문의 내역을 한 화면에서 확인합니다.",
       nav: [
         { title: "My Page", href: "account", description: "계정 요약" },
         { title: "Profile", href: "account/profile", description: "회원 정보" },
@@ -745,12 +745,12 @@ export const copy = {
       ],
       profile: {
         title: "Profile",
-        lead: "실제 회원 정보 수정은 인증과 데이터베이스 연결 후 저장 기능을 활성화합니다.",
+        lead: "회원 정보를 확인하고 필요한 내용을 수정할 수 있습니다.",
         editTitle: "프로필 수정",
-        editLead: "이름, 이메일, 국가, 선호 언어를 수정하는 검수용 폼입니다.",
-        saveCta: "수정 미리보기",
-        successTitle: "프로필 수정 흐름이 확인되었습니다.",
-        successMessage: "실제 저장은 인증 세션과 회원 DB 연결 후 활성화됩니다.",
+        editLead: "이름, 국가, 선호 언어를 수정할 수 있습니다.",
+        saveCta: "저장하기",
+        successTitle: "프로필이 저장되었습니다.",
+        successMessage: "수정한 회원 정보가 저장되었습니다.",
         validation: {
           required: "필수 항목을 입력해 주세요.",
           email: "올바른 이메일 주소를 입력해 주세요."
@@ -764,9 +764,9 @@ export const copy = {
       },
       certifications: {
         title: "Certification Inquiry",
-        lead: "샘플 자격 데이터 기준으로 자격번호, 과정명, 발급일, 상태를 표시합니다.",
+        lead: "보유한 자격 내역과 검증 정보를 확인합니다.",
         lookupTitle: "자격번호 조회",
-        lookupLead: "자격번호와 검증 코드를 입력하면 샘플 자격 데이터와 대조해 결과를 표시합니다.",
+        lookupLead: "자격번호와 검증 코드를 입력해 일치하는 자격 정보를 확인합니다.",
         numberLabel: "자격번호",
         numberPlaceholder: "SMC-2026-001",
         verificationCodeLabel: "검증 코드",
@@ -777,8 +777,8 @@ export const copy = {
         lookupCta: "조회하기",
         lookupSuccessTitle: "자격 정보가 확인되었습니다.",
         lookupEmptyTitle: "일치하는 자격 정보가 없습니다.",
-        lookupEmptyMessage: "자격번호와 검증 코드를 다시 확인해 주세요. 실제 데이터 조회는 관리자 자격 DB 연결 후 활성화됩니다.",
-        demoHint: "검수용 예시: SMC-2026-001 / PUBLIC-CODE-001"
+        lookupEmptyMessage: "자격번호와 검증 코드를 다시 확인해 주세요.",
+        demoHint: "예시: SMC-2026-001 / PUBLIC-CODE-001"
       },
       inquiries: {
         title: "Inquiry History",
@@ -811,7 +811,7 @@ export const copy = {
       },
       modules: [
         { title: "프로필", body: "이름, 이메일, 국가, 선호 언어를 확인하고 수정합니다." },
-        { title: "자격 조회", body: "샘플 자격 데이터 기준으로 과정명, 발급일, 상태를 표시합니다." },
+        { title: "자격 조회", body: "과정명, 발급일, 상태와 검증 정보를 확인합니다." },
         { title: "문의 내역", body: "사용자가 남긴 문의 내역을 확인합니다." },
         { title: "검색엔진 비노출", body: "계정 페이지는 검색엔진 노출을 금지합니다." }
       ],
@@ -1065,7 +1065,7 @@ export const copy = {
       eyebrow: "Global Activities",
       lead: "Notices, pass records, galleries, awards, international beauty competitions, media, and volunteer activities are reorganized as global trust content.",
       detailEyebrow: "Activity Detail",
-      latestPostsTitle: "Recent Post Preview",
+      latestPostsTitle: "Recent Posts",
       sourceLabel: "Source",
       statusLabel: "Publish Status",
       allActivitiesCta: "All Activities",
@@ -1093,8 +1093,8 @@ export const copy = {
     partnerInquiry: {
       eyebrow: "Partner Inquiry",
       lead: "International institutions, education partners, and trainees can submit inquiries to the admin inbox. Automated email and SMS replies are outside the first release.",
-      successTitle: "Inquiry ready for submission.",
-      successMessage: "Actual storage will be enabled after the admin inquiry inbox is connected. This confirms the review-stage form flow.",
+      successTitle: "Inquiry submitted.",
+      successMessage: "Your inquiry has been saved to the admin inbox. A manager will review it and update the status.",
       receiptLabel: "Receipt No.",
       submittedSummaryTitle: "Submission Summary",
       nextStepTitle: "Admin Processing Flow",
@@ -1124,20 +1124,20 @@ export const copy = {
     },
     login: {
       eyebrow: "Secure Login",
-      lead: "This is the UI stage before Supabase Auth is connected. After login, My Page and certification inquiry access will be shown according to policy.",
+      lead: "Log in to access your My Page and certification records.",
       email: "Email",
       emailPlaceholder: "name@example.com",
       password: "Password",
       passwordPlaceholder: "Password",
-      previewCta: "Preview My Page",
+      submitCta: "Login",
       forgotPassword: "Forgot password?",
       backToLogin: "Back to login",
       resetCta: "Send reset instructions",
-      note: "Real authentication will be connected after Supabase environment variables are configured.",
-      successTitle: "Demo login is ready.",
-      successMessage: "Redirecting to the My Page preview shortly.",
-      resetSuccessTitle: "Reset instructions are ready.",
-      resetSuccessMessage: "Actual email delivery will be enabled after Supabase Auth is connected.",
+      note: "After login, you can review your profile, certification records, and inquiry history.",
+      successTitle: "Logged in.",
+      successMessage: "Redirecting to My Page shortly.",
+      resetSuccessTitle: "Reset instructions sent.",
+      resetSuccessMessage: "Password reset instructions have been sent to your email.",
       validation: {
         emailRequired: "Please enter your email.",
         emailInvalid: "Please enter a valid email address.",
@@ -1175,9 +1175,9 @@ export const copy = {
     },
     account: {
       eyebrow: "Protected Account Area",
-      lead: "This login-only user area is not shown in the public menu. Server-side authentication protection will be connected before production release.",
+      lead: "This personal account area is available to logged-in members only.",
       overviewTitle: "Account Summary",
-      overviewLead: "A My Page preview for profile, certification inquiry, and inquiry history.",
+      overviewLead: "Review your profile, certification records, and inquiry history in one place.",
       nav: [
         { title: "My Page", href: "account", description: "Account summary" },
         { title: "Profile", href: "account/profile", description: "Member information" },
@@ -1186,12 +1186,12 @@ export const copy = {
       ],
       profile: {
         title: "Profile",
-        lead: "Profile editing will be enabled after authentication and database storage are connected.",
+        lead: "Review and update your member information.",
         editTitle: "Edit Profile",
-        editLead: "A preview form for editing name, email, country, and preferred language.",
-        saveCta: "Preview Update",
-        successTitle: "Profile update flow confirmed.",
-        successMessage: "Actual saving will be enabled after auth session and member database connection.",
+        editLead: "Update your name, country, and preferred language.",
+        saveCta: "Save",
+        successTitle: "Profile saved.",
+        successMessage: "Your member information has been updated.",
         validation: {
           required: "Please complete this required field.",
           email: "Please enter a valid email address."
@@ -1205,9 +1205,9 @@ export const copy = {
       },
       certifications: {
         title: "Certification Inquiry",
-        lead: "Sample certification data displays certificate number, program, issue date, and status.",
+        lead: "Review your certification records and verification details.",
         lookupTitle: "Certificate Lookup",
-        lookupLead: "Enter a certificate number and verification code to compare against sample certification data.",
+        lookupLead: "Enter a certificate number and verification code to confirm a matching certification record.",
         numberLabel: "Certificate No.",
         numberPlaceholder: "SMC-2026-001",
         verificationCodeLabel: "Verification Code",
@@ -1218,8 +1218,8 @@ export const copy = {
         lookupCta: "Look Up",
         lookupSuccessTitle: "Certification record found.",
         lookupEmptyTitle: "No matching certification record.",
-        lookupEmptyMessage: "Please check the certificate number and verification code. Real data lookup will be enabled after the certification database is connected.",
-        demoHint: "Preview example: SMC-2026-001 / PUBLIC-CODE-001"
+        lookupEmptyMessage: "Please check the certificate number and verification code.",
+        demoHint: "Example: SMC-2026-001 / PUBLIC-CODE-001"
       },
       inquiries: {
         title: "Inquiry History",
@@ -1252,7 +1252,7 @@ export const copy = {
       },
       modules: [
         { title: "Profile", body: "Review and edit name, email, country, and preferred language." },
-        { title: "Certification Inquiry", body: "Display program name, issue date, and status from sample certification data." },
+        { title: "Certification Inquiry", body: "Review program name, issue date, status, and verification details." },
         { title: "Inquiry History", body: "Review inquiries submitted by the user." },
         { title: "Noindex", body: "Account pages are blocked from search engine indexing." }
       ],
@@ -1506,7 +1506,7 @@ export const copy = {
       eyebrow: "Actividades Globales",
       lead: "Avisos, resultados, galerías, premios, concursos internacionales de belleza, medios y voluntariado se reorganizan como contenido global de confianza.",
       detailEyebrow: "Detalle de Actividad",
-      latestPostsTitle: "Vista previa de publicaciones recientes",
+      latestPostsTitle: "Publicaciones recientes",
       sourceLabel: "Fuente",
       statusLabel: "Estado de publicación",
       allActivitiesCta: "Todas las actividades",
@@ -1534,8 +1534,8 @@ export const copy = {
     partnerInquiry: {
       eyebrow: "Consulta de Asociación",
       lead: "Instituciones internacionales, socios educativos y estudiantes pueden enviar consultas al buzón del administrador. Las respuestas automáticas por email/SMS quedan fuera de la primera versión.",
-      successTitle: "Consulta lista para enviar.",
-      successMessage: "El guardado real se activará después de conectar el buzón de consultas del administrador. Esto confirma el flujo del formulario en revisión.",
+      successTitle: "Consulta enviada.",
+      successMessage: "Su consulta se guardó en el buzón del administrador. Un responsable la revisará y actualizará el estado.",
       receiptLabel: "No. de recepción",
       submittedSummaryTitle: "Resumen de envío",
       nextStepTitle: "Flujo de administración",
@@ -1565,20 +1565,20 @@ export const copy = {
     },
     login: {
       eyebrow: "Inicio Seguro",
-      lead: "Esta es la etapa de UI antes de conectar Supabase Auth. Después del inicio de sesión, My Page y la consulta de certificación se mostrarán según la política.",
+      lead: "Inicie sesión para acceder a My Page y a sus registros de certificación.",
       email: "Email",
       emailPlaceholder: "name@example.com",
       password: "Contraseña",
       passwordPlaceholder: "Contraseña",
-      previewCta: "Vista previa de My Page",
+      submitCta: "Iniciar Sesión",
       forgotPassword: "¿Olvidó su contraseña?",
       backToLogin: "Volver al inicio de sesión",
       resetCta: "Enviar instrucciones de restablecimiento",
-      note: "La autenticación real se conectará después de configurar las variables de entorno de Supabase.",
-      successTitle: "Inicio de sesión demo listo.",
-      successMessage: "Redirigiendo pronto a la vista previa de My Page.",
-      resetSuccessTitle: "Instrucciones de restablecimiento listas.",
-      resetSuccessMessage: "El envío real por email se activará después de conectar Supabase Auth.",
+      note: "Después de iniciar sesión, puede revisar su perfil, certificaciones e historial de consultas.",
+      successTitle: "Sesión iniciada.",
+      successMessage: "Redirigiendo a My Page.",
+      resetSuccessTitle: "Instrucciones enviadas.",
+      resetSuccessMessage: "Las instrucciones para restablecer la contraseña se enviaron a su email.",
       validation: {
         emailRequired: "Ingrese su email.",
         emailInvalid: "Ingrese una dirección de email válida.",
@@ -1616,9 +1616,9 @@ export const copy = {
     },
     account: {
       eyebrow: "Área de Cuenta Protegida",
-      lead: "Esta área exclusiva para usuarios con sesión iniciada no aparece en el menú público. La protección de autenticación del servidor se conectará antes del lanzamiento.",
+      lead: "Esta área personal está disponible solo para miembros con sesión iniciada.",
       overviewTitle: "Resumen de Cuenta",
-      overviewLead: "Vista previa de My Page para perfil, consulta de certificación e historial de consultas.",
+      overviewLead: "Revise su perfil, certificaciones e historial de consultas en un solo lugar.",
       nav: [
         { title: "My Page", href: "account", description: "Resumen de cuenta" },
         { title: "Perfil", href: "account/profile", description: "Información de miembro" },
@@ -1627,12 +1627,12 @@ export const copy = {
       ],
       profile: {
         title: "Perfil",
-        lead: "La edición del perfil se activará después de conectar autenticación y base de datos.",
+        lead: "Revise y actualice su información de miembro.",
         editTitle: "Editar Perfil",
-        editLead: "Formulario de vista previa para editar nombre, email, país e idioma preferido.",
-        saveCta: "Vista previa de actualización",
-        successTitle: "Flujo de actualización de perfil confirmado.",
-        successMessage: "El guardado real se activará después de conectar sesión de autenticación y base de datos de miembros.",
+        editLead: "Actualice su nombre, país e idioma preferido.",
+        saveCta: "Guardar",
+        successTitle: "Perfil guardado.",
+        successMessage: "La información de miembro se actualizó correctamente.",
         validation: {
           required: "Complete este campo obligatorio.",
           email: "Ingrese una dirección de email válida."
@@ -1646,9 +1646,9 @@ export const copy = {
       },
       certifications: {
         title: "Consulta de Certificación",
-        lead: "Los datos de muestra muestran número de certificado, programa, fecha de emisión y estado.",
+        lead: "Revise sus certificaciones y detalles de verificación.",
         lookupTitle: "Búsqueda de Certificado",
-        lookupLead: "Ingrese el número de certificado y el código de verificación para comparar con los datos de muestra.",
+        lookupLead: "Ingrese el número de certificado y el código de verificación para confirmar un registro coincidente.",
         numberLabel: "Certificado No.",
         numberPlaceholder: "SMC-2026-001",
         verificationCodeLabel: "Código de verificación",
@@ -1659,8 +1659,8 @@ export const copy = {
         lookupCta: "Consultar",
         lookupSuccessTitle: "Registro de certificación encontrado.",
         lookupEmptyTitle: "No hay registro coincidente.",
-        lookupEmptyMessage: "Revise el número de certificado y el código de verificación. La consulta real se activará después de conectar la base de datos.",
-        demoHint: "Ejemplo de vista previa: SMC-2026-001 / PUBLIC-CODE-001"
+        lookupEmptyMessage: "Revise el número de certificado y el código de verificación.",
+        demoHint: "Ejemplo: SMC-2026-001 / PUBLIC-CODE-001"
       },
       inquiries: {
         title: "Historial de Consultas",
@@ -3376,19 +3376,19 @@ export function getActivityPosts(locale: string, activityKey: string) {
     ko: {
       previewStatus: "게시 예정",
       reviewStatus: "검수 중",
-      firstBody: "기존 SMC365 콘텐츠를 관리자 게시판 구조로 이관하기 위한 대표 게시글 미리보기입니다.",
+      firstBody: "기존 SMC365 콘텐츠를 관리자 게시판 구조로 이관하기 위한 대표 게시글 예시입니다.",
       secondBody: "발주사 검수 후 최종 이미지, 원문 링크, 게시 상태를 확정해 공개합니다."
     },
     en: {
       previewStatus: "Scheduled",
       reviewStatus: "Under review",
-      firstBody: "A representative post preview for migrating existing SMC365 content into the admin board structure.",
+      firstBody: "A representative sample post for migrating existing SMC365 content into the admin board structure.",
       secondBody: "Final images, source links, and publish status will be confirmed after client review."
     },
     es: {
       previewStatus: "Programado",
       reviewStatus: "En revisión",
-      firstBody: "Vista previa de publicación representativa para migrar contenido existente de SMC365 a la estructura del tablero.",
+      firstBody: "Publicación de ejemplo para migrar contenido existente de SMC365 a la estructura del tablero.",
       secondBody: "Las imágenes finales, enlaces de origen y estado se confirmarán después de la revisión del cliente."
     }
   };

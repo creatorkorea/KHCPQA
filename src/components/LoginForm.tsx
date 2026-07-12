@@ -157,7 +157,7 @@ export function LoginForm({ locale }: { locale: Locale }) {
       ) : null}
       {errors.form ? <span className="form-error">{errors.form}</span> : null}
       <button className="primary-button" type="submit">
-        {isSubmitting ? "..." : mode === "login" ? t.login.previewCta : t.login.resetCta}
+        {isSubmitting ? "..." : mode === "login" ? t.login.submitCta : t.login.resetCta}
       </button>
       <button className="text-button" type="button" onClick={() => switchMode(mode === "login" ? "reset" : "login")}>
         {mode === "login" ? t.login.forgotPassword : t.login.backToLogin}
