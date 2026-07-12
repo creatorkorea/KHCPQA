@@ -74,8 +74,16 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 
 ## 다음 구현 단위
 
-1. `@supabase/supabase-js`, `@supabase/ssr` 설치
-2. `src/lib/supabase/client.ts`와 `src/lib/supabase/server.ts` 추가
-3. signup/login/reset form을 Supabase Auth에 연결
-4. account/admin 보호 라우트 적용
-5. profiles, inquiries, certifications 테이블 RLS 정책 연결
+완료:
+- `@supabase/supabase-js`, `@supabase/ssr` 설치
+- `src/lib/supabase/client.ts`와 `src/lib/supabase/server.ts` 추가
+- 환경변수가 있을 때 signup/login/reset form이 Supabase Auth를 호출하도록 연결
+- 환경변수가 없을 때는 기존 검수용 프리뷰 흐름 유지
+- `/[locale]/account/**`, `/admin/**` 보호 미들웨어 추가
+
+남은 구현:
+1. Supabase 프로젝트 생성 및 환경변수 주입
+2. profiles, inquiries, certifications 테이블 생성
+3. profiles, inquiries, certifications RLS 정책 연결
+4. signup 후 profiles 테이블 upsert 또는 trigger 구성
+5. 관리자 role 조회 및 `/admin/**` role 제한 강화

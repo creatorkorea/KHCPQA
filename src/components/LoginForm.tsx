@@ -6,6 +6,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Lock } from "lucide-react";
 import { getCopy, type Locale } from "@/lib/content";
+import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
+import { createClient } from "@/lib/supabase/client";
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -17,8 +19,9 @@ export function LoginForm({ locale }: { locale: Locale }) {
   const [mode, setMode] = useState<"login" | "reset">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function validate() {
     const nextErrors: { email?: string; password?: string } = {};
@@ -52,17 +55,48 @@ export function LoginForm({ locale }: { locale: Locale }) {
     return Object.keys(nextErrors).length === 0;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (mode === "reset") {
-      setIsSubmitted(validateReset());
+      if (!validateReset()) {
+        setIsSubmitted(false);
+        return;
+      }
+
+      if (hasSupabaseBrowserEnv()) {
+        setIsSubmitting(true);
+        const supabase = createClient();
+        const { error } = await supabase.auth.resetPasswordForEmail(email);
+        setIsSubmitting(false);
+
+        if (error) {
+          setErrors({ form: error.message });
+          setIsSubmitted(false);
+          return;
+        }
+      }
+
+      setIsSubmitted(true);
       return;
     }
 
     if (!validate()) {
       setIsSubmitted(false);
       return;
+    }
+
+    if (hasSupabaseBrowserEnv()) {
+      setIsSubmitting(true);
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      setIsSubmitting(false);
+
+      if (error) {
+        setErrors({ form: error.message });
+        setIsSubmitted(false);
+        return;
+      }
     }
 
     setIsSubmitted(true);
@@ -121,8 +155,9 @@ export function LoginForm({ locale }: { locale: Locale }) {
           </span>
         </div>
       ) : null}
+      {errors.form ? <span className="form-error">{errors.form}</span> : null}
       <button className="primary-button" type="submit">
-        {mode === "login" ? t.login.previewCta : t.login.resetCta}
+        {isSubmitting ? "..." : mode === "login" ? t.login.previewCta : t.login.resetCta}
       </button>
       <button className="text-button" type="button" onClick={() => switchMode(mode === "login" ? "reset" : "login")}>
         {mode === "login" ? t.login.forgotPassword : t.login.backToLogin}

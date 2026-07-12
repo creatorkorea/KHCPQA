@@ -5,6 +5,8 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import { CheckCircle2, UserPlus } from "lucide-react";
 import { getCopy, type Locale } from "@/lib/content";
+import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
+import { createClient } from "@/lib/supabase/client";
 
 type SignupField = "name" | "email" | "country" | "password" | "confirmPassword" | "consent";
 
@@ -28,8 +30,9 @@ function isValidEmail(value: string) {
 export function SignupForm({ locale }: { locale: Locale }) {
   const t = getCopy(locale);
   const [form, setForm] = useState<SignupState>(initialSignupState);
-  const [errors, setErrors] = useState<Partial<Record<SignupField, string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<SignupField | "form", string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function updateField(field: Exclude<SignupField, "consent">, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -72,9 +75,39 @@ export function SignupForm({ locale }: { locale: Locale }) {
     return Object.keys(nextErrors).length === 0;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsSubmitted(validate());
+
+    if (!validate()) {
+      setIsSubmitted(false);
+      return;
+    }
+
+    if (hasSupabaseBrowserEnv()) {
+      setIsSubmitting(true);
+      const supabase = createClient();
+      const { error } = await supabase.auth.signUp({
+        email: form.email,
+        password: form.password,
+        options: {
+          data: {
+            country: form.country,
+            full_name: form.name,
+            preferred_locale: locale,
+            role: "user"
+          }
+        }
+      });
+      setIsSubmitting(false);
+
+      if (error) {
+        setErrors({ form: error.message });
+        setIsSubmitted(false);
+        return;
+      }
+    }
+
+    setIsSubmitted(true);
   }
 
   return (
@@ -147,8 +180,9 @@ export function SignupForm({ locale }: { locale: Locale }) {
           </span>
         </div>
       ) : null}
+      {errors.form ? <span className="form-error">{errors.form}</span> : null}
       <button className="primary-button" type="submit">
-        {t.signup.submitCta}
+        {isSubmitting ? "..." : t.signup.submitCta}
       </button>
       <Link className="text-button" href={`/${locale}/login`}>
         {t.signup.loginCta}
