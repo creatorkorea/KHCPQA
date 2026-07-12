@@ -1,4 +1,6 @@
-import { BadgeCheck, FileText, Lock, UserRound } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, BadgeCheck, FileText, Lock, UserRound } from "lucide-react";
+import { AccountNav, AccountSection } from "@/components/AccountShell";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
 import { buildLocaleMetadata } from "@/lib/seo";
@@ -29,6 +31,8 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
         lead={t.account.lead}
       />
       <section className="content-section">
+        <AccountNav locale={locale} activeHref="account" />
+        <AccountSection title={t.account.overviewTitle} lead={t.account.overviewLead}>
         <div className="account-grid">
           {t.account.modules.map((module, index) => {
             const Icon = moduleIcons[index];
@@ -41,13 +45,22 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
             );
           })}
         </div>
+        </AccountSection>
         <div className="cert-table">
           {t.account.certificates.map((certificate) => (
             <div key={certificate.number}>
               <strong>{certificate.title}</strong>
-              <span>{certificate.number}</span>
+              <span>{certificate.number} · {certificate.issuedAt}</span>
               <em>{certificate.status}</em>
             </div>
+          ))}
+        </div>
+        <div className="account-action-row">
+          {t.account.nav.slice(1).map((item) => (
+            <Link key={item.href} href={`/${locale}/${item.href}`}>
+              <span>{item.title}</span>
+              <ArrowRight size={16} />
+            </Link>
           ))}
         </div>
       </section>

@@ -29,6 +29,7 @@ export function PartnerInquiryForm({ locale }: { locale: Locale }) {
   const [form, setForm] = useState<FormState>(initialFormState);
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const receiptNumber = `KHCPQA-${new Date().getFullYear()}-PREVIEW`;
 
   function updateField(field: Exclude<FieldName, "consent">, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -136,13 +137,50 @@ export function PartnerInquiryForm({ locale }: { locale: Locale }) {
       </label>
       {errors.consent ? <span className="form-error full">{errors.consent}</span> : null}
       {isSubmitted ? (
-        <div className="form-success full" role="status">
-          <CheckCircle2 size={20} />
-          <span>
-            <strong>{t.partnerInquiry.successTitle}</strong>
-            {t.partnerInquiry.successMessage}
-          </span>
-        </div>
+        <section className="inquiry-receipt full" role="status">
+          <div className="form-success">
+            <CheckCircle2 size={20} />
+            <span>
+              <strong>{t.partnerInquiry.successTitle}</strong>
+              {t.partnerInquiry.successMessage}
+            </span>
+          </div>
+          <div className="receipt-grid">
+            <article>
+              <span>{t.partnerInquiry.receiptLabel}</span>
+              <strong>{receiptNumber}</strong>
+            </article>
+            <article>
+              <span>{t.partnerInquiry.submittedSummaryTitle}</span>
+              <dl>
+                <div>
+                  <dt>{t.partnerInquiry.fields.name}</dt>
+                  <dd>{form.name}</dd>
+                </div>
+                <div>
+                  <dt>{t.partnerInquiry.fields.organization}</dt>
+                  <dd>{form.organization}</dd>
+                </div>
+                <div>
+                  <dt>{t.partnerInquiry.fields.email}</dt>
+                  <dd>{form.email}</dd>
+                </div>
+                <div>
+                  <dt>{t.partnerInquiry.fields.country}</dt>
+                  <dd>{form.country}</dd>
+                </div>
+              </dl>
+            </article>
+            <article>
+              <span>{t.partnerInquiry.nextStepTitle}</span>
+              <ol>
+                {t.partnerInquiry.nextSteps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+            </article>
+          </div>
+        </section>
       ) : null}
       <button className="primary-button" type="submit">
         {t.formSubmit}

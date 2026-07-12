@@ -218,6 +218,10 @@ type Copy = {
     lead: string;
     successTitle: string;
     successMessage: string;
+    receiptLabel: string;
+    submittedSummaryTitle: string;
+    nextStepTitle: string;
+    nextSteps: string[];
     validation: {
       required: string;
       email: string;
@@ -260,13 +264,76 @@ type Copy = {
       passwordLength: string;
     };
   };
+  signup: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    name: string;
+    namePlaceholder: string;
+    email: string;
+    emailPlaceholder: string;
+    country: string;
+    countryPlaceholder: string;
+    password: string;
+    passwordPlaceholder: string;
+    confirmPassword: string;
+    confirmPasswordPlaceholder: string;
+    consent: string;
+    submitCta: string;
+    loginCta: string;
+    note: string;
+    successTitle: string;
+    successMessage: string;
+    validation: {
+      required: string;
+      email: string;
+      passwordLength: string;
+      passwordMatch: string;
+      consent: string;
+    };
+  };
   account: {
     eyebrow: string;
     lead: string;
+    overviewTitle: string;
+    overviewLead: string;
+    nav: Array<{
+      title: string;
+      href: string;
+      description: string;
+    }>;
+    profile: {
+      title: string;
+      lead: string;
+      fields: Array<{
+        label: string;
+        value: string;
+      }>;
+    };
+    certifications: {
+      title: string;
+      lead: string;
+      numberLabel: string;
+      issuedLabel: string;
+      statusLabel: string;
+      courseLabel: string;
+    };
+    inquiries: {
+      title: string;
+      lead: string;
+      statusLabel: string;
+      submittedLabel: string;
+      items: Array<{
+        title: string;
+        submittedAt: string;
+        status: string;
+      }>;
+    };
     modules: FeatureCopy[];
     certificates: Array<{
       title: string;
       number: string;
+      issuedAt: string;
       status: string;
     }>;
   };
@@ -523,6 +590,14 @@ export const copy = {
       lead: "해외 기관, 교육 파트너, 교육생 문의를 관리자 문의함으로 저장하는 폼입니다. 이메일/문자 자동 발송은 1차 범위에서 제외합니다.",
       successTitle: "문의가 접수 준비되었습니다.",
       successMessage: "실제 저장은 관리자 문의함 연동 후 활성화됩니다. 입력 내용은 검수용 화면 흐름에서 확인되었습니다.",
+      receiptLabel: "접수번호",
+      submittedSummaryTitle: "접수 요약",
+      nextStepTitle: "관리자 처리 흐름",
+      nextSteps: [
+        "관리자 문의함에 신규 문의로 표시",
+        "담당자가 유형과 우선순위를 확인",
+        "처리 상태와 담당자 메모 저장"
+      ],
       validation: {
         required: "필수 항목을 입력해 주세요.",
         email: "올바른 이메일 주소를 입력해 주세요.",
@@ -565,9 +640,73 @@ export const copy = {
         passwordLength: "비밀번호는 6자 이상 입력해 주세요."
       }
     },
+    signup: {
+      eyebrow: "회원가입",
+      title: "회원가입",
+      lead: "자격 조회와 문의 내역 확인을 위한 회원가입 화면입니다. 실제 계정 생성은 인증/DB 연결 후 활성화합니다.",
+      name: "이름",
+      namePlaceholder: "이름을 입력하세요",
+      email: "이메일",
+      emailPlaceholder: "name@example.com",
+      country: "국가",
+      countryPlaceholder: "국가",
+      password: "비밀번호",
+      passwordPlaceholder: "6자 이상",
+      confirmPassword: "비밀번호 확인",
+      confirmPasswordPlaceholder: "비밀번호를 다시 입력하세요",
+      consent: "개인정보 수집 및 회원 계정 생성에 동의합니다.",
+      submitCta: "가입 미리보기",
+      loginCta: "이미 계정이 있으신가요?",
+      note: "회원가입 승인 방식은 발주사 확정 후 누구나 가입 또는 관리자 승인 방식으로 연결합니다.",
+      successTitle: "가입 신청 흐름이 확인되었습니다.",
+      successMessage: "실제 계정 생성과 승인 알림은 Supabase Auth 및 관리자 승인 정책 연결 후 활성화됩니다.",
+      validation: {
+        required: "필수 항목을 입력해 주세요.",
+        email: "올바른 이메일 주소를 입력해 주세요.",
+        passwordLength: "비밀번호는 6자 이상 입력해 주세요.",
+        passwordMatch: "비밀번호가 일치하지 않습니다.",
+        consent: "개인정보 수집 및 회원 계정 생성에 동의해 주세요."
+      }
+    },
     account: {
       eyebrow: "보호된 계정 영역",
       lead: "공개 메뉴에는 노출되지 않는 로그인 후 사용자 전용 영역입니다. 실제 배포 전 서버 인증 보호를 연결합니다.",
+      overviewTitle: "계정 요약",
+      overviewLead: "프로필, 자격 조회, 문의 내역을 한 화면에서 확인하는 My Page 미리보기입니다.",
+      nav: [
+        { title: "My Page", href: "account", description: "계정 요약" },
+        { title: "Profile", href: "account/profile", description: "회원 정보" },
+        { title: "Certification Inquiry", href: "account/certifications", description: "자격 취득 조회" },
+        { title: "Inquiry History", href: "account/inquiries", description: "문의 내역" }
+      ],
+      profile: {
+        title: "Profile",
+        lead: "실제 회원 정보 수정은 인증과 데이터베이스 연결 후 저장 기능을 활성화합니다.",
+        fields: [
+          { label: "이름", value: "KHCPQA Demo Member" },
+          { label: "이메일", value: "member@example.com" },
+          { label: "국가", value: "Korea" },
+          { label: "선호 언어", value: "한국어" }
+        ]
+      },
+      certifications: {
+        title: "Certification Inquiry",
+        lead: "샘플 자격 데이터 기준으로 자격번호, 과정명, 발급일, 상태를 표시합니다.",
+        numberLabel: "자격번호",
+        issuedLabel: "발급일",
+        statusLabel: "상태",
+        courseLabel: "과정명"
+      },
+      inquiries: {
+        title: "Inquiry History",
+        lead: "파트너 문의와 상담 요청의 접수 상태를 확인하는 사용자 화면입니다.",
+        statusLabel: "처리 상태",
+        submittedLabel: "접수일",
+        items: [
+          { title: "해외 파트너 교육 협약 문의", submittedAt: "2026-07-04", status: "접수 완료" },
+          { title: "아로마 테라피 과정 상담", submittedAt: "2026-06-28", status: "답변 준비 중" }
+        ]
+      },
       modules: [
         { title: "프로필", body: "이름, 이메일, 국가, 선호 언어를 확인하고 수정합니다." },
         { title: "자격 조회", body: "샘플 자격 데이터 기준으로 과정명, 발급일, 상태를 표시합니다." },
@@ -575,8 +714,8 @@ export const copy = {
         { title: "검색엔진 비노출", body: "계정 페이지는 검색엔진 노출을 금지합니다." }
       ],
       certificates: [
-        { title: "피부미용사 국가자격증", number: "자격 번호 SMC-2026-001", status: "활성" },
-        { title: "아로마 테라피", number: "자격 번호 SMC-2026-014", status: "검수 대기" }
+        { title: "피부미용사 국가자격증", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "활성" },
+        { title: "아로마 테라피", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "검수 대기" }
       ]
     },
     curriculumCatalog: {
@@ -833,6 +972,14 @@ export const copy = {
       lead: "International institutions, education partners, and trainees can submit inquiries to the admin inbox. Automated email and SMS replies are outside the first release.",
       successTitle: "Inquiry ready for submission.",
       successMessage: "Actual storage will be enabled after the admin inquiry inbox is connected. This confirms the review-stage form flow.",
+      receiptLabel: "Receipt No.",
+      submittedSummaryTitle: "Submission Summary",
+      nextStepTitle: "Admin Processing Flow",
+      nextSteps: [
+        "Show as a new inquiry in the admin queue",
+        "Manager reviews type and priority",
+        "Save processing status and manager memo"
+      ],
       validation: {
         required: "Please complete this required field.",
         email: "Please enter a valid email address.",
@@ -875,9 +1022,73 @@ export const copy = {
         passwordLength: "Password must be at least 6 characters."
       }
     },
+    signup: {
+      eyebrow: "Create Account",
+      title: "Create Account",
+      lead: "A signup screen for certification inquiry and inquiry history access. Real account creation will be enabled after auth and database connection.",
+      name: "Name",
+      namePlaceholder: "Your name",
+      email: "Email",
+      emailPlaceholder: "name@example.com",
+      country: "Country",
+      countryPlaceholder: "Country",
+      password: "Password",
+      passwordPlaceholder: "At least 6 characters",
+      confirmPassword: "Confirm Password",
+      confirmPasswordPlaceholder: "Enter password again",
+      consent: "I agree to personal information collection and account creation.",
+      submitCta: "Preview Signup",
+      loginCta: "Already have an account?",
+      note: "The signup approval policy will be connected as open signup or admin approval after client confirmation.",
+      successTitle: "Signup request flow confirmed.",
+      successMessage: "Real account creation and approval notices will be enabled after Supabase Auth and admin approval policy are connected.",
+      validation: {
+        required: "Please complete this required field.",
+        email: "Please enter a valid email address.",
+        passwordLength: "Password must be at least 6 characters.",
+        passwordMatch: "Passwords do not match.",
+        consent: "Please agree to personal information collection and account creation."
+      }
+    },
     account: {
       eyebrow: "Protected Account Area",
       lead: "This login-only user area is not shown in the public menu. Server-side authentication protection will be connected before production release.",
+      overviewTitle: "Account Summary",
+      overviewLead: "A My Page preview for profile, certification inquiry, and inquiry history.",
+      nav: [
+        { title: "My Page", href: "account", description: "Account summary" },
+        { title: "Profile", href: "account/profile", description: "Member information" },
+        { title: "Certification Inquiry", href: "account/certifications", description: "Certification records" },
+        { title: "Inquiry History", href: "account/inquiries", description: "Submitted inquiries" }
+      ],
+      profile: {
+        title: "Profile",
+        lead: "Profile editing will be enabled after authentication and database storage are connected.",
+        fields: [
+          { label: "Name", value: "KHCPQA Demo Member" },
+          { label: "Email", value: "member@example.com" },
+          { label: "Country", value: "Korea" },
+          { label: "Preferred Language", value: "English" }
+        ]
+      },
+      certifications: {
+        title: "Certification Inquiry",
+        lead: "Sample certification data displays certificate number, program, issue date, and status.",
+        numberLabel: "Certificate No.",
+        issuedLabel: "Issue Date",
+        statusLabel: "Status",
+        courseLabel: "Program"
+      },
+      inquiries: {
+        title: "Inquiry History",
+        lead: "A user-facing view for partnership inquiries and consultation request status.",
+        statusLabel: "Status",
+        submittedLabel: "Submitted",
+        items: [
+          { title: "Overseas partner training agreement inquiry", submittedAt: "2026-07-04", status: "Received" },
+          { title: "Aromatherapy program consultation", submittedAt: "2026-06-28", status: "Preparing response" }
+        ]
+      },
       modules: [
         { title: "Profile", body: "Review and edit name, email, country, and preferred language." },
         { title: "Certification Inquiry", body: "Display program name, issue date, and status from sample certification data." },
@@ -885,8 +1096,8 @@ export const copy = {
         { title: "Noindex", body: "Account pages are blocked from search engine indexing." }
       ],
       certificates: [
-        { title: "National Esthetician Certification", number: "Certificate No. SMC-2026-001", status: "Active" },
-        { title: "Aromatherapy", number: "Certificate No. SMC-2026-014", status: "Pending review" }
+        { title: "National Esthetician Certification", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "Active" },
+        { title: "Aromatherapy", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "Pending review" }
       ]
     },
     curriculumCatalog: {
@@ -1143,6 +1354,14 @@ export const copy = {
       lead: "Instituciones internacionales, socios educativos y estudiantes pueden enviar consultas al buzón del administrador. Las respuestas automáticas por email/SMS quedan fuera de la primera versión.",
       successTitle: "Consulta lista para enviar.",
       successMessage: "El guardado real se activará después de conectar el buzón de consultas del administrador. Esto confirma el flujo del formulario en revisión.",
+      receiptLabel: "No. de recepción",
+      submittedSummaryTitle: "Resumen de envío",
+      nextStepTitle: "Flujo de administración",
+      nextSteps: [
+        "Mostrar como nueva consulta en la bandeja de administración",
+        "El responsable revisa tipo y prioridad",
+        "Guardar estado de proceso y nota del responsable"
+      ],
       validation: {
         required: "Complete este campo obligatorio.",
         email: "Ingrese una dirección de email válida.",
@@ -1185,9 +1404,73 @@ export const copy = {
         passwordLength: "La contraseña debe tener al menos 6 caracteres."
       }
     },
+    signup: {
+      eyebrow: "Crear Cuenta",
+      title: "Crear Cuenta",
+      lead: "Pantalla de registro para consulta de certificación e historial de consultas. La creación real de cuenta se activará después de conectar autenticación y base de datos.",
+      name: "Nombre",
+      namePlaceholder: "Su nombre",
+      email: "Email",
+      emailPlaceholder: "name@example.com",
+      country: "País",
+      countryPlaceholder: "País",
+      password: "Contraseña",
+      passwordPlaceholder: "Al menos 6 caracteres",
+      confirmPassword: "Confirmar contraseña",
+      confirmPasswordPlaceholder: "Ingrese la contraseña nuevamente",
+      consent: "Acepto la recopilación de información personal y la creación de cuenta.",
+      submitCta: "Vista previa de registro",
+      loginCta: "¿Ya tiene una cuenta?",
+      note: "La política de aprobación se conectará como registro abierto o aprobación del administrador después de la confirmación del cliente.",
+      successTitle: "Flujo de solicitud de registro confirmado.",
+      successMessage: "La creación real de cuenta y avisos de aprobación se activarán después de conectar Supabase Auth y la política de aprobación.",
+      validation: {
+        required: "Complete este campo obligatorio.",
+        email: "Ingrese una dirección de email válida.",
+        passwordLength: "La contraseña debe tener al menos 6 caracteres.",
+        passwordMatch: "Las contraseñas no coinciden.",
+        consent: "Acepte la recopilación de información personal y la creación de cuenta."
+      }
+    },
     account: {
       eyebrow: "Área de Cuenta Protegida",
       lead: "Esta área exclusiva para usuarios con sesión iniciada no aparece en el menú público. La protección de autenticación del servidor se conectará antes del lanzamiento.",
+      overviewTitle: "Resumen de Cuenta",
+      overviewLead: "Vista previa de My Page para perfil, consulta de certificación e historial de consultas.",
+      nav: [
+        { title: "My Page", href: "account", description: "Resumen de cuenta" },
+        { title: "Perfil", href: "account/profile", description: "Información de miembro" },
+        { title: "Consulta de Certificación", href: "account/certifications", description: "Registros de certificación" },
+        { title: "Historial de Consultas", href: "account/inquiries", description: "Consultas enviadas" }
+      ],
+      profile: {
+        title: "Perfil",
+        lead: "La edición del perfil se activará después de conectar autenticación y base de datos.",
+        fields: [
+          { label: "Nombre", value: "KHCPQA Demo Member" },
+          { label: "Email", value: "member@example.com" },
+          { label: "País", value: "Korea" },
+          { label: "Idioma preferido", value: "Español" }
+        ]
+      },
+      certifications: {
+        title: "Consulta de Certificación",
+        lead: "Los datos de muestra muestran número de certificado, programa, fecha de emisión y estado.",
+        numberLabel: "Certificado No.",
+        issuedLabel: "Fecha de emisión",
+        statusLabel: "Estado",
+        courseLabel: "Programa"
+      },
+      inquiries: {
+        title: "Historial de Consultas",
+        lead: "Vista de usuario para consultas de asociación y estado de solicitudes.",
+        statusLabel: "Estado",
+        submittedLabel: "Enviado",
+        items: [
+          { title: "Consulta de acuerdo de formación para socios internacionales", submittedAt: "2026-07-04", status: "Recibido" },
+          { title: "Consulta sobre programa de aromaterapia", submittedAt: "2026-06-28", status: "Preparando respuesta" }
+        ]
+      },
       modules: [
         { title: "Perfil", body: "Revise y edite nombre, email, país e idioma preferido." },
         { title: "Consulta de Certificación", body: "Muestra nombre del programa, fecha de emisión y estado a partir de datos de certificación de muestra." },
@@ -1195,8 +1478,8 @@ export const copy = {
         { title: "Noindex", body: "Las páginas de cuenta se bloquean para indexación en motores de búsqueda." }
       ],
       certificates: [
-        { title: "Certificación Nacional de Estética", number: "Certificado No. SMC-2026-001", status: "Activo" },
-        { title: "Aromaterapia", number: "Certificado No. SMC-2026-014", status: "Revisión pendiente" }
+        { title: "Certificación Nacional de Estética", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "Activo" },
+        { title: "Aromaterapia", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "Revisión pendiente" }
       ]
     },
     curriculumCatalog: {
@@ -2874,14 +3157,39 @@ export function getStats(locale: string) {
 }
 
 export const adminModules = [
-  { title: "페이지 관리자", icon: BookOpen, status: "CMS" },
-  { title: "과정 관리자", icon: GraduationCap, status: "CMS" },
-  { title: "커뮤니티 관리자", icon: Newspaper, status: "CMS" },
-  { title: "문의 관리자", icon: Handshake, status: "Lead" },
-  { title: "사용자 관리자", icon: Users, status: "Auth" },
-  { title: "자격 데이터", icon: ShieldCheck, status: "Secure" },
-  { title: "팝업/배너", icon: Sparkles, status: "Content" },
-  { title: "번역 상태", icon: Globe2, status: "i18n" }
+  { title: "페이지 관리자", icon: BookOpen, status: "CMS", count: "12", description: "소개, 인사말, 연혁, 연락처 등 고정 페이지 관리" },
+  { title: "과정 관리자", icon: GraduationCap, status: "CMS", count: "18", description: "과정 목록, 상세, 대표 이미지, 원본 URL 관리" },
+  { title: "커뮤니티 관리자", icon: Newspaper, status: "CMS", count: "6", description: "공지, 합격현황, 갤러리, 방송/언론 게시글 관리" },
+  { title: "문의 관리자", icon: Handshake, status: "Lead", count: "2", description: "파트너 문의와 수강 상담 처리 상태 관리" },
+  { title: "사용자 관리자", icon: Users, status: "Auth", count: "4", description: "회원 계정, 역할, 승인 상태 관리" },
+  { title: "자격 데이터", icon: ShieldCheck, status: "Secure", count: "2", description: "자격번호, 발급일, 상태, 검증 코드 관리" },
+  { title: "팝업/배너", icon: Sparkles, status: "Content", count: "3", description: "메인 팝업, 상단 배너, 캠페인 노출 기간 관리" },
+  { title: "번역 상태", icon: Globe2, status: "i18n", count: "3", description: "한국어, 영어, 스페인어 콘텐츠 검수 상태 관리" }
+];
+
+export const adminContentRows = [
+  { type: "Course", title: "피부미용사 국가자격증", locale: "ko", status: "published", updatedBy: "Content Manager", updatedAt: "2026-07-11" },
+  { type: "Page", title: "About KHCPQA", locale: "en", status: "reviewed", updatedBy: "Content Manager", updatedAt: "2026-07-10" },
+  { type: "Activity", title: "국제미용대회", locale: "es", status: "translated", updatedBy: "Content Manager", updatedAt: "2026-07-09" },
+  { type: "Banner", title: "파트너 상담 CTA", locale: "all", status: "draft", updatedBy: "Super Admin", updatedAt: "2026-07-08" }
+];
+
+export const adminInquiryRows = [
+  { receipt: "KHCPQA-2026-PREVIEW", name: "KHCPQA Demo Partner", organization: "Global Wellness Institute", country: "Mexico", type: "partner", status: "new", submittedAt: "2026-07-12" },
+  { receipt: "KHCPQA-2026-COURSE", name: "SMC Demo Student", organization: "Individual", country: "Korea", type: "course", status: "in progress", submittedAt: "2026-07-10" }
+];
+
+export const adminCertificationRows = [
+  { user: "KHCPQA Demo Member", course: "피부미용사 국가자격증", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "active" },
+  { user: "KHCPQA Demo Member", course: "아로마 테라피", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "pending" }
+];
+
+export const adminReleaseTasks = [
+  "관리자 라우트 서버 인증 연결",
+  "권한별 접근 제한",
+  "콘텐츠 등록/수정 저장 API 연결",
+  "문의 처리 상태와 담당자 메모 저장",
+  "자격 데이터 샘플 CSV 형식 확정"
 ];
 
 const locationsByLocale: Record<Locale, Array<{ name: string; address: string; phone: string }>> = {

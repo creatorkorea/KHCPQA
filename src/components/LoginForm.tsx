@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -126,6 +127,11 @@ export function LoginForm({ locale }: { locale: Locale }) {
       <button className="text-button" type="button" onClick={() => switchMode(mode === "login" ? "reset" : "login")}>
         {mode === "login" ? t.login.forgotPassword : t.login.backToLogin}
       </button>
+      {mode === "login" ? (
+        <Link className="text-button" href={`/${locale}/signup`}>
+          {t.signup.title}
+        </Link>
+      ) : null}
       <p>{t.login.note}</p>
     </form>
   );
