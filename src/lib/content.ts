@@ -300,6 +300,7 @@ type Copy = {
     successTitle: string;
     successMessage: string;
     configurationError: string;
+    rateLimitError: string;
     validation: {
       required: string;
       email: string;
@@ -726,6 +727,7 @@ export const copy = {
       successTitle: "회원가입 신청이 완료되었습니다.",
       successMessage: "입력하신 이메일로 확인 메일을 보냈습니다. 메일 안의 링크를 눌러 가입을 완료해 주세요.",
       configurationError: "회원가입 설정이 아직 연결되지 않았습니다. 관리자에게 문의해 주세요.",
+      rateLimitError: "이메일 발송 한도를 초과했습니다. 잠시 후 다시 시도하거나 관리자에게 문의해 주세요.",
       validation: {
         required: "필수 항목을 입력해 주세요.",
         email: "올바른 이메일 주소를 입력해 주세요.",
@@ -1168,6 +1170,7 @@ export const copy = {
       successTitle: "Signup submitted.",
       successMessage: "If email confirmation is required, use the confirmation link in your inbox to finish creating your account.",
       configurationError: "Signup is not connected yet. Please contact the administrator.",
+      rateLimitError: "Email sending rate limit was exceeded. Please try again later or contact the administrator.",
       validation: {
         required: "Please complete this required field.",
         email: "Please enter a valid email address.",
@@ -1610,6 +1613,7 @@ export const copy = {
       successTitle: "Registro enviado.",
       successMessage: "Si se requiere confirmación por email, use el enlace recibido para terminar de crear su cuenta.",
       configurationError: "El registro aún no está conectado. Contacte al administrador.",
+      rateLimitError: "Se superó el límite de envío de emails. Inténtelo de nuevo más tarde o contacte al administrador.",
       validation: {
         required: "Complete este campo obligatorio.",
         email: "Ingrese una dirección de email válida.",

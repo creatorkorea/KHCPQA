@@ -28,6 +28,10 @@ function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+function isEmailRateLimitError(message: string) {
+  return message.toLowerCase().includes("email rate limit");
+}
+
 export function SignupForm({ locale }: { locale: Locale }) {
   const router = useRouter();
   const t = getCopy(locale);
@@ -109,7 +113,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
     setIsSubmitting(false);
 
     if (error) {
-      setErrors({ form: error.message });
+      setErrors({ form: isEmailRateLimitError(error.message) ? t.signup.rateLimitError : error.message });
       setIsSubmitted(false);
       return;
     }
