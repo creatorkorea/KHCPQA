@@ -85,34 +85,38 @@ export function SignupForm({ locale }: { locale: Locale }) {
       return;
     }
 
-    if (hasSupabaseBrowserEnv()) {
-      setIsSubmitting(true);
-      const supabase = createClient();
-      const { data, error } = await supabase.auth.signUp({
-        email: form.email,
-        password: form.password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback?next=/${locale}/account`,
-          data: {
-            country: form.country,
-            full_name: form.name,
-            preferred_locale: locale,
-            role: "user"
-          }
+    if (!hasSupabaseBrowserEnv()) {
+      setErrors({ form: t.signup.configurationError });
+      setIsSubmitted(false);
+      return;
+    }
+
+    setIsSubmitting(true);
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback?next=/${locale}/account`,
+        data: {
+          country: form.country,
+          full_name: form.name,
+          preferred_locale: locale,
+          role: "user"
         }
-      });
-      setIsSubmitting(false);
-
-      if (error) {
-        setErrors({ form: error.message });
-        setIsSubmitted(false);
-        return;
       }
+    });
+    setIsSubmitting(false);
 
-      if (data.session) {
-        router.replace(`/${locale}/account`);
-        return;
-      }
+    if (error) {
+      setErrors({ form: error.message });
+      setIsSubmitted(false);
+      return;
+    }
+
+    if (data.session) {
+      router.replace(`/${locale}/account`);
+      return;
     }
 
     setIsSubmitted(true);
