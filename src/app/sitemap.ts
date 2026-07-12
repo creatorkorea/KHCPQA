@@ -14,7 +14,8 @@ const publicPaths = [
   "contact",
   "curriculum",
   "login",
-  "partner-inquiry"
+  "partner-inquiry",
+  "signup"
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
