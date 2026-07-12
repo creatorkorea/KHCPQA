@@ -98,10 +98,11 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 - 홈 첫 화면에서 published `home/global` 배너를 운영 CTA로 노출하도록 연결
 - 관리자 입력 폼에서 기존 콘텐츠/배너 항목을 불러와 수정·삭제할 수 있도록 연결
 - 콘텐츠/배너 저장·수정·삭제·발행 이벤트를 `admin_publish_events`에 기록하고 관리자 화면에 최근 이력 표시
+- 과정 상세 고급 섹션이 `Course/[courseSlug]-flow-*`, `Course/[courseSlug]-panel-*`, `Course/[courseSlug]-technique-*`, `Course/[courseSlug]-process-*` published 콘텐츠를 우선 사용하도록 연결
 
 남은 구현:
 1. Supabase 프로젝트 생성 및 환경변수 주입
 2. Supabase 마이그레이션 적용 및 실제 프로젝트에서 RLS 검증
 3. 실제 Supabase 프로젝트에서 가입/로그인/계정/관리자 저장 흐름 E2E 검증
-4. 공개 상세 페이지의 고급 레이아웃 섹션을 관리자 콘텐츠 구조로 단계적 전환
+4. 활동 상세 고급 레이아웃 섹션을 관리자 콘텐츠 구조로 단계적 전환
 5. 관리자 발행 이력 상세 필터와 작업자 이름 표시 개선

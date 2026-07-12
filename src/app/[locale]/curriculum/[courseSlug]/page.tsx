@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { getCopy, getCourseBySlug, getCourseSlugs, type Locale } from "@/lib/content";
 import { originalCourseDetails, type OriginalCourseDetailSection } from "@/lib/original-course-details";
-import { getPublishedContentIntro } from "@/lib/public-content";
+import { getPublishedContentIntro, getPublishedContentSections, type PublishedContentSection } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 const smcContentBaseUrl = "https://www.smc365.ac/images/content";
@@ -63,6 +63,37 @@ function splitAudience(audience: string) {
     .map((item) => item.trim())
     .filter(Boolean)
     .slice(0, 5);
+}
+
+function splitCmsLines(section: PublishedContentSection, fallback: string[] = []) {
+  const lines = section.body
+    .split("\n")
+    .map((line) => line.replace(/^[-*]\s*/, "").trim())
+    .filter(Boolean);
+
+  return lines.length ? lines : fallback;
+}
+
+function cmsSectionItems(sections: PublishedContentSection[], fallback: string[], limit: number) {
+  if (!sections.length) {
+    return fallback.slice(0, limit);
+  }
+
+  return sections
+    .flatMap((section) => splitCmsLines(section, section.lead ? [section.lead] : []))
+    .filter(Boolean)
+    .slice(0, limit);
+}
+
+function buildCmsCards(sections: PublishedContentSection[], fallback: Array<{ body: string; title: string }>) {
+  if (!sections.length) {
+    return fallback;
+  }
+
+  return sections.map((section) => ({
+    body: splitCmsLines(section, section.lead ? [section.lead] : []).join(" · "),
+    title: section.title
+  }));
 }
 
 function getOriginalCourseNumber(source: string) {
@@ -180,6 +211,12 @@ export default async function CourseDetailPage({
     locale,
     slug: course.slug
   });
+  const [flowSections, panelSections, techniqueSections, processSections] = await Promise.all([
+    getPublishedContentSections({ contentType: "Course", locale, slugPrefix: `${course.slug}-flow-` }),
+    getPublishedContentSections({ contentType: "Course", locale, slugPrefix: `${course.slug}-panel-` }),
+    getPublishedContentSections({ contentType: "Course", locale, slugPrefix: `${course.slug}-technique-` }),
+    getPublishedContentSections({ contentType: "Course", locale, slugPrefix: `${course.slug}-process-` })
+  ]);
   const courseTitle = content.title;
   const courseSummary = content.lead || course.summary;
   const courseOverview = content.body || content.lead || course.overview;
@@ -193,24 +230,62 @@ export default async function CourseDetailPage({
         { label: locale === "ko" ? "수업 방식" : "Learning", value: locale === "ko" ? "이론 + 실습" : "Theory + Practice" }
       ];
   const overviewPoints = takeUnique(course.curriculum, allSectionItems, 4);
-  const curriculumFlow = takeUnique(course.curriculum, allSectionItems, 4);
+  const curriculumFlow = buildCmsCards(
+    flowSections,
+    takeUnique(course.curriculum, allSectionItems, 4).map((item, index) => ({
+      body: takeUnique(sections[index]?.items ?? [], [course.summary], 3).join(" · "),
+      title: item
+    }))
+  ).slice(0, 4);
   const goalItems = takeUnique(sections[0]?.items ?? [], course.curriculum, 4);
   const strengthItems = takeUnique(sections[1]?.items ?? [], [...allSectionItems, ...course.curriculum], 4);
+  const panelItems = [
+    {
+      icon: CheckCircle2,
+      items: cmsSectionItems(
+        panelSections.filter((section) => section.slug.includes("-goal")),
+        goalItems,
+        4
+      ),
+      title: locale === "ko" ? "교육 목표" : "Learning Goals"
+    },
+    {
+      icon: Layers3,
+      items: cmsSectionItems(
+        panelSections.filter((section) => section.slug.includes("-strength")),
+        strengthItems,
+        4
+      ),
+      title: locale === "ko" ? "이 과정의 특징" : "Program Strengths"
+    },
+    {
+      icon: BadgeCheck,
+      items: cmsSectionItems(
+        panelSections.filter((section) => section.slug.includes("-audience")),
+        splitAudience(course.audience),
+        5
+      ),
+      title: locale === "ko" ? "이런 분께 추천해요!" : "Recommended For"
+    }
+  ];
   const techniqueItems = takeUnique(
-    sections.find((section) => section.variant === "chips")?.items ?? [],
+    cmsSectionItems(techniqueSections, sections.find((section) => section.variant === "chips")?.items ?? [], 8),
     [...allSectionItems, ...course.curriculum],
     8
   );
   const processItems = takeUnique(allSectionItems, course.curriculum, 10);
   const originalCourseNumber = getOriginalCourseNumber(course.source);
-  const processLabels = originalProcessLabelsByCourseNumber[originalCourseNumber] ?? processItems;
+  const processLabels = cmsSectionItems(
+    processSections,
+    originalCourseNumber in originalProcessLabelsByCourseNumber ? originalProcessLabelsByCourseNumber[originalCourseNumber] : processItems,
+    12
+  );
   const originalHeroImage = getOriginalCourseImage(course.source, "img01.jpg");
   const originalSupportImage = getOriginalCourseImage(course.source, "img02.jpg");
   const originalProcessImages = getOriginalProcessImages(course.source, processLabels.length);
   const originalCourseDetail = originalCourseDetails[originalCourseNumber];
   const advancedCourseSections =
     originalCourseDetail?.sections.filter((section) => section.text.trim() || section.images.length) ?? [];
-  const audienceItems = splitAudience(course.audience);
   const careerItems = [
     locale === "ko" ? "전문 샵 취업" : "Professional salon employment",
     locale === "ko" ? "1인 창업" : "One-person startup",
@@ -284,40 +359,29 @@ export default async function CourseDetailPage({
         <h2>{t.courseDetail.curriculumTitle}</h2>
         <div>
           {curriculumFlow.map((item, index) => (
-            <article key={item}>
+            <article key={`${item.title}-${index}`}>
               <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{item}</h3>
-              <p>{takeUnique(sections[index]?.items ?? [], [course.summary], 3).join(" · ")}</p>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
             </article>
           ))}
         </div>
       </section>
 
       <section className="course-info-panels">
-        <article>
-          <h2>{locale === "ko" ? "교육 목표" : "Learning Goals"}</h2>
-          <ul>
-            {goalItems.map((item) => (
-              <li key={item}><CheckCircle2 size={17} />{item}</li>
-            ))}
-          </ul>
-        </article>
-        <article className="featured">
-          <h2>{locale === "ko" ? "이 과정의 특징" : "Program Strengths"}</h2>
-          <ul>
-            {strengthItems.map((item) => (
-              <li key={item}><Layers3 size={17} />{item}</li>
-            ))}
-          </ul>
-        </article>
-        <article>
-          <h2>{locale === "ko" ? "이런 분께 추천해요!" : "Recommended For"}</h2>
-          <ul>
-            {audienceItems.map((item) => (
-              <li key={item}><BadgeCheck size={17} />{item}</li>
-            ))}
-          </ul>
-        </article>
+        {panelItems.map((panel, index) => {
+          const PanelIcon = panel.icon;
+          return (
+            <article className={index === 1 ? "featured" : undefined} key={panel.title}>
+              <h2>{panel.title}</h2>
+              <ul>
+                {panel.items.map((item) => (
+                  <li key={item}><PanelIcon size={17} />{item}</li>
+                ))}
+              </ul>
+            </article>
+          );
+        })}
       </section>
 
       <section className="course-technique-band">

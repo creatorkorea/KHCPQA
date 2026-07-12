@@ -25,6 +25,13 @@ export type PublishedActivityPost = {
   title: string;
 };
 
+export type PublishedContentSection = {
+  body: string;
+  lead: string;
+  slug: string;
+  title: string;
+};
+
 export type PublishedBanner = {
   endsAt?: string;
   placement: "home" | "curriculum" | "activities" | "global";
@@ -162,6 +169,44 @@ export async function getPublishedActivityPosts({
     status: "published",
     title: row.title
   }));
+}
+
+export async function getPublishedContentSections({
+  contentType,
+  locale,
+  slugPrefix
+}: {
+  contentType: "Page" | "Course" | "Activity" | "Review";
+  locale: Locale;
+  slugPrefix: string;
+}): Promise<PublishedContentSection[]> {
+  if (!hasSupabaseBrowserEnv()) {
+    return [];
+  }
+
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("admin_content_items")
+    .select("slug, title, summary, body")
+    .eq("content_type", contentType)
+    .eq("locale", locale)
+    .eq("status", "published")
+    .like("slug", `${slugPrefix}%`)
+    .order("slug", { ascending: true })
+    .limit(30);
+
+  if (error || !data) {
+    return [];
+  }
+
+  return (data as PublishedContentRow[])
+    .filter((row): row is PublishedContentRow & { slug: string } => Boolean(row.slug))
+    .map((row) => ({
+      body: row.body || "",
+      lead: row.summary || "",
+      slug: row.slug,
+      title: row.title
+    }));
 }
 
 export async function getPublishedBanners({
