@@ -1,12 +1,12 @@
 import { LockKeyhole, Search, ShieldCheck } from "lucide-react";
 import { AdminCrudPreview } from "@/components/AdminCrudPreview";
+import { AdminUserRolePreview } from "@/components/AdminUserRolePreview";
 import {
-  adminCertificationRows,
   adminContentRows,
-  adminInquiryRows,
   adminModules,
   adminReleaseTasks
 } from "@/lib/content";
+import { getAdminCertifications, getAdminInquiries, getAdminUsers } from "@/lib/admin-data";
 
 export const metadata = {
   title: "KHCPQA Admin",
@@ -16,7 +16,13 @@ export const metadata = {
   }
 };
 
-export default function AdminPage() {
+export default async function AdminPage() {
+  const [adminUsers, adminCertifications, adminInquiries] = await Promise.all([
+    getAdminUsers(),
+    getAdminCertifications(),
+    getAdminInquiries()
+  ]);
+
   return (
     <main className="admin-page">
       <section className="admin-hero">
@@ -66,6 +72,10 @@ export default function AdminPage() {
             <h3>관리자 입력 폼</h3>
             <AdminCrudPreview />
           </section>
+          <section className="admin-table-card admin-editor-card">
+            <h3>회원 권한 관리</h3>
+            <AdminUserRolePreview users={adminUsers} />
+          </section>
           <AdminTable
             columns={["유형", "제목", "언어", "상태", "수정자", "수정일"]}
             rows={adminContentRows.map((row) => [row.type, row.title, row.locale, row.status, row.updatedBy, row.updatedAt])}
@@ -73,12 +83,12 @@ export default function AdminPage() {
           />
           <AdminTable
             columns={["접수번호", "이름", "기관", "국가", "유형", "상태", "접수일"]}
-            rows={adminInquiryRows.map((row) => [row.receipt, row.name, row.organization, row.country, row.type, row.status, row.submittedAt])}
+            rows={adminInquiries.map((row) => [row.receipt, row.name, row.organization, row.country, row.type, row.status, row.submittedAt])}
             title="문의 관리"
           />
           <AdminTable
             columns={["사용자", "과정", "자격번호", "발급일", "상태"]}
-            rows={adminCertificationRows.map((row) => [row.user, row.course, row.number, row.issuedAt, row.status])}
+            rows={adminCertifications.map((row) => [row.user, row.course, row.number, row.issuedAt, row.status])}
             title="자격 데이터"
           />
           <section className="admin-task-panel">

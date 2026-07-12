@@ -3465,6 +3465,13 @@ export const adminCertificationRows = [
   { user: "KHCPQA Demo Member", course: "아로마 테라피", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "pending" }
 ];
 
+export const adminUserRows = [
+  { id: "demo-user-1", name: "KHCPQA Demo Member", email: "member@example.com", role: "user", status: "active", lastLoginAt: "2026-07-12" },
+  { id: "demo-user-2", name: "Content Manager", email: "content@example.com", role: "content_manager", status: "active", lastLoginAt: "2026-07-11" },
+  { id: "demo-user-3", name: "Inquiry Manager", email: "inquiry@example.com", role: "inquiry_manager", status: "active", lastLoginAt: "2026-07-10" },
+  { id: "demo-user-4", name: "Suspended Admin", email: "suspended@example.com", role: "viewer", status: "suspended", lastLoginAt: "2026-07-01" }
+];
+
 export const adminReleaseTasks = [
   "관리자 라우트 서버 인증 연결",
   "권한별 접근 제한",

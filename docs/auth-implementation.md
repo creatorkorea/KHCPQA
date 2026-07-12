@@ -81,10 +81,16 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 - 환경변수가 없을 때는 기존 검수용 프리뷰 흐름 유지
 - `/[locale]/account/**`, `/admin/**` 보호 미들웨어 추가
 - `profiles`, `inquiries`, `certifications` 테이블과 RLS 정책 마이그레이션 초안 추가
+- `/admin/**` 접근 시 `profiles.role`과 `profiles.status` 기준 관리자 role 제한 추가
+- 관리자 화면에 회원 role/status 변경 검수 UI 추가
+- `super_admin` 전용 회원 role/status 저장 server action 추가
+- 공개 파트너 문의를 `inquiries` 테이블에 저장하는 server action과 anon insert RLS 추가
+- 자격 관리자/최고 관리자용 자격 데이터 저장 server action 추가
+- 문의 관리자/최고 관리자용 문의 처리 상태와 담당자 메모 저장 server action 추가
 
 남은 구현:
 1. Supabase 프로젝트 생성 및 환경변수 주입
 2. Supabase 마이그레이션 적용 및 실제 프로젝트에서 RLS 검증
 3. account/profile, inquiries, certifications 화면을 Supabase 데이터로 연결
-4. 관리자 role 조회 및 `/admin/**` role 제한 강화
-5. 관리자 화면에서 회원 role/status 관리 기능 추가
+4. 관리자 API/server action에서 role별 쓰기 권한 분리
+5. 콘텐츠/배너 관리자 저장 흐름 연결

@@ -4,10 +4,11 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { getCopy, type Locale } from "@/lib/content";
+import { submitPartnerInquiry } from "@/lib/inquiry-actions";
 
-type FieldName = "name" | "organization" | "email" | "country" | "message" | "consent";
+type FieldName = "name" | "organization" | "email" | "country" | "message" | "consent" | "form";
 
-type FormState = Record<Exclude<FieldName, "consent">, string> & {
+type FormState = Record<Exclude<FieldName, "consent" | "form">, string> & {
   consent: boolean;
 };
 
@@ -29,7 +30,8 @@ export function PartnerInquiryForm({ locale }: { locale: Locale }) {
   const [form, setForm] = useState<FormState>(initialFormState);
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const receiptNumber = `KHCPQA-${new Date().getFullYear()}-PREVIEW`;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [receiptNumber, setReceiptNumber] = useState(`KHCPQA-${new Date().getFullYear()}-PREVIEW`);
 
   function updateField(field: Exclude<FieldName, "consent">, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -64,12 +66,34 @@ export function PartnerInquiryForm({ locale }: { locale: Locale }) {
     return Object.keys(nextErrors).length === 0;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (validate()) {
-      setIsSubmitted(true);
+    if (!validate()) {
+      return;
     }
+
+    setIsSubmitting(true);
+    setErrors({});
+
+    const result = await submitPartnerInquiry({
+      country: form.country,
+      email: form.email,
+      locale,
+      message: form.message,
+      name: form.name,
+      organization: form.organization
+    });
+
+    if (!result.ok) {
+      setErrors({ form: result.message });
+      setIsSubmitting(false);
+      return;
+    }
+
+    setReceiptNumber(result.receipt);
+    setIsSubmitted(true);
+    setIsSubmitting(false);
   }
 
   return (
@@ -136,6 +160,7 @@ export function PartnerInquiryForm({ locale }: { locale: Locale }) {
         <span>{t.partnerInquiry.fields.consent}</span>
       </label>
       {errors.consent ? <span className="form-error full">{errors.consent}</span> : null}
+      {errors.form ? <span className="form-error full">{errors.form}</span> : null}
       {isSubmitted ? (
         <section className="inquiry-receipt full" role="status">
           <div className="form-success">
@@ -182,8 +207,8 @@ export function PartnerInquiryForm({ locale }: { locale: Locale }) {
           </div>
         </section>
       ) : null}
-      <button className="primary-button" type="submit">
-        {t.formSubmit}
+      <button className="primary-button" disabled={isSubmitting} type="submit">
+        {isSubmitting ? "..." : t.formSubmit}
       </button>
     </form>
   );

@@ -3,6 +3,12 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { CheckCircle2, FilePenLine, ImagePlus, Save, ShieldCheck } from "lucide-react";
+import {
+  saveAdminCertification,
+  saveAdminInquiry,
+  type SaveAdminCertificationResult,
+  type SaveAdminInquiryResult
+} from "@/app/admin/actions";
 
 type AdminFormType = "content" | "inquiry" | "certification" | "banner";
 
@@ -41,7 +47,7 @@ const adminForms: Record<AdminFormType, {
     fields: [
       { label: "접수번호", name: "receipt", placeholder: "KHCPQA-2026-PREVIEW", required: true },
       { label: "문의 유형", name: "inquiryType", type: "select", options: ["partner", "student", "course", "general"], required: true },
-      { label: "처리 상태", name: "inquiryStatus", type: "select", options: ["new", "in progress", "answered", "closed"], required: true },
+      { label: "처리 상태", name: "inquiryStatus", type: "select", options: ["new", "in_review", "answered", "closed"], required: true },
       { label: "담당자", name: "manager", placeholder: "담당자명" },
       { label: "담당자 메모", name: "memo", type: "textarea", placeholder: "후속 연락, 요청 사항, 내부 메모" }
     ]
@@ -55,7 +61,7 @@ const adminForms: Record<AdminFormType, {
       { label: "과정", name: "course", placeholder: "과정명", required: true },
       { label: "자격번호", name: "certificateNumber", placeholder: "SMC-2026-001", required: true },
       { label: "발급일", name: "issuedAt", placeholder: "2026-05-18", required: true },
-      { label: "상태", name: "certificateStatus", type: "select", options: ["active", "expired", "revoked", "pending"], required: true },
+      { label: "상태", name: "certificateStatus", type: "select", options: ["issued", "expired", "revoked"], required: true },
       { label: "검증 코드", name: "verificationCode", placeholder: "PUBLIC-CODE-001" }
     ]
   },
@@ -80,10 +86,12 @@ export function AdminCrudPreview() {
   const [activeForm, setActiveForm] = useState<AdminFormType>("content");
   const [submittedForm, setSubmittedForm] = useState<AdminFormType | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [result, setResult] = useState<SaveAdminCertificationResult | SaveAdminInquiryResult | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const currentForm = adminForms[activeForm];
   const ActiveIcon = currentForm.icon;
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -96,13 +104,44 @@ export function AdminCrudPreview() {
     });
 
     setErrors(nextErrors);
-    setSubmittedForm(Object.keys(nextErrors).length === 0 ? activeForm : null);
+    setResult(null);
+
+    if (Object.keys(nextErrors).length > 0) {
+      setSubmittedForm(null);
+      return;
+    }
+
+    if (activeForm !== "certification" && activeForm !== "inquiry") {
+      setSubmittedForm(activeForm);
+      return;
+    }
+
+    setIsSubmitting(true);
+    const nextResult =
+      activeForm === "certification"
+        ? await saveAdminCertification({
+            certificateNumber: String(formData.get("certificateNumber") ?? ""),
+            courseTitle: String(formData.get("course") ?? ""),
+            issuedAt: String(formData.get("issuedAt") ?? ""),
+            status: String(formData.get("certificateStatus") ?? ""),
+            userEmail: String(formData.get("user") ?? ""),
+            verificationCode: String(formData.get("verificationCode") ?? "")
+          })
+        : await saveAdminInquiry({
+            managerNote: String(formData.get("memo") ?? ""),
+            receipt: String(formData.get("receipt") ?? ""),
+            status: String(formData.get("inquiryStatus") ?? "")
+          });
+    setResult(nextResult);
+    setSubmittedForm(nextResult.ok ? activeForm : null);
+    setIsSubmitting(false);
   }
 
   function switchForm(nextForm: AdminFormType) {
     setActiveForm(nextForm);
     setSubmittedForm(null);
     setErrors({});
+    setResult(null);
   }
 
   return (
@@ -160,14 +199,25 @@ export function AdminCrudPreview() {
           <div className="form-success" role="status">
             <CheckCircle2 size={20} />
             <span>
-              <strong>검수용 저장 흐름 확인</strong>
-              실제 저장은 관리자 API와 데이터베이스 연결 후 활성화됩니다.
+              <strong>{activeForm === "certification" ? "자격 데이터 저장 완료" : "검수용 저장 흐름 확인"}</strong>
+              {activeForm === "certification" || activeForm === "inquiry"
+                ? result?.message
+                : "실제 저장은 관리자 API와 데이터베이스 연결 후 활성화됩니다."}
             </span>
           </div>
         ) : null}
-        <button className="primary-button" type="submit">
+        {result && !result.ok ? <span className="form-error full">{result.message}</span> : null}
+        <button className="primary-button" disabled={isSubmitting} type="submit">
           <Save size={16} />
-          <span>저장 미리보기</span>
+          <span>
+            {isSubmitting
+              ? "..."
+              : activeForm === "certification"
+                ? "자격 데이터 저장"
+                : activeForm === "inquiry"
+                  ? "문의 처리 저장"
+                  : "저장 미리보기"}
+          </span>
         </button>
       </form>
     </section>
