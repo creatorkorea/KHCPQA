@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { CheckCircle2, UserPlus } from "lucide-react";
 import { getCopy, type Locale } from "@/lib/content";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
@@ -28,6 +29,7 @@ function isValidEmail(value: string) {
 }
 
 export function SignupForm({ locale }: { locale: Locale }) {
+  const router = useRouter();
   const t = getCopy(locale);
   const [form, setForm] = useState<SignupState>(initialSignupState);
   const [errors, setErrors] = useState<Partial<Record<SignupField | "form", string>>>({});
@@ -86,10 +88,11 @@ export function SignupForm({ locale }: { locale: Locale }) {
     if (hasSupabaseBrowserEnv()) {
       setIsSubmitting(true);
       const supabase = createClient();
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
         options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback?next=/${locale}/account`,
           data: {
             country: form.country,
             full_name: form.name,
@@ -103,6 +106,11 @@ export function SignupForm({ locale }: { locale: Locale }) {
       if (error) {
         setErrors({ form: error.message });
         setIsSubmitted(false);
+        return;
+      }
+
+      if (data.session) {
+        router.replace(`/${locale}/account`);
         return;
       }
     }
@@ -181,7 +189,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
         </div>
       ) : null}
       {errors.form ? <span className="form-error">{errors.form}</span> : null}
-      <button className="primary-button" type="submit">
+      <button className="primary-button" disabled={isSubmitting} type="submit">
         {isSubmitting ? "..." : t.signup.submitCta}
       </button>
       <Link className="text-button" href={`/${locale}/login`}>

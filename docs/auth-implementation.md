@@ -24,6 +24,13 @@
 - 공개 가입이어도 관리자 role은 클라이언트에서 직접 설정하지 않는다.
 - 프로필 생성, 자격 조회, 문의 내역 조회는 로그인 사용자 ID 기준으로 제한한다.
 
+Supabase Auth URL 설정:
+- Site URL: 배포 도메인 또는 로컬 개발 주소
+- Redirect URLs: `https://도메인/auth/callback`, `http://localhost:3000/auth/callback`
+- 이메일 확인을 켠 경우 확인 링크는 `/auth/callback?next=/[locale]/account`로 돌아와 세션 쿠키를 생성한다.
+
+마이그레이션 적용 순서와 검증 SQL은 `docs/supabase-migration-runbook.md`를 따른다.
+
 ## 가입 흐름
 
 1. 사용자가 `/[locale]/signup`에서 이름, 이메일, 국가, 비밀번호, 동의 여부를 입력한다.
@@ -78,6 +85,8 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 - `@supabase/supabase-js`, `@supabase/ssr` 설치
 - `src/lib/supabase/client.ts`와 `src/lib/supabase/server.ts` 추가
 - 환경변수가 있을 때 signup/login/reset form이 Supabase Auth를 호출하도록 연결
+- 회원가입 이메일 확인 링크를 `/auth/callback`에서 세션으로 교환하도록 연결
+- 회원가입 성공 시 즉시 세션이 있으면 `/[locale]/account`로 이동하고, 이메일 확인이 필요하면 확인 안내 표시
 - 환경변수가 없을 때는 기존 검수용 프리뷰 흐름 유지
 - `/[locale]/account/**`, `/admin/**` 보호 미들웨어 추가
 - `profiles`, `inquiries`, `certifications` 테이블과 RLS 정책 마이그레이션 초안 추가
@@ -104,6 +113,6 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 남은 구현:
 1. Supabase 프로젝트 생성 및 환경변수 주입
 2. Supabase 마이그레이션 적용 및 실제 프로젝트에서 RLS 검증
-3. 실제 Supabase 프로젝트에서 가입/로그인/계정/관리자 저장 흐름 E2E 검증
+3. 실제 Supabase 프로젝트에서 회원가입/이메일 확인/로그인/계정 접근 E2E 검증
 4. 공개 상세 페이지 CMS 섹션 입력 가이드와 샘플 데이터 정리
 5. 관리자 발행 이력 상세 필터와 작업자 이름 표시 개선
