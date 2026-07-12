@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, ExternalLink } from "lucide-react";
+import { ArrowLeft, CalendarDays, CheckCircle2, ExternalLink } from "lucide-react";
 import { PageIntro } from "@/components/SiteShell";
 import {
   getActivityGroupByKey,
@@ -10,8 +10,15 @@ import {
   getCopy,
   type Locale
 } from "@/lib/content";
-import { getPublishedActivityPosts, getPublishedContentIntro } from "@/lib/public-content";
+import { getPublishedActivityPosts, getPublishedContentIntro, getPublishedContentSections, type PublishedContentSection } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
+
+function splitSectionLines(section: PublishedContentSection) {
+  return section.body
+    .split("\n")
+    .map((line) => line.replace(/^[-*]\s*/, "").trim())
+    .filter(Boolean);
+}
 
 export function generateStaticParams() {
   return ["ko", "en", "es"].flatMap((locale) =>
@@ -64,11 +71,18 @@ export default async function ActivityDetailPage({
   const activityTitle = content.title;
   const activitySummary = content.lead || activity.summary;
   const activityBody = content.body || activitySummary;
-  const posts = await getPublishedActivityPosts({
-    activityKey,
-    fallback: getActivityPosts(locale, activityKey),
-    locale
-  });
+  const [posts, detailSections] = await Promise.all([
+    getPublishedActivityPosts({
+      activityKey,
+      fallback: getActivityPosts(locale, activityKey),
+      locale
+    }),
+    getPublishedContentSections({
+      contentType: "Activity",
+      locale,
+      slugPrefix: `${activityKey}-section-`
+    })
+  ]);
   const Icon = activity.icon;
 
   return (
@@ -97,6 +111,39 @@ export default async function ActivityDetailPage({
             </dl>
           </div>
         </div>
+        {detailSections.length > 0 ? (
+          <section className="activity-cms-section" aria-labelledby="activity-cms-section-title">
+            <div className="section-heading">
+              <span className="eyebrow">CMS</span>
+              <h2 id="activity-cms-section-title">
+                {locale === "ko" ? "운영 콘텐츠" : "Managed Content"}
+              </h2>
+            </div>
+            <div>
+              {detailSections.map((section, index) => {
+                const lines = splitSectionLines(section);
+
+                return (
+                  <article key={section.slug}>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <h3>{section.title}</h3>
+                    {section.lead ? <p>{section.lead}</p> : null}
+                    {lines.length > 0 ? (
+                      <ul>
+                        {lines.map((line) => (
+                          <li key={line}>
+                            <CheckCircle2 size={16} />
+                            <span>{line}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        ) : null}
         <div className="section-heading">
           <span className="eyebrow">CMS</span>
           <h2>{t.activitiesPage.latestPostsTitle}</h2>
