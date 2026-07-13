@@ -32,6 +32,11 @@ function isEmailRateLimitError(message: string) {
   return message.toLowerCase().includes("email rate limit");
 }
 
+function isExistingAccountError(message: string) {
+  const normalized = message.toLowerCase();
+  return normalized.includes("already registered") || normalized.includes("already exists");
+}
+
 export function SignupForm({ locale }: { locale: Locale }) {
   const router = useRouter();
   const t = getCopy(locale);
@@ -113,7 +118,19 @@ export function SignupForm({ locale }: { locale: Locale }) {
     setIsSubmitting(false);
 
     if (error) {
-      setErrors({ form: isEmailRateLimitError(error.message) ? t.signup.rateLimitError : error.message });
+      const message = error.message;
+      const formError = isEmailRateLimitError(message)
+        ? t.signup.rateLimitError
+        : isExistingAccountError(message)
+          ? t.signup.existingAccountError
+          : message;
+      setErrors({ form: formError });
+      setIsSubmitted(false);
+      return;
+    }
+
+    if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+      setErrors({ form: t.signup.existingAccountError });
       setIsSubmitted(false);
       return;
     }
