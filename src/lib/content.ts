@@ -237,6 +237,14 @@ type Copy = {
     audienceTitle: string;
     certificationTitle: string;
     sourceTitle: string;
+    metricProgramTypeLabel: string;
+    metricDurationLabel: string;
+    metricLearningLabel: string;
+    metricDurationFallback: string;
+    metricLearningFallback: string;
+    learningGoalsTitle: string;
+    programStrengthsTitle: string;
+    recommendedForTitle: string;
   };
   activitiesPage: {
     eyebrow: string;
@@ -727,7 +735,15 @@ export const copy = {
       sideSummaryTitle: "상담 요약",
       audienceTitle: "교육 대상",
       certificationTitle: "수료/자격 안내",
-      sourceTitle: "원본 URL"
+      sourceTitle: "원본 URL",
+      metricProgramTypeLabel: "과정 유형",
+      metricDurationLabel: "교육 기간",
+      metricLearningLabel: "수업 방식",
+      metricDurationFallback: "상담 후 안내",
+      metricLearningFallback: "이론 + 실습",
+      learningGoalsTitle: "교육 목표",
+      programStrengthsTitle: "이 과정의 특징",
+      recommendedForTitle: "이런 분께 추천해요!"
     },
     activitiesPage: {
       eyebrow: "글로벌 활동",
@@ -1244,7 +1260,15 @@ export const copy = {
       sideSummaryTitle: "Consultation Summary",
       audienceTitle: "Audience",
       certificationTitle: "Completion / Certification",
-      sourceTitle: "Source URL"
+      sourceTitle: "Source URL",
+      metricProgramTypeLabel: "Program Type",
+      metricDurationLabel: "Duration",
+      metricLearningLabel: "Learning",
+      metricDurationFallback: "Advised",
+      metricLearningFallback: "Theory + Practice",
+      learningGoalsTitle: "Learning Goals",
+      programStrengthsTitle: "Program Strengths",
+      recommendedForTitle: "Recommended For"
     },
     activitiesPage: {
       eyebrow: "Global Activities",
@@ -1761,7 +1785,15 @@ export const copy = {
       sideSummaryTitle: "Resumen de Consulta",
       audienceTitle: "Dirigido a",
       certificationTitle: "Finalización / Certificación",
-      sourceTitle: "URL de origen"
+      sourceTitle: "URL de origen",
+      metricProgramTypeLabel: "Tipo de programa",
+      metricDurationLabel: "Duración",
+      metricLearningLabel: "Aprendizaje",
+      metricDurationFallback: "Con asesoría",
+      metricLearningFallback: "Teoría + Práctica",
+      learningGoalsTitle: "Objetivos de aprendizaje",
+      programStrengthsTitle: "Fortalezas del programa",
+      recommendedForTitle: "Recomendado para"
     },
     activitiesPage: {
       eyebrow: "Actividades Globales",

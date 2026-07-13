@@ -225,9 +225,9 @@ export default async function CourseDetailPage({
   const metricItems = course.keyMetrics?.length
     ? course.keyMetrics
     : [
-        { label: locale === "ko" ? "과정 유형" : "Program Type", value: course.category },
-        { label: locale === "ko" ? "교육 기간" : "Duration", value: course.durationHighlights?.[0] ?? (locale === "ko" ? "상담 후 안내" : "Advised") },
-        { label: locale === "ko" ? "수업 방식" : "Learning", value: locale === "ko" ? "이론 + 실습" : "Theory + Practice" }
+        { label: t.courseDetail.metricProgramTypeLabel, value: course.category },
+        { label: t.courseDetail.metricDurationLabel, value: course.durationHighlights?.[0] ?? t.courseDetail.metricDurationFallback },
+        { label: t.courseDetail.metricLearningLabel, value: t.courseDetail.metricLearningFallback }
       ];
   const overviewPoints = takeUnique(course.curriculum, allSectionItems, 4);
   const curriculumFlow = buildCmsCards(
@@ -247,7 +247,7 @@ export default async function CourseDetailPage({
         goalItems,
         4
       ),
-      title: locale === "ko" ? "교육 목표" : "Learning Goals"
+      title: t.courseDetail.learningGoalsTitle
     },
     {
       icon: Layers3,
@@ -256,7 +256,7 @@ export default async function CourseDetailPage({
         strengthItems,
         4
       ),
-      title: locale === "ko" ? "이 과정의 특징" : "Program Strengths"
+      title: t.courseDetail.programStrengthsTitle
     },
     {
       icon: BadgeCheck,
@@ -265,7 +265,7 @@ export default async function CourseDetailPage({
         splitAudience(course.audience),
         5
       ),
-      title: locale === "ko" ? "이런 분께 추천해요!" : "Recommended For"
+      title: t.courseDetail.recommendedForTitle
     }
   ];
   const techniqueItems = takeUnique(
