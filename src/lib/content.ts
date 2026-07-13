@@ -3485,11 +3485,11 @@ export const adminUserRows = [
 ];
 
 export const adminReleaseTasks = [
-  "관리자 라우트 서버 인증 연결",
-  "권한별 접근 제한",
-  "콘텐츠 등록/수정 저장 API 연결",
-  "문의 처리 상태와 담당자 메모 저장",
-  "자격 데이터 샘플 CSV 형식 확정"
+  "초기 관리자 계정과 역할 정책 확정",
+  "콘텐츠·배너 최종 문구와 이미지 검수",
+  "문의 처리 담당자와 운영 메모 정책 확정",
+  "자격 데이터 샘플 CSV 형식 확정",
+  "운영 도메인, SSL, Supabase 환경변수 확인"
 ];
 
 const locationsByLocale: Record<Locale, Array<{ name: string; address: string; phone: string }>> = {
