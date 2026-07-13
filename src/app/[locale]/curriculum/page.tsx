@@ -61,7 +61,7 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
     { label: mergedCourses[1]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[1]?.slug ?? ""}` },
     { label: mergedCourses[2]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[2]?.slug ?? ""}` },
     { label: mergedCourses[4]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[4]?.slug ?? ""}` },
-    { label: locale === "ko" ? "마사지 과정" : "Massage Programs", href: `/${locale}/curriculum/${mergedCourses[6]?.slug ?? ""}` },
+    { label: t.curriculumPage.massageProgramsLabel, href: `/${locale}/curriculum/${mergedCourses[6]?.slug ?? ""}` },
     { label: t.primaryCta, href: `/${locale}/curriculum#curriculum-list` },
     { label: t.courseDetail.inquiryCta, href: `/${locale}/partner-inquiry` }
   ];
@@ -71,15 +71,9 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
         <div className="curriculum-hero-copy">
           <span className="eyebrow">{t.curriculumPage.eyebrow}</span>
           <h1>
-            {locale === "ko" ? (
-              <>
-                내 목표에 맞는
-                <br />
-                <span>전문 과정</span>
-              </>
-            ) : (
-              intro.title
-            )}
+            {t.curriculumPage.heroTitlePrefix}
+            <br />
+            <span>{t.curriculumPage.heroTitleHighlight}</span>
           </h1>
           <p>{intro.lead}</p>
           <div className="hero-actions">

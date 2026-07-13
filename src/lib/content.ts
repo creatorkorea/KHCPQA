@@ -213,6 +213,9 @@ type Copy = {
   curriculumPage: {
     eyebrow: string;
     lead: string;
+    heroTitlePrefix: string;
+    heroTitleHighlight: string;
+    massageProgramsLabel: string;
   };
   courseDetail: {
     inquiryCta: string;
@@ -700,7 +703,10 @@ export const copy = {
     },
     curriculumPage: {
       eyebrow: "커리큘럼",
-      lead: "기존 SMC365 과정 콘텐츠를 글로벌 교육기관형 과정 카드와 상세 템플릿으로 재구성합니다."
+      lead: "기존 SMC365 과정 콘텐츠를 글로벌 교육기관형 과정 카드와 상세 템플릿으로 재구성합니다.",
+      heroTitlePrefix: "내 목표에 맞는",
+      heroTitleHighlight: "전문 과정",
+      massageProgramsLabel: "마사지 과정"
     },
     courseDetail: {
       inquiryCta: "문의하기",
@@ -1214,7 +1220,10 @@ export const copy = {
     },
     curriculumPage: {
       eyebrow: "Curriculum",
-      lead: "Existing SMC365 program content is reorganized into global education program cards and detail templates."
+      lead: "Existing SMC365 program content is reorganized into global education program cards and detail templates.",
+      heroTitlePrefix: "Professional programs",
+      heroTitleHighlight: "for your goal",
+      massageProgramsLabel: "Massage Programs"
     },
     courseDetail: {
       inquiryCta: "Inquire",
@@ -1728,7 +1737,10 @@ export const copy = {
     },
     curriculumPage: {
       eyebrow: "Currículo",
-      lead: "El contenido existente de programas SMC365 se reorganiza en tarjetas y plantillas detalladas para una institución educativa global."
+      lead: "El contenido existente de programas SMC365 se reorganiza en tarjetas y plantillas detalladas para una institución educativa global.",
+      heroTitlePrefix: "Programas profesionales",
+      heroTitleHighlight: "para su objetivo",
+      massageProgramsLabel: "Programas de masaje"
     },
     courseDetail: {
       inquiryCta: "Consultar",
