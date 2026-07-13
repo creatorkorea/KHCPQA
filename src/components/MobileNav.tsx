@@ -23,7 +23,7 @@ export function MobileNav({ locale }: { locale: Locale }) {
       </button>
 
       {isOpen ? (
-        <nav className="mobile-nav-panel" id="mobile-nav-panel" aria-label="Mobile navigation">
+        <nav className="mobile-nav-panel" id="mobile-nav-panel" aria-label={t.a11y.mobileNavigation}>
           {headerNavItems.map((item) => (
             <Link key={item.key} href={`/${locale}/${item.href}`} onClick={() => setIsOpen(false)}>
               {t.nav[item.key]}

@@ -16,7 +16,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
   return (
     <header className="site-header">
-      <Link className="brand-mark" href={`/${locale}`} aria-label="KHCPQA home">
+      <Link className="brand-mark" href={`/${locale}`} aria-label={t.a11y.homeLink}>
         <span className="brand-symbol" aria-hidden="true" />
         <span>
           <strong>{t.brand}</strong>
@@ -24,7 +24,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         </span>
       </Link>
 
-      <nav className="desktop-nav" aria-label="Primary navigation">
+      <nav className="desktop-nav" aria-label={t.a11y.primaryNavigation}>
         {visibleHeaderNavItems.map((item) => (
           <Link key={`${item.href}-${item.label}`} href={`/${locale}/${item.href}`}>
             {item.label}
@@ -74,7 +74,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <Link href={`/${locale}/terms`}>{t.legal.termsTitle}</Link>
           <Link href={`/${locale}/curriculum`}>{t.layout.sitemap}</Link>
         </div>
-        <div className="footer-social" aria-label="Social links">
+        <div className="footer-social" aria-label={t.a11y.socialLinks}>
           <Link href={`/${locale}/activities`} aria-label="Instagram"><Instagram size={18} /></Link>
           <Link href={`/${locale}/activities`} aria-label="Kakao"><MessageCircle size={18} /></Link>
           <Link href={`/${locale}/activities`} aria-label="YouTube"><Youtube size={18} /></Link>

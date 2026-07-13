@@ -7,10 +7,11 @@ type AboutSubnavProps = {
 };
 
 export function AboutSubnav({ locale, activeKey }: AboutSubnavProps) {
-  const items = getCopy(locale).aboutSubnav;
+  const t = getCopy(locale);
+  const items = t.aboutSubnav;
 
   return (
-    <nav className="about-subnav" aria-label="About section navigation">
+    <nav className="about-subnav" aria-label={t.a11y.aboutNavigation}>
       {items.map((item) => {
         const isActive = item.key === activeKey;
 

@@ -14,7 +14,7 @@ export function AccountNav({
   const t = getCopy(locale);
 
   return (
-    <nav className="account-nav" aria-label="Account navigation">
+    <nav className="account-nav" aria-label={t.a11y.accountNavigation}>
       {t.account.nav.map((item, index) => {
         const Icon = accountIcons[index];
         const isActive = item.href === activeHref;

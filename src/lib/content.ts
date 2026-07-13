@@ -120,6 +120,15 @@ type Copy = {
   formSubmit: string;
   menuOpen: string;
   menuClose: string;
+  a11y: {
+    homeLink: string;
+    primaryNavigation: string;
+    mobileNavigation: string;
+    languageSwitcher: string;
+    socialLinks: string;
+    accountNavigation: string;
+    aboutNavigation: string;
+  };
   layout: {
     consultCta: string;
     footerLead: string;
@@ -503,6 +512,15 @@ export const copy = {
     formSubmit: "문의 저장",
     menuOpen: "메뉴 열기",
     menuClose: "메뉴 닫기",
+    a11y: {
+      homeLink: "KHCPQA 홈",
+      primaryNavigation: "주요 메뉴",
+      mobileNavigation: "모바일 메뉴",
+      languageSwitcher: "언어 선택",
+      socialLinks: "소셜 링크",
+      accountNavigation: "회원 메뉴",
+      aboutNavigation: "협회 소개 하위 메뉴"
+    },
     layout: {
       consultCta: "상담문의",
       footerLead: "체계적인 교육과 취업·창업 지원을 연결하는 프리미엄 전문 교육 플랫폼입니다.",
@@ -1055,6 +1073,15 @@ export const copy = {
     formSubmit: "Save Inquiry",
     menuOpen: "Open menu",
     menuClose: "Close menu",
+    a11y: {
+      homeLink: "KHCPQA home",
+      primaryNavigation: "Primary navigation",
+      mobileNavigation: "Mobile navigation",
+      languageSwitcher: "Language switcher",
+      socialLinks: "Social links",
+      accountNavigation: "Account navigation",
+      aboutNavigation: "About section navigation"
+    },
     layout: {
       consultCta: "Consultation",
       footerLead: "A premium professional education platform connecting structured training with employment and startup support.",
@@ -1607,6 +1634,15 @@ export const copy = {
     formSubmit: "Guardar Consulta",
     menuOpen: "Abrir menú",
     menuClose: "Cerrar menú",
+    a11y: {
+      homeLink: "Inicio de KHCPQA",
+      primaryNavigation: "Navegación principal",
+      mobileNavigation: "Navegación móvil",
+      languageSwitcher: "Selector de idioma",
+      socialLinks: "Enlaces sociales",
+      accountNavigation: "Navegación de cuenta",
+      aboutNavigation: "Navegación de la sección Acerca de"
+    },
     layout: {
       consultCta: "Consulta",
       footerLead: "Una plataforma premium de educación profesional que conecta formación estructurada con apoyo para empleo y emprendimiento.",
