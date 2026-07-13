@@ -34,8 +34,8 @@ export default async function AdminPage() {
         </div>
         <aside className="admin-security-card" aria-label="Admin security status">
           <LockKeyhole size={22} />
-          <strong>인증 연결 전 프리뷰</strong>
-          <span>배포 전 서버 인증과 권한별 접근 제한을 연결해야 합니다.</span>
+          <strong>인증 및 권한 보호 적용</strong>
+          <span>관리자 라우트는 로그인 세션과 role/status 정책으로 접근을 제한합니다.</span>
         </aside>
       </section>
       <section className="admin-grid">
