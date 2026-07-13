@@ -127,6 +127,7 @@ type Copy = {
     phoneLabel: string;
     emailLabel: string;
     addressLabel: string;
+    address: string;
     sitemap: string;
   };
   seo: {
@@ -509,6 +510,7 @@ export const copy = {
       phoneLabel: "전화",
       emailLabel: "이메일",
       addressLabel: "주소",
+      address: "서울특별시 강남구 테헤란로 123, 5층",
       sitemap: "사이트맵"
     },
     seo: {
@@ -1060,6 +1062,7 @@ export const copy = {
       phoneLabel: "Phone",
       emailLabel: "Email",
       addressLabel: "Address",
+      address: "5F, 123 Teheran-ro, Gangnam-gu, Seoul",
       sitemap: "Sitemap"
     },
     seo: {
@@ -1611,6 +1614,7 @@ export const copy = {
       phoneLabel: "Teléfono",
       emailLabel: "Email",
       addressLabel: "Dirección",
+      address: "5F, 123 Teheran-ro, Gangnam-gu, Seúl",
       sitemap: "Mapa del sitio"
     },
     seo: {

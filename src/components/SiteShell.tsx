@@ -12,15 +12,7 @@ import { MobileNav } from "@/components/MobileNav";
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const t = getCopy(locale);
-  const visibleHeaderNavItems =
-    locale === "ko"
-      ? [
-          { label: "협회소개", href: "about" },
-          { label: "교육과정", href: "curriculum" },
-          { label: "취업지원", href: "partner-inquiry" },
-          { label: "커뮤니티", href: "activities" }
-        ]
-      : headerNavItems.map((item) => ({ label: t.nav[item.key], href: item.href }));
+  const visibleHeaderNavItems = headerNavItems.map((item) => ({ label: t.nav[item.key], href: item.href }));
 
   return (
     <header className="site-header">
@@ -74,7 +66,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         <strong>{t.layout.customerCenter}</strong>
         <span>{t.layout.phoneLabel} 02-581-1278</span>
         <span>{t.layout.emailLabel} khcpqa@naver.com</span>
-        <span>{t.layout.addressLabel} 서울특별시 강남구 테헤란로 123, 5층</span>
+        <span>{t.layout.addressLabel} {t.layout.address}</span>
       </div>
       <div className="footer-links">
         <div className="footer-policy">
