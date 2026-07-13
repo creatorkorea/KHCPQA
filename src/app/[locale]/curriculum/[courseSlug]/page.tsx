@@ -327,17 +327,13 @@ export default async function CourseDetailPage({
       </section>
 
       <section className="course-landing-feature-band">
-        {[
-          [Target, locale === "ko" ? "1:1 소수정예 맞춤 피드백" : "Focused feedback"],
-          [CheckCircle2, locale === "ko" ? "실습 중심 교육 현장감 있는 수업" : "Practice-centered training"],
-          [Users, locale === "ko" ? "전문 강사진 현업 경험 보유" : "Experienced instructors"],
-          [Award, locale === "ko" ? "자격취득 지원 수료증 & 시험 안내" : "Completion guidance"]
-        ].map(([Icon, label]) => {
-          const FeatureIcon = Icon as typeof Target;
+        {[Target, CheckCircle2, Users, Award].map((FeatureIcon, index) => {
+          const label = t.courseDetail.featureHighlights[index];
+
           return (
-            <div key={label as string}>
+            <div key={label}>
               <FeatureIcon size={34} strokeWidth={1.45} />
-              <span>{label as string}</span>
+              <span>{label}</span>
             </div>
           );
         })}
@@ -391,7 +387,7 @@ export default async function CourseDetailPage({
 
       <section className="course-technique-band">
         <div>
-          <h2>{locale === "ko" ? "핵심 테크닉 한눈에 보기" : "Core Techniques"}</h2>
+          <h2>{t.courseDetail.coreTechniquesTitle}</h2>
           <div>
             {techniqueItems.map((item) => (
               <span key={item}>{item}</span>
@@ -402,7 +398,7 @@ export default async function CourseDetailPage({
       </section>
 
       <section className="course-process-section">
-        <h2>{locale === "ko" ? "관리 순서 (수업 프로세스)" : "Class Process"}</h2>
+        <h2>{t.courseDetail.classProcessTitle}</h2>
         <div>
           {processLabels.map((item, index) => (
             <article key={`${item}-${index}`}>

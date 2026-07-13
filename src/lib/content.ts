@@ -245,6 +245,9 @@ type Copy = {
     learningGoalsTitle: string;
     programStrengthsTitle: string;
     recommendedForTitle: string;
+    featureHighlights: string[];
+    coreTechniquesTitle: string;
+    classProcessTitle: string;
   };
   activitiesPage: {
     eyebrow: string;
@@ -743,7 +746,15 @@ export const copy = {
       metricLearningFallback: "이론 + 실습",
       learningGoalsTitle: "교육 목표",
       programStrengthsTitle: "이 과정의 특징",
-      recommendedForTitle: "이런 분께 추천해요!"
+      recommendedForTitle: "이런 분께 추천해요!",
+      featureHighlights: [
+        "1:1 소수정예 맞춤 피드백",
+        "실습 중심 교육 현장감 있는 수업",
+        "전문 강사진 현업 경험 보유",
+        "자격취득 지원 수료증 & 시험 안내"
+      ],
+      coreTechniquesTitle: "핵심 테크닉 한눈에 보기",
+      classProcessTitle: "관리 순서 (수업 프로세스)"
     },
     activitiesPage: {
       eyebrow: "글로벌 활동",
@@ -1268,7 +1279,15 @@ export const copy = {
       metricLearningFallback: "Theory + Practice",
       learningGoalsTitle: "Learning Goals",
       programStrengthsTitle: "Program Strengths",
-      recommendedForTitle: "Recommended For"
+      recommendedForTitle: "Recommended For",
+      featureHighlights: [
+        "Focused feedback",
+        "Practice-centered training",
+        "Experienced instructors",
+        "Completion guidance"
+      ],
+      coreTechniquesTitle: "Core Techniques",
+      classProcessTitle: "Class Process"
     },
     activitiesPage: {
       eyebrow: "Global Activities",
@@ -1793,7 +1812,15 @@ export const copy = {
       metricLearningFallback: "Teoría + Práctica",
       learningGoalsTitle: "Objetivos de aprendizaje",
       programStrengthsTitle: "Fortalezas del programa",
-      recommendedForTitle: "Recomendado para"
+      recommendedForTitle: "Recomendado para",
+      featureHighlights: [
+        "Retroalimentación personalizada",
+        "Formación centrada en la práctica",
+        "Instructores con experiencia",
+        "Orientación para finalización"
+      ],
+      coreTechniquesTitle: "Técnicas clave",
+      classProcessTitle: "Proceso de clase"
     },
     activitiesPage: {
       eyebrow: "Actividades Globales",
