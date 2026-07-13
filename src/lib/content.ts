@@ -120,12 +120,23 @@ type Copy = {
   formSubmit: string;
   menuOpen: string;
   menuClose: string;
+  layout: {
+    consultCta: string;
+    footerLead: string;
+    customerCenter: string;
+    phoneLabel: string;
+    emailLabel: string;
+    addressLabel: string;
+    sitemap: string;
+  };
   seo: {
     title: string;
     description: string;
   };
   home: {
     heroImageAlt: string;
+    heroFloatingTitle: string;
+    heroFloatingLead: string;
     platformEyebrow: string;
     platformLead: string;
     learnMore: string;
@@ -142,6 +153,25 @@ type Copy = {
     certificationLead: string;
     certificationCta: string;
     certificateLabel: string;
+    onlineInquiry: string;
+    featuredCoursesTitle: string;
+    featuredCoursesLead: string;
+    reasonsTitle: string;
+    reasons: FeatureCopy[];
+    supportTitle: string;
+    supportPrograms: Array<FeatureCopy & { image: string }>;
+    noticesTitle: string;
+    moreCta: string;
+    notices: string[];
+    scheduleTitle: string;
+    schedules: Array<{ label: string; time: string }>;
+    consultTitle: string;
+    consultLead: string;
+    consultCta: string;
+    partnersTitle: string;
+    finalKicker: string;
+    finalTitle: string;
+    finalCta: string;
   };
   about: {
     eyebrow: string;
@@ -427,12 +457,23 @@ export const copy = {
     formSubmit: "문의 저장",
     menuOpen: "메뉴 열기",
     menuClose: "메뉴 닫기",
+    layout: {
+      consultCta: "상담문의",
+      footerLead: "체계적인 교육과 취업·창업 지원을 연결하는 프리미엄 전문 교육 플랫폼입니다.",
+      customerCenter: "고객센터",
+      phoneLabel: "전화",
+      emailLabel: "이메일",
+      addressLabel: "주소",
+      sitemap: "사이트맵"
+    },
     seo: {
       title: "KHCPQA 글로벌 전문 자격 교육",
       description: "한국 기반 헬스케어·뷰티 전문 자격 교육, 과정 안내, 글로벌 활동, 파트너 문의를 제공하는 KHCPQA 플랫폼입니다."
     },
     home: {
       heroImageAlt: "글로벌 전문 교육을 상징하는 KHCPQA 교육생과 전문가 이미지",
+      heroFloatingTitle: "국가공인 민간자격 교육기관",
+      heroFloatingLead: "체계적인 교육과정을 통해 전문 자격 취득을 지원합니다.",
       platformEyebrow: "지원 프로그램",
       platformLead:
         "교육생의 목적에 맞춰 상담, 과정 설계, 실무 훈련, 취업·창업 지원을 한 흐름으로 연결합니다.",
@@ -463,7 +504,47 @@ export const copy = {
       certificationLead:
         "개인별 자격 상태, 수료 기록, 발급 정보를 안전한 계정 영역에서 조회할 수 있게 확장합니다.",
       certificationCta: "자격 조회하기",
-      certificateLabel: "자격 검증"
+      certificateLabel: "자격 검증",
+      onlineInquiry: "온라인 문의",
+      featuredCoursesTitle: "주요 교육과정",
+      featuredCoursesLead: "현장에서 바로 활용 가능한 실무 중심 교육과정",
+      reasonsTitle: "KHCPQA가 특별한 이유",
+      reasons: [
+        { title: "현장 중심 실무 교육", body: "실무 위주의 커리큘럼으로 현장에서 바로 활용 가능합니다." },
+        { title: "전문 강사진", body: "풍부한 현장 경험을 갖춘 전문 강사진이 핵심을 교육합니다." },
+        { title: "취·창업 연계", body: "다양한 네트워크와 연계해 취·창업을 적극 지원합니다." },
+        { title: "1:1 맞춤 상담", body: "개인의 목표와 상황에 맞춘 성장 로드맵을 설계합니다." }
+      ],
+      supportTitle: "취업 & 창업 지원 서비스",
+      supportPrograms: [
+        { title: "1:1 취업 상담", body: "전문 상담사와 1:1 상담을 통해 맞춤형 취업 전략을 제안합니다.", image: "/assets/course-employment-consulting.jpg" },
+        { title: "취업 연계 시스템", body: "전국의 우수 협력 네트워크를 통한 취업 연계 서비스를 제공합니다.", image: "/assets/partner-network.png" },
+        { title: "창업 컨설팅", body: "창업 준비부터 오픈까지 전문 컨설팅을 지원합니다.", image: "/assets/course-startup-consulting.jpg" },
+        { title: "마케팅 지원", body: "홍보, 브랜딩, SNS 마케팅 등 실무적인 마케팅을 지원합니다.", image: "/assets/course-thumb-business-planning.png" }
+      ],
+      noticesTitle: "공지사항",
+      moreCta: "더보기",
+      notices: [
+        "2024년 6월 교육과정 개강 안내",
+        "아로마 테라피 특강 안내",
+        "여름 맞이 피부관리 이벤트",
+        "5월 자격시험 일정 안내",
+        "취업 박람회 참가 안내"
+      ],
+      scheduleTitle: "강의시간 안내",
+      schedules: [
+        { label: "주간반", time: "월~금 10:00 - 14:00" },
+        { label: "야간반", time: "월~금 19:00 - 22:00" },
+        { label: "주말반", time: "토요일 10:00 - 16:00" },
+        { label: "취미반", time: "화, 목 14:00 - 16:00" }
+      ],
+      consultTitle: "지금 상담받고\n당신의 꿈을 시작하세요",
+      consultLead: "전문 상담사가 친절하게 안내해 드립니다.",
+      consultCta: "상담 신청하기",
+      partnersTitle: "함께하는 파트너",
+      finalKicker: "첫걸음이 당신의 미래를 바꿉니다 ✣",
+      finalTitle: "지금 바로 상담 신청하고, 꿈을 현실로 만드세요!",
+      finalCta: "상담 신청하기"
     },
     about: {
       eyebrow: "KHCPQA 소개",
@@ -871,12 +952,23 @@ export const copy = {
     formSubmit: "Save Inquiry",
     menuOpen: "Open menu",
     menuClose: "Close menu",
+    layout: {
+      consultCta: "Consultation",
+      footerLead: "A premium professional education platform connecting structured training with employment and startup support.",
+      customerCenter: "Customer Center",
+      phoneLabel: "Phone",
+      emailLabel: "Email",
+      addressLabel: "Address",
+      sitemap: "Sitemap"
+    },
     seo: {
       title: "KHCPQA Global Professional Qualification Education",
       description: "A Korea-based multilingual platform for healthcare and beauty professional qualification education, programs, global activities, and partner inquiries."
     },
     home: {
       heroImageAlt: "KHCPQA trainees and professionals representing global qualification education",
+      heroFloatingTitle: "Registered Private Qualification Training",
+      heroFloatingLead: "Structured programs support professional qualification and completion pathways.",
       platformEyebrow: "Support Program",
       platformLead:
         "Learners move through consultation, course planning, practical training, and employment or startup support in one connected path.",
@@ -907,7 +999,47 @@ export const copy = {
       certificationLead:
         "Individual certification status, completion records, and issuance details can be expanded into a secure account area.",
       certificationCta: "Check certification",
-      certificateLabel: "Certificate Verification"
+      certificateLabel: "Certificate Verification",
+      onlineInquiry: "Online Inquiry",
+      featuredCoursesTitle: "Featured Programs",
+      featuredCoursesLead: "Practice-centered programs ready for real field use.",
+      reasonsTitle: "Why KHCPQA Stands Out",
+      reasons: [
+        { title: "Field-Based Practical Training", body: "Practice-first curriculum helps learners apply skills immediately in the field." },
+        { title: "Professional Instructors", body: "Experienced instructors teach the essentials drawn from real client work." },
+        { title: "Employment and Startup Links", body: "A broad partner network supports learners preparing for jobs or business launch." },
+        { title: "1:1 Personalized Advising", body: "Advisors shape a growth roadmap around each learner's goals and situation." }
+      ],
+      supportTitle: "Employment and Startup Support",
+      supportPrograms: [
+        { title: "1:1 Career Consultation", body: "Specialized advisors suggest a tailored employment strategy through individual consultation.", image: "/assets/course-employment-consulting.jpg" },
+        { title: "Employment Matching System", body: "A nationwide partner network supports practical employment connections.", image: "/assets/partner-network.png" },
+        { title: "Startup Consulting", body: "Expert consulting supports preparation from business planning to opening.", image: "/assets/course-startup-consulting.jpg" },
+        { title: "Marketing Support", body: "Practical support covers promotion, branding, and social media marketing.", image: "/assets/course-thumb-business-planning.png" }
+      ],
+      noticesTitle: "Notices",
+      moreCta: "View more",
+      notices: [
+        "June 2024 program opening notice",
+        "Aromatherapy special lecture notice",
+        "Summer skin-care event",
+        "May certification exam schedule",
+        "Employment fair participation notice"
+      ],
+      scheduleTitle: "Class Hours",
+      schedules: [
+        { label: "Day Class", time: "Mon-Fri 10:00 - 14:00" },
+        { label: "Evening Class", time: "Mon-Fri 19:00 - 22:00" },
+        { label: "Weekend Class", time: "Saturday 10:00 - 16:00" },
+        { label: "Hobby Class", time: "Tue, Thu 14:00 - 16:00" }
+      ],
+      consultTitle: "Start with advising\nand move toward your goal",
+      consultLead: "A professional advisor will guide you through the next step.",
+      consultCta: "Request advising",
+      partnersTitle: "Partners",
+      finalKicker: "Your first step can change your future ✣",
+      finalTitle: "Request advising today and turn your goal into action.",
+      finalCta: "Request advising"
     },
     about: {
       eyebrow: "About KHCPQA",
@@ -1315,12 +1447,23 @@ export const copy = {
     formSubmit: "Guardar Consulta",
     menuOpen: "Abrir menú",
     menuClose: "Cerrar menú",
+    layout: {
+      consultCta: "Consulta",
+      footerLead: "Una plataforma premium de educación profesional que conecta formación estructurada con apoyo para empleo y emprendimiento.",
+      customerCenter: "Centro de Atención",
+      phoneLabel: "Teléfono",
+      emailLabel: "Email",
+      addressLabel: "Dirección",
+      sitemap: "Mapa del sitio"
+    },
     seo: {
       title: "KHCPQA Educación Global de Cualificaciones Profesionales",
       description: "Plataforma multilingüe basada en Corea para educación profesional en salud y belleza, programas, actividades globales y consultas de asociación."
     },
     home: {
       heroImageAlt: "Estudiantes y profesionales de KHCPQA que representan la educación global de cualificaciones",
+      heroFloatingTitle: "Formación de Cualificación Privada Registrada",
+      heroFloatingLead: "Programas estructurados apoyan rutas de cualificación profesional y finalización.",
       platformEyebrow: "Programa de Apoyo",
       platformLead:
         "Los estudiantes avanzan por consulta, planificación de cursos, práctica y apoyo de empleo o emprendimiento en un solo flujo.",
@@ -1351,7 +1494,47 @@ export const copy = {
       certificationLead:
         "El estado de certificación, los registros de finalización y los datos de emisión pueden ampliarse dentro de un área segura de cuenta.",
       certificationCta: "Consultar certificación",
-      certificateLabel: "Verificación de Certificado"
+      certificateLabel: "Verificación de Certificado",
+      onlineInquiry: "Consulta en línea",
+      featuredCoursesTitle: "Programas destacados",
+      featuredCoursesLead: "Programas prácticos listos para aplicar en el campo real.",
+      reasonsTitle: "Por qué KHCPQA es diferente",
+      reasons: [
+        { title: "Formación práctica de campo", body: "El currículo práctico ayuda a aplicar habilidades de inmediato en el trabajo real." },
+        { title: "Instructores profesionales", body: "Instructores con experiencia enseñan lo esencial desde el trabajo con clientes reales." },
+        { title: "Conexión con empleo y emprendimiento", body: "Una red de socios apoya a quienes preparan empleo o lanzamiento de negocio." },
+        { title: "Asesoría personalizada 1:1", body: "Los asesores diseñan una ruta de crecimiento según metas y situación de cada estudiante." }
+      ],
+      supportTitle: "Apoyo para empleo y emprendimiento",
+      supportPrograms: [
+        { title: "Consulta laboral 1:1", body: "Asesores especializados proponen una estrategia laboral personalizada mediante consulta individual.", image: "/assets/course-employment-consulting.jpg" },
+        { title: "Sistema de conexión laboral", body: "Una red nacional de socios apoya conexiones prácticas de empleo.", image: "/assets/partner-network.png" },
+        { title: "Consultoría de emprendimiento", body: "La consultoría experta apoya desde la planificación del negocio hasta la apertura.", image: "/assets/course-startup-consulting.jpg" },
+        { title: "Apoyo de marketing", body: "Apoyo práctico en promoción, branding y marketing en redes sociales.", image: "/assets/course-thumb-business-planning.png" }
+      ],
+      noticesTitle: "Avisos",
+      moreCta: "Ver más",
+      notices: [
+        "Aviso de apertura de programas de junio de 2024",
+        "Aviso de clase especial de aromaterapia",
+        "Evento de cuidado de piel de verano",
+        "Calendario de examen de certificación de mayo",
+        "Aviso de participación en feria de empleo"
+      ],
+      scheduleTitle: "Horario de clases",
+      schedules: [
+        { label: "Clase diurna", time: "Lun-Vie 10:00 - 14:00" },
+        { label: "Clase nocturna", time: "Lun-Vie 19:00 - 22:00" },
+        { label: "Clase de fin de semana", time: "Sábado 10:00 - 16:00" },
+        { label: "Clase hobby", time: "Mar, Jue 14:00 - 16:00" }
+      ],
+      consultTitle: "Empiece con asesoría\ny avance hacia su meta",
+      consultLead: "Un asesor profesional le guiará en el siguiente paso.",
+      consultCta: "Solicitar asesoría",
+      partnersTitle: "Socios",
+      finalKicker: "Su primer paso puede cambiar su futuro ✣",
+      finalTitle: "Solicite asesoría hoy y convierta su meta en acción.",
+      finalCta: "Solicitar asesoría"
     },
     about: {
       eyebrow: "Acerca de KHCPQA",

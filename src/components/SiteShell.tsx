@@ -47,7 +47,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <UserRound size={13} />
         </Link>
         <Link className="consult-link" href={`/${locale}/partner-inquiry`}>
-          상담문의
+          {t.layout.consultCta}
         </Link>
         <MobileNav locale={locale} />
       </div>
@@ -68,19 +68,19 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <small>{t.brandFull}</small>
           </span>
         </Link>
-        <p>체계적인 교육과 취업·창업 지원을 연결하는 프리미엄 전문 교육 플랫폼입니다.</p>
+        <p>{t.layout.footerLead}</p>
       </div>
       <div className="footer-contact">
-        <strong>Customer Center</strong>
-        <span>전화 02-581-1278</span>
-        <span>이메일 khcpqa@naver.com</span>
-        <span>주소 서울특별시 강남구 테헤란로 123, 5층</span>
+        <strong>{t.layout.customerCenter}</strong>
+        <span>{t.layout.phoneLabel} 02-581-1278</span>
+        <span>{t.layout.emailLabel} khcpqa@naver.com</span>
+        <span>{t.layout.addressLabel} 서울특별시 강남구 테헤란로 123, 5층</span>
       </div>
       <div className="footer-links">
         <div className="footer-policy">
           <Link href={`/${locale}/privacy`}>{t.legal.privacyTitle}</Link>
           <Link href={`/${locale}/terms`}>{t.legal.termsTitle}</Link>
-          <Link href={`/${locale}/curriculum`}>사이트맵</Link>
+          <Link href={`/${locale}/curriculum`}>{t.layout.sitemap}</Link>
         </div>
         <div className="footer-social" aria-label="Social links">
           <Link href={`/${locale}/activities`} aria-label="Instagram"><Instagram size={18} /></Link>
