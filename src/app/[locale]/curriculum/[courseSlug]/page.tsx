@@ -291,13 +291,7 @@ export default async function CourseDetailPage({
   const originalCourseDetail = originalCourseDetails[originalCourseNumber];
   const advancedCourseSections =
     originalCourseDetail?.sections.filter((section) => section.text.trim() || section.images.length) ?? [];
-  const careerItems = [
-    locale === "ko" ? "전문 샵 취업" : "Professional salon employment",
-    locale === "ko" ? "1인 창업" : "One-person startup",
-    locale === "ko" ? "스파 & 호텔 취업" : "Spa & hotel employment",
-    locale === "ko" ? "뷰티 프리랜서" : "Beauty freelancer",
-    locale === "ko" ? "추가 심화 연계" : "Advanced course pathway"
-  ];
+  const careerItems = t.courseDetail.careerItems;
 
   return (
     <article className="course-detail course-landing">
@@ -415,13 +409,9 @@ export default async function CourseDetailPage({
       {sections.length ? (
         <section className="course-original-detail-section">
           <div className="course-section-heading">
-            <span className="eyebrow">{locale === "ko" ? "과정 요약" : "Program Summary"}</span>
-            <h2>{locale === "ko" ? "핵심 교육 포인트" : "Core Training Points"}</h2>
-            <p>
-              {locale === "ko"
-                ? "수업 목표, 추천 대상, 주요 테크닉과 진로 방향을 먼저 확인할 수 있도록 정리했습니다."
-                : "Review learning goals, audience, core techniques, and career direction before the detailed guide."}
-            </p>
+            <span className="eyebrow">{t.courseDetail.summaryEyebrow}</span>
+            <h2>{t.courseDetail.summaryTitle}</h2>
+            <p>{t.courseDetail.summaryLead}</p>
           </div>
           <div>
             {sections.map((section, index) => (
@@ -450,13 +440,9 @@ export default async function CourseDetailPage({
       {advancedCourseSections.length ? (
         <section className="course-advanced-detail-section">
           <div className="course-section-heading">
-            <span className="eyebrow">{locale === "ko" ? "심화 과정" : "Advanced Guide"}</span>
-            <h2>{locale === "ko" ? "깊이 있게 배우는 상세 커리큘럼" : "In-Depth Curriculum Guide"}</h2>
-            <p>
-              {locale === "ko"
-                ? "이론, 실습, 관리 원리와 진로 활용까지 단계별로 확인할 수 있습니다."
-                : "Explore theory, practice, care principles, and career pathways step by step."}
-            </p>
+            <span className="eyebrow">{t.courseDetail.advancedEyebrow}</span>
+            <h2>{t.courseDetail.advancedTitle}</h2>
+            <p>{t.courseDetail.advancedLead}</p>
           </div>
           <div>
             {advancedCourseSections.map((section, index) => (
@@ -496,7 +482,7 @@ export default async function CourseDetailPage({
 
       <section className="course-career-cert">
         <article>
-          <h2>{locale === "ko" ? "수료 후 진로 및 활용" : "After Completion"}</h2>
+          <h2>{t.courseDetail.afterCompletionTitle}</h2>
           <div>
             {careerItems.map((item, index) => {
               const Icon = [BriefcaseBusiness, HandHeart, BookOpenCheck, Users, ClipboardCheck][index] ?? BriefcaseBusiness;
@@ -521,7 +507,7 @@ export default async function CourseDetailPage({
 
       <section className="course-landing-cta">
         <div>
-          <span>{locale === "ko" ? "전문 테크닉으로 완성하는" : "Build professional technique"}</span>
+          <span>{t.courseDetail.landingCtaEyebrow}</span>
           <h2>{course.title}</h2>
           <p>{course.summary}</p>
         </div>

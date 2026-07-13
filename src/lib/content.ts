@@ -248,6 +248,15 @@ type Copy = {
     featureHighlights: string[];
     coreTechniquesTitle: string;
     classProcessTitle: string;
+    summaryEyebrow: string;
+    summaryTitle: string;
+    summaryLead: string;
+    advancedEyebrow: string;
+    advancedTitle: string;
+    advancedLead: string;
+    afterCompletionTitle: string;
+    careerItems: string[];
+    landingCtaEyebrow: string;
   };
   activitiesPage: {
     eyebrow: string;
@@ -754,7 +763,22 @@ export const copy = {
         "자격취득 지원 수료증 & 시험 안내"
       ],
       coreTechniquesTitle: "핵심 테크닉 한눈에 보기",
-      classProcessTitle: "관리 순서 (수업 프로세스)"
+      classProcessTitle: "관리 순서 (수업 프로세스)",
+      summaryEyebrow: "과정 요약",
+      summaryTitle: "핵심 교육 포인트",
+      summaryLead: "수업 목표, 추천 대상, 주요 테크닉과 진로 방향을 먼저 확인할 수 있도록 정리했습니다.",
+      advancedEyebrow: "심화 과정",
+      advancedTitle: "깊이 있게 배우는 상세 커리큘럼",
+      advancedLead: "이론, 실습, 관리 원리와 진로 활용까지 단계별로 확인할 수 있습니다.",
+      afterCompletionTitle: "수료 후 진로 및 활용",
+      careerItems: [
+        "전문 샵 취업",
+        "1인 창업",
+        "스파 & 호텔 취업",
+        "뷰티 프리랜서",
+        "추가 심화 연계"
+      ],
+      landingCtaEyebrow: "전문 테크닉으로 완성하는"
     },
     activitiesPage: {
       eyebrow: "글로벌 활동",
@@ -1287,7 +1311,22 @@ export const copy = {
         "Completion guidance"
       ],
       coreTechniquesTitle: "Core Techniques",
-      classProcessTitle: "Class Process"
+      classProcessTitle: "Class Process",
+      summaryEyebrow: "Program Summary",
+      summaryTitle: "Core Training Points",
+      summaryLead: "Review learning goals, audience, core techniques, and career direction before the detailed guide.",
+      advancedEyebrow: "Advanced Guide",
+      advancedTitle: "In-Depth Curriculum Guide",
+      advancedLead: "Explore theory, practice, care principles, and career pathways step by step.",
+      afterCompletionTitle: "After Completion",
+      careerItems: [
+        "Professional salon employment",
+        "One-person startup",
+        "Spa & hotel employment",
+        "Beauty freelancer",
+        "Advanced course pathway"
+      ],
+      landingCtaEyebrow: "Build professional technique"
     },
     activitiesPage: {
       eyebrow: "Global Activities",
@@ -1820,7 +1859,22 @@ export const copy = {
         "Orientación para finalización"
       ],
       coreTechniquesTitle: "Técnicas clave",
-      classProcessTitle: "Proceso de clase"
+      classProcessTitle: "Proceso de clase",
+      summaryEyebrow: "Resumen del programa",
+      summaryTitle: "Puntos clave de formación",
+      summaryLead: "Revise objetivos, público, técnicas clave y orientación profesional antes de la guía detallada.",
+      advancedEyebrow: "Guía avanzada",
+      advancedTitle: "Currículo detallado en profundidad",
+      advancedLead: "Explore teoría, práctica, principios de cuidado y rutas profesionales paso a paso.",
+      afterCompletionTitle: "Después de finalizar",
+      careerItems: [
+        "Empleo en salón profesional",
+        "Emprendimiento individual",
+        "Empleo en spa y hotel",
+        "Freelance de belleza",
+        "Ruta de curso avanzado"
+      ],
+      landingCtaEyebrow: "Desarrolle técnica profesional"
     },
     activitiesPage: {
       eyebrow: "Actividades Globales",
