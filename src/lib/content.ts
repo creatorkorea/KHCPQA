@@ -438,6 +438,11 @@ type Copy = {
     catalogLead: string;
     emptyState: string;
     viewDetails: string;
+    courseCountLabel: string;
+    consultAriaLabel: string;
+    consultTitle: string;
+    consultLead: string;
+    consultCta: string;
   };
 };
 
@@ -950,7 +955,12 @@ export const copy = {
       catalogTitle: "실무·자격 교육과정",
       catalogLead: "현장에서 활용할 수 있는 기술 과목과 자격 과정을 확인하세요.",
       emptyState: "조건에 맞는 과정이 없습니다. 검색어 또는 카테고리를 조정해 주세요.",
-      viewDetails: "상세 보기"
+      viewDetails: "상세 보기",
+      courseCountLabel: "과정",
+      consultAriaLabel: "과정 상담 안내",
+      consultTitle: "어떤 과정을 선택해야 할지 고민되시나요?",
+      consultLead: "목표와 현재 역량에 맞춰 취업, 창업, 주말 학습 과정을 함께 설계해 드립니다.",
+      consultCta: "맞춤 상담 신청"
     }
   },
   en: {
@@ -1459,7 +1469,12 @@ export const copy = {
       catalogTitle: "Practical and Certification Programs",
       catalogLead: "Explore technical training and certification programs for field use.",
       emptyState: "No programs match your filters. Adjust the keyword or category.",
-      viewDetails: "View Details"
+      viewDetails: "View Details",
+      courseCountLabel: "courses",
+      consultAriaLabel: "Program consultation",
+      consultTitle: "Need help choosing a program?",
+      consultLead: "We help match your goals and current skills with the right employment, startup, or weekend learning path.",
+      consultCta: "Request advising"
     }
   },
   es: {
@@ -1968,7 +1983,12 @@ export const copy = {
       catalogTitle: "Programas Prácticos y de Certificación",
       catalogLead: "Explore formación técnica y programas de certificación para aplicación en campo.",
       emptyState: "Ningún programa coincide con los filtros. Ajuste la palabra clave o la categoría.",
-      viewDetails: "Ver Detalles"
+      viewDetails: "Ver Detalles",
+      courseCountLabel: "cursos",
+      consultAriaLabel: "Asesoría de programas",
+      consultTitle: "¿Necesita ayuda para elegir un programa?",
+      consultLead: "Le ayudamos a conectar sus objetivos y habilidades actuales con la ruta adecuada de empleo, emprendimiento o aprendizaje de fin de semana.",
+      consultCta: "Solicitar asesoría"
     }
   }
 } satisfies Record<Locale, Copy>;

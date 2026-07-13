@@ -64,7 +64,7 @@ export function CurriculumCatalog({
           <div className="catalog-result-summary" aria-live="polite">
             <span>{activeCategoryLabel}</span>
             <strong>{filteredCourses.length}</strong>
-            <small>/ {courses.length} {locale === "ko" ? "과정" : "courses"}</small>
+            <small>/ {courses.length} {t.courseCountLabel}</small>
           </div>
         </div>
 
@@ -119,19 +119,15 @@ export function CurriculumCatalog({
           <p className="empty-state">{t.emptyState}</p>
         ) : null}
 
-        <section className="catalog-consult-cta" aria-label={locale === "ko" ? "과정 상담 안내" : "Program consultation"}>
+        <section className="catalog-consult-cta" aria-label={t.consultAriaLabel}>
           <div>
             <Sparkles size={22} />
-            <h2>{locale === "ko" ? "어떤 과정을 선택해야 할지 고민되시나요?" : "Need help choosing a program?"}</h2>
-            <p>
-              {locale === "ko"
-                ? "목표와 현재 역량에 맞춰 취업, 창업, 주말 학습 과정을 함께 설계해 드립니다."
-                : "We help match your goals and current skills with the right employment, startup, or weekend learning path."}
-            </p>
+            <h2>{t.consultTitle}</h2>
+            <p>{t.consultLead}</p>
           </div>
           <Link href={`/${locale}/partner-inquiry`}>
             <MessageCircle size={17} />
-            {locale === "ko" ? "맞춤 상담 신청" : "Request advising"}
+            {t.consultCta}
             <ArrowRight size={15} />
           </Link>
         </section>
