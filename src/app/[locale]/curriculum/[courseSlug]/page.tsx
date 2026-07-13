@@ -279,14 +279,15 @@ export default async function CourseDetailPage({
   );
   const processItems = takeUnique(allSectionItems, course.curriculum, 10);
   const originalCourseNumber = getOriginalCourseNumber(course.source);
+  const hasOriginalProcessImages = originalCourseNumber in originalProcessLabelsByCourseNumber;
   const processLabels = cmsSectionItems(
     processSections,
-    originalCourseNumber in originalProcessLabelsByCourseNumber ? originalProcessLabelsByCourseNumber[originalCourseNumber] : processItems,
+    hasOriginalProcessImages ? originalProcessLabelsByCourseNumber[originalCourseNumber] : processItems,
     12
   );
   const originalHeroImage = getOriginalCourseImage(course.source, "img01.jpg");
   const originalSupportImage = getOriginalCourseImage(course.source, "img02.jpg");
-  const originalProcessImages = getOriginalProcessImages(course.source, processLabels.length);
+  const originalProcessImages = hasOriginalProcessImages ? getOriginalProcessImages(course.source, processLabels.length) : [];
   const originalCourseDetail = originalCourseDetails[originalCourseNumber];
   const advancedCourseSections =
     originalCourseDetail?.sections.filter((section) => section.text.trim() || section.images.length) ?? [];
@@ -406,7 +407,9 @@ export default async function CourseDetailPage({
           {processLabels.map((item, index) => (
             <article key={`${item}-${index}`}>
               <span>{String(index + 1).padStart(2, "0")}</span>
-              <Image src={originalProcessImages[index]} alt="" width={240} height={150} />
+              {originalProcessImages[index] ? (
+                <Image src={originalProcessImages[index]} alt="" width={240} height={150} />
+              ) : null}
               <p>{item}</p>
             </article>
           ))}
