@@ -68,15 +68,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
           <div className="hero-copy">
             <StatusBadge>{t.heroBadge}</StatusBadge>
             <h1>
-              {locale === "ko" ? (
-                <>
-                  전문 교육으로
-                  <br />
-                  <span>커리어</span>를 완성하세요
-                </>
-              ) : (
-                t.heroTitle
-              )}
+              {t.home.heroTitlePrefix}
+              <br />
+              <span>{t.home.heroTitleHighlight}</span>
+              {t.home.heroTitleSuffix}
             </h1>
             <p>{t.heroLead}</p>
             <div className="hero-actions">

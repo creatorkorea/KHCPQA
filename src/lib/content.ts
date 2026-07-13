@@ -135,6 +135,9 @@ type Copy = {
   };
   home: {
     heroImageAlt: string;
+    heroTitlePrefix: string;
+    heroTitleHighlight: string;
+    heroTitleSuffix: string;
     heroFloatingTitle: string;
     heroFloatingLead: string;
     platformEyebrow: string;
@@ -514,6 +517,9 @@ export const copy = {
     },
     home: {
       heroImageAlt: "글로벌 전문 교육을 상징하는 KHCPQA 교육생과 전문가 이미지",
+      heroTitlePrefix: "전문 교육으로",
+      heroTitleHighlight: "커리어",
+      heroTitleSuffix: "를 완성하세요",
       heroFloatingTitle: "국가공인 민간자격 교육기관",
       heroFloatingLead: "체계적인 교육과정을 통해 전문 자격 취득을 지원합니다.",
       platformEyebrow: "지원 프로그램",
@@ -1062,6 +1068,9 @@ export const copy = {
     },
     home: {
       heroImageAlt: "KHCPQA trainees and professionals representing global qualification education",
+      heroTitlePrefix: "Build your",
+      heroTitleHighlight: "career",
+      heroTitleSuffix: "with professional education",
       heroFloatingTitle: "Registered Private Qualification Training",
       heroFloatingLead: "Structured programs support professional qualification and completion pathways.",
       platformEyebrow: "Support Program",
@@ -1610,6 +1619,9 @@ export const copy = {
     },
     home: {
       heroImageAlt: "Estudiantes y profesionales de KHCPQA que representan la educación global de cualificaciones",
+      heroTitlePrefix: "Complete su",
+      heroTitleHighlight: "carrera",
+      heroTitleSuffix: "con formación profesional",
       heroFloatingTitle: "Formación de Cualificación Privada Registrada",
       heroFloatingLead: "Programas estructurados apoyan rutas de cualificación profesional y finalización.",
       platformEyebrow: "Programa de Apoyo",
