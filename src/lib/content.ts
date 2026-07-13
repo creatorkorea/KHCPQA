@@ -240,6 +240,7 @@ type Copy = {
     lead: string;
     detailEyebrow: string;
     latestPostsTitle: string;
+    managedContentTitle: string;
     sourceLabel: string;
     statusLabel: string;
     allActivitiesCta: string;
@@ -722,6 +723,7 @@ export const copy = {
       lead: "공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 방송/언론, 봉사활동을 글로벌 신뢰 콘텐츠로 재배치합니다.",
       detailEyebrow: "활동 상세",
       latestPostsTitle: "최근 게시글",
+      managedContentTitle: "운영 콘텐츠",
       sourceLabel: "원본 출처",
       statusLabel: "게시 상태",
       allActivitiesCta: "전체 활동 보기",
@@ -1230,6 +1232,7 @@ export const copy = {
       lead: "Notices, pass records, galleries, awards, international beauty competitions, media, and volunteer activities are reorganized as global trust content.",
       detailEyebrow: "Activity Detail",
       latestPostsTitle: "Recent Posts",
+      managedContentTitle: "Managed Content",
       sourceLabel: "Source",
       statusLabel: "Publish Status",
       allActivitiesCta: "All Activities",
@@ -1738,6 +1741,7 @@ export const copy = {
       lead: "Avisos, resultados, galerías, premios, concursos internacionales de belleza, medios y voluntariado se reorganizan como contenido global de confianza.",
       detailEyebrow: "Detalle de Actividad",
       latestPostsTitle: "Publicaciones recientes",
+      managedContentTitle: "Contenido gestionado",
       sourceLabel: "Fuente",
       statusLabel: "Estado de publicación",
       allActivitiesCta: "Todas las actividades",

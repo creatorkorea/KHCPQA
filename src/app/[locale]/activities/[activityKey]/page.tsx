@@ -115,9 +115,7 @@ export default async function ActivityDetailPage({
           <section className="activity-cms-section" aria-labelledby="activity-cms-section-title">
             <div className="section-heading">
               <span className="eyebrow">CMS</span>
-              <h2 id="activity-cms-section-title">
-                {locale === "ko" ? "운영 콘텐츠" : "Managed Content"}
-              </h2>
+              <h2 id="activity-cms-section-title">{t.activitiesPage.managedContentTitle}</h2>
             </div>
             <div>
               {detailSections.map((section, index) => {
