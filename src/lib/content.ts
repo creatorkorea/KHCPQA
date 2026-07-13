@@ -248,6 +248,19 @@ type Copy = {
   contact: {
     eyebrow: string;
     lead: string;
+    callCta: string;
+    mapCta: string;
+    nearestStationLabel: string;
+    mainPhoneLabel: string;
+    parkingLabel: string;
+    mapAltSuffix: string;
+    addressTitle: string;
+    roadAddressLabel: string;
+    lotAddressLabel: string;
+    subwayTitle: string;
+    drivingTitle: string;
+    busTitle: string;
+    busStopsCountLabel: string;
   };
   legal: {
     privacyTitle: string;
@@ -716,7 +729,20 @@ export const copy = {
     },
     contact: {
       eyebrow: "찾아오시는 길",
-      lead: "서울총본부, 강남SMC아카데미, 대림캠퍼스의 주소와 지하철·버스 이용 안내입니다."
+      lead: "서울총본부, 강남SMC아카데미, 대림캠퍼스의 주소와 지하철·버스 이용 안내입니다.",
+      callCta: "전화하기",
+      mapCta: "지도 열기",
+      nearestStationLabel: "가까운 역",
+      mainPhoneLabel: "대표 전화",
+      parkingLabel: "주차",
+      mapAltSuffix: "약도",
+      addressTitle: "주소",
+      roadAddressLabel: "도로명주소",
+      lotAddressLabel: "지번주소",
+      subwayTitle: "지하철 이용",
+      drivingTitle: "자가용 이용",
+      busTitle: "버스 이용",
+      busStopsCountLabel: "개 정류장"
     },
     legal: {
       privacyTitle: "개인정보처리방침",
@@ -1211,7 +1237,20 @@ export const copy = {
     },
     contact: {
       eyebrow: "Location",
-      lead: "Addresses and subway, bus, and parking guidance for Seoul Headquarters, Gangnam SMC Academy, and Daerim Campus."
+      lead: "Addresses and subway, bus, and parking guidance for Seoul Headquarters, Gangnam SMC Academy, and Daerim Campus.",
+      callCta: "Call",
+      mapCta: "Open Map",
+      nearestStationLabel: "Nearest Station",
+      mainPhoneLabel: "Main Phone",
+      parkingLabel: "Parking",
+      mapAltSuffix: "map",
+      addressTitle: "Address",
+      roadAddressLabel: "Road Address",
+      lotAddressLabel: "Lot Address",
+      subwayTitle: "By Subway",
+      drivingTitle: "By Car",
+      busTitle: "By Bus",
+      busStopsCountLabel: "stops"
     },
     legal: {
       privacyTitle: "Privacy Policy",
@@ -1706,7 +1745,20 @@ export const copy = {
     },
     contact: {
       eyebrow: "Ubicación",
-      lead: "Direcciones e información de metro, autobús y estacionamiento para la sede de Seúl, Gangnam SMC Academy y el Campus Daerim."
+      lead: "Direcciones e información de metro, autobús y estacionamiento para la sede de Seúl, Gangnam SMC Academy y el Campus Daerim.",
+      callCta: "Llamar",
+      mapCta: "Abrir mapa",
+      nearestStationLabel: "Estación cercana",
+      mainPhoneLabel: "Teléfono principal",
+      parkingLabel: "Estacionamiento",
+      mapAltSuffix: "mapa",
+      addressTitle: "Dirección",
+      roadAddressLabel: "Dirección vial",
+      lotAddressLabel: "Dirección de lote",
+      subwayTitle: "En metro",
+      drivingTitle: "En coche",
+      busTitle: "En autobús",
+      busStopsCountLabel: "paradas"
     },
     legal: {
       privacyTitle: "Política de Privacidad",

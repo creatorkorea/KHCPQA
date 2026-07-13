@@ -155,26 +155,26 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                 <div className="location-actions">
                   <a href={`tel:${location.primaryPhone}`}>
                     <Phone size={18} />
-                    전화하기
+                    {t.contact.callCta}
                   </a>
                   <a href={`https://map.kakao.com/link/search/${encodeURIComponent(location.roadAddress)}`} target="_blank" rel="noreferrer">
                     <ExternalLink size={18} />
-                    지도 열기
+                    {t.contact.mapCta}
                   </a>
                 </div>
               </div>
 
               <div className="location-summary">
                 <div>
-                  <span>가까운 역</span>
+                  <span>{t.contact.nearestStationLabel}</span>
                   <strong>{location.station}</strong>
                 </div>
                 <div>
-                  <span>대표 전화</span>
+                  <span>{t.contact.mainPhoneLabel}</span>
                   <strong>{location.phone}</strong>
                 </div>
                 <div>
-                  <span>주차</span>
+                  <span>{t.contact.parkingLabel}</span>
                   <strong>{location.parking}</strong>
                 </div>
               </div>
@@ -182,7 +182,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
               <div className="location-map-frame">
                 <Image
                   src={location.imageUrl}
-                  alt={`${location.name} 약도`}
+                  alt={`${location.name} ${t.contact.mapAltSuffix}`}
                   width={915}
                   height={528}
                   sizes="(max-width: 960px) 100vw, 905px"
@@ -191,12 +191,12 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
 
               <div className="location-info-grid">
                 <section>
-                  <h3><MapPin size={18} /> 주소</h3>
-                  <p>도로명주소: {location.roadAddress}</p>
-                  <p>지번주소: {location.lotAddress}</p>
+                  <h3><MapPin size={18} /> {t.contact.addressTitle}</h3>
+                  <p>{t.contact.roadAddressLabel}: {location.roadAddress}</p>
+                  <p>{t.contact.lotAddressLabel}: {location.lotAddress}</p>
                 </section>
                 <section>
-                  <h3><Train size={18} /> 지하철 이용</h3>
+                  <h3><Train size={18} /> {t.contact.subwayTitle}</h3>
                   <ul>
                     {location.subway.map((line) => (
                       <li key={line}>{line}</li>
@@ -204,15 +204,19 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                   </ul>
                 </section>
                 <section>
-                  <h3><Car size={18} /> 자가용 이용</h3>
+                  <h3><Car size={18} /> {t.contact.drivingTitle}</h3>
                   <p>{location.parking}</p>
                 </section>
               </div>
 
               <details className="location-bus">
                 <summary>
-                  <span><Bus size={18} /> 버스 이용</span>
-                  <strong>{location.busStops.length}개 정류장</strong>
+                  <span><Bus size={18} /> {t.contact.busTitle}</span>
+                  <strong>
+                    {locale === "ko"
+                      ? `${location.busStops.length}${t.contact.busStopsCountLabel}`
+                      : `${location.busStops.length} ${t.contact.busStopsCountLabel}`}
+                  </strong>
                 </summary>
                 <div className="location-bus-table">
                   {location.busStops.map((stop) => (
