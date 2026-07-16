@@ -1,4 +1,5 @@
 import { adminCertificationRows, adminContentRows, adminInquiryRows, adminUserRows } from "@/lib/content";
+import { formatInquiryReceipt } from "@/lib/receipts";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 
@@ -208,7 +209,7 @@ export async function getAdminInquiries(): Promise<AdminInquiryRow[]> {
     country: inquiry.country || "-",
     name: inquiry.name,
     organization: inquiry.organization || "-",
-    receipt: `KHCPQA-${new Date(inquiry.created_at).getFullYear()}-${inquiry.id}`,
+    receipt: formatInquiryReceipt(inquiry.id, inquiry.created_at),
     status: inquiry.status,
     submittedAt: formatDate(inquiry.created_at),
     type: inquiry.inquiry_type

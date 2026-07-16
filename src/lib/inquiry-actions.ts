@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
+import { formatInquiryReceipt } from "@/lib/receipts";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 
@@ -64,7 +65,7 @@ export async function submitPartnerInquiry(input: PartnerInquiryInput): Promise<
   }
 
   const receiptId = randomUUID();
-  const receipt = `KHCPQA-${new Date().getFullYear()}-${receiptId}`;
+  const receipt = formatInquiryReceipt(receiptId);
 
   if (!hasSupabaseBrowserEnv()) {
     return {

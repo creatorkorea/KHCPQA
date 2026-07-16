@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { parseInquiryReceipt } from "@/lib/receipts";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 
@@ -303,7 +304,7 @@ export async function saveAdminInquiry(input: {
     return { ok: false, message: "문의 관리자 권한이 필요합니다." };
   }
 
-  const receiptId = trimmed.receipt.replace(/^KHCPQA-\d{4}-/i, "").toLowerCase();
+  const receiptId = parseInquiryReceipt(trimmed.receipt);
 
   const { error } = await actor.supabase
     .from("inquiries")

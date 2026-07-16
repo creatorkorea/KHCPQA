@@ -1,4 +1,5 @@
 import { getCopy, localeLabels, type Locale } from "@/lib/content";
+import { formatInquiryReceipt } from "@/lib/receipts";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 
@@ -116,7 +117,7 @@ function mapCertificate(locale: Locale, row: CertificateRow): AccountCertificate
 
 function mapInquiry(locale: Locale, row: InquiryRow): AccountInquiry {
   return {
-    receipt: `KHCPQA-${new Date(row.created_at).getFullYear()}-${row.id}`,
+    receipt: formatInquiryReceipt(row.id, row.created_at),
     title: row.inquiry_type,
     type: row.inquiry_type,
     message: row.message,
