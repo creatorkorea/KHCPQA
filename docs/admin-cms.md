@@ -48,10 +48,10 @@
 ## 문의 관리
 
 문의 유형:
-- partner
-- student
-- course
-- general
+- `general`
+- `course`
+- `certification`
+- `partnership`
 
 필드:
 - 이름
@@ -62,7 +62,7 @@
 - 관심 분야
 - 메시지
 - 개인정보 동의 여부
-- 처리 상태
+- 처리 상태: `new`, `in_review`, `answered`, `closed`
 - 담당자 메모
 
 문자/카카오/이메일 자동 발송은 1차 범위가 아니다.
@@ -74,7 +74,7 @@
 - 과정
 - 자격증 번호
 - 발급일
-- 상태
+- 상태: `issued`, `expired`, `revoked`
 - 검증 코드
 - 관리자 메모
 

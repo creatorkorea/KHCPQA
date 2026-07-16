@@ -3904,13 +3904,13 @@ export const adminContentRows = [
 ];
 
 export const adminInquiryRows = [
-  { receipt: "KHCPQA-2026-PREVIEW", name: "KHCPQA Demo Partner", organization: "Global Wellness Institute", country: "Mexico", type: "partner", status: "new", submittedAt: "2026-07-12" },
-  { receipt: "KHCPQA-2026-COURSE", name: "SMC Demo Student", organization: "Individual", country: "Korea", type: "course", status: "in progress", submittedAt: "2026-07-10" }
+  { receipt: "KHCPQA-2026-PREVIEW", name: "KHCPQA Demo Partner", organization: "Global Wellness Institute", country: "Mexico", type: "partnership", status: "new", submittedAt: "2026-07-12" },
+  { receipt: "KHCPQA-2026-COURSE", name: "SMC Demo Student", organization: "Individual", country: "Korea", type: "course", status: "in_review", submittedAt: "2026-07-10" }
 ];
 
 export const adminCertificationRows = [
-  { user: "KHCPQA Demo Member", course: "피부미용사 국가자격증", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "active" },
-  { user: "KHCPQA Demo Member", course: "아로마 테라피", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "pending" }
+  { user: "KHCPQA Demo Member", course: "피부미용사 국가자격증", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "issued" },
+  { user: "KHCPQA Demo Member", course: "아로마 테라피", number: "SMC-2026-014", issuedAt: "2026-06-21", status: "expired" }
 ];
 
 export const adminUserRows = [
