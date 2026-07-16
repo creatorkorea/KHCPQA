@@ -53,3 +53,5 @@
 ## Recommended Next Step
 
 운영자는 `docs/deployment-handoff.md`에 따라 Vercel 프로젝트를 생성하고, 생성된 검수 URL을 Supabase Auth Redirect URL에 등록한다. 이후 발주사는 `docs/client-review-request.md`와 `docs/client-action-items.md` 기준으로 검수한다.
+
+GitHub에서 남은 항목을 추적할 때는 `.github/ISSUE_TEMPLATE`의 client approval, deployment, data import 템플릿을 사용한다.

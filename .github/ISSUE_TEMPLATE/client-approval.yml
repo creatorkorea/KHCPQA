@@ -1,0 +1,50 @@
+name: Client approval / external decision
+description: Track a client or operator decision required before launch.
+title: "[Client Approval] "
+labels:
+  - client-approval
+  - launch-blocker
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this issue for items that require client/operator confirmation before launch.
+        Reference: `docs/client-action-items.md`
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Scope / exclusions
+        - Domain / hosting / SSL
+        - Content rights / source URLs
+        - Legal policy
+        - Certification data
+        - Admin users
+        - Translation review
+        - Review URL approval
+    validations:
+      required: true
+  - type: textarea
+    id: request
+    attributes:
+      label: Requested decision or file
+      description: Describe the exact approval, answer, or file needed.
+      placeholder: "Example: Confirm whether SMC365 instructor photos may be reused on the new global site."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Completion criteria
+      placeholder: "Example: Approved/denied list is attached and affected pages are updated."
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Add links to documents, templates, or source files.
+      placeholder: |
+        - docs/client-action-items.md
+        - docs/templates/asset-rights-template.csv

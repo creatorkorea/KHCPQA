@@ -1,0 +1,43 @@
+name: Deployment / review URL
+description: Track Vercel deployment handoff and client review URL verification.
+title: "[Deployment] "
+labels:
+  - deployment
+  - client-review
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this issue after GitHub `main` is ready and an operator is creating a Vercel review URL.
+        Reference: `docs/deployment-handoff.md`
+  - type: input
+    id: deployment_url
+    attributes:
+      label: Review URL
+      placeholder: "https://..."
+  - type: checkboxes
+    id: setup
+    attributes:
+      label: Setup checklist
+      options:
+        - label: Vercel project imports `creatorkorea/KHCPQA`
+        - label: Environment variables are configured
+        - label: Supabase Auth Site URL is configured
+        - label: Supabase Auth Redirect URL includes `/auth/callback`
+        - label: `NEXT_PUBLIC_SITE_URL` matches the review or production URL
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification checklist
+      options:
+        - label: `/ko`, `/en`, `/es` load
+        - label: `/ko/partner-inquiry` submits successfully
+        - label: `/ko/login` signs in with a test account
+        - label: `/ko/account/certifications` shows sample certification data
+        - label: `/admin` redirects unauthenticated users
+        - label: `/sitemap.xml` loads
+        - label: `/robots.txt` loads
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes or blockers

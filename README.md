@@ -49,6 +49,14 @@ npm run build
 | `docs/source-url-inventory.md` | SMC365 출처 URL 현황 |
 | `docs/cms-section-guide.md` | 관리자 CMS 입력 규칙 |
 
+## GitHub Issue Templates
+
+Use the issue templates in `.github/ISSUE_TEMPLATE` to track launch blockers:
+
+- Client approval / external decision
+- Deployment / review URL
+- Content / data import
+
 ## Client Input Templates
 
 | Template | Purpose |

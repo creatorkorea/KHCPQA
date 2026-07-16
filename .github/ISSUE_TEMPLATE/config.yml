@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Launch readiness documents
+    url: https://github.com/creatorkorea/KHCPQA/blob/main/docs/launch-readiness.md
+    about: Review the launch readiness index before opening a new issue.

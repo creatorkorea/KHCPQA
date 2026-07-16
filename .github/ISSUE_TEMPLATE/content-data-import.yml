@@ -1,0 +1,55 @@
+name: Content / data import
+description: Track content source URLs, certification data, or admin user import work.
+title: "[Data Import] "
+labels:
+  - data-import
+  - operations
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this issue for CSV-based content, certification, source URL, or admin user import work.
+        References:
+        - `docs/data-import-runbook.md`
+        - `docs/templates/certification-data-template.csv`
+        - `docs/templates/admin-users-template.csv`
+        - `docs/templates/content-source-url-template.csv`
+  - type: dropdown
+    id: data_type
+    attributes:
+      label: Data type
+      options:
+        - Certification data
+        - Admin users
+        - Content source URLs
+        - Asset rights
+    validations:
+      required: true
+  - type: textarea
+    id: source_file
+    attributes:
+      label: Source file or location
+      placeholder: "Attach the approved CSV or link to the shared file."
+    validations:
+      required: true
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Pre-import checklist
+      options:
+        - label: File uses the matching template columns
+        - label: Client approved the file contents
+        - label: No unnecessary sensitive personal data is included
+        - label: Duplicate keys were checked
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Post-import verification
+      options:
+        - label: Import completed without errors
+        - label: Spot-check query passed
+        - label: UI spot-check passed
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
