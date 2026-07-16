@@ -43,11 +43,13 @@
 - `docs/design-rules.md`: UI, 브랜드, 반응형 디자인 규칙
 - `docs/content-migration.md`: 기존 SMC365 콘텐츠 이관 기준
 - `docs/admin-cms.md`: 관리자 기능과 권한
-- `docs/data-model.md`: 데이터 모델 초안
+- `docs/data-model.md`: Supabase 마이그레이션 기준 데이터 모델
 - `docs/tech-stack.md`: 개발 스택, 폴더 구조, 환경변수, 배포 기준
 - `docs/checklist.md`: 개발 및 오픈 체크리스트
 - `docs/qa-release.md`: 검수와 배포 기준
 - `docs/open-questions.md`: 사용자가 놓치기 쉬운 결정 사항
+- `docs/launch-readiness.md`: 현재 검수/오픈 준비 상태 인덱스
+- `docs/deployment-handoff.md`: 운영자 Vercel 배포 인계 절차
 
 ## 5. 개발 중 판단 규칙
 
@@ -70,3 +72,5 @@
 - 자격 조회 샘플 데이터가 표시된다.
 - 관리자에서 주요 콘텐츠를 등록/수정/조회할 수 있다.
 - 모바일 375px, 태블릿 768px, 데스크톱에서 핵심 화면이 깨지지 않는다.
+- `npm run lint`와 `npm run build`가 통과한다.
+- Supabase 마이그레이션, RLS, 문의 제출, 로그인/계정 접근, 자격 조회가 검증된다.

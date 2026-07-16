@@ -89,7 +89,7 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 - 회원가입 성공 시 즉시 세션이 있으면 `/[locale]/account`로 이동하고, 이메일 확인이 필요하면 확인 안내 표시
 - 환경변수가 없을 때는 기존 검수용 프리뷰 흐름 유지
 - `/[locale]/account/**`, `/admin/**` 보호 미들웨어 추가
-- `profiles`, `inquiries`, `certifications` 테이블과 RLS 정책 마이그레이션 초안 추가
+- `profiles`, `inquiries`, `certifications` 테이블과 RLS 정책 마이그레이션 추가 및 적용
 - `/admin/**` 접근 시 `profiles.role`과 `profiles.status` 기준 관리자 role 제한 추가
 - 관리자 화면에 회원 role/status 변경 검수 UI 추가
 - `super_admin` 전용 회원 role/status 저장 server action 추가

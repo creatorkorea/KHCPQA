@@ -63,56 +63,54 @@ class-variance-authority
 date-fns
 ```
 
-## 4. 폴더 구조
+## 4. 현재 폴더 구조
 
 ```txt
 src/
   app/
     [locale]/
-      (public)/
-        page.tsx
-        about/
-        curriculum/
-        activities/
-        partner-inquiry/
-        contact/
-      (auth)/
-        login/
-        register/
-        password-reset/
+      page.tsx
+      about/
+        greeting/
+        history/
+        instructors/
+        organization/
+      curriculum/
+        [courseSlug]/
+      activities/
+        [activityKey]/
+      partner-inquiry/
+      contact/
+      login/
+      signup/
+      privacy/
+      terms/
       account/
         page.tsx
         profile/
         certifications/
         inquiries/
+    auth/
+      callback/
     admin/
       page.tsx
-      pages/
-      courses/
-      posts/
-      inquiries/
-      users/
-      certifications/
-      banners/
-      translations/
+      actions.ts
   components/
-    layout/
-    public/
-    admin/
-    forms/
-    ui/
+    *.tsx
   lib/
     supabase/
-    i18n/
     seo/
-    auth/
-    validators/
-  messages/
-    ko.json
-    en.json
-    es.json
+    content.ts
+    admin-data.ts
+    public-content.ts
+    inquiry-actions.ts
   styles/
     globals.css
+supabase/
+  migrations/
+  seed.sql
+docs/
+  templates/
 ```
 
 ## 5. 라우팅 규칙
@@ -170,7 +168,9 @@ Supabase Postgres를 기본으로 한다.
 
 ## 8. 파일 저장
 
-Supabase Storage bucket 예시:
+현재 1차 구현은 `public/assets`의 정적 이미지와 기존 출처 URL을 함께 사용한다. Supabase Storage는 운영자가 이미지 업로드까지 확장할 때 아래 bucket 구조를 기준으로 추가한다.
+
+Supabase Storage bucket 후보:
 
 | Bucket | 용도 |
 | --- | --- |
@@ -180,7 +180,7 @@ Supabase Storage bucket 예시:
 | `admin-uploads` | 관리자 업로드 임시 파일 |
 
 주의:
-- 기존 SMC365 이미지 URL을 그대로 참조할지, 신규 스토리지로 복사할지 개발 전 결정해야 한다.
+- 기존 SMC365 이미지 URL을 그대로 참조할지, 신규 스토리지로 복사할지는 발주사 권리 확인 후 결정한다.
 - 공개 이미지에는 alt text를 언어별로 저장한다.
 - 개인정보가 포함된 파일은 공개 bucket에 넣지 않는다.
 
@@ -246,16 +246,13 @@ Next.js Metadata API를 사용한다.
 기본 배포:
 - Vercel
 
-브랜치 전략:
-- `main`: 운영 배포
-- `develop`: 통합 개발
-- feature branch: 기능 개발
+현재 배포 인계 기준:
+1. GitHub `main`을 Vercel 프로젝트에 연결한다.
+2. `docs/deployment-handoff.md`의 환경변수를 Vercel에 등록한다.
+3. 생성된 검수 URL을 Supabase Auth Site URL/Redirect URL에 등록한다.
+4. `docs/qa-release.md` 기준으로 검수 URL QA를 수행한다.
 
-배포 흐름:
-1. feature branch에서 개발
-2. develop에 병합
-3. Vercel preview 확인
-4. QA 완료 후 main 배포
+이 작업 환경에서는 Vercel 직접 배포가 정책상 차단될 수 있으므로, 운영자 계정에서 위 인계 절차를 수행한다.
 
 ## 13. 개발 품질 기준
 
