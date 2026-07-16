@@ -28,6 +28,10 @@
 | 전체 source URL | 게시글/후기/사진/보도자료별 원본 URL 목록 | CMS 등록 콘텐츠의 `source_url` 누락 0건 |
 | 로고 원본 | SVG, PNG, AI 등 사용 가능한 로고 파일 | 헤더/footer/OG 이미지에 최종 로고 적용 |
 
+작성 템플릿:
+
+- `docs/templates/asset-rights-template.csv`
+
 ## 4. 법무/정책
 
 | 요청 항목 | 필요한 답변/파일 | 완료 기준 |
@@ -35,6 +39,10 @@
 | 개인정보처리방침 | 최종 원문 | `/[locale]/privacy`에 실제 원문 반영 |
 | 이용약관 | 최종 원문 | `/[locale]/terms`에 실제 원문 반영 |
 | 자격 정보 공개 범위 | 로그인 회원 전용/공개 검증 여부 | 자격 조회 정책과 화면 문구 확정 |
+
+작성 템플릿:
+
+- `docs/templates/legal-policy-request.md`
 
 ## 5. 운영 데이터
 

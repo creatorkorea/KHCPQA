@@ -1,0 +1,5 @@
+asset_type,title,current_location,source_url,owner,usage_allowed,allowed_scope,expires_at,replacement_needed,notes
+logo,KHCPQA logo,public/assets/logo.png,,KHCPQA,needs_review,website,,,원본 파일과 사용 범위 확인 필요
+image,협회 소개 대표 이미지,public/assets/about-association.png,https://www.smc365.ac/,SMC365,needs_review,website,,,기존 사이트 이미지 사용 권리 확인 필요
+photo,강사 프로필 사진,,https://www.smc365.ac/,SMC365,needs_review,website,,,강사별 초상권/사용권 확인 필요
+media,보도자료 이미지,,https://www.smc365.ac/,SMC365,needs_review,website,,,언론사 재사용 조건 확인 필요
