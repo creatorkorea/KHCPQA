@@ -1,0 +1,5 @@
+email,full_name,role,status,notes
+admin@example.com,Super Admin,super_admin,active,초기 최고 관리자
+content@example.com,Content Manager,content_manager,active,콘텐츠/배너 관리
+inquiry@example.com,Inquiry Manager,inquiry_manager,active,문의 처리
+certification@example.com,Certification Manager,certification_manager,active,자격 데이터 관리

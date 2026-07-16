@@ -42,6 +42,12 @@
 | 초기 관리자 목록 | 이메일, 이름, 역할, 활성 상태 | 관리자 권한 부여 가능 |
 | 문의 처리 정책 | 상태값, 담당자 메모, 응답 SLA | 관리자 문의 관리 운영 규칙 확정 |
 
+작성 템플릿:
+
+- `docs/templates/certification-data-template.csv`
+- `docs/templates/admin-users-template.csv`
+- `docs/templates/content-source-url-template.csv`
+
 ## 6. 번역/검수
 
 | 요청 항목 | 필요한 답변/파일 | 완료 기준 |

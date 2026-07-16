@@ -1,0 +1,3 @@
+email,full_name,country,course_title,certificate_number,issued_at,expires_at,status,verification_code,admin_note
+member@example.com,KHCPQA Demo Member,Korea,피부미용사 국가자격증,SMC-2026-001,2026-05-18,,issued,PUBLIC-CODE-001,검수용 샘플
+member@example.com,KHCPQA Demo Member,Korea,아로마 테라피,SMC-2026-014,2026-06-21,,issued,PUBLIC-CODE-014,검수용 샘플

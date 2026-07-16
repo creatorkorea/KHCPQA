@@ -42,6 +42,8 @@
 - 영어/스페인어 번역 콘텐츠가 한국어 원문과 같은 `source_url`을 공유할지 확정
 - 관리자 CMS에 실제 운영 콘텐츠 등록 시 모든 항목의 `source_url` 입력
 
+발주사용 입력 템플릿: `docs/templates/content-source-url-template.csv`
+
 ## Verification SQL
 
 ```sql
