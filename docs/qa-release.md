@@ -28,7 +28,7 @@ Last updated: 2026-07-16
 - 전체 운영 콘텐츠의 `source_url` 실데이터 저장
 - 초기 관리자 계정과 권한 정책 확정
 
-발주사 확인 요청 문서는 `docs/client-review-request.md`, 출처 URL 정리 현황은 `docs/source-url-inventory.md`를 기준으로 한다.
+발주사 확인 요청 문서는 `docs/client-review-request.md`, 출처 URL 정리 현황은 `docs/source-url-inventory.md`, 배포 인계 절차는 `docs/deployment-handoff.md`를 기준으로 한다.
 
 ## 검수 기준
 
