@@ -74,6 +74,11 @@ Import 절차 문서: `docs/data-import-runbook.md`
 | 검수 URL 승인 | 검수 URL 접속 후 승인 또는 수정 요청 | `docs/qa-release.md` 기준 검수 완료 |
 | 정식 오픈 승인 | 운영 도메인 연결 승인 | 발주사 검수 URL 전달 항목 완료 |
 
+회신 템플릿:
+
+- `docs/templates/client-approval-form.md`
+- `docs/templates/review-feedback-template.csv`
+
 ## Current Technical Status
 
 - GitHub `main` 브랜치 최신화 완료

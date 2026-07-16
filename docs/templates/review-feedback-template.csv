@@ -1,0 +1,4 @@
+priority,page_or_feature,issue_type,current_text_or_state,requested_change,reference_file_or_url,acceptance_criteria
+high,/ko,content,,수정할 문구를 입력해 주세요,,수정 후 발주사 확인
+medium,/ko/curriculum,design,,카드/이미지/버튼 관련 요청을 입력해 주세요,,모바일과 데스크톱에서 확인
+low,/admin,operation,,관리자 운영 요청을 입력해 주세요,,관리자 화면에서 확인

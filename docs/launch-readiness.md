@@ -36,6 +36,8 @@
 | `docs/templates/content-source-url-template.csv` | 콘텐츠별 원본 URL |
 | `docs/templates/asset-rights-template.csv` | 이미지/로고/보도자료 권리 확인 |
 | `docs/templates/legal-policy-request.md` | 개인정보처리방침/이용약관 원문 요청 |
+| `docs/templates/client-approval-form.md` | 발주사 최종 승인 양식 |
+| `docs/templates/review-feedback-template.csv` | 검수 수정 요청 목록 |
 
 ## Remaining External Decisions
 
