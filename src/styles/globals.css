@@ -5654,6 +5654,42 @@ p {
   padding: 18px 18px 0;
 }
 
+.admin-table-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  padding: 18px 18px 0;
+}
+
+.admin-table-header h3 {
+  padding: 0;
+}
+
+.admin-publish-filters {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.admin-publish-filters svg {
+  color: var(--muted);
+}
+
+.admin-publish-filters select {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  min-height: 36px;
+  padding: 0 10px;
+}
+
 .admin-table-scroll {
   overflow-x: auto;
   padding: 18px;

@@ -273,7 +273,7 @@ export async function getAdminPublishEvents(): Promise<AdminPublishEventRow[]> {
   if (!hasSupabaseBrowserEnv()) {
     return adminContentRows.slice(0, 5).map((row, index) => ({
       action: index === 0 ? "published" : "updated",
-      actor: "Admin",
+      actor: row.updatedBy,
       itemType: row.type === "Banner" ? "banner" : "content",
       status: row.status,
       title: row.title,
@@ -292,9 +292,26 @@ export async function getAdminPublishEvents(): Promise<AdminPublishEventRow[]> {
     return [];
   }
 
-  return (data as PublishEventRow[]).map((event) => ({
+  const eventRows = data as PublishEventRow[];
+  const actorIds = Array.from(
+    new Set(eventRows.map((event) => event.actor_id).filter((actorId): actorId is string => Boolean(actorId)))
+  );
+  const { data: profiles } = actorIds.length > 0
+    ? await supabase
+        .from("profiles")
+        .select("id, email, full_name")
+        .in("id", actorIds)
+    : { data: [] };
+  const actorById = new Map(
+    ((profiles as Array<Pick<ProfileRow, "email" | "full_name" | "id">> | null) ?? []).map((profile) => [
+      profile.id,
+      profile.full_name || profile.email || profile.id.slice(0, 8)
+    ])
+  );
+
+  return eventRows.map((event) => ({
     action: event.action,
-    actor: event.actor_id ? event.actor_id.slice(0, 8) : "System",
+    actor: event.actor_id ? actorById.get(event.actor_id) ?? event.actor_id.slice(0, 8) : "System",
     itemType: event.item_type,
     status: event.status,
     title: event.title,

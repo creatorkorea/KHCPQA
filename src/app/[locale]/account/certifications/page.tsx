@@ -32,7 +32,7 @@ export default async function AccountCertificationsPage({ params }: { params: Pr
       />
       <section className="content-section">
         <AccountNav locale={locale} activeHref="account/certifications" />
-        <CertificationLookupForm locale={locale} />
+        <CertificationLookupForm certificates={accountData.certificates} locale={locale} />
         <AccountSection title={t.account.certifications.title} lead={t.account.certifications.lead}>
           <div className="cert-records">
             {accountData.certificates.map((certificate) => (

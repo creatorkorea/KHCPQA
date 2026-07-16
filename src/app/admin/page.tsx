@@ -1,5 +1,6 @@
 import { LockKeyhole, Search, ShieldCheck } from "lucide-react";
 import { AdminCrudPreview } from "@/components/AdminCrudPreview";
+import { AdminPublishEventsTable } from "@/components/AdminPublishEventsTable";
 import { AdminUserRolePreview } from "@/components/AdminUserRolePreview";
 import {
   adminModules,
@@ -82,11 +83,7 @@ export default async function AdminPage() {
             rows={adminContent.map((row) => [row.type, row.title, row.locale, row.status, row.updatedBy, row.updatedAt])}
             title="콘텐츠 관리"
           />
-          <AdminTable
-            columns={["대상", "작업", "제목", "상태", "작업자", "일시"]}
-            rows={adminPublishEvents.map((row) => [row.itemType, row.action, row.title, row.status, row.actor, row.updatedAt])}
-            title="발행 이력"
-          />
+          <AdminPublishEventsTable rows={adminPublishEvents} />
           <AdminTable
             columns={["접수번호", "이름", "기관", "국가", "유형", "상태", "접수일"]}
             rows={adminInquiries.map((row) => [row.receipt, row.name, row.organization, row.country, row.type, row.status, row.submittedAt])}

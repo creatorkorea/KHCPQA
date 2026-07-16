@@ -1,5 +1,35 @@
 # QA and Release
 
+## Current QA Snapshot
+
+Last updated: 2026-07-16
+
+| 항목 | 결과 |
+| --- | --- |
+| `npm run lint` | 통과 |
+| `npm run build` | 통과, 134개 정적 페이지 생성 |
+| 주요 공개 라우트 | `/ko`, `/en/curriculum`, `/es/contact`, `/en/login` 200 확인 |
+| 보호 라우트 | 비로그인 `/ko/account/certifications` 접근 시 로그인으로 리다이렉트 확인 |
+| 문의 제출 | `/ko/partner-inquiry` 제출 후 원격 `public.inquiries` 저장 확인 |
+| Supabase 마이그레이션 | 원격 프로젝트에 3개 마이그레이션 적용 확인 |
+| Supabase RLS | 관련 테이블 정책 22개 확인 |
+| 자격 조회 | E2E 테스트 회원의 자격번호/검증 코드 조회 성공 |
+| 반응형 QA | 375px, 768px, 1440px에서 가로 넘침 없음 |
+
+검수 스크린샷 위치:
+
+`/Users/manseokko/.codex/visualizations/2026/07/16/019f6955-2153-7c70-a092-f0be32903cfe`
+
+## Remaining Before Client Review URL
+
+- 배포 대상과 도메인 결정
+- 발주사 제공 개인정보처리방침/이용약관 원문 반영
+- 기존 SMC365 이미지, 후기, 보도자료, 강사 사진 사용 권리 확인
+- 전체 운영 콘텐츠의 `source_url` 실데이터 저장
+- 초기 관리자 계정과 권한 정책 확정
+
+발주사 확인 요청 문서는 `docs/client-review-request.md`, 출처 URL 정리 현황은 `docs/source-url-inventory.md`를 기준으로 한다.
+
 ## 검수 기준
 
 | 항목 | 합격 기준 |

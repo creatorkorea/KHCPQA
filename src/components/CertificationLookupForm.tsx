@@ -3,15 +3,22 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { BadgeCheck, Search, XCircle } from "lucide-react";
+import type { AccountCertificate } from "@/lib/account-data";
 import { getCopy, type Locale } from "@/lib/content";
 
-export function CertificationLookupForm({ locale }: { locale: Locale }) {
+export function CertificationLookupForm({
+  certificates,
+  locale
+}: {
+  certificates: AccountCertificate[];
+  locale: Locale;
+}) {
   const t = getCopy(locale);
   const [certificateNumber, setCertificateNumber] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
-  const match = t.account.certificates.find(
+  const match = certificates.find(
     (certificate) =>
       certificate.number.toLowerCase() === certificateNumber.trim().toLowerCase() &&
       certificate.verificationCode.toLowerCase() === verificationCode.trim().toLowerCase()

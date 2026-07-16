@@ -86,6 +86,35 @@ from pg_trigger
 where tgname = 'on_auth_user_created_profile';
 ```
 
+## Seed Sample Data
+
+After the migrations are applied, run `supabase/seed.sql` in the SQL Editor or through local Supabase reset. The seed inserts:
+
+- published CMS content with `source_url`
+- a published home banner
+- one public partnership inquiry
+- certification sample rows for `member@example.com` when that profile exists
+
+For certification samples, first create or sign up a user with `member@example.com`, then confirm the matching row exists in `public.profiles`. The seed intentionally skips certification rows when that profile does not exist, so it does not create an unsafe demo login account.
+
+Verification:
+
+```sql
+select content_type, locale, slug, status, source_url
+from public.admin_content_items
+order by content_type, locale, slug;
+
+select id, inquiry_type, name, status, created_at
+from public.inquiries
+order by created_at desc
+limit 5;
+
+select certificate_number, course_title, issued_at, status, verification_code
+from public.certifications
+order by issued_at desc
+limit 5;
+```
+
 ## Apply With Supabase CLI
 
 This repository includes `supabase/config.toml` for CLI usage. To apply from CLI, create a Supabase access token first:
