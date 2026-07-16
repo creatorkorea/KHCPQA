@@ -116,7 +116,7 @@ function mapCertificate(locale: Locale, row: CertificateRow): AccountCertificate
 
 function mapInquiry(locale: Locale, row: InquiryRow): AccountInquiry {
   return {
-    receipt: row.id.slice(0, 8).toUpperCase(),
+    receipt: `KHCPQA-${new Date(row.created_at).getFullYear()}-${row.id}`,
     title: row.inquiry_type,
     type: row.inquiry_type,
     message: row.message,

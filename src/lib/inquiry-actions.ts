@@ -64,7 +64,7 @@ export async function submitPartnerInquiry(input: PartnerInquiryInput): Promise<
   }
 
   const receiptId = randomUUID();
-  const receipt = `KHCPQA-${new Date().getFullYear()}-${receiptId.slice(0, 8).toUpperCase()}`;
+  const receipt = `KHCPQA-${new Date().getFullYear()}-${receiptId}`;
 
   if (!hasSupabaseBrowserEnv()) {
     return {
