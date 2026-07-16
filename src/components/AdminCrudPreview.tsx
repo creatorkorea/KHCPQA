@@ -57,7 +57,6 @@ const adminForms: Record<AdminFormType, {
     fields: [
       { label: "접수번호", name: "receipt", placeholder: "KHCPQA-2026-PREVIEW", required: true },
       { label: "처리 상태", name: "inquiryStatus", type: "select", options: ["new", "in_review", "answered", "closed"], required: true },
-      { label: "담당자", name: "manager", placeholder: "담당자명" },
       { label: "담당자 메모", name: "memo", type: "textarea", placeholder: "후속 연락, 요청 사항, 내부 메모" }
     ]
   },

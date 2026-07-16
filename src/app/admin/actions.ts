@@ -303,20 +303,15 @@ export async function saveAdminInquiry(input: {
     return { ok: false, message: "문의 관리자 권한이 필요합니다." };
   }
 
-  const receiptId = trimmed.receipt.startsWith("KHCPQA-")
-    ? trimmed.receipt.split("-").at(-1)?.toLowerCase() ?? trimmed.receipt
-    : trimmed.receipt;
+  const receiptId = trimmed.receipt.replace(/^KHCPQA-\d{4}-/i, "").toLowerCase();
 
-  let query = actor.supabase
+  const { error } = await actor.supabase
     .from("inquiries")
     .update({
       manager_note: trimmed.managerNote || null,
       status: trimmed.status
-    });
-
-  query = receiptId.length === 8 ? query.ilike("id", `${receiptId}%`) : query.eq("id", receiptId);
-
-  const { error } = await query;
+    })
+    .eq("id", receiptId);
 
   if (error) {
     return { ok: false, message: error.message };

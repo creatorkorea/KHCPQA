@@ -208,7 +208,7 @@ export async function getAdminInquiries(): Promise<AdminInquiryRow[]> {
     country: inquiry.country || "-",
     name: inquiry.name,
     organization: inquiry.organization || "-",
-    receipt: `KHCPQA-${new Date(inquiry.created_at).getFullYear()}-${inquiry.id.slice(0, 8).toUpperCase()}`,
+    receipt: `KHCPQA-${new Date(inquiry.created_at).getFullYear()}-${inquiry.id}`,
     status: inquiry.status,
     submittedAt: formatDate(inquiry.created_at),
     type: inquiry.inquiry_type
