@@ -26,6 +26,7 @@
 | `docs/source-url-inventory.md` | 기존 SMC365 출처 URL 현황 |
 | `docs/cms-section-guide.md` | 관리자 CMS 입력 규칙 |
 | `docs/qa-release.md` | QA 결과와 릴리즈 기준 |
+| `README.md` | GitHub 첫 화면용 프로젝트/인계 요약 |
 
 ## Client Input Templates
 
