@@ -58,6 +58,8 @@
 - `docs/templates/admin-users-template.csv`
 - `docs/templates/content-source-url-template.csv`
 
+Import 절차 문서: `docs/data-import-runbook.md`
+
 ## 6. 번역/검수
 
 | 요청 항목 | 필요한 답변/파일 | 완료 기준 |
