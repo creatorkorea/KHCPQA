@@ -45,3 +45,5 @@
 - 반응형 QA 통과
 
 상세 기록은 `docs/qa-release.md`를 기준 문서로 사용한다.
+
+발주사에게 요청할 세부 액션은 `docs/client-action-items.md`를 기준으로 전달한다.
