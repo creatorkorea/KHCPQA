@@ -117,3 +117,4 @@
 - [x] GitHub README 인계 요약 정리
 - [x] GitHub 이슈 템플릿 정리
 - [x] 인증/Supabase 구현 현황 문서 최신화
+- [x] 오픈 질문/결정 사항 문서 최신화
