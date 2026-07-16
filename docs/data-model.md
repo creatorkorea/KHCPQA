@@ -1,6 +1,6 @@
 # Data Model
 
-초기 데이터 모델 초안이다. 실제 구현 시 사용하는 DB에 맞게 필드 타입과 인덱스를 조정한다.
+현재 Supabase 마이그레이션 기준 데이터 모델 요약이다. 실제 적용 SQL은 `supabase/migrations`와 `docs/supabase-migration-runbook.md`를 기준으로 한다.
 
 ## locales
 
@@ -9,66 +9,36 @@
 - `en`
 - `es`
 
-## pages
+## admin_content_items
 
 | 필드 | 설명 |
 | --- | --- |
-| id | 고유 ID |
-| slug | URL slug |
-| locale | ko/en/es |
+| id | UUID 고유 ID |
+| content_type | `Page`/`Course`/`Activity`/`Review` |
+| locale | `ko`/`en`/`es` |
+| slug | URL 또는 CMS 섹션 식별자 |
 | title | 제목 |
-| body | 본문 |
-| status | draft/published/archived |
-| translation_status | ready/reviewing/draft |
-| seo_title | SEO 제목 |
-| seo_description | SEO 설명 |
+| status | `draft`/`translated`/`reviewed`/`published`/`archived` |
 | source_url | 기존 사이트 원본 URL |
+| summary | 목록/카드/SEO 보조 요약 |
+| body | 공개 상세 본문 또는 섹션 본문 |
+| created_by | 작성자 auth user ID |
+| created_at | 생성일 |
 | updated_at | 수정일 |
-
-## courses
-
-| 필드 | 설명 |
-| --- | --- |
-| id | 고유 ID |
-| slug | 과정 slug |
-| locale | ko/en/es |
-| title | 과정명 |
-| category | 카테고리 |
-| summary | 요약 |
-| body | 상세 본문 |
-| image_url | 대표 이미지 |
-| translation_status | ready/reviewing/draft |
-| status | 게시 상태 |
-| source_url | 기존 사이트 원본 URL |
-
-## posts
-
-| 필드 | 설명 |
-| --- | --- |
-| id | 고유 ID |
-| board_type | notice/pass/photo/awards/beauty/media 등 |
-| locale | ko/en/es |
-| title | 제목 |
-| body | 본문 |
-| thumbnail_url | 썸네일 |
-| published_at | 게시일 |
-| translation_status | ready/reviewing/draft |
-| status | 게시 상태 |
-| source_url | 기존 사이트 원본 URL |
 
 ## users
 
 | 필드 | 설명 |
 | --- | --- |
-| id | 고유 ID |
+| id | Auth user ID |
 | name | 이름 |
 | email | 이메일 |
-| phone | 연락처 |
 | country | 국가 |
 | preferred_locale | 선호 언어 |
-| role | user/admin role |
-| status | active/suspended/deleted |
+| role | `user`/`viewer`/`content_manager`/`course_manager`/`certification_manager`/`inquiry_manager`/`super_admin` |
+| status | `active`/`suspended`/`deleted` |
 | created_at | 가입일 |
+| updated_at | 수정일 |
 
 ## certifications
 
@@ -76,18 +46,22 @@
 | --- | --- |
 | id | 고유 ID |
 | user_id | 사용자 ID |
-| course_id | 과정 ID |
+| course_title | 과정명 |
 | certificate_number | 자격 번호 |
 | issued_at | 발급일 |
-| status | active/expired/revoked/pending |
+| expires_at | 만료일 |
+| status | `issued`/`expired`/`revoked` |
 | verification_code | 검증 코드 |
+| admin_note | 관리자 메모 |
+| created_at | 생성일 |
+| updated_at | 수정일 |
 
 ## inquiries
 
 | 필드 | 설명 |
 | --- | --- |
 | id | 고유 ID |
-| type | partner/student/course/general |
+| inquiry_type | `general`/`course`/`certification`/`partnership` |
 | locale | ko/en/es |
 | name | 이름 |
 | organization | 기관명 |
@@ -95,31 +69,35 @@
 | phone | 연락처 |
 | country | 국가 |
 | message | 메시지 |
-| status | new/in_progress/done/archived |
+| status | `new`/`in_review`/`answered`/`closed` |
+| manager_note | 담당자 메모 |
 | created_at | 생성일 |
-
-## media_assets
-
-| 필드 | 설명 |
-| --- | --- |
-| id | 고유 ID |
-| file_url | 파일 URL |
-| alt_text_ko | 한국어 alt |
-| alt_text_en | 영어 alt |
-| alt_text_es | 스페인어 alt |
-| source_url | 원본 URL |
-| uploaded_at | 업로드일 |
+| updated_at | 수정일 |
 
 ## banners
 
 | 필드 | 설명 |
 | --- | --- |
 | id | 고유 ID |
-| locale | ko/en/es |
 | title | 제목 |
-| image_url | 이미지 |
-| link_url | 링크 |
-| position | 노출 위치 |
-| status | 게시 상태 |
+| placement | `home`/`curriculum`/`activities`/`global` |
+| status | `draft`/`published`/`archived` |
 | starts_at | 시작일 |
 | ends_at | 종료일 |
+| target_url | 연결 URL |
+| created_by | 작성자 auth user ID |
+| created_at | 생성일 |
+| updated_at | 수정일 |
+
+## admin_publish_events
+
+| 필드 | 설명 |
+| --- | --- |
+| id | 고유 ID |
+| item_type | `content`/`banner` |
+| item_id | 대상 항목 ID |
+| action | `created`/`updated`/`deleted`/`published`/`archived` |
+| title | 이벤트 제목 |
+| status | 이벤트 시점 상태 |
+| actor_id | 작업자 auth user ID |
+| created_at | 이벤트 생성일 |

@@ -10,7 +10,7 @@
 | 언어 | `ko`, `en`, `es` 중 선택 |
 | Slug | 아래 규칙에 맞는 영문/한글 식별자 |
 | 제목 | 공개 화면 제목 또는 카드 제목 |
-| 게시 상태 | 초안은 `draft`, 공개는 `published` |
+| 게시 상태 | `draft`, `translated`, `reviewed`, `published`, `archived` 중 선택. 공개 화면 우선 적용은 `published`만 해당 |
 | 원본 URL | 기존 SMC365 출처 URL이 있으면 입력 |
 | 본문 요약 | 카드 요약, 목록 요약, SEO 보조 문구 |
 | 상세 본문 | 상세 페이지 소개 문단 또는 섹션 본문 |
