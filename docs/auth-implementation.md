@@ -109,10 +109,22 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 - 콘텐츠/배너 저장·수정·삭제·발행 이벤트를 `admin_publish_events`에 기록하고 관리자 화면에 최근 이력 표시
 - 과정 상세 고급 섹션이 `Course/[courseSlug]-flow-*`, `Course/[courseSlug]-panel-*`, `Course/[courseSlug]-technique-*`, `Course/[courseSlug]-process-*` published 콘텐츠를 우선 사용하도록 연결
 - 활동 상세 고급 섹션이 `Activity/[activityKey]-section-*` published 콘텐츠를 카드형 운영 콘텐츠로 표시하도록 연결
+- Supabase 프로젝트 환경변수 주입 완료
+- Supabase 원격 프로젝트에 마이그레이션 3개 적용 완료
+- 실제 Supabase 프로젝트에서 RLS 정책 검증 완료
+- 실제 Supabase 프로젝트에서 문의 제출 E2E 검증 완료
+- 실제 Supabase 프로젝트에서 로그인/계정 접근/자격 조회 E2E 검증 완료
+- 공개 상세 페이지 CMS 섹션 입력 가이드 정리 완료
+- 관리자 발행 이력 필터와 작업자 이름 표시 개선 완료
 
-남은 구현:
-1. Supabase 프로젝트 생성 및 환경변수 주입
-2. Supabase 마이그레이션 적용 및 실제 프로젝트에서 RLS 검증
-3. 실제 Supabase 프로젝트에서 회원가입/이메일 확인/로그인/계정 접근 E2E 검증
-4. 공개 상세 페이지 CMS 섹션 입력 가이드와 샘플 데이터 정리
-5. 관리자 발행 이력 상세 필터와 작업자 이름 표시 개선
+## 남은 운영/외부 확인 항목
+
+구현 관점의 인증, 계정, 관리자 권한, Supabase RLS, 문의 제출, 자격 조회 흐름은 검증 완료 상태다. 남은 항목은 운영자가 실제 배포 URL과 발주사 제공 자료를 확정해야 진행할 수 있다.
+
+1. Vercel 배포 URL 생성 및 Supabase Auth Site URL/Redirect URL 등록
+2. 초기 관리자 계정, 역할, 비밀번호 정책 최종 확정
+3. 실제 자격 데이터 샘플 CSV 제공 및 import
+4. 개인정보처리방침/이용약관 최종 원문 반영
+5. 전체 운영 콘텐츠의 `source_url` 확정
+
+검증 결과는 `docs/qa-release.md`, 마이그레이션/SQL 검증 절차는 `docs/supabase-migration-runbook.md`, 배포 인계는 `docs/deployment-handoff.md`를 기준으로 한다.
