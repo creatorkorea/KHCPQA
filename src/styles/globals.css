@@ -5478,6 +5478,7 @@ p {
   font-size: 12px;
   font-weight: 850;
   margin-top: 4px;
+  overflow-wrap: anywhere;
 }
 
 .inquiry-list dl {
@@ -5707,6 +5708,9 @@ p {
   font-size: 13px;
   padding: 13px 12px;
   text-align: left;
+}
+
+.admin-table-card th {
   white-space: nowrap;
 }
 
@@ -5718,6 +5722,7 @@ p {
 .admin-table-card td {
   color: var(--ink);
   font-weight: 750;
+  overflow-wrap: anywhere;
 }
 
 .admin-table-card tbody tr:last-child td {
