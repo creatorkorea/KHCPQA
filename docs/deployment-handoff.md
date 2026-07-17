@@ -58,7 +58,7 @@ Preview URL로 회원가입/로그인 검수를 진행할 경우 해당 Preview 
 
 ## Pre-Review Verification
 
-배포 완료 후 아래를 확인한다.
+배포 완료 후 아래를 확인한다. 상세 순서는 `docs/operations-qa-checklist.md`를 따른다.
 
 - `/ko`, `/en`, `/es` 접속
 - `/ko/curriculum`에서 과정 상세 페이지 진입

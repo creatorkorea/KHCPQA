@@ -37,7 +37,7 @@ Last updated: 2026-07-17
 - iPhone/Android 실기기 최종 확인
 - 전체 운영 콘텐츠의 `source_url`, 실제 게시글, 자격 데이터, 배너/팝업 입력
 
-발주사 확인 요청 문서는 `docs/client-review-request.md`, 출처 URL 정리 현황은 `docs/source-url-inventory.md`, 배포 인계 절차는 `docs/deployment-handoff.md`를 기준으로 한다.
+발주사 확인 요청 문서는 `docs/client-review-request.md`, 운영 검수 순서는 `docs/operations-qa-checklist.md`, 출처 URL 정리 현황은 `docs/source-url-inventory.md`, 배포 인계 절차는 `docs/deployment-handoff.md`를 기준으로 한다.
 
 ## 검수 기준
 

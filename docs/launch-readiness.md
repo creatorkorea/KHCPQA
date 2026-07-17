@@ -26,6 +26,7 @@
 | `docs/client-action-items.md` | 발주사/운영자 확인 항목 |
 | `docs/scope-confirmation.md` | 1차 포함/제외 범위 확인 |
 | `docs/deployment-handoff.md` | Vercel 배포 인계 |
+| `docs/operations-qa-checklist.md` | 운영 배포/Auth/법무/SNS/실기기 검수 순서 |
 | `docs/data-import-runbook.md` | 자격/관리자/CMS 데이터 import 절차 |
 | `docs/source-url-inventory.md` | 기존 SMC365 출처 URL 현황 |
 | `docs/cms-section-guide.md` | 관리자 CMS 입력 규칙 |
@@ -56,6 +57,6 @@
 
 ## Recommended Next Step
 
-운영자는 Vercel production 배포가 최신 GitHub `main` 커밋 `8dc8aa1` 이상을 반영했는지 확인하고, 검수 URL을 Supabase Auth Redirect URL에 등록한다. 이후 발주사는 `docs/client-review-request.md`와 `docs/client-action-items.md` 기준으로 검수한다. 실제 게시글, 과정 운영 문구, 자격 데이터, 배너/팝업 입력은 마지막 단계로 진행한다.
+운영자는 `docs/operations-qa-checklist.md` 순서로 Vercel production 배포가 최신 GitHub `main` 커밋 `8dc8aa1` 이상을 반영했는지 확인하고, 검수 URL을 Supabase Auth Redirect URL에 등록한다. 이후 발주사는 `docs/client-review-request.md`와 `docs/client-action-items.md` 기준으로 검수한다. 실제 게시글, 과정 운영 문구, 자격 데이터, 배너/팝업 입력은 마지막 단계로 진행한다.
 
 GitHub에서 남은 항목을 추적할 때는 `.github/ISSUE_TEMPLATE`의 client approval, deployment, data import 템플릿을 사용한다.
