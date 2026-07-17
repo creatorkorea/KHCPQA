@@ -6,7 +6,21 @@
 
 - GitHub: `https://github.com/creatorkorea/KHCPQA`
 - Branch: `main`
-- Latest verified commit: `8dc8aa1`
+- Latest verified commit: `4ff3e47`
+
+## GitHub Actions Verification
+
+최신 `main` 커밋 기준으로 GitHub Actions 검증을 완료했다.
+
+| Workflow | Run | Result | Notes |
+| --- | --- | --- | --- |
+| CI | `29564450078` | 통과 | `npm run lint`, `npm run build` |
+| Operations QA | `29564376635` | 통과 | GitHub repository secrets 등록 후 `npm run qa:ops` 실행 |
+
+GitHub repository secrets에는 아래 공개 Supabase 값이 등록되어 있다.
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
 ## Current Public URL Check
 

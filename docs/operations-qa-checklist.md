@@ -18,7 +18,7 @@ GitHub Actions > Operations QA에서 `qa_base_url`을 입력해 같은 점검을
 | 확인 항목 | 완료 기준 |
 | --- | --- |
 | GitHub branch | Vercel production deployment가 `main`을 사용한다. |
-| 최신 커밋 | Vercel deployment commit이 `8dc8aa1` 이상이다. |
+| 최신 커밋 | Vercel deployment commit이 `4ff3e47` 이상이다. |
 | 환경변수 | `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`가 Production에 등록되어 있다. |
 | 공개 라우트 | `/ko`, `/ko/curriculum`, `/ko/activities/notice`, `/ko/login`, `/ko/signup`, `/robots.txt`, `/sitemap.xml`이 200으로 응답한다. |
 | 보호 라우트 | 비로그인 `/admin`, `/ko/account` 접근 시 로그인으로 이동한다. |
