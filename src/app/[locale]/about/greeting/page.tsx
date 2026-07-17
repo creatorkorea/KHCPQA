@@ -27,6 +27,16 @@ export default async function GreetingPage({ params }: { params: Promise<{ local
         title={t.greetingPage.title}
         lead={t.greetingPage.lead}
       />
+      <section className="about-photo-hero greeting-photo-hero" aria-label={t.greetingPage.title}>
+        <Image
+          src="/assets/greeting-hero-leadership.jpg"
+          alt="KHCPQA leadership meeting"
+          width={2000}
+          height={1600}
+          sizes="(max-width: 900px) 100vw, 1120px"
+          priority
+        />
+      </section>
       <AboutSubnav locale={locale} activeKey="greeting" />
       <section className="content-section">
         <div className="greeting-list">

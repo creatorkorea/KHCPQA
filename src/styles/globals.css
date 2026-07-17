@@ -1405,6 +1405,28 @@ p {
   word-break: keep-all;
 }
 
+.about-photo-hero {
+  aspect-ratio: 2.25 / 1;
+  border-radius: 8px;
+  box-shadow: 0 18px 48px rgba(64, 48, 118, 0.1);
+  margin: clamp(24px, 4vw, 44px) auto 22px;
+  max-width: var(--max);
+  overflow: hidden;
+  width: calc(100% - 36px);
+}
+
+.about-photo-hero img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+}
+
+.greeting-photo-hero img {
+  object-position: center 38%;
+}
+
 .about-next {
   border-top: 1px solid var(--line);
   display: flex;

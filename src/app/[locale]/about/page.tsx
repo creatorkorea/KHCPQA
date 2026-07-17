@@ -45,6 +45,16 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         title={intro.title}
         lead={intro.lead}
       />
+      <section className="about-photo-hero" aria-label={intro.title}>
+        <Image
+          src="/assets/about-hero-leadership.jpg"
+          alt="KHCPQA leadership partnership ceremony"
+          width={2000}
+          height={1429}
+          sizes="(max-width: 900px) 100vw, 1120px"
+          priority
+        />
+      </section>
       <AboutSubnav locale={locale} activeKey="intro" />
       <section className="content-section">
         <div className="about-story">
