@@ -6,7 +6,7 @@
 
 - GitHub: `https://github.com/creatorkorea/KHCPQA`
 - Branch: `main`
-- Latest verified commit: `4ff3e47`
+- Minimum verified deployment commit: `4ff3e47`
 
 ## GitHub Actions Verification
 
