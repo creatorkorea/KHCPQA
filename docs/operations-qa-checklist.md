@@ -6,6 +6,13 @@
 
 ## 1. Vercel 배포 확인
 
+자동 기본 점검:
+
+```bash
+npm run qa:ops
+QA_BASE_URL=https://검수도메인 npm run qa:ops
+```
+
 | 확인 항목 | 완료 기준 |
 | --- | --- |
 | GitHub branch | Vercel production deployment가 `main`을 사용한다. |

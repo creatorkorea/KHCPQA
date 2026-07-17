@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "qa:ops": "node scripts/operations-qa.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

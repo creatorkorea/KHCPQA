@@ -18,7 +18,10 @@ npm install
 npm run dev
 npm run lint
 npm run build
+npm run qa:ops
 ```
+
+`npm run qa:ops`는 `QA_BASE_URL` 또는 `NEXT_PUBLIC_SITE_URL`을 기준으로 주요 공개 라우트, 보호 라우트 응답, Supabase 공개 연결 상태를 점검한다.
 
 ## Implemented Scope
 
@@ -41,6 +44,7 @@ npm run build
 | `docs/qa-release.md` | QA 결과와 릴리즈 기준 |
 | `docs/launch-readiness.md` | 검수/오픈 준비 인덱스 |
 | `docs/deployment-handoff.md` | Vercel 배포 인계 절차 |
+| `docs/operations-qa-checklist.md` | 운영 배포/Auth/법무/SNS/실기기 검수 순서 |
 | `docs/client-action-items.md` | 발주사/운영자 액션 아이템 |
 | `docs/client-review-request.md` | 발주사 검수 요청 범위 |
 | `docs/scope-confirmation.md` | 1차 포함/제외 범위 확인 |
