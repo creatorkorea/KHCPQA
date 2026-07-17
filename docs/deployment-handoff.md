@@ -10,11 +10,11 @@
 
 ## GitHub Actions Verification
 
-최신 `main` 커밋 기준으로 GitHub Actions 검증을 완료했다.
+검증 기준 커밋 이후 `main` 브랜치에서 GitHub Actions 검증을 완료했다.
 
 | Workflow | Run | Result | Notes |
 | --- | --- | --- | --- |
-| CI | `29564450078` | 통과 | `npm run lint`, `npm run build` |
+| CI | `29564738654` | 통과 | `npm run lint`, `npm run build`, commit `9ff02d4` |
 | Operations QA | `29564376635` | 통과 | GitHub repository secrets 등록 후 `npm run qa:ops` 실행 |
 
 GitHub repository secrets에는 아래 공개 Supabase 값이 등록되어 있다.
