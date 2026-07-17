@@ -162,12 +162,10 @@ function getAdvancedSectionTitle(section: OriginalCourseDetailSection, index: nu
 
 export function generateStaticParams() {
   return getCourseSlugs().flatMap((courseSlug) => {
-    const encodedCourseSlug = encodeURIComponent(courseSlug);
-
     return [
-      { locale: "ko", courseSlug: encodedCourseSlug },
-      { locale: "en", courseSlug: encodedCourseSlug },
-      { locale: "es", courseSlug: encodedCourseSlug }
+      { locale: "ko", courseSlug },
+      { locale: "en", courseSlug },
+      { locale: "es", courseSlug }
     ];
   });
 }
