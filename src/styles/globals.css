@@ -5638,7 +5638,7 @@ p {
   margin: 8px 0 0;
 }
 
-.admin-toolbar label {
+.admin-search-form {
   align-items: center;
   background: white;
   border: 1px solid var(--line);
@@ -5650,16 +5650,25 @@ p {
   padding: 0 12px;
 }
 
-.admin-toolbar label svg {
+.admin-search-form svg {
   color: var(--muted);
   flex: 0 0 auto;
 }
 
-.admin-toolbar input {
+.admin-search-form input {
   border: 0;
   min-width: 0;
   outline: 0;
   width: 100%;
+}
+
+.admin-search-form a {
+  color: var(--green-dark);
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .admin-panel-grid {
@@ -6538,7 +6547,7 @@ p {
     flex-direction: column;
   }
 
-  .admin-toolbar label {
+  .admin-search-form {
     min-width: 0;
     width: 100%;
   }

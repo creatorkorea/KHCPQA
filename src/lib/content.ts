@@ -279,6 +279,7 @@ type Copy = {
     managedContentTitle: string;
     sourceLabel: string;
     statusLabel: string;
+    managedStatus: string;
     allActivitiesCta: string;
     detailCta: string;
   };
@@ -816,6 +817,7 @@ export const copy = {
       managedContentTitle: "운영 콘텐츠",
       sourceLabel: "원본 출처",
       statusLabel: "게시 상태",
+      managedStatus: "관리자 등록 콘텐츠",
       allActivitiesCta: "전체 활동 보기",
       detailCta: "상세 보기"
     },
@@ -1379,6 +1381,7 @@ export const copy = {
       managedContentTitle: "Managed Content",
       sourceLabel: "Source",
       statusLabel: "Publish Status",
+      managedStatus: "Admin-managed content",
       allActivitiesCta: "All Activities",
       detailCta: "View Details"
     },
@@ -1942,6 +1945,7 @@ export const copy = {
       managedContentTitle: "Contenido gestionado",
       sourceLabel: "Fuente",
       statusLabel: "Estado de publicación",
+      managedStatus: "Contenido gestionado por administración",
       allActivitiesCta: "Todas las actividades",
       detailCta: "Ver detalles"
     },

@@ -156,6 +156,7 @@ export function LoginForm({ locale }: { locale: Locale }) {
         {t.login.email}
         <input
           aria-invalid={Boolean(errors.email)}
+          autoComplete="email"
           onChange={(event) => {
             setEmail(event.target.value);
             setErrors((current) => ({ ...current, email: undefined }));
@@ -172,6 +173,7 @@ export function LoginForm({ locale }: { locale: Locale }) {
           {t.login.password}
           <input
             aria-invalid={Boolean(errors.password)}
+            autoComplete="current-password"
             onChange={(event) => {
               setPassword(event.target.value);
               setErrors((current) => ({ ...current, password: undefined }));

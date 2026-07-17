@@ -114,6 +114,18 @@ const adminForms: Record<AdminFormType, {
 };
 
 const formOrder: AdminFormType[] = ["course", "content", "inquiry", "certification", "banner"];
+const courseSectionLabels: Record<string, string> = {
+  "flow-1": "커리큘럼 흐름 1",
+  "flow-2": "커리큘럼 흐름 2",
+  "flow-3": "커리큘럼 흐름 3",
+  "flow-4": "커리큘럼 흐름 4",
+  main: "대표 과정 정보",
+  "panel-audience": "추천 대상",
+  "panel-goal": "학습 목표",
+  "panel-strength": "과정 강점",
+  "process-1": "실습 프로세스",
+  "technique-1": "핵심 테크닉"
+};
 
 export function AdminCrudPreview({
   contentItems = [],
@@ -516,6 +528,10 @@ function parseCourseManagedSlug(slug: string, courseOptions: CourseOption[]) {
 }
 
 function getOptionLabel(fieldName: string, option: string, courseOptions: CourseOption[]) {
+  if (fieldName === "courseSection") {
+    return courseSectionLabels[option] ?? option;
+  }
+
   if (fieldName !== "courseSlug") {
     return option;
   }

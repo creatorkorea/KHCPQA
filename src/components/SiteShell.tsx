@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, MessageCircle, UserRound, Youtube } from "lucide-react";
+import { Images, Megaphone, Trophy, UserRound } from "lucide-react";
 import {
   getCopy,
   getTranslationStatusLabel,
@@ -75,9 +75,15 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <Link href={`/${locale}/curriculum`}>{t.layout.sitemap}</Link>
         </div>
         <div className="footer-social" aria-label={t.a11y.socialLinks}>
-          <Link href={`/${locale}/activities`} aria-label="Instagram"><Instagram size={18} /></Link>
-          <Link href={`/${locale}/activities`} aria-label="Kakao"><MessageCircle size={18} /></Link>
-          <Link href={`/${locale}/activities`} aria-label="YouTube"><Youtube size={18} /></Link>
+          <Link href={`/${locale}/activities/notice`} aria-label={t.activitiesPage.latestPostsTitle}>
+            <Megaphone size={18} />
+          </Link>
+          <Link href={`/${locale}/activities/photo`} aria-label={t.activitiesPage.managedContentTitle}>
+            <Images size={18} />
+          </Link>
+          <Link href={`/${locale}/activities/awards`} aria-label={t.activitiesPage.detailCta}>
+            <Trophy size={18} />
+          </Link>
         </div>
       </div>
     </footer>

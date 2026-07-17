@@ -150,6 +150,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
         {t.signup.name}
         <input
           aria-invalid={Boolean(errors.name)}
+          autoComplete="name"
           onChange={(event) => updateField("name", event.target.value)}
           placeholder={t.signup.namePlaceholder}
           value={form.name}
@@ -160,6 +161,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
         {t.signup.email}
         <input
           aria-invalid={Boolean(errors.email)}
+          autoComplete="email"
           onChange={(event) => updateField("email", event.target.value)}
           placeholder={t.signup.emailPlaceholder}
           type="email"
@@ -171,6 +173,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
         {t.signup.country}
         <input
           aria-invalid={Boolean(errors.country)}
+          autoComplete="country-name"
           onChange={(event) => updateField("country", event.target.value)}
           placeholder={t.signup.countryPlaceholder}
           value={form.country}
@@ -181,6 +184,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
         {t.signup.password}
         <input
           aria-invalid={Boolean(errors.password)}
+          autoComplete="new-password"
           onChange={(event) => updateField("password", event.target.value)}
           placeholder={t.signup.passwordPlaceholder}
           type="password"
@@ -192,6 +196,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
         {t.signup.confirmPassword}
         <input
           aria-invalid={Boolean(errors.confirmPassword)}
+          autoComplete="new-password"
           onChange={(event) => updateField("confirmPassword", event.target.value)}
           placeholder={t.signup.confirmPasswordPlaceholder}
           type="password"

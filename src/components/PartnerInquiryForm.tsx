@@ -102,6 +102,7 @@ export function PartnerInquiryForm({ locale }: { locale: Locale }) {
         {t.partnerInquiry.fields.name}
         <input
           aria-invalid={Boolean(errors.name)}
+          autoComplete="name"
           name="name"
           onChange={(event) => updateField("name", event.target.value)}
           placeholder={t.partnerInquiry.fields.namePlaceholder}
@@ -113,6 +114,7 @@ export function PartnerInquiryForm({ locale }: { locale: Locale }) {
         {t.partnerInquiry.fields.organization}
         <input
           aria-invalid={Boolean(errors.organization)}
+          autoComplete="organization"
           name="organization"
           onChange={(event) => updateField("organization", event.target.value)}
           placeholder={t.partnerInquiry.fields.organizationPlaceholder}
@@ -124,6 +126,7 @@ export function PartnerInquiryForm({ locale }: { locale: Locale }) {
         {t.partnerInquiry.fields.email}
         <input
           aria-invalid={Boolean(errors.email)}
+          autoComplete="email"
           name="email"
           onChange={(event) => updateField("email", event.target.value)}
           placeholder={t.partnerInquiry.fields.emailPlaceholder}
@@ -136,6 +139,7 @@ export function PartnerInquiryForm({ locale }: { locale: Locale }) {
         {t.partnerInquiry.fields.country}
         <input
           aria-invalid={Boolean(errors.country)}
+          autoComplete="country-name"
           name="country"
           onChange={(event) => updateField("country", event.target.value)}
           placeholder={t.partnerInquiry.fields.countryPlaceholder}

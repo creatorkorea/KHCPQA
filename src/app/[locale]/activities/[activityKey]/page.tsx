@@ -106,7 +106,7 @@ export default async function ActivityDetailPage({
               </div>
               <div>
                 <dt>{t.activitiesPage.statusLabel}</dt>
-                <dd>Preview</dd>
+                <dd>{t.activitiesPage.managedStatus}</dd>
               </div>
             </dl>
           </div>

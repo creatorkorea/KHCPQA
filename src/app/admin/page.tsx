@@ -1,4 +1,5 @@
 import { LockKeyhole, Search, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 import { AdminCrudPreview } from "@/components/AdminCrudPreview";
 import { AdminPublishEventsTable } from "@/components/AdminPublishEventsTable";
 import { AdminUserRolePreview } from "@/components/AdminUserRolePreview";
@@ -17,7 +18,12 @@ export const metadata = {
   }
 };
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams
+}: {
+  searchParams?: Promise<{ q?: string }>;
+}) {
+  const query = ((await searchParams)?.q ?? "").trim();
   const [adminUsers, adminCertifications, adminInquiries, adminContent, adminPublishEvents] = await Promise.all([
     getAdminUsers(),
     getAdminCertifications(),
@@ -29,6 +35,18 @@ export default async function AdminPage() {
     label: course.title,
     slug: course.slug
   }));
+  const contentRows = filterRows(
+    adminContent.map((row) => [row.type, row.title, row.locale, row.status, row.updatedBy, row.updatedAt]),
+    query
+  );
+  const inquiryRows = filterRows(
+    adminInquiries.map((row) => [row.receipt, row.name, row.organization, row.country, row.type, row.status, row.submittedAt]),
+    query
+  );
+  const certificationRows = filterRows(
+    adminCertifications.map((row) => [row.user, row.course, row.number, row.issuedAt, row.status]),
+    query
+  );
 
   return (
     <main className="admin-page">
@@ -68,11 +86,12 @@ export default async function AdminPage() {
             <span className="eyebrow">Operations</span>
             <h2>운영 데이터 미리보기</h2>
           </div>
-          <label>
+          <form className="admin-search-form" action="/admin">
             <Search size={16} />
             <span className="sr-only">검색</span>
-            <input placeholder="콘텐츠, 문의, 자격번호 검색" />
-          </label>
+            <input defaultValue={query} name="q" placeholder="콘텐츠, 문의, 자격번호 검색" />
+            {query ? <Link href="/admin">초기화</Link> : null}
+          </form>
         </div>
         <div className="admin-panel-grid">
           <section className="admin-table-card admin-editor-card">
@@ -85,18 +104,21 @@ export default async function AdminPage() {
           </section>
           <AdminTable
             columns={["유형", "제목", "언어", "상태", "수정자", "수정일"]}
-            rows={adminContent.map((row) => [row.type, row.title, row.locale, row.status, row.updatedBy, row.updatedAt])}
+            emptyLabel="검색 조건에 맞는 콘텐츠가 없습니다."
+            rows={contentRows}
             title="콘텐츠 관리"
           />
           <AdminPublishEventsTable rows={adminPublishEvents} />
           <AdminTable
             columns={["접수번호", "이름", "기관", "국가", "유형", "상태", "접수일"]}
-            rows={adminInquiries.map((row) => [row.receipt, row.name, row.organization, row.country, row.type, row.status, row.submittedAt])}
+            emptyLabel="검색 조건에 맞는 문의가 없습니다."
+            rows={inquiryRows}
             title="문의 관리"
           />
           <AdminTable
             columns={["사용자", "과정", "자격번호", "발급일", "상태"]}
-            rows={adminCertifications.map((row) => [row.user, row.course, row.number, row.issuedAt, row.status])}
+            emptyLabel="검색 조건에 맞는 자격 데이터가 없습니다."
+            rows={certificationRows}
             title="자격 데이터"
           />
           <section className="admin-task-panel">
@@ -118,10 +140,12 @@ export default async function AdminPage() {
 
 function AdminTable({
   columns,
+  emptyLabel,
   rows,
   title
 }: {
   columns: string[];
+  emptyLabel?: string;
   rows: string[][];
   title: string;
 }) {
@@ -138,16 +162,31 @@ function AdminTable({
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr key={row.join("-")}>
-                {row.map((cell, index) => (
-                  <td key={`${cell}-${index}`}>{cell}</td>
-                ))}
+            {rows.length > 0 ? (
+              rows.map((row) => (
+                <tr key={row.join("-")}>
+                  {row.map((cell, index) => (
+                    <td key={`${cell}-${index}`}>{cell}</td>
+                  ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={columns.length}>{emptyLabel ?? "표시할 데이터가 없습니다."}</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
     </section>
   );
+}
+
+function filterRows(rows: string[][], query: string) {
+  if (!query) {
+    return rows;
+  }
+
+  const normalizedQuery = query.toLowerCase();
+  return rows.filter((row) => row.join(" ").toLowerCase().includes(normalizedQuery));
 }
