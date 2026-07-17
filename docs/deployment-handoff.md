@@ -47,6 +47,11 @@ Vercel Project Settings > Environment Variables에 아래 값을 등록한다.
 | `GOOGLE_SITE_VERIFICATION` | Production | 선택 |
 | `NAVER_SITE_VERIFICATION` | Production | 선택 |
 
+GitHub Actions에서 CI와 Operations QA를 사용하려면 repository secrets에도 아래 값을 등록한다.
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
 ## Supabase Auth URL Settings
 
 Vercel Preview URL 또는 운영 도메인이 생성되면 Supabase Dashboard > Authentication > URL Configuration에 추가한다.

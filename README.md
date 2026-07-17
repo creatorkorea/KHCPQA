@@ -61,6 +61,16 @@ Use the issue templates in `.github/ISSUE_TEMPLATE` to track launch blockers:
 - Deployment / review URL
 - Content / data import
 
+## GitHub Actions
+
+- `CI`: runs on pushes to `main` and pull requests. It installs dependencies, runs `npm run lint`, and builds the Next.js app.
+- `Operations QA`: runs manually from GitHub Actions. It executes `npm run qa:ops` against `https://khcpqa.vercel.app` or a supplied review URL.
+
+Required repository secrets for CI/Operations QA:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
 ## Client Input Templates
 
 | Template | Purpose |

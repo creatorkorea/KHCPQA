@@ -13,6 +13,8 @@ npm run qa:ops
 QA_BASE_URL=https://검수도메인 npm run qa:ops
 ```
 
+GitHub Actions > Operations QA에서 `qa_base_url`을 입력해 같은 점검을 수동 실행할 수 있다.
+
 | 확인 항목 | 완료 기준 |
 | --- | --- |
 | GitHub branch | Vercel production deployment가 `main`을 사용한다. |
