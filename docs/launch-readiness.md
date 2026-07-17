@@ -15,6 +15,7 @@
 | 관리자 게시글 입력 | 완료 | `src/components/AdminCrudPreview.tsx` |
 | 관리자 교육과정 관리 | 완료 | `src/components/AdminCrudPreview.tsx` |
 | 공개 배포 기본 응답 | 확인 | `https://khcpqa.vercel.app` |
+| 프론트엔드 UX 1차 보강 | 완료 | `8dc8aa1` |
 | Vercel 직접 배포 | 작업 환경 정책상 직접 수행 불가 | `docs/deployment-handoff.md` |
 
 ## Handoff Documents
@@ -46,15 +47,15 @@
 ## Remaining External Decisions
 
 - 계약 범위와 제외 범위 최종 승인
-- SMC365 콘텐츠/이미지/후기/보도자료/강사 사진 사용 권리 승인
 - 도메인, 호스팅, SSL 계정 명의 확정
 - 개인정보처리방침과 이용약관 최종 원문 제공
-- 실제 자격 데이터 샘플 제공
-- 전체 실운영 콘텐츠 `source_url` 확정
+- SMC365 콘텐츠/이미지/후기/보도자료/강사 사진 사용 권리 승인
 - 운영자가 Vercel 배포 후 검수 URL 공유
+- iPhone/Android 실기기 최종 확인
+- 전체 실운영 콘텐츠 `source_url`, 실제 게시글, 자격 데이터, 배너/팝업 입력
 
 ## Recommended Next Step
 
-운영자는 Vercel production 배포가 최신 GitHub `main` 커밋을 반영했는지 확인하고, 검수 URL을 Supabase Auth Redirect URL에 등록한다. 이후 발주사는 `docs/client-review-request.md`와 `docs/client-action-items.md` 기준으로 검수한다.
+운영자는 Vercel production 배포가 최신 GitHub `main` 커밋 `8dc8aa1` 이상을 반영했는지 확인하고, 검수 URL을 Supabase Auth Redirect URL에 등록한다. 이후 발주사는 `docs/client-review-request.md`와 `docs/client-action-items.md` 기준으로 검수한다. 실제 게시글, 과정 운영 문구, 자격 데이터, 배너/팝업 입력은 마지막 단계로 진행한다.
 
 GitHub에서 남은 항목을 추적할 때는 `.github/ISSUE_TEMPLATE`의 client approval, deployment, data import 템플릿을 사용한다.

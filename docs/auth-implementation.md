@@ -121,10 +121,11 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 
 구현 관점의 인증, 계정, 관리자 권한, Supabase RLS, 문의 제출, 자격 조회 흐름은 검증 완료 상태다. 남은 항목은 운영자가 실제 배포 URL과 발주사 제공 자료를 확정해야 진행할 수 있다.
 
-1. Vercel 배포 URL 생성 및 Supabase Auth Site URL/Redirect URL 등록
+1. Vercel production 최신 커밋 반영 확인 및 Supabase Auth Site URL/Redirect URL 등록
 2. 초기 관리자 계정, 역할, 비밀번호 정책 최종 확정
-3. 실제 자격 데이터 샘플 CSV 제공 및 import
-4. 개인정보처리방침/이용약관 최종 원문 반영
-5. 전체 운영 콘텐츠의 `source_url` 확정
+3. 개인정보처리방침/이용약관 최종 원문 반영
+4. 공식 SNS/외부 링크 확정
+5. iPhone/Android 실기기 최종 확인
+6. 실제 자격 데이터 샘플 CSV, 게시글, 과정 운영 문구, 배너/팝업 입력
 
 검증 결과는 `docs/qa-release.md`, 마이그레이션/SQL 검증 절차는 `docs/supabase-migration-runbook.md`, 배포 인계는 `docs/deployment-handoff.md`를 기준으로 한다.

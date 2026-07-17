@@ -16,6 +16,7 @@ Last updated: 2026-07-17
 | 관리자 과정 관리 | 관리자 입력 폼에 교육과정 전용 탭 추가, Course 타입 저장 후 과정 목록/상세 재검증 적용 |
 | 관리자 게시글 관리 | Page/Activity/Review 콘텐츠 등록/수정/삭제와 공개 게시글 읽기 흐름 유지 |
 | 이미지 참조 | 주요 콘텐츠/소개/인사말 asset 경로 존재 확인 |
+| 프론트엔드 UX 보강 | 활동 상세 Preview 문구 제거, 폼 자동완성, 모바일 메뉴 닫기/현재 페이지 표시, 관리자 검색 적용 |
 | 문의 제출 | `/ko/partner-inquiry` 제출 후 원격 `public.inquiries` 저장 확인 |
 | Supabase 마이그레이션 | 원격 프로젝트에 3개 마이그레이션 적용 확인 |
 | Supabase RLS | 관련 테이블 정책 22개 확인 |
@@ -31,8 +32,10 @@ Last updated: 2026-07-17
 - 운영자가 Vercel production 배포 상태를 확인하고 검수 URL 공유
 - 발주사 제공 개인정보처리방침/이용약관 원문 반영
 - 기존 SMC365 이미지, 후기, 보도자료, 강사 사진 사용 권리 확인
-- 전체 운영 콘텐츠의 `source_url` 실데이터 저장
 - 초기 관리자 계정과 권한 정책 확정
+- Supabase Auth Site URL/Redirect URL 운영 도메인 기준 확인
+- iPhone/Android 실기기 최종 확인
+- 전체 운영 콘텐츠의 `source_url`, 실제 게시글, 자격 데이터, 배너/팝업 입력
 
 발주사 확인 요청 문서는 `docs/client-review-request.md`, 출처 URL 정리 현황은 `docs/source-url-inventory.md`, 배포 인계 절차는 `docs/deployment-handoff.md`를 기준으로 한다.
 

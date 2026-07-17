@@ -6,7 +6,21 @@
 
 - GitHub: `https://github.com/creatorkorea/KHCPQA`
 - Branch: `main`
-- Latest verified commit: `bdfc29c`
+- Latest verified commit: `8dc8aa1`
+
+## Current Public URL Check
+
+작업 환경에서 `https://khcpqa.vercel.app`의 주요 공개 경로 응답은 확인했다.
+
+- `/ko`: 200
+- `/ko/curriculum`: 200
+- `/ko/activities/notice`: 200
+- `/ko/login`: 200
+- `/ko/signup`: 200
+- `/robots.txt`: 200
+- `/sitemap.xml`: 200
+
+단, 현재 연결된 Vercel 계정에서 `khcpqa` 프로젝트가 조회되지 않아 Vercel Dashboard의 production deployment commit ID는 운영자 계정에서 확인해야 한다.
 
 ## Vercel Project Setup
 
@@ -61,4 +75,4 @@ Preview URL로 회원가입/로그인 검수를 진행할 경우 해당 Preview 
 - 개인정보처리방침과 이용약관 원문
 - 기존 SMC365 이미지와 콘텐츠 사용 권리
 - 전체 실운영 콘텐츠 `source_url`
-- 실제 자격 데이터 샘플
+- 실제 자격 데이터 샘플 및 운영 게시글/배너 입력은 최종 단계로 진행

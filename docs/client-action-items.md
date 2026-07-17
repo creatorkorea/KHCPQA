@@ -44,30 +44,14 @@
 
 - `docs/templates/legal-policy-request.md`
 
-## 5. 운영 데이터
-
-| 요청 항목 | 필요한 답변/파일 | 완료 기준 |
-| --- | --- | --- |
-| 자격 데이터 샘플 | CSV 또는 엑셀: 이메일, 과정명, 자격번호, 발급일, 상태, 검증 코드 | Supabase `certifications` 샘플 import 가능 |
-| 초기 관리자 목록 | 이메일, 이름, 역할, 활성 상태 | 관리자 권한 부여 가능 |
-| 문의 처리 정책 | 상태값, 담당자 메모, 응답 SLA | 관리자 문의 관리 운영 규칙 확정 |
-
-작성 템플릿:
-
-- `docs/templates/certification-data-template.csv`
-- `docs/templates/admin-users-template.csv`
-- `docs/templates/content-source-url-template.csv`
-
-Import 절차 문서: `docs/data-import-runbook.md`
-
-## 6. 번역/검수
+## 5. 번역/검수
 
 | 요청 항목 | 필요한 답변/파일 | 완료 기준 |
 | --- | --- | --- |
 | 영어/스페인어 감수 담당자 | 담당자명 또는 승인 프로세스 | 번역 상태를 `reviewed`/`published`로 전환 가능 |
 | 용어집 | 자격명, 과정명, 기관명 공식 번역 | 3개 국어 표기 일관성 확보 |
 
-## 7. 배포 후 확인
+## 6. 배포 후 확인
 
 | 요청 항목 | 필요한 답변/파일 | 완료 기준 |
 | --- | --- | --- |
@@ -78,6 +62,27 @@ Import 절차 문서: `docs/data-import-runbook.md`
 
 - `docs/templates/client-approval-form.md`
 - `docs/templates/review-feedback-template.csv`
+
+## 7. 최종 운영 데이터 입력
+
+실제 운영 데이터 입력은 배포/로그인/법무/SNS/실기기 검수를 마친 뒤 마지막 단계로 진행한다.
+
+| 요청 항목 | 필요한 답변/파일 | 완료 기준 |
+| --- | --- | --- |
+| 관리자 게시글 | 공지, 합격현황, 사진자료, 수상, 언론 등 게시글 원문/이미지/source URL | 관리자 CMS에 게시 상태별 등록 |
+| 교육과정 운영 문구 | 과정별 최종 제목, 요약, 상세 섹션, 신청 링크 | Course CMS 반영 및 공개 페이지 확인 |
+| 자격 데이터 샘플 | CSV 또는 엑셀: 이메일, 과정명, 자격번호, 발급일, 상태, 검증 코드 | Supabase `certifications` 샘플 import 가능 |
+| 배너/팝업 | 배너 문구, 노출 위치, 기간, 연결 URL | 관리자 배너에 등록 후 노출 확인 |
+| 초기 관리자 목록 | 이메일, 이름, 역할, 활성 상태 | 관리자 권한 부여 가능 |
+| 문의 처리 정책 | 상태값, 담당자 메모, 응답 SLA | 관리자 문의 관리 운영 규칙 확정 |
+
+작성 템플릿:
+
+- `docs/templates/certification-data-template.csv`
+- `docs/templates/admin-users-template.csv`
+- `docs/templates/content-source-url-template.csv`
+
+Import 절차 문서: `docs/data-import-runbook.md`
 
 ## Current Technical Status
 
