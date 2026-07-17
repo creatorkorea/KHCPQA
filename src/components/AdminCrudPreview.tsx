@@ -2,7 +2,7 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { CheckCircle2, FilePenLine, ImagePlus, Save, ShieldCheck, Trash2 } from "lucide-react";
+import { BookOpenCheck, CheckCircle2, FilePenLine, ImagePlus, Save, ShieldCheck, Trash2 } from "lucide-react";
 import {
   deleteAdminManagedItem,
   saveAdminBanner,
@@ -16,7 +16,11 @@ import {
 } from "@/app/admin/actions";
 import type { AdminContentRow } from "@/lib/admin-data";
 
-type AdminFormType = "content" | "inquiry" | "certification" | "banner";
+type AdminFormType = "course" | "content" | "inquiry" | "certification" | "banner";
+type CourseOption = {
+  label: string;
+  slug: string;
+};
 
 type AdminField = {
   label: string;
@@ -35,12 +39,33 @@ const adminForms: Record<AdminFormType, {
   icon: typeof FilePenLine;
   fields: AdminField[];
 }> = {
+  course: {
+    title: "교육과정 관리",
+    description: "과정 목록/상세 화면에 노출되는 제목, 요약, 상세 섹션을 관리합니다.",
+    icon: BookOpenCheck,
+    fields: [
+      { label: "과정", name: "courseSlug", type: "select", options: [], required: true },
+      { label: "언어", name: "locale", type: "select", options: ["ko", "en", "es"], required: true },
+      {
+        label: "관리 영역",
+        name: "courseSection",
+        type: "select",
+        options: ["main", "flow-1", "flow-2", "flow-3", "flow-4", "panel-goal", "panel-strength", "panel-audience", "technique-1", "process-1"],
+        required: true
+      },
+      { label: "게시 상태", name: "status", type: "select", options: ["draft", "translated", "reviewed", "published", "archived"], required: true },
+      { label: "제목", name: "title", placeholder: "과정명 또는 상세 섹션 제목", required: true },
+      { label: "요약", name: "summary", type: "textarea", placeholder: "과정 카드/상세 상단에 사용할 요약" },
+      { label: "상세 본문", name: "body", type: "textarea", placeholder: "상세 본문 또는 줄바꿈 목록. flow/process/technique 섹션은 한 줄씩 입력하면 목록으로 표시됩니다." },
+      { label: "원본 URL", name: "sourceUrl", placeholder: "https://www.smc365.ac/..." }
+    ]
+  },
   content: {
     title: "콘텐츠 등록/수정",
-    description: "페이지, 과정, 커뮤니티 게시글의 언어별 콘텐츠를 관리합니다.",
+    description: "페이지, 커뮤니티 게시글, 후기의 언어별 콘텐츠를 관리합니다.",
     icon: FilePenLine,
     fields: [
-      { label: "콘텐츠 유형", name: "contentType", type: "select", options: ["Page", "Course", "Activity", "Review"], required: true },
+      { label: "콘텐츠 유형", name: "contentType", type: "select", options: ["Page", "Activity", "Review"], required: true },
       { label: "언어", name: "locale", type: "select", options: ["ko", "en", "es"], required: true },
       { label: "Slug", name: "slug", placeholder: "about 또는 activity-notice", required: true },
       { label: "제목", name: "title", placeholder: "콘텐츠 제목", required: true },
@@ -88,18 +113,35 @@ const adminForms: Record<AdminFormType, {
   }
 };
 
-const formOrder: AdminFormType[] = ["content", "inquiry", "certification", "banner"];
+const formOrder: AdminFormType[] = ["course", "content", "inquiry", "certification", "banner"];
 
-export function AdminCrudPreview({ contentItems = [] }: { contentItems?: AdminContentRow[] }) {
-  const [activeForm, setActiveForm] = useState<AdminFormType>("content");
+export function AdminCrudPreview({
+  contentItems = [],
+  courseOptions = []
+}: {
+  contentItems?: AdminContentRow[];
+  courseOptions?: CourseOption[];
+}) {
+  const [activeForm, setActiveForm] = useState<AdminFormType>("course");
   const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
   const [submittedForm, setSubmittedForm] = useState<AdminFormType | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [result, setResult] = useState<ActionResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const currentForm = adminForms[activeForm];
+  const currentFields = getCurrentFields(activeForm, currentForm.fields, courseOptions);
   const ActiveIcon = currentForm.icon;
-  const editableItems = contentItems.filter((item) => (activeForm === "content" ? item.type !== "Banner" : item.type === "Banner"));
+  const editableItems = contentItems.filter((item) => {
+    if (activeForm === "course") {
+      return item.type === "Course";
+    }
+
+    if (activeForm === "content") {
+      return item.type !== "Banner" && item.type !== "Course";
+    }
+
+    return item.type === "Banner";
+  });
   const selectedItemId = fieldValues.itemId ?? "";
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -108,7 +150,7 @@ export function AdminCrudPreview({ contentItems = [] }: { contentItems?: AdminCo
     const formData = new FormData(event.currentTarget);
     const nextErrors: Record<string, string> = {};
 
-    currentForm.fields.forEach((field) => {
+    currentFields.forEach((field) => {
       if (field.required && String(formData.get(field.name) ?? "").trim().length === 0) {
         nextErrors[field.name] = "필수 입력 항목입니다.";
       }
@@ -162,6 +204,22 @@ export function AdminCrudPreview({ contentItems = [] }: { contentItems?: AdminCo
       return;
     }
 
+    if (activeForm === "course") {
+      const parsedSlug = parseCourseManagedSlug(item.slug ?? "", courseOptions);
+      setFieldValues({
+        body: item.body ?? "",
+        courseSection: parsedSlug.courseSection,
+        courseSlug: parsedSlug.courseSlug,
+        itemId: item.id ?? "",
+        locale: item.locale,
+        sourceUrl: item.sourceUrl ?? "",
+        status: item.status,
+        summary: item.summary ?? "",
+        title: item.title
+      });
+      return;
+    }
+
     setFieldValues({
       body: item.body ?? "",
       contentType: item.type,
@@ -176,7 +234,7 @@ export function AdminCrudPreview({ contentItems = [] }: { contentItems?: AdminCo
   }
 
   async function handleDelete() {
-    if (!selectedItemId || !["content", "banner"].includes(activeForm)) {
+    if (!selectedItemId || !["content", "banner", "course"].includes(activeForm)) {
       return;
     }
 
@@ -226,7 +284,7 @@ export function AdminCrudPreview({ contentItems = [] }: { contentItems?: AdminCo
             <p>{currentForm.description}</p>
           </div>
         </div>
-        {(activeForm === "content" || activeForm === "banner") && editableItems.length > 0 ? (
+        {(activeForm === "course" || activeForm === "content" || activeForm === "banner") && editableItems.length > 0 ? (
           <label className="admin-existing-select">
             기존 항목 불러오기
             <select onChange={(event) => selectManagedItem(event.target.value)} value={selectedItemId}>
@@ -240,7 +298,7 @@ export function AdminCrudPreview({ contentItems = [] }: { contentItems?: AdminCo
           </label>
         ) : null}
         <div className="admin-editor-grid">
-          {currentForm.fields.map((field) => (
+          {currentFields.map((field) => (
             <label className={field.type === "textarea" ? "full" : undefined} key={field.name}>
               {field.label}
               {field.type === "select" ? (
@@ -252,7 +310,7 @@ export function AdminCrudPreview({ contentItems = [] }: { contentItems?: AdminCo
                 >
                   <option value="" disabled>선택</option>
                   {field.options?.map((option) => (
-                    <option key={option} value={option}>{option}</option>
+                    <option key={option} value={option}>{getOptionLabel(field.name, option, courseOptions)}</option>
                   ))}
                 </select>
               ) : field.type === "textarea" ? (
@@ -292,7 +350,7 @@ export function AdminCrudPreview({ contentItems = [] }: { contentItems?: AdminCo
             <Save size={16} />
             <span>{getSubmitLabel(activeForm, selectedItemId, isSubmitting)}</span>
           </button>
-          {(activeForm === "content" || activeForm === "banner") && selectedItemId ? (
+          {(activeForm === "course" || activeForm === "content" || activeForm === "banner") && selectedItemId ? (
             <button className="secondary-button danger" disabled={isSubmitting} onClick={handleDelete} type="button">
               <Trash2 size={16} />
               <span>선택 항목 삭제</span>
@@ -321,6 +379,10 @@ function getSuccessTitle(activeForm: AdminFormType, message: string) {
     return "배너 저장 완료";
   }
 
+  if (activeForm === "course") {
+    return "교육과정 저장 완료";
+  }
+
   return "콘텐츠 저장 완료";
 }
 
@@ -337,6 +399,10 @@ function getSubmitLabel(activeForm: AdminFormType, selectedItemId: string, isSub
     return "문의 처리 저장";
   }
 
+  if (activeForm === "course") {
+    return selectedItemId ? "선택 과정 수정" : "교육과정 저장";
+  }
+
   if (selectedItemId) {
     return "선택 항목 수정";
   }
@@ -345,6 +411,22 @@ function getSubmitLabel(activeForm: AdminFormType, selectedItemId: string, isSub
 }
 
 async function saveActiveForm(activeForm: AdminFormType, formData: FormData) {
+  if (activeForm === "course") {
+    const courseSlug = String(formData.get("courseSlug") ?? "");
+    const courseSection = String(formData.get("courseSection") ?? "");
+
+    return saveAdminContent({
+      body: String(formData.get("body") ?? ""),
+      contentType: "Course",
+      locale: String(formData.get("locale") ?? ""),
+      slug: getCourseManagedSlug(courseSlug, courseSection),
+      sourceUrl: String(formData.get("sourceUrl") ?? ""),
+      status: String(formData.get("status") ?? ""),
+      summary: String(formData.get("summary") ?? ""),
+      title: String(formData.get("title") ?? "")
+    });
+  }
+
   if (activeForm === "certification") {
     return saveAdminCertification({
       certificateNumber: String(formData.get("certificateNumber") ?? ""),
@@ -386,4 +468,58 @@ async function saveActiveForm(activeForm: AdminFormType, formData: FormData) {
     summary: String(formData.get("summary") ?? ""),
     title: String(formData.get("title") ?? "")
   });
+}
+
+function getCurrentFields(activeForm: AdminFormType, fields: AdminField[], courseOptions: CourseOption[]) {
+  if (activeForm !== "course") {
+    return fields;
+  }
+
+  return fields.map((field) => {
+    if (field.name !== "courseSlug") {
+      return field;
+    }
+
+    return {
+      ...field,
+      options: courseOptions.map((course) => course.slug)
+    };
+  });
+}
+
+function getCourseManagedSlug(courseSlug: string, courseSection: string) {
+  if (!courseSlug || courseSection === "main") {
+    return courseSlug;
+  }
+
+  return `${courseSlug}-${courseSection}`;
+}
+
+function parseCourseManagedSlug(slug: string, courseOptions: CourseOption[]) {
+  const matchingCourse = courseOptions
+    .slice()
+    .sort((a, b) => b.slug.length - a.slug.length)
+    .find((course) => slug === course.slug || slug.startsWith(`${course.slug}-`));
+
+  if (!matchingCourse) {
+    return { courseSection: "main", courseSlug: slug };
+  }
+
+  if (slug === matchingCourse.slug) {
+    return { courseSection: "main", courseSlug: matchingCourse.slug };
+  }
+
+  return {
+    courseSection: slug.slice(matchingCourse.slug.length + 1),
+    courseSlug: matchingCourse.slug
+  };
+}
+
+function getOptionLabel(fieldName: string, option: string, courseOptions: CourseOption[]) {
+  if (fieldName !== "courseSlug") {
+    return option;
+  }
+
+  const course = courseOptions.find((candidate) => candidate.slug === option);
+  return course ? `${course.label} (${course.slug})` : option;
 }

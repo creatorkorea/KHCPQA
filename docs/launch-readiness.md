@@ -12,6 +12,9 @@
 | 문의 제출 E2E | 완료 | `docs/qa-release.md` |
 | 로그인/자격 조회 E2E | 완료 | `docs/qa-release.md` |
 | GitHub 최신화 | 완료 | `main` branch |
+| 관리자 게시글 입력 | 완료 | `src/components/AdminCrudPreview.tsx` |
+| 관리자 교육과정 관리 | 완료 | `src/components/AdminCrudPreview.tsx` |
+| 공개 배포 기본 응답 | 확인 | `https://khcpqa.vercel.app` |
 | Vercel 직접 배포 | 작업 환경 정책상 직접 수행 불가 | `docs/deployment-handoff.md` |
 
 ## Handoff Documents
@@ -52,6 +55,6 @@
 
 ## Recommended Next Step
 
-운영자는 `docs/deployment-handoff.md`에 따라 Vercel 프로젝트를 생성하고, 생성된 검수 URL을 Supabase Auth Redirect URL에 등록한다. 이후 발주사는 `docs/client-review-request.md`와 `docs/client-action-items.md` 기준으로 검수한다.
+운영자는 Vercel production 배포가 최신 GitHub `main` 커밋을 반영했는지 확인하고, 검수 URL을 Supabase Auth Redirect URL에 등록한다. 이후 발주사는 `docs/client-review-request.md`와 `docs/client-action-items.md` 기준으로 검수한다.
 
 GitHub에서 남은 항목을 추적할 때는 `.github/ISSUE_TEMPLATE`의 client approval, deployment, data import 템플릿을 사용한다.

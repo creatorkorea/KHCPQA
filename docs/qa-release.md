@@ -7,10 +7,15 @@ Last updated: 2026-07-17
 | 항목 | 결과 |
 | --- | --- |
 | `npm run lint` | 통과 |
-| `npm run build` | 통과, 134개 정적 페이지 생성 |
-| 주요 공개 라우트 | `/ko`, `/en/curriculum`, `/es/contact`, `/en/login` 200 확인 |
-| 교육과정 상세 라우트 | 프로덕션 모드에서 `/ko/curriculum/취업전문과정`, `/ko/curriculum/창업전문과정`, `/en/curriculum/취업전문과정` 200 확인 |
-| 보호 라우트 | 비로그인 `/ko/account/certifications` 접근 시 로그인으로 리다이렉트 확인 |
+| `npm run build` | 통과, 137개 정적 페이지 생성 |
+| 공개 배포 URL | `https://khcpqa.vercel.app/ko`, `/ko/curriculum`, `/ko/curriculum/취업전문과정`, `/ko/login`, `/robots.txt`, `/sitemap.xml` 200 확인 |
+| 주요 공개 라우트 | 로컬 프로덕션 모드에서 `/ko`, `/ko/curriculum`, `/ko/activities/notice`, `/ko/login`, `/ko/signup`, `/ko/about`, `/ko/about/greeting`, `/ko/about/instructors`, `/ko/contact`, `/en`, `/es`, `/en/curriculum`, `/es/activities/photo` 200 확인 |
+| 교육과정 상세 라우트 | 공개 배포와 로컬 프로덕션 모드에서 `/ko/curriculum/취업전문과정` 200 확인 |
+| 보호 라우트 | 비로그인 `/admin`, `/ko/account` 접근 시 `/ko/login?next=...` 리다이렉트 확인 |
+| Supabase 연결 | `.env.local`의 공개 URL/anon key 존재, `admin_content_items`, `banners`, Auth settings 응답 200 확인 |
+| 관리자 과정 관리 | 관리자 입력 폼에 교육과정 전용 탭 추가, Course 타입 저장 후 과정 목록/상세 재검증 적용 |
+| 관리자 게시글 관리 | Page/Activity/Review 콘텐츠 등록/수정/삭제와 공개 게시글 읽기 흐름 유지 |
+| 이미지 참조 | 주요 콘텐츠/소개/인사말 asset 경로 존재 확인 |
 | 문의 제출 | `/ko/partner-inquiry` 제출 후 원격 `public.inquiries` 저장 확인 |
 | Supabase 마이그레이션 | 원격 프로젝트에 3개 마이그레이션 적용 확인 |
 | Supabase RLS | 관련 테이블 정책 22개 확인 |
@@ -23,7 +28,7 @@ Last updated: 2026-07-17
 
 ## Remaining Before Client Review URL
 
-- 배포 대상과 도메인 결정
+- 운영자가 Vercel production 배포 상태를 확인하고 검수 URL 공유
 - 발주사 제공 개인정보처리방침/이용약관 원문 반영
 - 기존 SMC365 이미지, 후기, 보도자료, 강사 사진 사용 권리 확인
 - 전체 운영 콘텐츠의 `source_url` 실데이터 저장

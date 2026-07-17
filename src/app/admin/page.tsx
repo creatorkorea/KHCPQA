@@ -4,7 +4,8 @@ import { AdminPublishEventsTable } from "@/components/AdminPublishEventsTable";
 import { AdminUserRolePreview } from "@/components/AdminUserRolePreview";
 import {
   adminModules,
-  adminReleaseTasks
+  adminReleaseTasks,
+  getCourses
 } from "@/lib/content";
 import { getAdminCertifications, getAdminContentRows, getAdminInquiries, getAdminPublishEvents, getAdminUsers } from "@/lib/admin-data";
 
@@ -24,6 +25,10 @@ export default async function AdminPage() {
     getAdminContentRows(),
     getAdminPublishEvents()
   ]);
+  const courseOptions = getCourses("ko").map((course) => ({
+    label: course.title,
+    slug: course.slug
+  }));
 
   return (
     <main className="admin-page">
@@ -72,7 +77,7 @@ export default async function AdminPage() {
         <div className="admin-panel-grid">
           <section className="admin-table-card admin-editor-card">
             <h3>관리자 입력 폼</h3>
-            <AdminCrudPreview contentItems={adminContent} />
+            <AdminCrudPreview contentItems={adminContent} courseOptions={courseOptions} />
           </section>
           <section className="admin-table-card admin-editor-card">
             <h3>회원 권한 관리</h3>

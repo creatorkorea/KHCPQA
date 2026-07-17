@@ -111,6 +111,36 @@ function getPublishEventAction(status: string, isExisting: boolean) {
   return isExisting ? "updated" : "created";
 }
 
+function getManagedCourseSlug(slug: string) {
+  return slug.replace(/-(?:flow|panel|technique|process)-.+$/, "");
+}
+
+function revalidateManagedContent(input: {
+  contentType: ContentType;
+  locale: Locale;
+  slug: string;
+}) {
+  revalidatePath("/admin");
+
+  if (input.contentType === "Course") {
+    const courseSlug = getManagedCourseSlug(input.slug);
+    revalidatePath(`/${input.locale}/curriculum`);
+    revalidatePath(`/${input.locale}/curriculum/${courseSlug}`);
+    return;
+  }
+
+  if (input.contentType === "Activity") {
+    const activityKey = input.slug.split("-")[0];
+    revalidatePath(`/${input.locale}/activities`);
+    revalidatePath(`/${input.locale}/activities/${activityKey}`);
+    return;
+  }
+
+  if (input.contentType === "Page") {
+    revalidatePath(input.slug === "home" ? `/${input.locale}` : `/${input.locale}/${input.slug}`);
+  }
+}
+
 async function logPublishEvent({
   action,
   actor,
@@ -410,7 +440,11 @@ export async function saveAdminContent(input: {
     });
   }
 
-  revalidatePath("/admin");
+  revalidateManagedContent({
+    contentType: trimmed.contentType,
+    locale: trimmed.locale,
+    slug: trimmed.slug
+  });
   return { ok: true, message: "콘텐츠 항목이 저장되었습니다." };
 }
 
@@ -559,7 +593,7 @@ export async function deleteAdminManagedItem(input: {
 
   const { data: contentItem, error: contentError } = await actor.supabase
     .from("admin_content_items")
-    .select("content_type, status, title")
+    .select("content_type, locale, slug, status, title")
     .eq("id", trimmed.id)
     .maybeSingle();
 
@@ -595,7 +629,15 @@ export async function deleteAdminManagedItem(input: {
     title: contentItem.title
   });
 
-  revalidatePath("/admin");
+  if (isContentType(contentItem.content_type) && isLocale(contentItem.locale)) {
+    revalidateManagedContent({
+      contentType: contentItem.content_type,
+      locale: contentItem.locale,
+      slug: contentItem.slug
+    });
+  } else {
+    revalidatePath("/admin");
+  }
   revalidatePath("/");
   return { ok: true, message: "콘텐츠 항목이 삭제되었습니다." };
 }
