@@ -2,13 +2,14 @@
 
 ## Current QA Snapshot
 
-Last updated: 2026-07-16
+Last updated: 2026-07-17
 
 | 항목 | 결과 |
 | --- | --- |
 | `npm run lint` | 통과 |
 | `npm run build` | 통과, 134개 정적 페이지 생성 |
 | 주요 공개 라우트 | `/ko`, `/en/curriculum`, `/es/contact`, `/en/login` 200 확인 |
+| 교육과정 상세 라우트 | 프로덕션 모드에서 `/ko/curriculum/취업전문과정`, `/ko/curriculum/창업전문과정`, `/en/curriculum/취업전문과정` 200 확인 |
 | 보호 라우트 | 비로그인 `/ko/account/certifications` 접근 시 로그인으로 리다이렉트 확인 |
 | 문의 제출 | `/ko/partner-inquiry` 제출 후 원격 `public.inquiries` 저장 확인 |
 | Supabase 마이그레이션 | 원격 프로젝트에 3개 마이그레이션 적용 확인 |

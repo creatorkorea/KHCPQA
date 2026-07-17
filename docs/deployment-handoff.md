@@ -6,7 +6,7 @@
 
 - GitHub: `https://github.com/creatorkorea/KHCPQA`
 - Branch: `main`
-- Latest verified commit: `23a4c8c`
+- Latest verified commit: `bdfc29c`
 
 ## Vercel Project Setup
 
@@ -47,6 +47,7 @@ Preview URL로 회원가입/로그인 검수를 진행할 경우 해당 Preview 
 배포 완료 후 아래를 확인한다.
 
 - `/ko`, `/en`, `/es` 접속
+- `/ko/curriculum`에서 과정 상세 페이지 진입
 - `/ko/partner-inquiry` 문의 제출 후 관리자 문의함 확인
 - `/ko/login` 로그인
 - `/ko/account/certifications` 자격 조회
