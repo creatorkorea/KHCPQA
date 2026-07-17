@@ -352,6 +352,7 @@ type Copy = {
     successMessage: string;
     resetSuccessTitle: string;
     resetSuccessMessage: string;
+    configurationError: string;
     validation: {
       emailRequired: string;
       emailInvalid: string;
@@ -434,6 +435,7 @@ type Copy = {
       lookupEmptyTitle: string;
       lookupEmptyMessage: string;
       demoHint: string;
+      emptyState: string;
     };
     inquiries: {
       title: string;
@@ -897,6 +899,7 @@ export const copy = {
       successMessage: "잠시 후 My Page로 이동합니다.",
       resetSuccessTitle: "재설정 안내를 보냈습니다.",
       resetSuccessMessage: "입력하신 이메일로 비밀번호 재설정 안내를 보냈습니다.",
+      configurationError: "로그인 설정이 아직 연결되지 않았습니다. 관리자에게 문의해 주세요.",
       validation: {
         emailRequired: "이메일을 입력해 주세요.",
         emailInvalid: "올바른 이메일 주소를 입력해 주세요.",
@@ -981,7 +984,8 @@ export const copy = {
         lookupSuccessTitle: "자격 정보가 확인되었습니다.",
         lookupEmptyTitle: "일치하는 자격 정보가 없습니다.",
         lookupEmptyMessage: "자격번호와 검증 코드를 다시 확인해 주세요.",
-        demoHint: "예시: SMC-2026-001 / PUBLIC-CODE-001"
+        demoHint: "예시: SMC-2026-001 / PUBLIC-CODE-001",
+        emptyState: "등록된 자격 내역이 없습니다."
       },
       inquiries: {
         title: "Inquiry History",
@@ -1458,6 +1462,7 @@ export const copy = {
       successMessage: "Redirecting to My Page shortly.",
       resetSuccessTitle: "Reset instructions sent.",
       resetSuccessMessage: "Password reset instructions have been sent to your email.",
+      configurationError: "Login is not connected yet. Please contact the administrator.",
       validation: {
         emailRequired: "Please enter your email.",
         emailInvalid: "Please enter a valid email address.",
@@ -1542,7 +1547,8 @@ export const copy = {
         lookupSuccessTitle: "Certification record found.",
         lookupEmptyTitle: "No matching certification record.",
         lookupEmptyMessage: "Please check the certificate number and verification code.",
-        demoHint: "Example: SMC-2026-001 / PUBLIC-CODE-001"
+        demoHint: "Example: SMC-2026-001 / PUBLIC-CODE-001",
+        emptyState: "No certification records are registered."
       },
       inquiries: {
         title: "Inquiry History",
@@ -2019,6 +2025,7 @@ export const copy = {
       successMessage: "Redirigiendo a My Page.",
       resetSuccessTitle: "Instrucciones enviadas.",
       resetSuccessMessage: "Las instrucciones para restablecer la contraseña se enviaron a su email.",
+      configurationError: "El inicio de sesión aún no está conectado. Contacte al administrador.",
       validation: {
         emailRequired: "Ingrese su email.",
         emailInvalid: "Ingrese una dirección de email válida.",
@@ -2103,7 +2110,8 @@ export const copy = {
         lookupSuccessTitle: "Registro de certificación encontrado.",
         lookupEmptyTitle: "No hay registro coincidente.",
         lookupEmptyMessage: "Revise el número de certificado y el código de verificación.",
-        demoHint: "Ejemplo: SMC-2026-001 / PUBLIC-CODE-001"
+        demoHint: "Ejemplo: SMC-2026-001 / PUBLIC-CODE-001",
+        emptyState: "No hay certificaciones registradas."
       },
       inquiries: {
         title: "Historial de Consultas",

@@ -5155,6 +5155,14 @@ p {
   padding: 7px 10px;
 }
 
+.cert-table .cert-empty-state {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 850;
+  margin: 0;
+  padding: 18px;
+}
+
 .account-nav {
   display: grid;
   gap: 10px;

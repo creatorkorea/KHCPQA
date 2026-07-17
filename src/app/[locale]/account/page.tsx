@@ -49,13 +49,17 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
         </div>
         </AccountSection>
         <div className="cert-table">
-          {accountData.certificates.map((certificate) => (
-            <div key={certificate.number}>
-              <strong>{certificate.title}</strong>
-              <span>{certificate.number} · {certificate.issuedAt}</span>
-              <em>{certificate.status}</em>
-            </div>
-          ))}
+          {accountData.certificates.length > 0 ? (
+            accountData.certificates.map((certificate) => (
+              <div key={certificate.number}>
+                <strong>{certificate.title}</strong>
+                <span>{certificate.number} · {certificate.issuedAt}</span>
+                <em>{certificate.status}</em>
+              </div>
+            ))
+          ) : (
+            <p className="cert-empty-state">{t.account.certifications.emptyState}</p>
+          )}
         </div>
         <div className="account-action-row">
           {t.account.nav.slice(1).map((item) => (

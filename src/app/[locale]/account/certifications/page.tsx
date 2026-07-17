@@ -34,30 +34,34 @@ export default async function AccountCertificationsPage({ params }: { params: Pr
         <AccountNav locale={locale} activeHref="account/certifications" />
         <CertificationLookupForm certificates={accountData.certificates} locale={locale} />
         <AccountSection title={t.account.certifications.title} lead={t.account.certifications.lead}>
-          <div className="cert-records">
-            {accountData.certificates.map((certificate) => (
-              <article key={certificate.number}>
-                <dl>
-                  <div>
-                    <dt>{t.account.certifications.courseLabel}</dt>
-                    <dd>{certificate.title}</dd>
-                  </div>
-                  <div>
-                    <dt>{t.account.certifications.numberLabel}</dt>
-                    <dd>{certificate.number}</dd>
-                  </div>
-                  <div>
-                    <dt>{t.account.certifications.issuedLabel}</dt>
-                    <dd>{certificate.issuedAt}</dd>
-                  </div>
-                  <div>
-                    <dt>{t.account.certifications.statusLabel}</dt>
-                    <dd><span>{certificate.status}</span></dd>
-                  </div>
-                </dl>
-              </article>
-            ))}
-          </div>
+          {accountData.certificates.length > 0 ? (
+            <div className="cert-records">
+              {accountData.certificates.map((certificate) => (
+                <article key={certificate.number}>
+                  <dl>
+                    <div>
+                      <dt>{t.account.certifications.courseLabel}</dt>
+                      <dd>{certificate.title}</dd>
+                    </div>
+                    <div>
+                      <dt>{t.account.certifications.numberLabel}</dt>
+                      <dd>{certificate.number}</dd>
+                    </div>
+                    <div>
+                      <dt>{t.account.certifications.issuedLabel}</dt>
+                      <dd>{certificate.issuedAt}</dd>
+                    </div>
+                    <div>
+                      <dt>{t.account.certifications.statusLabel}</dt>
+                      <dd><span>{certificate.status}</span></dd>
+                    </div>
+                  </dl>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="inquiry-empty-state" role="status">{t.account.certifications.emptyState}</div>
+          )}
         </AccountSection>
       </section>
     </>

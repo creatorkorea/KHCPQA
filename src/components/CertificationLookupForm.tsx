@@ -64,7 +64,7 @@ export function CertificationLookupForm({
           <span>{t.account.certifications.lookupCta}</span>
         </button>
       </form>
-      <p className="certificate-demo-hint">{t.account.certifications.demoHint}</p>
+      {certificates.length > 0 ? <p className="certificate-demo-hint">{t.account.certifications.demoHint}</p> : null}
       {hasSearched && match ? (
         <div className="certificate-result is-found" role="status">
           <BadgeCheck size={22} />

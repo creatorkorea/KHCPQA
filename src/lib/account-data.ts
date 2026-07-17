@@ -65,19 +65,14 @@ function formatDate(locale: Locale, value: string) {
   }).format(new Date(value));
 }
 
-function fallbackAccountData(locale: Locale): AccountData {
-  const t = getCopy(locale);
+function emptyAccountData(locale: Locale, email?: string | null): AccountData {
+  const profileData = buildProfileData(locale, null, email);
 
   return {
-    profileFields: t.account.profile.fields,
-    profileForm: {
-      name: t.account.profile.fields[0]?.value ?? "",
-      email: t.account.profile.fields[1]?.value ?? "",
-      country: t.account.profile.fields[2]?.value ?? "",
-      preferredLanguage: locale
-    },
-    certificates: t.account.certificates,
-    inquiries: t.account.inquiries.items
+    profileFields: profileData.profileFields,
+    profileForm: profileData.profileForm,
+    certificates: [],
+    inquiries: []
   };
 }
 
@@ -128,17 +123,16 @@ function mapInquiry(locale: Locale, row: InquiryRow): AccountInquiry {
 
 export async function getAccountData(locale: Locale): Promise<AccountData> {
   if (!hasSupabaseBrowserEnv()) {
-    return fallbackAccountData(locale);
+    return emptyAccountData(locale);
   }
 
-  const fallback = fallbackAccountData(locale);
   const supabase = createClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return fallback;
+    return emptyAccountData(locale);
   }
 
   const [{ data: profile }, { data: certificates }, { data: inquiries }] = await Promise.all([
@@ -160,13 +154,7 @@ export async function getAccountData(locale: Locale): Promise<AccountData> {
   return {
     profileFields: profileData.profileFields,
     profileForm: profileData.profileForm,
-    certificates:
-      certificates && certificates.length > 0
-        ? (certificates as CertificateRow[]).map((certificate) => mapCertificate(locale, certificate))
-        : fallback.certificates,
-    inquiries:
-      inquiries && inquiries.length > 0
-        ? (inquiries as InquiryRow[]).map((inquiry) => mapInquiry(locale, inquiry))
-        : fallback.inquiries
+    certificates: certificates ? (certificates as CertificateRow[]).map((certificate) => mapCertificate(locale, certificate)) : [],
+    inquiries: inquiries ? (inquiries as InquiryRow[]).map((inquiry) => mapInquiry(locale, inquiry)) : []
   };
 }

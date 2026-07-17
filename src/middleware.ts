@@ -29,8 +29,17 @@ function isProtectedPath(pathname: string) {
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  if (!isProtectedPath(pathname) || !hasSupabaseBrowserEnv()) {
+  if (!isProtectedPath(pathname)) {
     return NextResponse.next();
+  }
+
+  if (!hasSupabaseBrowserEnv()) {
+    const locale = getLocaleFromPath(pathname);
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = `/${locale}/login`;
+    redirectUrl.searchParams.set("auth", "config-error");
+    redirectUrl.searchParams.set("next", pathname);
+    return NextResponse.redirect(redirectUrl);
   }
 
   let response = NextResponse.next({ request });
