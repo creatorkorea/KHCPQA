@@ -43,6 +43,7 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
 
     return {
       ...course,
+      imageUrl: content?.imageUrl || course.imageUrl,
       summary: content?.lead || course.summary,
       title: content?.title || course.title
     };

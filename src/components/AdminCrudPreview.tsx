@@ -57,6 +57,7 @@ const adminForms: Record<AdminFormType, {
       { label: "제목", name: "title", placeholder: "과정명 또는 상세 섹션 제목", required: true },
       { label: "요약", name: "summary", type: "textarea", placeholder: "과정 카드/상세 상단에 사용할 요약" },
       { label: "상세 본문", name: "body", type: "textarea", placeholder: "상세 본문 또는 줄바꿈 목록. flow/process/technique 섹션은 한 줄씩 입력하면 목록으로 표시됩니다." },
+      { label: "대표 이미지 URL", name: "imageUrl", placeholder: "/assets/course-image.jpg 또는 https://..." },
       { label: "원본 URL", name: "sourceUrl", placeholder: "https://www.smc365.ac/..." }
     ]
   },
@@ -71,6 +72,7 @@ const adminForms: Record<AdminFormType, {
       { label: "제목", name: "title", placeholder: "콘텐츠 제목", required: true },
       { label: "게시 상태", name: "status", type: "select", options: ["draft", "translated", "reviewed", "published", "archived"], required: true },
       { label: "원본 URL", name: "sourceUrl", placeholder: "https://www.smc365.ac/..." },
+      { label: "대표 이미지 URL", name: "imageUrl", placeholder: "/assets/activity-image.jpg 또는 https://..." },
       { label: "본문 요약", name: "summary", type: "textarea", placeholder: "관리자 목록과 SEO에 사용할 요약" },
       { label: "상세 본문", name: "body", type: "textarea", placeholder: "공개 상세 페이지 소개 문단에 사용할 본문" }
     ]
@@ -108,6 +110,7 @@ const adminForms: Record<AdminFormType, {
       { label: "게시 상태", name: "bannerStatus", type: "select", options: ["draft", "published", "archived"], required: true },
       { label: "시작일", name: "startsAt", placeholder: "2026-07-12" },
       { label: "종료일", name: "endsAt", placeholder: "2026-08-12" },
+      { label: "이미지 URL", name: "imageUrl", placeholder: "/assets/banner-image.jpg 또는 https://..." },
       { label: "연결 URL", name: "targetUrl", placeholder: "/ko/partner-inquiry" }
     ]
   }
@@ -208,6 +211,7 @@ export function AdminCrudPreview({
         bannerStatus: item.status,
         bannerTitle: item.title,
         endsAt: item.endsAt?.slice(0, 10) ?? "",
+        imageUrl: item.imageUrl ?? "",
         itemId: item.id ?? "",
         placement: item.locale,
         startsAt: item.startsAt?.slice(0, 10) ?? "",
@@ -223,6 +227,7 @@ export function AdminCrudPreview({
         courseSection: parsedSlug.courseSection,
         courseSlug: parsedSlug.courseSlug,
         itemId: item.id ?? "",
+        imageUrl: item.imageUrl ?? "",
         locale: item.locale,
         sourceUrl: item.sourceUrl ?? "",
         status: item.status,
@@ -236,6 +241,7 @@ export function AdminCrudPreview({
       body: item.body ?? "",
       contentType: item.type,
       itemId: item.id ?? "",
+      imageUrl: item.imageUrl ?? "",
       locale: item.locale,
       slug: item.slug ?? "",
       sourceUrl: item.sourceUrl ?? "",
@@ -430,6 +436,7 @@ async function saveActiveForm(activeForm: AdminFormType, formData: FormData) {
     return saveAdminContent({
       body: String(formData.get("body") ?? ""),
       contentType: "Course",
+      imageUrl: String(formData.get("imageUrl") ?? ""),
       locale: String(formData.get("locale") ?? ""),
       slug: getCourseManagedSlug(courseSlug, courseSection),
       sourceUrl: String(formData.get("sourceUrl") ?? ""),
@@ -462,6 +469,7 @@ async function saveActiveForm(activeForm: AdminFormType, formData: FormData) {
     return saveAdminBanner({
       endsAt: String(formData.get("endsAt") ?? ""),
       id: String(formData.get("itemId") ?? ""),
+      imageUrl: String(formData.get("imageUrl") ?? ""),
       placement: String(formData.get("placement") ?? ""),
       startsAt: String(formData.get("startsAt") ?? ""),
       status: String(formData.get("bannerStatus") ?? ""),
@@ -473,6 +481,7 @@ async function saveActiveForm(activeForm: AdminFormType, formData: FormData) {
   return saveAdminContent({
     body: String(formData.get("body") ?? ""),
     contentType: String(formData.get("contentType") ?? ""),
+    imageUrl: String(formData.get("imageUrl") ?? ""),
     locale: String(formData.get("locale") ?? ""),
     slug: String(formData.get("slug") ?? ""),
     sourceUrl: String(formData.get("sourceUrl") ?? ""),

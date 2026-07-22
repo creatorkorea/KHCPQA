@@ -50,10 +50,11 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
             const content = activityContent.get(activity.key);
             const title = content?.title || activity.title;
             const summary = content?.lead || activity.summary;
+            const imageUrl = content?.imageUrl || activity.imageUrl;
             return (
               <article className="activity-card" key={activity.key}>
                 <Image
-                  src={activity.imageUrl}
+                  src={imageUrl}
                   alt={title}
                   width={640}
                   height={400}

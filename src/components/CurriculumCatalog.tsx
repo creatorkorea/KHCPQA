@@ -100,7 +100,7 @@ export function CurriculumCatalog({
             <div className="course-grid">
               {catalogCourses.map((course) => (
                 <article className="course-card" key={course.title}>
-                  <Image src={course.imageUrl} alt={course.title} width={640} height={320} />
+                  <Image src={course.imageUrl} alt={course.title} width={640} height={320} unoptimized />
                   <div className="course-card-body">
                     <span>{course.category}</span>
                     <h3>{course.title}</h3>

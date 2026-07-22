@@ -23,6 +23,7 @@ const contentStatusOptions = ["draft", "translated", "reviewed", "published", "a
 const locales = ["ko", "en", "es"] as const;
 const bannerPlacements = ["home", "curriculum", "activities", "global"] as const;
 const bannerStatusOptions = ["draft", "published", "archived"] as const;
+const missingSupabaseMessage = "Supabase 환경변수가 설정되지 않아 저장할 수 없습니다.";
 
 type AdminRole = (typeof roleOptions)[number];
 type AccountStatus = (typeof statusOptions)[number];
@@ -200,7 +201,7 @@ export async function updateAdminUserRole(input: {
   }
 
   if (!hasSupabaseBrowserEnv()) {
-    return { ok: true, message: "검수용 권한 저장 흐름이 확인되었습니다." };
+    return { ok: false, message: missingSupabaseMessage };
   }
 
   const actor = await getActiveAdminRole();
@@ -258,7 +259,7 @@ export async function saveAdminCertification(input: {
   }
 
   if (!hasSupabaseBrowserEnv()) {
-    return { ok: true, message: "검수용 자격 데이터 저장 흐름이 확인되었습니다." };
+    return { ok: false, message: missingSupabaseMessage };
   }
 
   const actor = await getActiveAdminRole();
@@ -321,7 +322,7 @@ export async function saveAdminInquiry(input: {
   }
 
   if (!hasSupabaseBrowserEnv()) {
-    return { ok: true, message: "검수용 문의 처리 저장 흐름이 확인되었습니다." };
+    return { ok: false, message: missingSupabaseMessage };
   }
 
   const actor = await getActiveAdminRole();
@@ -355,6 +356,7 @@ export async function saveAdminInquiry(input: {
 export async function saveAdminContent(input: {
   body: string;
   contentType: string;
+  imageUrl: string;
   locale: string;
   slug: string;
   sourceUrl: string;
@@ -365,6 +367,7 @@ export async function saveAdminContent(input: {
   const trimmed = {
     body: input.body.trim(),
     contentType: input.contentType.trim(),
+    imageUrl: input.imageUrl.trim(),
     locale: input.locale.trim(),
     slug: input.slug.trim().toLowerCase(),
     sourceUrl: input.sourceUrl.trim(),
@@ -384,7 +387,7 @@ export async function saveAdminContent(input: {
   }
 
   if (!hasSupabaseBrowserEnv()) {
-    return { ok: true, message: "검수용 콘텐츠 저장 흐름이 확인되었습니다." };
+    return { ok: false, message: missingSupabaseMessage };
   }
 
   const actor = await getActiveAdminRole();
@@ -415,6 +418,7 @@ export async function saveAdminContent(input: {
       content_type: trimmed.contentType,
       created_by: actor.userId,
       body: trimmed.body || null,
+      image_url: trimmed.imageUrl || null,
       locale: trimmed.locale,
       slug: trimmed.slug,
       source_url: trimmed.sourceUrl || null,
@@ -451,6 +455,7 @@ export async function saveAdminContent(input: {
 export async function saveAdminBanner(input: {
   endsAt: string;
   id?: string;
+  imageUrl: string;
   placement: string;
   startsAt: string;
   status: string;
@@ -460,6 +465,7 @@ export async function saveAdminBanner(input: {
   const trimmed = {
     endsAt: input.endsAt.trim(),
     id: input.id?.trim() ?? "",
+    imageUrl: input.imageUrl.trim(),
     placement: input.placement.trim(),
     startsAt: input.startsAt.trim(),
     status: input.status.trim(),
@@ -478,7 +484,7 @@ export async function saveAdminBanner(input: {
   }
 
   if (!hasSupabaseBrowserEnv()) {
-    return { ok: true, message: "검수용 배너 저장 흐름이 확인되었습니다." };
+    return { ok: false, message: missingSupabaseMessage };
   }
 
   const actor = await getActiveAdminRole();
@@ -494,6 +500,7 @@ export async function saveAdminBanner(input: {
   const payload = {
     created_by: actor.userId,
     ends_at: trimmed.endsAt || null,
+    image_url: trimmed.imageUrl || null,
     placement: trimmed.placement,
     starts_at: trimmed.startsAt || null,
     status: trimmed.status,
@@ -539,7 +546,7 @@ export async function deleteAdminManagedItem(input: {
   }
 
   if (!hasSupabaseBrowserEnv()) {
-    return { ok: true, message: "검수용 삭제 흐름이 확인되었습니다." };
+    return { ok: false, message: missingSupabaseMessage };
   }
 
   const actor = await getActiveAdminRole();

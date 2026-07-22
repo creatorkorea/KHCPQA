@@ -283,7 +283,7 @@ export default async function CourseDetailPage({
     hasOriginalProcessImages ? originalProcessLabelsByCourseNumber[originalCourseNumber] : processItems,
     12
   );
-  const originalHeroImage = getOriginalCourseImage(course.source, "img01.jpg");
+  const originalHeroImage = content.imageUrl || getOriginalCourseImage(course.source, "img01.jpg");
   const originalSupportImage = getOriginalCourseImage(course.source, "img02.jpg");
   const originalProcessImages = hasOriginalProcessImages ? getOriginalProcessImages(course.source, processLabels.length) : [];
   const originalCourseDetail = originalCourseDetails[originalCourseNumber];
@@ -314,7 +314,7 @@ export default async function CourseDetailPage({
           </dl>
         </div>
         <div className="course-landing-media">
-          <Image src={originalHeroImage} alt={courseTitle} width={960} height={620} priority />
+          <Image src={originalHeroImage} alt={courseTitle} width={960} height={620} priority unoptimized />
         </div>
       </section>
 

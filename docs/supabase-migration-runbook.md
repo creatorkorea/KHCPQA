@@ -16,6 +16,7 @@ Open Supabase Dashboard > SQL Editor and run the migration files in this exact o
 1. `supabase/migrations/202607120001_create_auth_domain_tables.sql`
 2. `supabase/migrations/202607120002_allow_public_inquiry_insert.sql`
 3. `supabase/migrations/202607120003_create_admin_content_tables.sql`
+4. `supabase/migrations/202607220001_add_admin_image_urls.sql`
 
 Run each file separately. The migrations use `create ... if not exists`, `drop trigger if exists`, and policy/table names that are intended for forward setup.
 
@@ -86,12 +87,23 @@ from pg_trigger
 where tgname = 'on_auth_user_created_profile';
 ```
 
+Check CMS image URL columns:
+
+```sql
+select table_name, column_name
+from information_schema.columns
+where table_schema = 'public'
+  and table_name in ('admin_content_items', 'banners')
+  and column_name = 'image_url'
+order by table_name;
+```
+
 ## Seed Sample Data
 
 After the migrations are applied, run `supabase/seed.sql` in the SQL Editor or through local Supabase reset. The seed inserts:
 
-- published CMS content with `source_url`
-- a published home banner
+- published CMS content with `source_url` and `image_url`
+- a published home banner with `image_url`
 - one public partnership inquiry
 - certification sample rows for `member@example.com` when that profile exists
 
@@ -100,7 +112,7 @@ For certification samples, first create or sign up a user with `member@example.c
 Verification:
 
 ```sql
-select content_type, locale, slug, status, source_url
+select content_type, locale, slug, status, source_url, image_url
 from public.admin_content_items
 order by content_type, locale, slug;
 

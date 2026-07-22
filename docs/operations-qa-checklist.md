@@ -18,8 +18,9 @@ GitHub Actions > Operations QA에서 `qa_base_url`을 입력해 같은 점검을
 | 확인 항목 | 완료 기준 |
 | --- | --- |
 | GitHub branch | Vercel production deployment가 `main`을 사용한다. |
-| 최신 커밋 | Vercel deployment commit이 `4ff3e47` 이상이다. |
+| 최신 커밋 | Vercel deployment commit이 GitHub `main`의 최신 커밋과 일치한다. |
 | 환경변수 | `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`가 Production에 등록되어 있다. |
+| DB 마이그레이션 | `202607220001_add_admin_image_urls.sql`까지 Supabase에 적용되어 있다. |
 | 공개 라우트 | `/ko`, `/ko/curriculum`, `/ko/activities/notice`, `/ko/login`, `/ko/signup`, `/robots.txt`, `/sitemap.xml`이 200으로 응답한다. |
 | 보호 라우트 | 비로그인 `/admin`, `/ko/account` 접근 시 로그인으로 이동한다. |
 
@@ -36,6 +37,7 @@ Supabase Dashboard > Authentication > URL Configuration에서 확인한다.
 | 로그인 | `/ko/login`에서 테스트 회원으로 로그인 후 `/ko/account` 진입이 가능하다. |
 | 비밀번호 재설정 | 재설정 메일 링크 클릭 후 `/ko/account/security`에서 새 비밀번호 저장이 가능하다. |
 | 관리자 접근 | 관리자 role/status가 있는 계정만 `/admin`에 진입한다. |
+| 관리자 빈 상태 | 운영 테이블이 0건이면 데모 데이터가 아니라 빈 상태 안내가 보인다. |
 
 주의:
 - 실제 운영 개인정보로 테스트하지 않는다.
@@ -60,6 +62,7 @@ Supabase Dashboard > Authentication > URL Configuration에서 확인한다.
 | 지도/전화 | 지점별 전화, 주소, 지도 링크가 실제 운영 정보와 일치한다. |
 | 문의 CTA | 상담/문의 CTA가 `/ko/partner-inquiry` 또는 확정된 신청 링크로 이동한다. |
 | 원본 출처 | 공개 게시글의 source URL이 실제 원본 URL로 입력되어 있다. |
+| 대표 이미지 | CMS `image_url`에 사용 권리가 확인된 이미지 URL만 입력되어 있다. |
 
 공식 SNS URL이 확정되지 않았으면 현재처럼 내부 활동 섹션 링크를 유지한다.
 

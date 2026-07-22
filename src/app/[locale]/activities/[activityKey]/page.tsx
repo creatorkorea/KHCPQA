@@ -71,6 +71,7 @@ export default async function ActivityDetailPage({
   const activityTitle = content.title;
   const activitySummary = content.lead || activity.summary;
   const activityBody = content.body || activitySummary;
+  const activityImageUrl = content.imageUrl || activity.imageUrl;
   const [posts, detailSections] = await Promise.all([
     getPublishedActivityPosts({
       activityKey,
@@ -94,7 +95,7 @@ export default async function ActivityDetailPage({
           <span>{t.activitiesPage.allActivitiesCta}</span>
         </Link>
         <div className="activity-detail-hero">
-          <Image src={activity.imageUrl} alt={activityTitle} width={960} height={540} unoptimized />
+          <Image src={activityImageUrl} alt={activityTitle} width={960} height={540} unoptimized />
           <div>
             <Icon size={28} />
             <h2>{activityTitle}</h2>

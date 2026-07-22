@@ -75,14 +75,15 @@ where role <> 'user'
 order by role, email;
 ```
 
-## Content Source URL Update
+## Content Source URL / Image URL Update
 
 CSV의 `content_type`, `locale`, `slug` 조합은 CMS의 고유 키와 일치해야 한다.
+대표 이미지가 있는 항목은 `image_url`에 공개 접근 가능한 `/assets/...` 경로 또는 `https://...` URL을 입력한다.
 
 검증 SQL:
 
 ```sql
-select content_type, locale, slug, title, source_url
+select content_type, locale, slug, title, source_url, image_url
 from public.admin_content_items
 where source_url is null or source_url = ''
 order by content_type, locale, slug;

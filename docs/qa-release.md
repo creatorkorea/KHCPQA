@@ -2,7 +2,7 @@
 
 ## Current QA Snapshot
 
-Last updated: 2026-07-17
+Last updated: 2026-07-22
 
 | 항목 | 결과 |
 | --- | --- |
@@ -17,13 +17,16 @@ Last updated: 2026-07-17
 | Supabase 연결 | `.env.local`의 공개 URL/anon key 존재, `admin_content_items`, `banners`, Auth settings 응답 200 확인 |
 | 관리자 과정 관리 | 관리자 입력 폼에 교육과정 전용 탭 추가, Course 타입 저장 후 과정 목록/상세 재검증 적용 |
 | 관리자 게시글 관리 | Page/Activity/Review 콘텐츠 등록/수정/삭제와 공개 게시글 읽기 흐름 유지 |
+| 관리자 운영 안전성 | Supabase 연결 환경에서 DB 0건 시 데모 데이터 미노출, 환경변수 누락 시 저장 실패 처리, 회원 데이터 빈 상태 안내 표시 |
+| 관리자 이미지 URL 관리 | 콘텐츠/배너 `image_url` 입력, 저장, 공개 과정/활동 화면 우선 적용 구현 |
 | 이미지 참조 | 주요 콘텐츠/소개/인사말 asset 경로 존재 확인 |
 | 프론트엔드 UX 보강 | 활동 상세 Preview 문구 제거, 폼 자동완성, 모바일 메뉴 닫기/현재 페이지 표시, 관리자 검색 적용 |
 | 문의 제출 | `/ko/partner-inquiry` 제출 후 원격 `public.inquiries` 저장 확인 |
-| Supabase 마이그레이션 | 원격 프로젝트에 3개 마이그레이션 적용 확인 |
+| Supabase 마이그레이션 | 원격 프로젝트에 기존 3개 마이그레이션 적용 확인, `image_url` 추가 마이그레이션은 다음 배포 전 적용 필요 |
 | Supabase RLS | 관련 테이블 정책 22개 확인 |
 | 자격 조회 | E2E 테스트 회원의 자격번호/검증 코드 조회 성공 |
 | 반응형 QA | 375px, 768px, 1440px에서 가로 넘침 없음 |
+| 2026-07-22 로컬 재검증 | `npm run lint`, `npm run build`, `npm run qa:ops` 통과 |
 
 검수 스크린샷 위치:
 

@@ -5,6 +5,7 @@ insert into public.admin_content_items (
   title,
   status,
   source_url,
+  image_url,
   summary,
   body
 )
@@ -16,6 +17,7 @@ values
     '한국건강관리사자격협회 소개',
     'published',
     'https://www.smc365.ac/academy/academy01.asp',
+    '/assets/activity-wellness.png',
     '기존 협회 소개 콘텐츠를 글로벌 사이트 구조에 맞춰 정리한 검수용 항목입니다.',
     '한국건강관리사자격협회는 전문 교육, 자격 관리, 현장 중심 실무 역량 강화를 연결하는 교육 운영 체계를 제공합니다.'
   ),
@@ -26,6 +28,7 @@ values
     '오시는 길',
     'published',
     'https://www.smc365.ac/academy/academy06.asp',
+    '/assets/location-seoul-headquarters.jpg',
     '서울본부, SMC아카데미, 대림캠퍼스 연락처와 교통 안내 검수용 항목입니다.',
     '서울본부와 캠퍼스별 주소, 연락처, 지하철·버스·주차 안내를 운영 콘텐츠로 관리합니다.'
   ),
@@ -36,6 +39,7 @@ values
     '피부미용사 국가자격증',
     'published',
     'https://www.smc365.ac/curriculum/skin-national-certification.asp',
+    '/assets/course-medical-skincare.png',
     '피부미용사 국가자격증 과정의 소개와 실기·필기 준비 흐름을 정리한 샘플입니다.',
     '국가기술자격 취득을 목표로 이론, 실기, 고객 응대, 현장 준비 과정을 함께 다루는 대표 자격 과정입니다.'
   ),
@@ -46,6 +50,7 @@ values
     '공지/시험일정',
     'published',
     'https://www.smc365.ac/index.asp',
+    '/assets/activity-training.png',
     '공지와 시험일정 게시판 이관을 위한 샘플 운영 콘텐츠입니다.',
     '관리자는 시험일정, 모집 안내, 검수 공지를 등록하고 공개 상태를 관리합니다.'
   )
@@ -54,6 +59,7 @@ set
   title = excluded.title,
   status = excluded.status,
   source_url = excluded.source_url,
+  image_url = excluded.image_url,
   summary = excluded.summary,
   body = excluded.body;
 
@@ -63,6 +69,7 @@ insert into public.banners (
   status,
   starts_at,
   ends_at,
+  image_url,
   target_url
 )
 select
@@ -71,6 +78,7 @@ select
   'published',
   current_date,
   current_date + interval '30 days',
+  '/assets/partner-network.png',
   '/ko/partner-inquiry'
 where not exists (
   select 1

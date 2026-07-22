@@ -76,7 +76,15 @@ export function AdminUserRolePreview({ users }: { users: AdminUserRow[] }) {
   }
 
   if (!selectedUser || !selectedDraft) {
-    return null;
+    return (
+      <section className="admin-empty-panel" role="status">
+        <UserCog size={22} />
+        <div>
+          <strong>회원 데이터가 없습니다.</strong>
+          <span>초기 관리자 계정을 생성한 뒤 role/status를 설정할 수 있습니다.</span>
+        </div>
+      </section>
+    );
   }
 
   return (

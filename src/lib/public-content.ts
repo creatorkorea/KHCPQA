@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 
 type PublishedContentRow = {
   body: string | null;
+  image_url?: string | null;
   slug?: string;
   source_url?: string | null;
   summary: string | null;
@@ -13,6 +14,7 @@ type PublishedContentRow = {
 
 export type PublishedContentIntro = {
   body?: string;
+  imageUrl?: string;
   lead: string;
   title: string;
 };
@@ -20,6 +22,7 @@ export type PublishedContentIntro = {
 export type PublishedActivityPost = {
   body: string;
   date: string;
+  imageUrl?: string;
   sourceUrl: string;
   status: string;
   title: string;
@@ -27,6 +30,7 @@ export type PublishedActivityPost = {
 
 export type PublishedContentSection = {
   body: string;
+  imageUrl?: string;
   lead: string;
   slug: string;
   title: string;
@@ -34,6 +38,7 @@ export type PublishedContentSection = {
 
 export type PublishedBanner = {
   endsAt?: string;
+  imageUrl?: string;
   placement: "home" | "curriculum" | "activities" | "global";
   startsAt?: string;
   targetUrl: string;
@@ -42,6 +47,7 @@ export type PublishedBanner = {
 
 type PublishedBannerRow = {
   ends_at: string | null;
+  image_url: string | null;
   placement: PublishedBanner["placement"];
   starts_at: string | null;
   target_url: string | null;
@@ -74,7 +80,7 @@ export async function getPublishedContentIntro({
   const supabase = createClient();
   const { data, error } = await supabase
     .from("admin_content_items")
-    .select("title, summary, body")
+    .select("title, summary, body, image_url")
     .eq("content_type", contentType)
     .eq("locale", locale)
     .eq("slug", slug)
@@ -89,6 +95,7 @@ export async function getPublishedContentIntro({
 
   return {
     body: row.body || undefined,
+    imageUrl: row.image_url || undefined,
     lead: row.summary || fallback.lead,
     title: row.title || fallback.title
   };
@@ -110,7 +117,7 @@ export async function getPublishedContentMap({
   const supabase = createClient();
   const { data, error } = await supabase
     .from("admin_content_items")
-    .select("slug, title, summary, body")
+    .select("slug, title, summary, body, image_url")
     .eq("content_type", contentType)
     .eq("locale", locale)
     .eq("status", "published")
@@ -127,6 +134,7 @@ export async function getPublishedContentMap({
         row.slug,
         {
           body: row.body || undefined,
+          imageUrl: row.image_url || undefined,
           lead: row.summary || "",
           title: row.title
         }
@@ -150,7 +158,7 @@ export async function getPublishedActivityPosts({
   const supabase = createClient();
   const { data, error } = await supabase
     .from("admin_content_items")
-    .select("slug, title, summary, body, source_url, updated_at")
+    .select("slug, title, summary, body, source_url, image_url, updated_at")
     .eq("content_type", "Activity")
     .eq("locale", locale)
     .eq("status", "published")
@@ -165,6 +173,7 @@ export async function getPublishedActivityPosts({
   return (data as PublishedContentRow[]).map((row) => ({
     body: row.body || row.summary || "",
     date: formatDate(row.updated_at),
+    imageUrl: row.image_url || undefined,
     sourceUrl: row.source_url || "https://www.smc365.ac/index.asp",
     status: "published",
     title: row.title
@@ -187,7 +196,7 @@ export async function getPublishedContentSections({
   const supabase = createClient();
   const { data, error } = await supabase
     .from("admin_content_items")
-    .select("slug, title, summary, body")
+    .select("slug, title, summary, body, image_url")
     .eq("content_type", contentType)
     .eq("locale", locale)
     .eq("status", "published")
@@ -203,6 +212,7 @@ export async function getPublishedContentSections({
     .filter((row): row is PublishedContentRow & { slug: string } => Boolean(row.slug))
     .map((row) => ({
       body: row.body || "",
+      imageUrl: row.image_url || undefined,
       lead: row.summary || "",
       slug: row.slug,
       title: row.title
@@ -223,7 +233,7 @@ export async function getPublishedBanners({
   const supabase = createClient();
   const { data, error } = await supabase
     .from("banners")
-    .select("title, placement, target_url, starts_at, ends_at")
+    .select("title, placement, target_url, image_url, starts_at, ends_at")
     .eq("status", "published")
     .in("placement", [placement, "global"])
     .order("starts_at", { ascending: false, nullsFirst: false })
@@ -244,6 +254,7 @@ export async function getPublishedBanners({
     .slice(0, limit)
     .map((row) => ({
       endsAt: row.ends_at || undefined,
+      imageUrl: row.image_url || undefined,
       placement: row.placement,
       startsAt: row.starts_at || undefined,
       targetUrl: row.target_url || "",

@@ -69,9 +69,9 @@ export async function submitPartnerInquiry(input: PartnerInquiryInput): Promise<
 
   if (!hasSupabaseBrowserEnv()) {
     return {
-      ok: true,
-      message: "검수용 문의 접수 흐름이 확인되었습니다.",
-      receipt
+      ok: false,
+      message: "문의 저장 환경변수가 설정되지 않았습니다.",
+      receipt: ""
     };
   }
 

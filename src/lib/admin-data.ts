@@ -34,6 +34,7 @@ export type AdminContentRow = {
   body?: string;
   endsAt?: string;
   id?: string;
+  imageUrl?: string;
   locale: string;
   sourceUrl?: string;
   startsAt?: string;
@@ -87,6 +88,7 @@ type ContentRow = {
   content_type: string;
   created_by: string | null;
   id: string;
+  image_url: string | null;
   locale: string;
   source_url: string | null;
   slug: string;
@@ -100,6 +102,7 @@ type BannerRow = {
   created_by: string | null;
   ends_at: string | null;
   id: string;
+  image_url: string | null;
   placement: string;
   starts_at: string | null;
   status: string;
@@ -137,8 +140,8 @@ export async function getAdminUsers(): Promise<AdminUserRow[]> {
     .order("updated_at", { ascending: false })
     .limit(50);
 
-  if (error || !data || data.length === 0) {
-    return adminUserRows;
+  if (error || !data) {
+    return [];
   }
 
   return (data as ProfileRow[]).map((profile) => ({
@@ -163,8 +166,8 @@ export async function getAdminCertifications(): Promise<AdminCertificationRow[]>
     .order("issued_at", { ascending: false })
     .limit(50);
 
-  if (error || !data || data.length === 0) {
-    return adminCertificationRows;
+  if (error || !data) {
+    return [];
   }
 
   const certificationRows = data as CertificationRow[];
@@ -201,8 +204,8 @@ export async function getAdminInquiries(): Promise<AdminInquiryRow[]> {
     .order("created_at", { ascending: false })
     .limit(50);
 
-  if (error || !data || data.length === 0) {
-    return adminInquiryRows;
+  if (error || !data) {
+    return [];
   }
 
   return (data as InquiryRow[]).map((inquiry) => ({
@@ -225,24 +228,25 @@ export async function getAdminContentRows(): Promise<AdminContentRow[]> {
   const [{ data: contentItems, error: contentError }, { data: banners, error: bannerError }] = await Promise.all([
     supabase
       .from("admin_content_items")
-      .select("id, content_type, title, locale, slug, status, summary, body, source_url, created_by, updated_at")
+      .select("id, content_type, title, locale, slug, status, summary, body, source_url, image_url, created_by, updated_at")
       .order("updated_at", { ascending: false })
       .limit(40),
     supabase
       .from("banners")
-      .select("id, title, placement, status, target_url, starts_at, ends_at, created_by, updated_at")
+      .select("id, title, placement, status, target_url, image_url, starts_at, ends_at, created_by, updated_at")
       .order("updated_at", { ascending: false })
       .limit(20)
   ]);
 
-  if ((contentError || !contentItems || contentItems.length === 0) && (bannerError || !banners || banners.length === 0)) {
-    return adminContentRows;
+  if ((contentError || !contentItems) && (bannerError || !banners)) {
+    return [];
   }
 
   const rows = [
     ...((contentItems as ContentRow[] | null) ?? []).map((item) => ({
       body: item.body || "",
       id: item.id,
+      imageUrl: item.image_url || "",
       locale: item.locale,
       slug: item.slug,
       sourceUrl: item.source_url || "",
@@ -256,6 +260,7 @@ export async function getAdminContentRows(): Promise<AdminContentRow[]> {
     ...((banners as BannerRow[] | null) ?? []).map((banner) => ({
       endsAt: banner.ends_at || "",
       id: banner.id,
+      imageUrl: banner.image_url || "",
       locale: banner.placement,
       sourceUrl: banner.target_url || "",
       startsAt: banner.starts_at || "",

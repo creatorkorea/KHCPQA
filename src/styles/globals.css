@@ -5925,6 +5925,38 @@ p {
   padding: 18px;
 }
 
+.admin-empty-panel {
+  align-items: center;
+  background: var(--surface-muted);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  display: flex;
+  gap: 12px;
+  min-height: 120px;
+  padding: 18px;
+}
+
+.admin-empty-panel svg {
+  color: var(--green);
+  flex: 0 0 auto;
+}
+
+.admin-empty-panel div {
+  display: grid;
+  gap: 4px;
+}
+
+.admin-empty-panel strong {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.admin-empty-panel span {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .admin-user-list {
   display: grid;
   gap: 10px;

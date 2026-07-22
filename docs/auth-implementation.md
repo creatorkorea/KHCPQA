@@ -87,7 +87,7 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 - 환경변수가 있을 때 signup/login/reset form이 Supabase Auth를 호출하도록 연결
 - 회원가입 이메일 확인 링크를 `/auth/callback`에서 세션으로 교환하도록 연결
 - 회원가입 성공 시 즉시 세션이 있으면 `/[locale]/account`로 이동하고, 이메일 확인이 필요하면 확인 안내 표시
-- 환경변수가 없을 때는 기존 검수용 프리뷰 흐름 유지
+- 환경변수가 없을 때 공개 문의와 관리자 저장 액션은 실패 메시지를 표시하고, 저장 성공으로 처리하지 않음
 - `/[locale]/account/**`, `/admin/**` 보호 미들웨어 추가
 - `profiles`, `inquiries`, `certifications` 테이블과 RLS 정책 마이그레이션 추가 및 적용
 - `/admin/**` 접근 시 `profiles.role`과 `profiles.status` 기준 관리자 role 제한 추가
@@ -110,12 +110,15 @@ role 변경은 관리자 UI 또는 서버 전용 작업에서만 수행한다.
 - 과정 상세 고급 섹션이 `Course/[courseSlug]-flow-*`, `Course/[courseSlug]-panel-*`, `Course/[courseSlug]-technique-*`, `Course/[courseSlug]-process-*` published 콘텐츠를 우선 사용하도록 연결
 - 활동 상세 고급 섹션이 `Activity/[activityKey]-section-*` published 콘텐츠를 카드형 운영 콘텐츠로 표시하도록 연결
 - Supabase 프로젝트 환경변수 주입 완료
-- Supabase 원격 프로젝트에 마이그레이션 3개 적용 완료
+- Supabase 원격 프로젝트에 기존 마이그레이션 3개 적용 완료
+- 콘텐츠/배너 대표 이미지 URL용 `image_url` 추가 마이그레이션 작성 완료
 - 실제 Supabase 프로젝트에서 RLS 정책 검증 완료
 - 실제 Supabase 프로젝트에서 문의 제출 E2E 검증 완료
 - 실제 Supabase 프로젝트에서 로그인/계정 접근/자격 조회 E2E 검증 완료
 - 공개 상세 페이지 CMS 섹션 입력 가이드 정리 완료
 - 관리자 발행 이력 필터와 작업자 이름 표시 개선 완료
+- Supabase 연결 환경에서 운영 테이블이 0건일 때 관리자 목록에 데모 데이터를 대신 표시하지 않도록 조정 완료
+- 관리자 콘텐츠/배너 `image_url` 저장과 공개 과정/활동 화면 우선 적용 완료
 
 ## 남은 운영/외부 확인 항목
 

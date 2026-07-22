@@ -20,6 +20,7 @@
 | title | 제목 |
 | status | `draft`/`translated`/`reviewed`/`published`/`archived` |
 | source_url | 기존 사이트 원본 URL |
+| image_url | 대표 이미지 URL 또는 공개 asset 경로 |
 | summary | 목록/카드/SEO 보조 요약 |
 | body | 공개 상세 본문 또는 섹션 본문 |
 | created_by | 작성자 auth user ID |
@@ -84,6 +85,7 @@
 | status | `draft`/`published`/`archived` |
 | starts_at | 시작일 |
 | ends_at | 종료일 |
+| image_url | 배너 이미지 URL 또는 공개 asset 경로 |
 | target_url | 연결 URL |
 | created_by | 작성자 auth user ID |
 | created_at | 생성일 |
