@@ -15,6 +15,7 @@ Last updated: 2026-07-22
 | 교육과정 상세 라우트 | 공개 배포와 로컬 프로덕션 모드에서 `/ko/curriculum/취업전문과정` 200 확인 |
 | 보호 라우트 | 비로그인 `/admin`, `/ko/account` 접근 시 `/ko/login?next=...` 리다이렉트 확인 |
 | Supabase 연결 | `.env.local`의 공개 URL/anon key 존재, `admin_content_items`, `banners`, Auth settings 응답 200 확인 |
+| 배포 커밋 확인 | `/api/health`에서 배포 커밋 확인 가능, `EXPECTED_DEPLOY_COMMIT` 지정 시 Operations QA가 불일치를 실패 처리 |
 | 관리자 과정 관리 | 관리자 입력 폼에 교육과정 전용 탭 추가, Course 타입 저장 후 과정 목록/상세 재검증 적용 |
 | 관리자 게시글 관리 | Page/Activity/Review 콘텐츠 등록/수정/삭제와 공개 게시글 읽기 흐름 유지 |
 | 관리자 운영 안전성 | Supabase 연결 환경에서 DB 0건 시 데모 데이터 미노출, 환경변수 누락 시 저장 실패 처리, 회원 데이터 빈 상태 안내 표시 |

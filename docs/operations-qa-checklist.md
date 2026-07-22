@@ -11,6 +11,7 @@
 ```bash
 npm run qa:ops
 QA_BASE_URL=https://검수도메인 npm run qa:ops
+EXPECTED_DEPLOY_COMMIT=$(git rev-parse HEAD) QA_BASE_URL=https://검수도메인 npm run qa:ops
 ```
 
 GitHub Actions > Operations QA에서 `qa_base_url`을 입력해 같은 점검을 수동 실행할 수 있다.
@@ -18,7 +19,7 @@ GitHub Actions > Operations QA에서 `qa_base_url`을 입력해 같은 점검을
 | 확인 항목 | 완료 기준 |
 | --- | --- |
 | GitHub branch | Vercel production deployment가 `main`을 사용한다. |
-| 최신 커밋 | Vercel deployment commit이 GitHub `main`의 최신 커밋과 일치한다. |
+| 최신 커밋 | `/api/health`의 `commit`이 GitHub `main` 최신 커밋과 일치한다. |
 | 환경변수 | `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`가 Production에 등록되어 있다. |
 | DB 마이그레이션 | `202607220001_add_admin_image_urls.sql`까지 Supabase에 적용되어 있다. |
 | 공개 라우트 | `/ko`, `/ko/curriculum`, `/ko/activities/notice`, `/ko/login`, `/ko/signup`, `/robots.txt`, `/sitemap.xml`이 200으로 응답한다. |

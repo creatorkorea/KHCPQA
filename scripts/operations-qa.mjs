@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 
 const defaultBaseUrl = "https://khcpqa.vercel.app";
 const baseUrl = normalizeBaseUrl(process.env.QA_BASE_URL || process.env.NEXT_PUBLIC_SITE_URL || defaultBaseUrl);
+const expectedDeployCommit = process.env.EXPECTED_DEPLOY_COMMIT || "";
 const env = readDotEnv(".env.local");
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -29,6 +30,8 @@ let hasFailure = false;
 console.log(`Operations QA target: ${baseUrl}`);
 console.log("");
 
+await checkHealth();
+
 for (const check of routeChecks) {
   await checkRoute(check);
 }
@@ -42,6 +45,31 @@ if (hasFailure) {
 }
 
 console.log("\nOperations QA passed.");
+
+async function checkHealth() {
+  const response = await fetch(`${baseUrl}/api/health`, { redirect: "manual" });
+
+  if (response.status === 404 && !expectedDeployCommit) {
+    report(true, "deployment", "health endpoint", "not deployed yet");
+    return;
+  }
+
+  if (!response.ok) {
+    report(false, "deployment", "health endpoint", String(response.status));
+    return;
+  }
+
+  const health = await response.json();
+  const commit = typeof health.commit === "string" ? health.commit : "";
+  const branch = typeof health.branch === "string" ? health.branch : "";
+  const environment = typeof health.environment === "string" ? health.environment : "";
+  report(Boolean(commit), "deployment", "health endpoint", `${commit || "unknown"} (${branch || "unknown"}, ${environment || "unknown"})`);
+
+  if (expectedDeployCommit) {
+    const matches = commit === expectedDeployCommit || commit.startsWith(expectedDeployCommit) || expectedDeployCommit.startsWith(commit);
+    report(matches, "deployment", "expected commit", matches ? commit : `expected ${expectedDeployCommit}, got ${commit || "unknown"}`);
+  }
+}
 
 async function checkRoute({ path, status }) {
   const expectedStatuses = Array.isArray(status) ? status : [status];
