@@ -35,6 +35,16 @@
 - published
 - archived
 
+## 페이지 관리자 입력 규칙
+
+페이지 관리 탭은 `admin_content_items`의 `Page` 타입을 사용한다.
+
+- `home`, `about`, `curriculum`, `activities`, `contact`: 공개 페이지 상단 제목/요약을 교체한다.
+- `privacy`: 개인정보처리방침의 최종 공개 원문을 교체한다.
+- `terms`: 이용약관의 최종 공개 원문을 교체한다.
+
+법무 페이지 본문은 빈 줄로 문단을 구분해 입력한다. 최종 법무 검수 전에는 `draft` 또는 `reviewed` 상태로 두고, 공개 승인 후에만 `published`로 변경한다.
+
 ## 과정 관리자 입력 규칙
 
 과정 관리 탭은 `admin_content_items`의 `Course` 타입을 사용한다.
@@ -63,6 +73,7 @@
 - Supabase 환경변수가 없는 로컬 프리뷰에서만 정적 데모 행을 사용한다.
 - 저장/삭제 액션은 Supabase 환경변수가 없으면 성공으로 처리하지 않고 설정 오류를 표시한다.
 - 콘텐츠와 배너는 `image_url`을 저장할 수 있으며, 공개 과정/활동 화면은 published CMS 이미지 URL을 우선 사용한다.
+- 개인정보처리방침과 이용약관은 published `Page/privacy`, `Page/terms` 상세 본문이 있으면 placeholder 대신 실제 원문을 표시한다.
 
 ## 문의 관리
 

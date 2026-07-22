@@ -25,6 +25,10 @@
 | 과정 목록 | `Page` | `curriculum` |
 | 활동/커뮤니티 | `Page` | `activities` |
 | Contact | `Page` | `contact` |
+| 개인정보처리방침 | `Page` | `privacy` |
+| 이용약관 | `Page` | `terms` |
+
+법무 페이지(`privacy`, `terms`)는 `published` 상태인 상세 본문을 실제 공개 원문으로 사용한다. 문단은 빈 줄로 구분해 입력한다.
 
 ## Course
 
