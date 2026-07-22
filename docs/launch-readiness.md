@@ -17,8 +17,8 @@
 | 관리자 운영 안전성 | 완료 | DB 빈 상태 데모 미노출, 환경변수 누락 저장 실패 처리 |
 | 공개 배포 기본 응답 | 확인 | `https://khcpqa.vercel.app` |
 | 프론트엔드 UX 1차 보강 | 완료 | `8dc8aa1` |
-| GitHub Actions CI | 완료 | Run `29564738654`, commit `9ff02d4` |
-| GitHub Actions Operations QA | 완료 | Run `29564376635` |
+| GitHub Actions CI | 완료 | Run `29899703043`, commit `b2cd052` |
+| GitHub Actions Operations QA | 완료 | Run `29899780669`, commit `b2cd052` |
 | Vercel 직접 배포 | 작업 환경 정책상 직접 수행 불가 | `docs/deployment-handoff.md` |
 
 ## Handoff Documents

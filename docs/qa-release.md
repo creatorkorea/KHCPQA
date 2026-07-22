@@ -8,8 +8,8 @@ Last updated: 2026-07-22
 | --- | --- |
 | `npm run lint` | 통과 |
 | `npm run build` | 통과, 137개 정적 페이지 생성 |
-| GitHub Actions CI | 통과, run `29564738654`, commit `9ff02d4` |
-| GitHub Actions Operations QA | 통과, run `29564376635` |
+| GitHub Actions CI | 통과, run `29899703043`, commit `b2cd052` |
+| GitHub Actions Operations QA | 통과, run `29899780669`, commit `b2cd052` |
 | 공개 배포 URL | `https://khcpqa.vercel.app/ko`, `/ko/curriculum`, `/ko/curriculum/취업전문과정`, `/ko/login`, `/robots.txt`, `/sitemap.xml` 200 확인 |
 | 주요 공개 라우트 | 로컬 프로덕션 모드에서 `/ko`, `/ko/curriculum`, `/ko/activities/notice`, `/ko/login`, `/ko/signup`, `/ko/about`, `/ko/about/greeting`, `/ko/about/instructors`, `/ko/contact`, `/en`, `/es`, `/en/curriculum`, `/es/activities/photo` 200 확인 |
 | 교육과정 상세 라우트 | 공개 배포와 로컬 프로덕션 모드에서 `/ko/curriculum/취업전문과정` 200 확인 |

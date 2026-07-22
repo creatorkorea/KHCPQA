@@ -6,7 +6,7 @@
 
 - GitHub: `https://github.com/creatorkorea/KHCPQA`
 - Branch: `main`
-- Minimum verified deployment commit: `4ff3e47`
+- Minimum verified deployment commit: `b2cd052`
 
 ## GitHub Actions Verification
 
@@ -14,8 +14,8 @@
 
 | Workflow | Run | Result | Notes |
 | --- | --- | --- | --- |
-| CI | `29564738654` | 통과 | `npm run lint`, `npm run build`, commit `9ff02d4` |
-| Operations QA | `29564376635` | 통과 | GitHub repository secrets 등록 후 `npm run qa:ops` 실행 |
+| CI | `29899703043` | 통과 | `npm run lint`, `npm run build`, commit `b2cd052` |
+| Operations QA | `29899780669` | 통과 | GitHub repository secrets 등록 후 `npm run qa:ops` 실행 |
 
 GitHub repository secrets에는 아래 공개 Supabase 값이 등록되어 있다.
 
