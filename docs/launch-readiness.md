@@ -50,10 +50,13 @@
 
 ## Remaining External Decisions
 
+- Supabase `image_url` 추가 마이그레이션 적용: [GitHub issue #1](https://github.com/creatorkorea/KHCPQA/issues/1)
+- 개인정보처리방침과 이용약관 최종 원문 제공: [GitHub issue #2](https://github.com/creatorkorea/KHCPQA/issues/2)
+- Vercel 프로젝트 접근과 최신 production commit 확인: [GitHub issue #3](https://github.com/creatorkorea/KHCPQA/issues/3)
+- SMC365 콘텐츠/이미지/후기/보도자료/강사 사진 사용 권리 승인: [GitHub issue #4](https://github.com/creatorkorea/KHCPQA/issues/4)
+- 초기 관리자 계정과 자격 샘플 데이터 준비: [GitHub issue #5](https://github.com/creatorkorea/KHCPQA/issues/5)
 - 계약 범위와 제외 범위 최종 승인
 - 도메인, 호스팅, SSL 계정 명의 확정
-- 개인정보처리방침과 이용약관 최종 원문 제공
-- SMC365 콘텐츠/이미지/후기/보도자료/강사 사진 사용 권리 승인
 - 운영자가 Vercel 배포 후 검수 URL 공유
 - iPhone/Android 실기기 최종 확인
 - 전체 실운영 콘텐츠 `source_url`, 실제 게시글, 자격 데이터, 배너/팝업 입력

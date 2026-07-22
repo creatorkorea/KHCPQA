@@ -103,11 +103,13 @@ NAVER_SITE_VERIFICATION=
 
 ## Remaining External Decisions
 
+- Supabase `image_url` migration: [issue #1](https://github.com/creatorkorea/KHCPQA/issues/1)
+- Privacy policy and terms final text: [issue #2](https://github.com/creatorkorea/KHCPQA/issues/2)
+- Vercel project access and production commit verification: [issue #3](https://github.com/creatorkorea/KHCPQA/issues/3)
+- SMC365 content and image rights: [issue #4](https://github.com/creatorkorea/KHCPQA/issues/4)
+- Initial admin users and certification sample data: [issue #5](https://github.com/creatorkorea/KHCPQA/issues/5)
 - 계약 범위와 제외 범위 최종 승인
-- SMC365 콘텐츠/이미지/후기/보도자료/강사 사진 사용 권리 승인
 - 도메인, 호스팅, SSL 계정 명의 확정
-- 개인정보처리방침과 이용약관 최종 원문 제공
-- 실제 자격 데이터 샘플 제공
 - 전체 실운영 콘텐츠 `source_url` 확정
 - 운영자가 Vercel 배포 후 검수 URL 공유
 
