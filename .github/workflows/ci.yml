@@ -27,6 +27,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Data import QA
+        run: npm run qa:data
+
       - name: Build
         run: npm run build
         env:

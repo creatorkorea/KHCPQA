@@ -11,6 +11,32 @@
 | 콘텐츠 출처 URL | `docs/templates/content-source-url-template.csv` | `public.admin_content_items` |
 | 자산 권리 | `docs/templates/asset-rights-template.csv` | 문서 검수용, DB 직접 import 대상 아님 |
 
+## Preflight QA
+
+운영 CSV를 Supabase에 반영하기 전에 로컬에서 구조와 값 범위를 먼저 확인한다.
+
+```bash
+npm run qa:data
+```
+
+발주사 승인본 파일 경로가 템플릿과 다르면 환경변수로 지정한다.
+
+```bash
+ADMIN_USERS_CSV=./private/admin-users.csv \
+CERTIFICATION_DATA_CSV=./private/certifications.csv \
+CONTENT_SOURCE_URL_CSV=./private/content-source-urls.csv \
+ASSET_RIGHTS_CSV=./private/asset-rights.csv \
+npm run qa:data
+```
+
+검증 항목:
+
+- CSV 헤더가 템플릿과 일치한다.
+- 이메일, 날짜, URL, `/assets/...` 이미지 경로 형식이 유효하다.
+- 관리자 role/status와 자격 status가 DB 제약 조건과 일치한다.
+- `certificate_number`, `verification_code`, CMS key 중복이 없다.
+- active `super_admin` 계정은 1-2명으로 제한한다.
+
 ## Certification Data Import
 
 필수 컬럼:
