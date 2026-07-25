@@ -811,7 +811,7 @@ export const copy = {
     },
     activitiesPage: {
       eyebrow: "글로벌 활동",
-      lead: "공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 방송/언론, 봉사활동을 글로벌 신뢰 콘텐츠로 재배치합니다.",
+      lead: "공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 대기업 초청이벤트, 방송/언론, 봉사활동, 수강생 후기를 글로벌 신뢰 콘텐츠로 재배치합니다.",
       detailEyebrow: "활동 상세",
       latestPostsTitle: "최근 게시글",
       managedContentTitle: "운영 콘텐츠",
@@ -1375,7 +1375,7 @@ export const copy = {
     },
     activitiesPage: {
       eyebrow: "Global Activities",
-      lead: "Notices, pass records, galleries, awards, international beauty competitions, media, and volunteer activities are reorganized as global trust content.",
+      lead: "Notices, pass records, galleries, awards, international beauty competitions, corporate events, media, volunteer activities, and student reviews are reorganized as global trust content.",
       detailEyebrow: "Activity Detail",
       latestPostsTitle: "Recent Posts",
       managedContentTitle: "Managed Content",
@@ -1939,7 +1939,7 @@ export const copy = {
     },
     activitiesPage: {
       eyebrow: "Actividades Globales",
-      lead: "Avisos, resultados, galerías, premios, concursos internacionales de belleza, medios y voluntariado se reorganizan como contenido global de confianza.",
+      lead: "Avisos, resultados, galerías, premios, concursos internacionales de belleza, eventos corporativos, medios, voluntariado y reseñas de estudiantes se reorganizan como contenido global de confianza.",
       detailEyebrow: "Detalle de Actividad",
       latestPostsTitle: "Publicaciones recientes",
       managedContentTitle: "Contenido gestionado",
@@ -3744,66 +3744,96 @@ const activityGroupsByLocale: Record<Locale, Array<{
     title: "공지/시험일정",
     key: "notice",
     icon: CalendarDays,
-    source: "관리자 입력 게시판",
-    summary: "운영자가 관리자에서 공지와 시험일정 게시글을 직접 등록합니다.",
-    imageUrl: "/assets/activity-training.png"
+    source: "운영 공지",
+    summary: "시험 일정, 접수 안내, 협회 공지 등 회원과 수강생이 먼저 확인해야 할 소식을 모읍니다.",
+    imageUrl: "/assets/client-smc/training-room-beds-wide.jpg"
   },
   {
     title: "합격현황/합격률",
     key: "pass",
     icon: BadgeCheck,
-    source: "관리자 입력 게시판",
-    summary: "운영자가 관리자에서 합격자 명단과 합격률 관련 소식을 직접 등록합니다.",
-    imageUrl: "/assets/course-medical-skincare.png"
+    source: "성과 기록",
+    summary: "자격 취득 현황, 합격자 소식, 교육 성과를 신뢰 자료로 정리합니다.",
+    imageUrl: "/assets/client-smc/k-beauty-master-certificate.jpg"
   },
   {
     title: "포토갤러리",
     key: "photo",
     icon: Image,
-    source: "관리자 입력 게시판",
-    summary: "운영자가 관리자에서 업무협약, 대회, 수료자, 교육 현장 사진을 직접 등록합니다.",
-    imageUrl: "/assets/activity-wellness.png"
+    source: "현장 사진",
+    summary: "업무협약, 교육 현장, 대회, 수료식 등 협회 활동 이미지를 한 곳에서 보여줍니다.",
+    imageUrl: "/assets/client-smc/global-competition-hall-wide.jpg"
   },
   {
     title: "심사위원/수상경력",
     key: "awards",
     icon: Award,
-    source: "관리자 입력 게시판",
-    summary: "운영자가 관리자에서 심사위원 위촉, 표창, 수상 이력 콘텐츠를 직접 등록합니다.",
-    imageUrl: "/assets/partner-network.png"
+    source: "공신력 자료",
+    summary: "심사위원 위촉, 표창, 수상 이력과 전문성을 보여주는 콘텐츠를 정리합니다.",
+    imageUrl: "/assets/client-smc/competition-award-stage.jpg"
   },
   {
     title: "국제미용대회",
     key: "competition",
     icon: Globe2,
-    source: "관리자 입력 게시판",
-    summary: "운영자가 관리자에서 한국휴먼 올림픽대회와 국제 미용·건강 대회 활동을 직접 등록합니다.",
-    imageUrl: "/assets/hero-professionals.png"
+    source: "글로벌 행사",
+    summary: "국제 미용·건강 대회, 한국휴먼 올림픽대회, 해외 교류 활동을 소개합니다.",
+    imageUrl: "/assets/client-smc/global-judges-group-stage.jpg"
+  },
+  {
+    title: "대기업 초청이벤트",
+    key: "corporate-events",
+    icon: Building2,
+    source: "협력 활동",
+    summary: "기관·기업 초청 행사, 업무협약, 협력 네트워크 활동을 정리합니다.",
+    imageUrl: "/assets/client-smc/mou-handshake.jpg"
   },
   {
     title: "방송/언론",
     key: "media",
     icon: Newspaper,
-    source: "관리자 입력 게시판",
-    summary: "운영자가 관리자에서 방송국, 언론사 취재와 미디어 노출 이력을 직접 등록합니다.",
-    imageUrl: "/assets/course-aroma-therapy.png"
+    source: "언론 보도",
+    summary: "방송, 언론, 인터뷰, 미디어 노출 이력을 신뢰 콘텐츠로 제공합니다.",
+    imageUrl: "/assets/client-smc/president-speech.jpg"
+  },
+  {
+    title: "봉사활동",
+    key: "volunteer",
+    icon: Handshake,
+    source: "사회공헌",
+    summary: "협회와 교육생이 함께한 봉사 및 사회공헌 활동을 기록합니다.",
+    imageUrl: "/assets/client-smc/practical-massage-training.jpg"
+  },
+  {
+    title: "수강생 후기",
+    key: "reviews",
+    icon: Users,
+    source: "교육 후기",
+    summary: "수강생 경험, 교육 만족도, 취업·창업 후기를 모아 소개합니다.",
+    imageUrl: "/assets/client-smc/awards-books-consulting-room.jpg"
   }
   ],
   en: [
-    { title: "Notices / Exam Schedule", key: "notice", icon: CalendarDays, source: "Admin-managed board", summary: "Operators will manually publish notices and exam schedule posts from the admin area.", imageUrl: "/assets/activity-training.png" },
-    { title: "Pass Records / Pass Rate", key: "pass", icon: BadgeCheck, source: "Admin-managed board", summary: "Operators will manually publish pass lists and pass-rate updates from the admin area.", imageUrl: "/assets/course-medical-skincare.png" },
-    { title: "Photo Gallery", key: "photo", icon: Image, source: "Admin-managed board", summary: "Operators will manually publish partnership, competition, completion, and training photos from the admin area.", imageUrl: "/assets/activity-wellness.png" },
-    { title: "Judges / Awards", key: "awards", icon: Award, source: "Admin-managed board", summary: "Operators will manually publish judge appointments, commendations, and award history from the admin area.", imageUrl: "/assets/partner-network.png" },
-    { title: "International Beauty Competitions", key: "competition", icon: Globe2, source: "Admin-managed board", summary: "Operators will manually publish Korea Human Olympic and international competition records from the admin area.", imageUrl: "/assets/hero-professionals.png" },
-    { title: "Media Coverage", key: "media", icon: Newspaper, source: "Admin-managed board", summary: "Operators will manually publish broadcast and media coverage records from the admin area.", imageUrl: "/assets/course-aroma-therapy.png" }
+    { title: "Notices / Exam Schedule", key: "notice", icon: CalendarDays, source: "Official Updates", summary: "Exam schedules, registration notices, and association updates for members and trainees.", imageUrl: "/assets/client-smc/training-room-beds-wide.jpg" },
+    { title: "Pass Records / Pass Rate", key: "pass", icon: BadgeCheck, source: "Achievement Records", summary: "Certification results, pass records, and education outcomes organized as trust content.", imageUrl: "/assets/client-smc/k-beauty-master-certificate.jpg" },
+    { title: "Photo Gallery", key: "photo", icon: Image, source: "Field Photos", summary: "Partnership, training, competition, and completion ceremony images in one gallery.", imageUrl: "/assets/client-smc/global-competition-hall-wide.jpg" },
+    { title: "Judges / Awards", key: "awards", icon: Award, source: "Credibility Records", summary: "Judge appointments, commendations, award history, and professional achievements.", imageUrl: "/assets/client-smc/competition-award-stage.jpg" },
+    { title: "International Beauty Competitions", key: "competition", icon: Globe2, source: "Global Events", summary: "International beauty and health competitions, Human Olympic events, and global exchange activities.", imageUrl: "/assets/client-smc/global-judges-group-stage.jpg" },
+    { title: "Corporate Invitation Events", key: "corporate-events", icon: Building2, source: "Partnership Activities", summary: "Corporate and institutional invitations, MOUs, and partnership network activities.", imageUrl: "/assets/client-smc/mou-handshake.jpg" },
+    { title: "Media Coverage", key: "media", icon: Newspaper, source: "Press Records", summary: "Broadcast, press, interview, and public media exposure records.", imageUrl: "/assets/client-smc/president-speech.jpg" },
+    { title: "Volunteer Activities", key: "volunteer", icon: Handshake, source: "Social Contribution", summary: "Volunteer and community contribution activities led by the association and trainees.", imageUrl: "/assets/client-smc/practical-massage-training.jpg" },
+    { title: "Student Reviews", key: "reviews", icon: Users, source: "Education Reviews", summary: "Trainee experiences, satisfaction stories, and career or startup outcomes.", imageUrl: "/assets/client-smc/awards-books-consulting-room.jpg" }
   ],
   es: [
-    { title: "Avisos / Calendario de Exámenes", key: "notice", icon: CalendarDays, source: "Tablero administrado", summary: "Los operadores publicarán manualmente avisos y calendarios de exámenes desde el área de administración.", imageUrl: "/assets/activity-training.png" },
-    { title: "Resultados / Tasa de Aprobación", key: "pass", icon: BadgeCheck, source: "Tablero administrado", summary: "Los operadores publicarán manualmente listas de aprobados y actualizaciones de tasas desde el área de administración.", imageUrl: "/assets/course-medical-skincare.png" },
-    { title: "Galería de Fotos", key: "photo", icon: Image, source: "Tablero administrado", summary: "Los operadores publicarán manualmente fotos de alianzas, competencias, finalizaciones y formación desde el área de administración.", imageUrl: "/assets/activity-wellness.png" },
-    { title: "Jueces / Premios", key: "awards", icon: Award, source: "Tablero administrado", summary: "Los operadores publicarán manualmente designaciones de jueces, reconocimientos e historial de premios desde el área de administración.", imageUrl: "/assets/partner-network.png" },
-    { title: "Concursos Internacionales de Belleza", key: "competition", icon: Globe2, source: "Tablero administrado", summary: "Los operadores publicarán manualmente registros de Korea Human Olympic y competencias internacionales desde el área de administración.", imageUrl: "/assets/hero-professionals.png" },
-    { title: "Cobertura en Medios", key: "media", icon: Newspaper, source: "Tablero administrado", summary: "Los operadores publicarán manualmente registros de televisión y prensa desde el área de administración.", imageUrl: "/assets/course-aroma-therapy.png" }
+    { title: "Avisos / Calendario de Exámenes", key: "notice", icon: CalendarDays, source: "Actualizaciones oficiales", summary: "Calendarios de exámenes, avisos de inscripción y noticias de la asociación.", imageUrl: "/assets/client-smc/training-room-beds-wide.jpg" },
+    { title: "Resultados / Tasa de Aprobación", key: "pass", icon: BadgeCheck, source: "Resultados", summary: "Registros de certificación, aprobados y logros educativos.", imageUrl: "/assets/client-smc/k-beauty-master-certificate.jpg" },
+    { title: "Galería de Fotos", key: "photo", icon: Image, source: "Fotos de campo", summary: "Imágenes de alianzas, formación, competencias y ceremonias de finalización.", imageUrl: "/assets/client-smc/global-competition-hall-wide.jpg" },
+    { title: "Jueces / Premios", key: "awards", icon: Award, source: "Credibilidad", summary: "Designaciones de jueces, reconocimientos, premios y logros profesionales.", imageUrl: "/assets/client-smc/competition-award-stage.jpg" },
+    { title: "Concursos Internacionales de Belleza", key: "competition", icon: Globe2, source: "Eventos globales", summary: "Concursos internacionales de belleza y salud, Human Olympic e intercambios globales.", imageUrl: "/assets/client-smc/global-judges-group-stage.jpg" },
+    { title: "Eventos por Invitación Corporativa", key: "corporate-events", icon: Building2, source: "Alianzas", summary: "Invitaciones corporativas e institucionales, MOUs y actividades de colaboración.", imageUrl: "/assets/client-smc/mou-handshake.jpg" },
+    { title: "Cobertura en Medios", key: "media", icon: Newspaper, source: "Prensa", summary: "Registros de televisión, prensa, entrevistas y exposición pública.", imageUrl: "/assets/client-smc/president-speech.jpg" },
+    { title: "Voluntariado", key: "volunteer", icon: Handshake, source: "Contribución social", summary: "Actividades de voluntariado y contribución comunitaria.", imageUrl: "/assets/client-smc/practical-massage-training.jpg" },
+    { title: "Opiniones de Estudiantes", key: "reviews", icon: Users, source: "Reseñas educativas", summary: "Experiencias de estudiantes, satisfacción y resultados profesionales.", imageUrl: "/assets/client-smc/awards-books-consulting-room.jpg" }
   ]
 };
 

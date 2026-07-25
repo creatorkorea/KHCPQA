@@ -2468,6 +2468,134 @@ p {
   overflow-wrap: anywhere;
 }
 
+.activities-overview-section {
+  display: grid;
+  gap: 28px;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 58px clamp(18px, 4vw, 48px) 82px;
+}
+
+.activities-showcase-panel {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 252, 249, 0.96));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+  min-height: 430px;
+  overflow: hidden;
+}
+
+.activities-showcase-copy {
+  align-content: center;
+  display: grid;
+  gap: 18px;
+  padding: clamp(28px, 5vw, 54px);
+}
+
+.activities-showcase-copy > span,
+.activity-card-kicker {
+  align-items: center;
+  color: var(--green-dark);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 950;
+  gap: 7px;
+  letter-spacing: 0;
+}
+
+.activities-showcase-copy h2 {
+  color: var(--ink);
+  font-size: clamp(28px, 4.2vw, 48px);
+  line-height: 1.12;
+  margin: 0;
+}
+
+.activities-showcase-copy p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.75;
+  margin: 0;
+  max-width: 560px;
+}
+
+.activities-showcase-copy dl {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 8px 0 0;
+}
+
+.activities-showcase-copy dl div {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(36, 170, 114, 0.16);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.activities-showcase-copy dt {
+  color: var(--green-dark);
+  font-size: 20px;
+  font-weight: 950;
+}
+
+.activities-showcase-copy dd {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  margin: 4px 0 0;
+}
+
+.activities-showcase-media {
+  min-height: 430px;
+  position: relative;
+}
+
+.activities-showcase-media img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.activities-index-rail {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.activities-index-rail a {
+  align-items: center;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  display: grid;
+  gap: 9px;
+  min-height: 86px;
+  padding: 14px 12px;
+}
+
+.activities-index-rail svg {
+  color: var(--purple);
+}
+
+.activities-index-rail span {
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.activities-heading {
+  align-items: flex-end;
+  display: flex;
+  justify-content: space-between;
+}
+
+.activities-heading p {
+  max-width: 560px;
+}
+
 .activity-grid {
   display: grid;
   gap: 16px;
@@ -2528,6 +2656,74 @@ p {
   margin-top: 16px;
   min-height: 38px;
   padding: 8px 12px;
+}
+
+.activity-grid.renewed {
+  gap: 18px;
+}
+
+.activity-card.renewed {
+  box-shadow: 0 14px 34px rgba(43, 30, 83, 0.06);
+  display: grid;
+}
+
+.activity-card.renewed img {
+  height: 236px;
+}
+
+.activity-card.renewed div {
+  align-content: start;
+  display: grid;
+  gap: 12px;
+}
+
+.activity-card.renewed h3 {
+  font-size: 21px;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.activity-card.renewed p {
+  margin: 0;
+}
+
+.activity-card.renewed a {
+  gap: 7px;
+  justify-self: start;
+  margin-top: 4px;
+}
+
+.activities-proof-strip {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.activities-proof-strip a,
+.activities-proof-strip div {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  min-height: 142px;
+  padding: 18px;
+}
+
+.activities-proof-strip svg {
+  color: var(--green);
+}
+
+.activities-proof-strip strong {
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.activities-proof-strip span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
 }
 
 .activity-detail-section {
@@ -5368,7 +5564,7 @@ p {
 }
 
 .certificate-lookup-form {
-  align-items: end;
+  align-items: flex-end;
   display: grid;
   gap: 14px;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
@@ -6223,6 +6419,7 @@ p {
 
 @media (max-width: 1120px) {
   .home-stage,
+  .activities-showcase-panel,
   .feature-row,
   .course-grid.compact,
   .course-grid,
@@ -6236,6 +6433,11 @@ p {
   .account-grid,
   .admin-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .activities-index-rail,
+  .activities-proof-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .activity-cms-section > div:last-child,
@@ -6550,6 +6752,7 @@ p {
   .course-detail-sections,
   .course-detail-hero,
   .course-detail-body,
+  .activities-showcase-panel,
   .activity-showcase,
   .feature-row,
   .course-grid.compact,
@@ -6568,6 +6771,37 @@ p {
   .legal-requirements,
   .inquiry-form {
     grid-template-columns: 1fr;
+  }
+
+  .activities-index-rail,
+  .activities-proof-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .activities-overview-section {
+    gap: 20px;
+    padding: 38px 18px 58px;
+  }
+
+  .activities-showcase-copy {
+    padding: 26px 20px;
+  }
+
+  .activities-showcase-copy dl {
+    grid-template-columns: 1fr;
+  }
+
+  .activities-showcase-media {
+    min-height: 260px;
+  }
+
+  .activities-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .activity-card.renewed img {
+    height: 210px;
   }
 
   .bottom-cta-banner,
@@ -7095,6 +7329,11 @@ p {
 }
 
 @media (max-width: 480px) {
+  .activities-index-rail,
+  .activities-proof-strip {
+    grid-template-columns: 1fr;
+  }
+
   .site-header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
