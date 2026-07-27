@@ -6944,6 +6944,30 @@ p {
   padding: 0 14px;
 }
 
+.community-inline-action {
+  align-items: center;
+  background: #f4efff;
+  border: 1px solid #e3d9ff;
+  border-radius: 999px;
+  color: var(--console-purple-dark);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 850;
+  justify-content: center;
+  min-height: 30px;
+  min-width: 78px;
+  padding: 0 12px;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+  white-space: nowrap;
+}
+
+.community-inline-action:hover {
+  background: #ebe2ff;
+  border-color: #cdbbff;
+  transform: translateY(-1px);
+}
+
 .community-link-button {
   background: transparent;
   border: 0;
@@ -6984,6 +7008,41 @@ p {
   white-space: nowrap;
 }
 
+.community-helper-card {
+  align-items: center;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin: 0;
+  max-width: none;
+  padding: 22px 24px;
+}
+
+.community-helper-card div {
+  display: grid;
+  gap: 6px;
+}
+
+.community-helper-card strong {
+  color: var(--console-ink);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.community-helper-card p {
+  color: var(--console-muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.community-helper-card .console-primary-button {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
 .community-editor-panel {
   margin: 0;
   max-width: none;
@@ -7000,6 +7059,14 @@ p {
   display: flex;
   gap: 16px;
   justify-content: space-between;
+}
+
+.community-editor-kicker {
+  color: var(--console-purple-dark);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 6px;
 }
 
 .community-editor-heading h2 {
@@ -7052,8 +7119,15 @@ p {
     padding-bottom: 16px;
   }
 
+  .community-helper-card {
+    align-items: stretch;
+    display: grid;
+    padding: 18px;
+  }
+
   .community-actions .console-primary-button,
-  .community-actions .secondary-button {
+  .community-actions .secondary-button,
+  .community-helper-card .console-primary-button {
     justify-content: center;
     width: 100%;
   }

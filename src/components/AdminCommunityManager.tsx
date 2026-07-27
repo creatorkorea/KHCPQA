@@ -89,6 +89,8 @@ export function AdminCommunityManager({
   const [activeTab, setActiveTab] = useState<CommunityMode>("boards");
   const [boardFilter, setBoardFilter] = useState("");
   const [editor, setEditor] = useState<EditorState>(blankEditor);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [isKeyLocked, setIsKeyLocked] = useState(false);
   const [localeFilter, setLocaleFilter] = useState("");
   const [result, setResult] = useState<ActionResult | null>(null);
   const [search, setSearch] = useState("");
@@ -150,6 +152,11 @@ export function AdminCommunityManager({
   const boardRows = filteredBoards.map((board, index) => ({
     count: board.postCount,
     id: board.id,
+    action: (
+      <button className="community-inline-action" onClick={() => selectBoard(board)} type="button">
+        {board.intro ? "소개 수정" : "소개 등록"}
+      </button>
+    ),
     manage: (
       <button
         aria-label={`${board.title} 게시판 수정`}
@@ -168,7 +175,7 @@ export function AdminCommunityManager({
     order: board.order || index + 1,
     status: (
       <AdminStatusBadge tone={getTone(board.published ? "published" : board.latest?.status ?? "draft")}>
-        {board.published ? "노출" : board.latest ? statusLabel(board.latest.status) : "구조 등록"}
+        {board.published ? "노출" : board.latest ? statusLabel(board.latest.status) : "소개 미등록"}
       </AdminStatusBadge>
     ),
     summary: <span className="community-board-summary">{board.summary}</span>,
@@ -205,25 +212,33 @@ export function AdminCommunityManager({
   function resetFilters(nextTab: CommunityMode) {
     setActiveTab(nextTab);
     setBoardFilter("");
+    setEditor(blankEditor);
+    setIsEditorOpen(false);
+    setIsKeyLocked(false);
     setLocaleFilter("");
     setSearch("");
+    setSelectedItem(null);
     setStatusFilter("");
   }
 
   function startCreate(kind: EditorKind) {
-    const firstBoardKey = boards[0]?.key ?? "";
+    setActiveTab(kind === "board" ? "boards" : "posts");
+    setIsEditorOpen(true);
+    setIsKeyLocked(false);
     setSelectedItem(null);
     setResult(null);
     setEditor({
       ...blankEditor,
-      boardKey: kind === "post" ? firstBoardKey : "",
       kind,
-      slug: kind === "post" && firstBoardKey ? `${firstBoardKey}-` : ""
+      status: kind === "board" ? "draft" : "draft"
     });
   }
 
   function selectBoard(board: BoardSummary) {
     const item = board.intro ?? board.latest ?? null;
+    setActiveTab("boards");
+    setIsEditorOpen(true);
+    setIsKeyLocked(true);
     setSelectedItem(item);
     setResult(null);
     setEditor({
@@ -241,6 +256,9 @@ export function AdminCommunityManager({
   }
 
   function selectPost(item: AdminContentRow) {
+    setActiveTab("posts");
+    setIsEditorOpen(true);
+    setIsKeyLocked(true);
     setSelectedItem(item);
     setResult(null);
     setEditor({
@@ -272,7 +290,7 @@ export function AdminCommunityManager({
       }
 
       if (name === "boardKey" && current.kind === "post" && (!current.slug || current.slug.endsWith("-"))) {
-        return { ...current, boardKey: value, slug: value ? `${value}-` : current.slug };
+        return { ...current, boardKey: value, slug: value ? `${value}-${formatDateKey()}` : "" };
       }
 
       return { ...current, [name]: value };
@@ -302,6 +320,8 @@ export function AdminCommunityManager({
 
       if (nextResult.ok) {
         setSelectedItem(null);
+        setIsEditorOpen(false);
+        setIsKeyLocked(false);
         setEditor(blankEditor);
         router.refresh();
       }
@@ -330,6 +350,8 @@ export function AdminCommunityManager({
 
       if (nextResult.ok) {
         setSelectedItem(null);
+        setIsEditorOpen(false);
+        setIsKeyLocked(false);
         setEditor(blankEditor);
         router.refresh();
       }
@@ -353,10 +375,12 @@ export function AdminCommunityManager({
               <FilePlus2 size={16} />
               새 게시글 등록
             </button>
-            <button className="console-primary-button" onClick={() => startCreate("board")} type="button">
-              <FolderPlus size={16} />
-              게시판 소개 등록
-            </button>
+            {activeTab === "boards" ? (
+              <button className="console-primary-button" onClick={() => startCreate("board")} type="button">
+                <FolderPlus size={16} />
+                게시판 소개 등록
+              </button>
+            ) : null}
           </div>
         </div>
 
@@ -415,6 +439,7 @@ export function AdminCommunityManager({
               { key: "count", label: "게시글 수", align: "center" },
               { key: "status", label: "노출 상태", align: "center" },
               { key: "order", label: "정렬 순서", align: "center" },
+              { key: "action", label: "주요 작업", align: "center" },
               { key: "manage", label: "관리", align: "center" }
             ]}
             emptyLabel="등록된 커뮤니티 게시판이 없습니다."
@@ -437,23 +462,57 @@ export function AdminCommunityManager({
         )}
       </section>
 
-      <section className="console-panel community-editor-panel">
-        <form className="admin-editor-form community-editor-form" onSubmit={handleSubmit}>
-          <div className="community-editor-heading">
-            <div>
-              <h2>{selectedItem ? "커뮤니티 콘텐츠 수정" : "커뮤니티 콘텐츠 등록"}</h2>
-              <p>관리자에서 등록한 내용만 공개 화면의 글로벌 활동 콘텐츠로 노출됩니다.</p>
-            </div>
-            {selectedItem ? (
-              <button aria-label="선택 해제" className="console-row-action" onClick={() => {
+      {!isEditorOpen ? (
+        <section className="console-panel community-helper-card">
+          <div>
+            <strong>{activeTab === "boards" ? "게시판 소개를 등록해 공개 화면의 카테고리 설명을 완성하세요." : "게시글은 실제 등록한 콘텐츠만 공개 화면에 노출됩니다."}</strong>
+            <p>
+              {activeTab === "boards"
+                ? "기획서 기준 9개 게시판 구조는 고정되어 있으며, 각 행의 소개 등록 버튼으로 필요한 설명과 노출 상태를 관리합니다."
+                : "게시판을 선택한 뒤 제목, 요약, 본문과 대표 이미지를 등록하세요. 게시판을 선택하기 전에는 Slug가 생성되지 않습니다."}
+            </p>
+          </div>
+          <button className="console-primary-button" onClick={() => startCreate(activeTab === "boards" ? "board" : "post")} type="button">
+            {activeTab === "boards" ? <FolderPlus size={16} /> : <FilePlus2 size={16} />}
+            {activeTab === "boards" ? "게시판 소개 등록" : "새 게시글 등록"}
+          </button>
+        </section>
+      ) : (
+        <section className="console-panel community-editor-panel" aria-live="polite">
+          <form className="admin-editor-form community-editor-form" onSubmit={handleSubmit}>
+            <div className="community-editor-heading">
+              <div>
+                <span className="community-editor-kicker">{editor.kind === "board" ? "게시판 소개" : "게시글 콘텐츠"}</span>
+                <h2>
+                  {selectedItem
+                    ? editor.kind === "board"
+                      ? "게시판 소개 수정"
+                      : "게시글 수정"
+                    : editor.kind === "board"
+                      ? "게시판 소개 등록"
+                      : "새 게시글 등록"}
+                </h2>
+                <p>
+                  {editor.kind === "board"
+                    ? "기획서 기준 게시판의 공개 화면 설명과 노출 상태를 관리합니다."
+                    : "실제 공개 화면에 노출할 글로벌 활동 게시글을 등록합니다."}
+                </p>
+              </div>
+              <button
+                aria-label="편집 패널 닫기"
+                className="console-row-action"
+                onClick={() => {
                 setSelectedItem(null);
+                setIsEditorOpen(false);
+                setIsKeyLocked(false);
                 setEditor(blankEditor);
                 setResult(null);
-              }} type="button">
+              }}
+                type="button"
+              >
                 <X size={14} />
               </button>
-            ) : null}
-          </div>
+            </div>
 
           <div className="admin-editor-grid">
             <label>
@@ -481,12 +540,12 @@ export function AdminCommunityManager({
               게시판 키
               {boards.length > 0 ? (
                 <select
-                  disabled={Boolean(selectedItem)}
+                  disabled={isKeyLocked}
                   onChange={(event) => updateEditor("boardKey", event.target.value)}
-                  required={editor.kind === "board"}
+                  required
                   value={editor.boardKey}
                 >
-                  <option value="">{editor.kind === "board" ? "게시판 선택" : "선택 안 함"}</option>
+                  <option value="">{editor.kind === "board" ? "게시판 선택" : "게시글을 올릴 게시판 선택"}</option>
                   {boards.map((board) => (
                     <option key={board.key} value={board.key}>
                       {board.title} ({board.key})
@@ -495,7 +554,7 @@ export function AdminCommunityManager({
                 </select>
               ) : (
                 <input
-                  disabled={Boolean(selectedItem)}
+                  disabled={isKeyLocked}
                   onChange={(event) => updateEditor("boardKey", normalizeSlugInput(event.target.value))}
                   placeholder="notice"
                   required={editor.kind === "board"}
@@ -510,7 +569,7 @@ export function AdminCommunityManager({
                 placeholder={editor.kind === "board" ? "notice" : "notice-20260727"}
                 required
                 value={editor.kind === "board" ? editor.boardKey : editor.slug}
-                disabled={editor.kind === "board" || Boolean(selectedItem)}
+                disabled={editor.kind === "board" || Boolean(selectedItem) || !editor.boardKey}
               />
             </label>
             <label>
@@ -568,8 +627,12 @@ export function AdminCommunityManager({
             </label>
           </div>
 
-          {selectedItem ? (
-            <p className="community-editor-note">기존 항목의 Slug는 공개 URL과 연결되어 있어 이 화면에서는 고정됩니다.</p>
+          {selectedItem || (editor.kind === "post" && !editor.boardKey) ? (
+            <p className="community-editor-note">
+              {selectedItem
+                ? "기존 항목의 Slug는 공개 URL과 연결되어 있어 이 화면에서는 고정됩니다."
+                : "게시판을 선택하면 Slug가 자동으로 생성되고 직접 수정할 수 있습니다."}
+            </p>
           ) : null}
 
           {result ? (
@@ -588,8 +651,9 @@ export function AdminCommunityManager({
               </button>
             ) : null}
           </div>
-        </form>
-      </section>
+          </form>
+        </section>
+      )}
     </div>
   );
 }
@@ -672,6 +736,15 @@ function normalizeSlugInput(value: string) {
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, "-")
     .replace(/-+/g, "-");
+}
+
+function formatDateKey() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = `${now.getMonth() + 1}`.padStart(2, "0");
+  const day = `${now.getDate()}`.padStart(2, "0");
+
+  return `${year}${month}${day}`;
 }
 
 function statusLabel(status: string) {
