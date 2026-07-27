@@ -201,6 +201,16 @@ export default async function ActivityDetailPage({
                     key={post.slug}
                   >
                     <article>
+                      {post.imageUrl ? (
+                        <Image
+                          className="activity-post-card-image"
+                          src={post.imageUrl}
+                          alt={post.title}
+                          width={520}
+                          height={300}
+                          unoptimized
+                        />
+                      ) : null}
                       <header>
                         <CalendarDays size={18} />
                         <span>{post.date}</span>

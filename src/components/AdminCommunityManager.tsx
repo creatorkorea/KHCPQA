@@ -603,6 +603,11 @@ export function AdminCommunityManager({
                 placeholder="/assets/community/example.jpg 또는 https://..."
                 value={editor.imageUrl}
               />
+              <span className="admin-field-help">
+                {editor.kind === "board"
+                  ? "게시판 소개 상단 대표 이미지로 사용됩니다."
+                  : "게시글 카드 썸네일과 상세 상단 이미지로 사용됩니다. 비워두면 상세 상단 이미지는 표시하지 않습니다."}
+              </span>
             </label>
             <label className="full">
               제목

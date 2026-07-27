@@ -3698,6 +3698,8 @@ p {
   border-radius: 8px;
   display: grid;
   gap: 12px;
+  height: 100%;
+  overflow: hidden;
   padding: 20px;
   transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
@@ -3706,6 +3708,15 @@ p {
   border-color: rgba(111, 76, 255, 0.24);
   box-shadow: 0 16px 34px rgba(43, 30, 83, 0.08);
   transform: translateY(-2px);
+}
+
+.activity-post-card-image {
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  display: block;
+  margin: -20px -20px 4px;
+  object-fit: cover;
+  width: calc(100% + 40px);
 }
 
 .activity-post-list header {
@@ -3754,6 +3765,10 @@ p {
   border-radius: var(--radius);
   box-shadow: 0 18px 45px rgba(43, 30, 83, 0.05);
   overflow: hidden;
+}
+
+.activity-post-detail-card:not(:has(> img)) {
+  border-radius: 16px;
 }
 
 .activity-post-detail-card > img {

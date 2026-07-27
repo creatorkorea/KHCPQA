@@ -65,7 +65,7 @@ export default async function ActivityPostDetailPage({
     notFound();
   }
 
-  const imageUrl = post.imageUrl || activity.imageUrl;
+  const imageUrl = post.imageUrl;
   const bodyLines = post.body
     .split("\n")
     .map((line) => line.trim())
@@ -80,7 +80,7 @@ export default async function ActivityPostDetailPage({
           <span>{activity.title}</span>
         </Link>
         <article className="activity-post-detail-card">
-          <Image src={imageUrl} alt={post.title} width={1180} height={640} unoptimized />
+          {imageUrl ? <Image src={imageUrl} alt={post.title} width={1180} height={640} unoptimized /> : null}
           <div>
             <p className="activity-post-date">
               <CalendarDays size={18} />
