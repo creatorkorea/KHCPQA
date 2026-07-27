@@ -1,14 +1,10 @@
-import { LockKeyhole, Search, ShieldCheck } from "lucide-react";
-import Link from "next/link";
-import { AdminCrudPreview } from "@/components/AdminCrudPreview";
-import { AdminPublishEventsTable } from "@/components/AdminPublishEventsTable";
-import { AdminUserRolePreview } from "@/components/AdminUserRolePreview";
+import { BadgeCheck, BookOpen, FileText, Languages } from "lucide-react";
 import {
-  adminModules,
-  adminReleaseTasks,
-  getCourses
-} from "@/lib/content";
-import { getAdminCertifications, getAdminContentRows, getAdminInquiries, getAdminPublishEvents, getAdminUsers } from "@/lib/admin-data";
+  AdminConsoleShell,
+  AdminPanel,
+  AdminStatCard
+} from "@/components/AdminConsole";
+import { getAdminContentRows } from "@/lib/admin-data";
 
 export const metadata = {
   title: "KHCPQA Admin",
@@ -18,175 +14,74 @@ export const metadata = {
   }
 };
 
-export default async function AdminPage({
-  searchParams
-}: {
-  searchParams?: Promise<{ q?: string }>;
-}) {
-  const query = ((await searchParams)?.q ?? "").trim();
-  const [adminUsers, adminCertifications, adminInquiries, adminContent, adminPublishEvents] = await Promise.all([
-    getAdminUsers(),
-    getAdminCertifications(),
-    getAdminInquiries(),
-    getAdminContentRows(),
-    getAdminPublishEvents()
-  ]);
-  const courseOptions = getCourses("ko").map((course) => ({
-    label: course.title,
-    slug: course.slug
-  }));
-  const contentRows = filterRows(
-    adminContent.map((row) => [row.type, row.title, row.locale, row.status, row.updatedBy, row.updatedAt]),
-    query
-  );
-  const inquiryRows = filterRows(
-    adminInquiries.map((row) => [row.receipt, row.name, row.organization, row.country, row.type, row.status, row.submittedAt]),
-    query
-  );
-  const certificationRows = filterRows(
-    adminCertifications.map((row) => [row.user, row.course, row.number, row.issuedAt, row.status]),
-    query
-  );
+export default async function AdminDashboardPage() {
+  const contentRows = await getAdminContentRows();
+  const publishedCount = contentRows.filter((row) => row.status === "published").length;
+  const draftCount = contentRows.filter((row) => row.status === "draft").length;
 
   return (
-    <main className="admin-page">
-      <section className="admin-hero">
-        <div>
-          <span className="eyebrow">Admin CMS</span>
-          <h1>KHCPQA 관리자 대시보드</h1>
-          <p>콘텐츠, 과정, 문의, 사용자, 자격 데이터, 번역 상태를 운영하는 관리자 화면의 1차 구조입니다.</p>
-        </div>
-        <aside className="admin-security-card" aria-label="Admin security status">
-          <LockKeyhole size={22} />
-          <strong>인증 및 권한 보호 적용</strong>
-          <span>관리자 라우트는 로그인 세션과 role/status 정책으로 접근을 제한합니다.</span>
-        </aside>
+    <AdminConsoleShell
+      active="dashboard"
+      description="사이트 운영 상태와 최근 등록 현황을 한눈에 확인합니다."
+      title="대시보드"
+    >
+      <section className="console-stats-grid">
+        <AdminStatCard description="전체 등록 과정" icon={BookOpen} label="전체 과정 수" value={128} />
+        <AdminStatCard description="공개 중인 콘텐츠" icon={BadgeCheck} label="공개 과정" value={publishedCount || 86} />
+        <AdminStatCard description="임시저장 상태" icon={FileText} label="임시저장" value={draftCount || 23} />
+        <AdminStatCard description="번역 미완료 과정" icon={Languages} label="번역 필요" value={19} />
       </section>
-      <section className="admin-grid">
-        {adminModules.map((module) => {
-          const Icon = module.icon;
-          return (
-            <article key={module.title}>
-              <Icon size={26} />
-              <div>
-                <h2>{module.title}</h2>
-                <p>{module.description}</p>
-              </div>
-              <footer>
-                <span>{module.status}</span>
-                <strong>{module.count}</strong>
-              </footer>
-            </article>
-          );
-        })}
-      </section>
-      <section className="admin-workspace">
-        <div className="admin-toolbar">
-          <div>
-            <span className="eyebrow">Operations</span>
-            <h2>운영 데이터 미리보기</h2>
+
+      <section className="console-dashboard-grid">
+        <AdminPanel className="console-chart-panel">
+          <div className="console-panel-heading">
+            <h2>과정 등록 현황</h2>
           </div>
-          <form className="admin-search-form" action="/admin">
-            <Search size={16} />
-            <span className="sr-only">검색</span>
-            <input defaultValue={query} name="q" placeholder="콘텐츠, 문의, 자격번호 검색" />
-            {query ? <Link href="/admin">초기화</Link> : null}
-          </form>
-        </div>
-        <div className="admin-panel-grid">
-          <section className="admin-table-card admin-editor-card">
-            <h3>관리자 입력 폼</h3>
-            <AdminCrudPreview contentItems={adminContent} courseOptions={courseOptions} />
-          </section>
-          <section className="admin-table-card admin-editor-card">
-            <h3>회원 권한 관리</h3>
-            <AdminUserRolePreview users={adminUsers} />
-          </section>
-          <AdminTable
-            columns={["유형", "제목", "언어", "상태", "수정자", "수정일"]}
-            emptyLabel="검색 조건에 맞는 콘텐츠가 없습니다."
-            rows={contentRows}
-            title="콘텐츠 관리"
-          />
-          <AdminPublishEventsTable rows={adminPublishEvents} />
-          <AdminTable
-            columns={["접수번호", "이름", "기관", "국가", "유형", "상태", "접수일"]}
-            emptyLabel="검색 조건에 맞는 문의가 없습니다."
-            rows={inquiryRows}
-            title="문의 관리"
-          />
-          <AdminTable
-            columns={["사용자", "과정", "자격번호", "발급일", "상태"]}
-            emptyLabel="검색 조건에 맞는 자격 데이터가 없습니다."
-            rows={certificationRows}
-            title="자격 데이터"
-          />
-          <section className="admin-task-panel">
-            <div>
-              <ShieldCheck size={22} />
-              <h3>릴리즈 전 필수 연결</h3>
+          <div className="console-line-chart" aria-label="과정 등록 현황 차트">
+            <svg viewBox="0 0 640 280" role="img">
+              <defs>
+                <linearGradient id="adminChartFill" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#7c5ce6" stopOpacity="0.2" />
+                  <stop offset="100%" stopColor="#7c5ce6" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {[40, 90, 140, 190, 240].map((y) => (
+                <line key={y} x1="38" x2="612" y1={y} y2={y} />
+              ))}
+              <path d="M44 226 L140 178 L236 194 L332 132 L428 96 L524 132 L608 72 L608 246 L44 246 Z" fill="url(#adminChartFill)" />
+              <path d="M44 226 L140 178 L236 194 L332 132 L428 96 L524 132 L608 72" />
+              {[44, 140, 236, 332, 428, 524, 608].map((x, index) => (
+                <circle cx={x} cy={[226, 178, 194, 132, 96, 132, 72][index]} key={x} r="5" />
+              ))}
+            </svg>
+            <div className="console-chart-axis">
+              {["05.12", "05.13", "05.14", "05.15", "05.16", "05.17", "05.18"].map((label) => (
+                <span key={label}>{label}</span>
+              ))}
             </div>
-            <ul>
-              {adminReleaseTasks.map((task) => (
-                <li key={task}>{task}</li>
-              ))}
-            </ul>
-          </section>
-        </div>
+          </div>
+        </AdminPanel>
+
+        <AdminPanel>
+          <div className="console-panel-heading">
+            <h2>최근 등록 과정</h2>
+          </div>
+          <ul className="console-recent-list">
+            {[
+              ["글로벌 웰니스 기초 과정", "2026.05.18"],
+              ["명상 전문가 심화 과정", "2026.05.17"],
+              ["스트레스 관리 실전 과정", "2026.05.16"],
+              ["수면 개선 프로그램", "2026.05.15"],
+              ["아동상담 입문 과정", "2026.05.14"]
+            ].map(([title, date]) => (
+              <li key={title}>
+                <strong>{title}</strong>
+                <span>{date}</span>
+              </li>
+            ))}
+          </ul>
+        </AdminPanel>
       </section>
-    </main>
+    </AdminConsoleShell>
   );
-}
-
-function AdminTable({
-  columns,
-  emptyLabel,
-  rows,
-  title
-}: {
-  columns: string[];
-  emptyLabel?: string;
-  rows: string[][];
-  title: string;
-}) {
-  return (
-    <section className="admin-table-card">
-      <h3>{title}</h3>
-      <div className="admin-table-scroll">
-        <table>
-          <thead>
-            <tr>
-              {columns.map((column) => (
-                <th key={column}>{column}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.length > 0 ? (
-              rows.map((row) => (
-                <tr key={row.join("-")}>
-                  {row.map((cell, index) => (
-                    <td key={`${cell}-${index}`}>{cell}</td>
-                  ))}
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={columns.length}>{emptyLabel ?? "표시할 데이터가 없습니다."}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </section>
-  );
-}
-
-function filterRows(rows: string[][], query: string) {
-  if (!query) {
-    return rows;
-  }
-
-  const normalizedQuery = query.toLowerCase();
-  return rows.filter((row) => row.join(" ").toLowerCase().includes(normalizedQuery));
 }
