@@ -309,12 +309,13 @@
   border: 1px solid var(--console-line);
   border-radius: 16px;
   box-shadow: 0 18px 48px rgba(42, 32, 90, 0.065);
-  margin: 0 auto;
-  max-width: 1480px;
 }
 
 .console-panel {
+  margin: 0 auto;
+  max-width: 1480px;
   overflow: hidden;
+  width: 100%;
 }
 
 .console-stats-grid {
@@ -323,6 +324,7 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 0 auto 32px;
   max-width: 1480px;
+  width: 100%;
 }
 
 .console-stat-card {
@@ -332,6 +334,7 @@
   grid-template-columns: auto minmax(0, 1fr);
   min-height: 136px;
   padding: 24px;
+  width: 100%;
 }
 
 .console-stat-card > span {
@@ -377,6 +380,12 @@
   grid-template-columns: minmax(620px, 1.35fr) minmax(380px, 0.65fr);
   margin: 0 auto;
   max-width: 1480px;
+  width: 100%;
+}
+
+.console-dashboard-grid .console-panel {
+  margin: 0;
+  max-width: none;
 }
 
 .console-chart-panel {
