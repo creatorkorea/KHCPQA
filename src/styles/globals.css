@@ -6855,6 +6855,13 @@ p {
   gap: 8px;
 }
 
+.admin-field-help {
+  color: var(--console-muted);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
 .admin-editor-grid label.full {
   grid-column: 1 / -1;
 }

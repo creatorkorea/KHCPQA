@@ -434,7 +434,7 @@ export function AdminCommunityManager({
           <AdminTable
             columns={[
               { key: "name", label: "게시판명" },
-              { key: "type", label: "게시판 키" },
+              { key: "type", label: "고정 키" },
               { key: "summary", label: "기획서 기준 설명" },
               { key: "count", label: "게시글 수", align: "center" },
               { key: "status", label: "노출 상태", align: "center" },
@@ -450,7 +450,7 @@ export function AdminCommunityManager({
             columns={[
               { key: "title", label: "제목" },
               { key: "board", label: "게시판" },
-              { key: "slug", label: "Slug" },
+              { key: "slug", label: "게시글 Slug" },
               { key: "locale", label: "언어", align: "center" },
               { key: "status", label: "상태", align: "center" },
               { key: "updatedAt", label: "최종 수정일", align: "center" },
@@ -469,7 +469,7 @@ export function AdminCommunityManager({
             <p>
               {activeTab === "boards"
                 ? "기획서 기준 9개 게시판 구조는 고정되어 있으며, 각 행의 소개 등록 버튼으로 필요한 설명과 노출 상태를 관리합니다."
-                : "게시판을 선택한 뒤 제목, 요약, 본문과 대표 이미지를 등록하세요. 게시판을 선택하기 전에는 Slug가 생성되지 않습니다."}
+                : "카테고리를 선택한 뒤 제목, 요약, 본문과 대표 이미지를 등록하세요. 카테고리를 선택하기 전에는 게시글 Slug가 생성되지 않습니다."}
             </p>
           </div>
           <button className="console-primary-button" onClick={() => startCreate(activeTab === "boards" ? "board" : "post")} type="button">
@@ -502,12 +502,12 @@ export function AdminCommunityManager({
                 aria-label="편집 패널 닫기"
                 className="console-row-action"
                 onClick={() => {
-                setSelectedItem(null);
-                setIsEditorOpen(false);
-                setIsKeyLocked(false);
-                setEditor(blankEditor);
-                setResult(null);
-              }}
+                  setSelectedItem(null);
+                  setIsEditorOpen(false);
+                  setIsKeyLocked(false);
+                  setEditor(blankEditor);
+                  setResult(null);
+                }}
                 type="button"
               >
                 <X size={14} />
@@ -522,9 +522,12 @@ export function AdminCommunityManager({
                 value={editor.kind}
                 disabled={Boolean(selectedItem)}
               >
-                <option value="board">게시판</option>
+                <option value="board">게시판 소개</option>
                 <option value="post">게시글</option>
               </select>
+              <span className="admin-field-help">
+                {editor.kind === "board" ? "기획서 기준 9개 게시판의 소개/노출 상태를 관리합니다." : "선택한 카테고리에 실제 게시글을 등록합니다."}
+              </span>
             </label>
             <label>
               언어
@@ -537,7 +540,7 @@ export function AdminCommunityManager({
               </select>
             </label>
             <label>
-              게시판 키
+              {editor.kind === "board" ? "게시판 선택" : "카테고리 선택"}
               {boards.length > 0 ? (
                 <select
                   disabled={isKeyLocked}
@@ -561,9 +564,14 @@ export function AdminCommunityManager({
                   value={editor.boardKey}
                 />
               )}
+              <span className="admin-field-help">
+                {editor.kind === "board"
+                  ? "게시판 키는 선택한 게시판의 고정 Slug로 자동 사용됩니다."
+                  : "게시글이 노출될 글로벌 활동 카테고리를 선택합니다."}
+              </span>
             </label>
             <label>
-              Slug
+              {editor.kind === "board" ? "게시판 Slug" : "게시글 Slug"}
               <input
                 onChange={(event) => updateEditor("slug", normalizeSlugInput(event.target.value))}
                 placeholder={editor.kind === "board" ? "notice" : "notice-20260727"}
@@ -571,6 +579,11 @@ export function AdminCommunityManager({
                 value={editor.kind === "board" ? editor.boardKey : editor.slug}
                 disabled={editor.kind === "board" || Boolean(selectedItem) || !editor.boardKey}
               />
+              <span className="admin-field-help">
+                {editor.kind === "board"
+                  ? "게시판 소개는 선택한 게시판 키와 같은 Slug로 저장됩니다."
+                  : "카테고리 선택 후 자동 생성되며, 신규 등록 시 필요하면 수정할 수 있습니다."}
+              </span>
             </label>
             <label>
               게시 상태
