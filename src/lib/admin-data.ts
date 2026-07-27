@@ -1,4 +1,3 @@
-import { adminCertificationRows, adminContentRows, adminInquiryRows, adminUserRows } from "@/lib/content";
 import { formatInquiryReceipt } from "@/lib/receipts";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
@@ -22,6 +21,7 @@ export type AdminCertificationRow = {
 
 export type AdminInquiryRow = {
   country: string;
+  email: string;
   name: string;
   organization: string;
   receipt: string;
@@ -43,6 +43,7 @@ export type AdminContentRow = {
   title: string;
   type: string;
   updatedAt: string;
+  updatedAtRaw?: string;
   updatedBy: string;
   slug?: string;
 };
@@ -76,6 +77,7 @@ type CertificationRow = {
 type InquiryRow = {
   country: string | null;
   created_at: string;
+  email: string;
   id: string;
   inquiry_type: string;
   name: string;
@@ -130,7 +132,7 @@ function formatDate(value: string) {
 
 export async function getAdminUsers(): Promise<AdminUserRow[]> {
   if (!hasSupabaseBrowserEnv()) {
-    return adminUserRows;
+    return [];
   }
 
   const supabase = createClient();
@@ -156,7 +158,7 @@ export async function getAdminUsers(): Promise<AdminUserRow[]> {
 
 export async function getAdminCertifications(): Promise<AdminCertificationRow[]> {
   if (!hasSupabaseBrowserEnv()) {
-    return adminCertificationRows;
+    return [];
   }
 
   const supabase = createClient();
@@ -194,13 +196,13 @@ export async function getAdminCertifications(): Promise<AdminCertificationRow[]>
 
 export async function getAdminInquiries(): Promise<AdminInquiryRow[]> {
   if (!hasSupabaseBrowserEnv()) {
-    return adminInquiryRows;
+    return [];
   }
 
   const supabase = createClient();
   const { data, error } = await supabase
     .from("inquiries")
-    .select("id, name, organization, country, inquiry_type, status, created_at")
+    .select("id, name, email, organization, country, inquiry_type, status, created_at")
     .order("created_at", { ascending: false })
     .limit(50);
 
@@ -210,6 +212,7 @@ export async function getAdminInquiries(): Promise<AdminInquiryRow[]> {
 
   return (data as InquiryRow[]).map((inquiry) => ({
     country: inquiry.country || "-",
+    email: inquiry.email,
     name: inquiry.name,
     organization: inquiry.organization || "-",
     receipt: formatInquiryReceipt(inquiry.id, inquiry.created_at),
@@ -221,7 +224,7 @@ export async function getAdminInquiries(): Promise<AdminInquiryRow[]> {
 
 export async function getAdminContentRows(): Promise<AdminContentRow[]> {
   if (!hasSupabaseBrowserEnv()) {
-    return adminContentRows;
+    return [];
   }
 
   const supabase = createClient();
@@ -255,6 +258,7 @@ export async function getAdminContentRows(): Promise<AdminContentRow[]> {
       title: item.title,
       type: item.content_type,
       updatedAt: formatDate(item.updated_at),
+      updatedAtRaw: item.updated_at,
       updatedBy: "Admin"
     })),
     ...((banners as BannerRow[] | null) ?? []).map((banner) => ({
@@ -268,23 +272,19 @@ export async function getAdminContentRows(): Promise<AdminContentRow[]> {
       title: banner.title,
       type: "Banner",
       updatedAt: formatDate(banner.updated_at),
+      updatedAtRaw: banner.updated_at,
       updatedBy: "Admin"
     }))
   ];
 
-  return rows.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 50);
+  return rows
+    .sort((a, b) => (b.updatedAtRaw ?? b.updatedAt).localeCompare(a.updatedAtRaw ?? a.updatedAt))
+    .slice(0, 50);
 }
 
 export async function getAdminPublishEvents(): Promise<AdminPublishEventRow[]> {
   if (!hasSupabaseBrowserEnv()) {
-    return adminContentRows.slice(0, 5).map((row, index) => ({
-      action: index === 0 ? "published" : "updated",
-      actor: row.updatedBy,
-      itemType: row.type === "Banner" ? "banner" : "content",
-      status: row.status,
-      title: row.title,
-      updatedAt: row.updatedAt
-    }));
+    return [];
   }
 
   const supabase = createClient();

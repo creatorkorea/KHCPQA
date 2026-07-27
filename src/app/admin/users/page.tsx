@@ -16,7 +16,7 @@ import { getAdminUsers } from "@/lib/admin-data";
 
 export default async function AdminUsersPage() {
   const users = await getAdminUsers();
-  const rows = (users.length ? users : fallbackUsers).slice(0, 6).map((user) => ({
+  const rows = users.slice(0, 6).map((user) => ({
     id: user.id,
     email: user.email,
     joinedAt: user.lastLoginAt,
@@ -49,16 +49,10 @@ export default async function AdminUsersPage() {
             { key: "joinedAt", label: "가입일" },
             { key: "manage", label: "관리", align: "center" }
           ]}
+          emptyLabel="등록된 사용자 데이터가 없습니다."
           rows={rows}
         />
       </AdminPanel>
     </AdminConsoleShell>
   );
 }
-
-const fallbackUsers = [
-  { email: "creatorkorea.org@gmail.com", id: "super-admin", lastLoginAt: "2026.01.02", name: "super_admin", role: "super_admin", status: "active" },
-  { email: "kimho@example.com", id: "lee", lastLoginAt: "2026.02.15", name: "이로운", role: "user", status: "active" },
-  { email: "seoyeon@example.com", id: "park", lastLoginAt: "2026.03.10", name: "박서연", role: "user", status: "active" },
-  { email: "minji@example.com", id: "kim", lastLoginAt: "2026.04.05", name: "김민지", role: "user", status: "suspended" }
-];

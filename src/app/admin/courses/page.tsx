@@ -19,33 +19,16 @@ export default async function AdminCoursesPage() {
   const courseRows = contentRows
     .filter((row) => row.type === "Course")
     .slice(0, 7)
-    .map((row, index) => ({
-      id: row.id ?? `${row.slug}-${index}`,
-      category: row.summary?.includes("비즈니스") ? "비즈니스" : row.summary?.includes("라이프") ? "라이프스타일" : "웰니스",
+    .map((row) => ({
+      id: row.id ?? row.slug ?? row.title,
+      category: categoryLabel(row.summary),
       createdAt: row.updatedAt,
       language: row.locale,
       manage: <AdminRowAction />,
       publish: <AdminStatusBadge tone={getTone(row.status)}>{statusLabel(row.status)}</AdminStatusBadge>,
-      status: <AdminStatusBadge tone={getTone(index % 3 === 1 ? "translated" : row.status)}>{index % 3 === 1 ? "검수중" : "공개"}</AdminStatusBadge>,
+      purchaseType: "-",
       title: row.title
     }));
-
-  const fallbackRows = [
-    ["글로벌 웰니스 기초 과정", "웰니스", "ko", "공개", "공개", "2026.05.18"],
-    ["명상 전문가 심화 과정", "웰니스", "ko, en", "검수중", "공개", "2026.05.17"],
-    ["스트레스 관리 실전 과정", "라이프스타일", "ko", "임시저장", "임시저장", "2026.05.16"],
-    ["수면 개선 프로그램", "라이프스타일", "ko, en, ja", "공개", "공개", "2026.05.15"],
-    ["아동상담 입문 과정", "웰니스", "ko", "임시저장", "임시저장", "2026.05.14"]
-  ].map(([title, category, language, status, publish, createdAt]) => ({
-    id: title,
-    category,
-    createdAt,
-    language,
-    manage: <AdminRowAction />,
-    publish: <AdminStatusBadge tone={getTone(publish)}>{publish}</AdminStatusBadge>,
-    status: <AdminStatusBadge tone={getTone(status)}>{status}</AdminStatusBadge>,
-    title
-  }));
 
   return (
     <AdminConsoleShell
@@ -66,17 +49,26 @@ export default async function AdminCoursesPage() {
             { key: "title", label: "과정명" },
             { key: "category", label: "카테고리" },
             { key: "language", label: "언어" },
-            { key: "status", label: "구매 유형" },
+            { key: "purchaseType", label: "구매 유형" },
             { key: "publish", label: "상태" },
             { key: "createdAt", label: "수정일" },
             { key: "manage", label: "관리", align: "center" }
           ]}
-          rows={courseRows.length ? courseRows : fallbackRows}
+          emptyLabel="등록된 과정 데이터가 없습니다."
+          rows={courseRows}
         />
-        <AdminPagination pages={["1", "2", "3", "4", "5", "...", "16"]} />
+        {courseRows.length ? <AdminPagination pages={["1"]} /> : null}
       </AdminPanel>
     </AdminConsoleShell>
   );
+}
+
+function categoryLabel(summary?: string) {
+  if (!summary) return "-";
+  if (summary.includes("비즈니스")) return "비즈니스";
+  if (summary.includes("라이프")) return "라이프스타일";
+  if (summary.includes("웰니스")) return "웰니스";
+  return "-";
 }
 
 function statusLabel(status: string) {

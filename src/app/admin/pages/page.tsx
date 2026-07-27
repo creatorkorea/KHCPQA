@@ -6,28 +6,26 @@ import {
   AdminPrimaryButton,
   AdminRowAction,
   AdminStatusBadge,
-  AdminTable
+  AdminTable,
+  getTone
 } from "@/components/AdminConsole";
+import { getAdminContentRows } from "@/lib/admin-data";
 
-const rows = [
-  ["홈", "/", "노출", "1", "2026.05.18"],
-  ["협회소개", "/about", "노출", "2", "2026.05.18"],
-  ["교육과정", "/curriculum", "노출", "3", "2026.05.17"],
-  ["커뮤니티", "/community", "노출", "4", "2026.05.17"],
-  ["공지사항", "/community/notice", "노출", "5", "2026.05.16"],
-  ["자료실", "/community/data", "비노출", "6", "2026.05.16"],
-  ["문의하기", "/inquiry", "노출", "7", "2026.05.15"]
-].map(([name, path, status, order, updatedAt]) => ({
-  id: path,
-  name,
-  path,
-  status: <AdminStatusBadge tone={status === "노출" ? "success" : "neutral"}>{status}</AdminStatusBadge>,
-  order,
-  updatedAt,
-  manage: <AdminRowAction />
-}));
+export default async function AdminPagesPage() {
+  const contentRows = await getAdminContentRows();
+  const rows = contentRows
+    .filter((row) => row.type === "Page")
+    .slice(0, 10)
+    .map((row, index) => ({
+      id: row.id ?? row.slug ?? row.title,
+      manage: <AdminRowAction />,
+      name: row.title,
+      order: index + 1,
+      path: pagePath(row.slug),
+      status: <AdminStatusBadge tone={getTone(row.status)}>{statusLabel(row.status)}</AdminStatusBadge>,
+      updatedAt: row.updatedAt
+    }));
 
-export default function AdminPagesPage() {
   return (
     <AdminConsoleShell
       actions={<AdminPrimaryButton icon={Plus}>새 페이지 등록</AdminPrimaryButton>}
@@ -45,10 +43,23 @@ export default function AdminPagesPage() {
             { key: "updatedAt", label: "최종 수정일" },
             { key: "manage", label: "관리", align: "center" }
           ]}
+          emptyLabel="등록된 페이지 데이터가 없습니다."
           rows={rows}
         />
-        <AdminPagination pages={["1", "2"]} />
+        <AdminPagination pages={["1"]} />
       </AdminPanel>
     </AdminConsoleShell>
   );
+}
+
+function pagePath(slug?: string) {
+  if (!slug) return "-";
+  return slug === "home" ? "/" : `/${slug.replace(/^\/+/, "")}`;
+}
+
+function statusLabel(status: string) {
+  if (status === "published") return "노출";
+  if (status === "draft") return "임시저장";
+  if (status === "archived") return "비노출";
+  return status;
 }

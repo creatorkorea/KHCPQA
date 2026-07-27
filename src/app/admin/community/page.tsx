@@ -7,26 +7,29 @@ import {
   AdminRowAction,
   AdminStatusBadge,
   AdminTable,
-  AdminTabs
+  AdminTabs,
+  getTone
 } from "@/components/AdminConsole";
+import { getAdminContentRows } from "@/lib/admin-data";
 
-const rows = [
-  ["공지사항", "notice", "23", "노출", "1"],
-  ["자유게시판", "free", "156", "노출", "2"],
-  ["수강후기", "review", "98", "노출", "3"],
-  ["자료실", "data", "47", "노출", "4"],
-  ["FAQ", "faq", "32", "비노출", "5"]
-].map(([name, type, count, status, order]) => ({
-  id: type,
-  name,
-  type,
-  count,
-  status: <AdminStatusBadge tone={status === "노출" ? "success" : "neutral"}>{status}</AdminStatusBadge>,
-  order,
-  manage: <AdminRowAction />
-}));
+export default async function AdminCommunityPage() {
+  const contentRows = await getAdminContentRows();
+  const activityRows = contentRows.filter((row) => row.type === "Activity");
+  const rows = Array.from(groupBySlug(activityRows).entries()).map(([slug, items], index) => {
+    const latest = items[0];
+    const published = items.some((item) => item.status === "published");
 
-export default function AdminCommunityPage() {
+    return {
+      id: slug,
+      count: items.length,
+      manage: <AdminRowAction />,
+      name: latest.title,
+      order: index + 1,
+      status: <AdminStatusBadge tone={getTone(published ? "published" : latest.status)}>{published ? "노출" : statusLabel(latest.status)}</AdminStatusBadge>,
+      type: slug
+    };
+  });
+
   return (
     <AdminConsoleShell
       actions={<AdminPrimaryButton icon={Plus}>새 게시판 등록</AdminPrimaryButton>}
@@ -45,10 +48,26 @@ export default function AdminCommunityPage() {
             { key: "order", label: "정렬 순서", align: "center" },
             { key: "manage", label: "관리", align: "center" }
           ]}
+          emptyLabel="등록된 커뮤니티 콘텐츠가 없습니다."
           rows={rows}
         />
         <AdminPagination />
       </AdminPanel>
     </AdminConsoleShell>
   );
+}
+
+function groupBySlug<T extends { slug?: string; title: string }>(items: T[]) {
+  return items.reduce((groups, item) => {
+    const key = item.slug || item.title;
+    groups.set(key, [...(groups.get(key) ?? []), item]);
+    return groups;
+  }, new Map<string, T[]>());
+}
+
+function statusLabel(status: string) {
+  if (status === "published") return "노출";
+  if (status === "draft") return "임시저장";
+  if (status === "archived") return "비노출";
+  return status;
 }
