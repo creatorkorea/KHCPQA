@@ -289,8 +289,8 @@ export function AdminCommunityManager({
         return { ...current, boardKey: value, slug: value };
       }
 
-      if (name === "boardKey" && current.kind === "post" && (!current.slug || current.slug.endsWith("-"))) {
-        return { ...current, boardKey: value, slug: value ? `${value}-${formatDateKey()}` : "" };
+      if (name === "boardKey" && current.kind === "post") {
+        return { ...current, boardKey: value, slug: value ? createPostSlug(value) : "" };
       }
 
       return { ...current, [name]: value };
@@ -309,6 +309,7 @@ export function AdminCommunityManager({
         contentType: "Activity",
         imageUrl: editor.imageUrl,
         locale: editor.locale,
+        preventOverwrite: editor.kind === "post" && !selectedItem,
         slug,
         sourceUrl: editor.sourceUrl,
         status: editor.status,
@@ -574,7 +575,7 @@ export function AdminCommunityManager({
               {editor.kind === "board" ? "게시판 Slug" : "게시글 Slug"}
               <input
                 onChange={(event) => updateEditor("slug", normalizeSlugInput(event.target.value))}
-                placeholder={editor.kind === "board" ? "notice" : "notice-20260727"}
+                placeholder={editor.kind === "board" ? "notice" : "notice-20260727-143012123"}
                 required
                 value={editor.kind === "board" ? editor.boardKey : editor.slug}
                 disabled={editor.kind === "board" || Boolean(selectedItem) || !editor.boardKey}
@@ -582,7 +583,7 @@ export function AdminCommunityManager({
               <span className="admin-field-help">
                 {editor.kind === "board"
                   ? "게시판 소개는 선택한 게시판 키와 같은 Slug로 저장됩니다."
-                  : "카테고리 선택 후 자동 생성되며, 신규 등록 시 필요하면 수정할 수 있습니다."}
+                  : "카테고리 선택 시 고유 Slug가 자동 생성됩니다. 같은 Slug는 기존 게시글과 충돌합니다."}
               </span>
             </label>
             <label>
@@ -751,13 +752,21 @@ function normalizeSlugInput(value: string) {
     .replace(/-+/g, "-");
 }
 
-function formatDateKey() {
+function createPostSlug(boardKey: string) {
+  return `${normalizeSlugInput(boardKey)}-${formatDateTimeKey()}`;
+}
+
+function formatDateTimeKey() {
   const now = new Date();
   const year = now.getFullYear();
   const month = `${now.getMonth() + 1}`.padStart(2, "0");
   const day = `${now.getDate()}`.padStart(2, "0");
+  const hour = `${now.getHours()}`.padStart(2, "0");
+  const minute = `${now.getMinutes()}`.padStart(2, "0");
+  const second = `${now.getSeconds()}`.padStart(2, "0");
+  const millisecond = `${now.getMilliseconds()}`.padStart(3, "0");
 
-  return `${year}${month}${day}`;
+  return `${year}${month}${day}-${hour}${minute}${second}${millisecond}`;
 }
 
 function statusLabel(status: string) {

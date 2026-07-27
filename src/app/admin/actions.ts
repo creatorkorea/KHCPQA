@@ -373,6 +373,7 @@ export async function saveAdminContent(input: {
   contentType: string;
   imageUrl: string;
   locale: string;
+  preventOverwrite?: boolean;
   slug: string;
   sourceUrl: string;
   status: string;
@@ -384,6 +385,7 @@ export async function saveAdminContent(input: {
     contentType: input.contentType.trim(),
     imageUrl: input.imageUrl.trim(),
     locale: input.locale.trim(),
+    preventOverwrite: Boolean(input.preventOverwrite),
     slug: input.slug.trim().toLowerCase(),
     sourceUrl: input.sourceUrl.trim(),
     status: input.status.trim(),
@@ -427,6 +429,13 @@ export async function saveAdminContent(input: {
     .eq("locale", trimmed.locale)
     .eq("slug", trimmed.slug)
     .maybeSingle();
+
+  if (trimmed.preventOverwrite && existingContent?.id) {
+    return {
+      ok: false,
+      message: "이미 같은 Slug의 게시글이 있습니다. 새 게시글은 Slug를 변경해 주세요."
+    };
+  }
 
   const { data: savedContent, error } = await actor.supabase.from("admin_content_items").upsert(
     {
