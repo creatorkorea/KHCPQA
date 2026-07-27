@@ -6975,6 +6975,15 @@ p {
   padding: 6px 8px;
 }
 
+.community-board-summary {
+  color: var(--console-muted);
+  display: inline-block;
+  max-width: 360px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .community-editor-panel {
   margin: 0;
   max-width: none;

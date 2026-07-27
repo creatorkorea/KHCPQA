@@ -14,6 +14,9 @@ import type { AdminContentRow } from "@/lib/admin-data";
 
 type ActivityOption = {
   key: string;
+  order: number;
+  source: string;
+  summary: string;
   title: string;
 };
 
@@ -39,9 +42,12 @@ type BoardSummary = {
   id: string;
   intro?: AdminContentRow;
   key: string;
-  latest: AdminContentRow;
+  latest?: AdminContentRow;
+  order: number;
   postCount: number;
   published: boolean;
+  source: string;
+  summary: string;
   title: string;
 };
 
@@ -95,7 +101,7 @@ export function AdminCommunityManager({
     () => new Map(activityOptions.map((option) => [option.key, option.title])),
     [activityOptions]
   );
-  const boards = useMemo(() => buildBoards(items, boardKeys, optionTitleByKey), [boardKeys, items, optionTitleByKey]);
+  const boards = useMemo(() => buildBoards(items, boardKeys, activityOptions, optionTitleByKey), [activityOptions, boardKeys, items, optionTitleByKey]);
   const boardTitleByKey = useMemo(
     () => new Map(boards.map((board) => [board.key, board.title])),
     [boards]
@@ -108,9 +114,14 @@ export function AdminCommunityManager({
         !keyword ||
         board.key.toLowerCase().includes(keyword) ||
         board.title.toLowerCase().includes(keyword) ||
-        board.latest.summary?.toLowerCase().includes(keyword);
-      const matchesLocale = !localeFilter || board.latest.locale === localeFilter;
-      const matchesStatus = !statusFilter || board.latest.status === statusFilter || (statusFilter === "published" && board.published);
+        board.summary.toLowerCase().includes(keyword) ||
+        board.source.toLowerCase().includes(keyword);
+      const matchesLocale = !localeFilter || board.latest?.locale === localeFilter;
+      const matchesStatus =
+        !statusFilter ||
+        board.latest?.status === statusFilter ||
+        (statusFilter === "published" && board.published) ||
+        (statusFilter === "draft" && !board.latest);
 
       return matchesKeyword && matchesLocale && matchesStatus;
     });
@@ -154,12 +165,13 @@ export function AdminCommunityManager({
         {board.title}
       </button>
     ),
-    order: index + 1,
+    order: board.order || index + 1,
     status: (
-      <AdminStatusBadge tone={getTone(board.published ? "published" : board.latest.status)}>
-        {board.published ? "노출" : statusLabel(board.latest.status)}
+      <AdminStatusBadge tone={getTone(board.published ? "published" : board.latest?.status ?? "draft")}>
+        {board.published ? "노출" : board.latest ? statusLabel(board.latest.status) : "구조 등록"}
       </AdminStatusBadge>
     ),
+    summary: <span className="community-board-summary">{board.summary}</span>,
     type: <code className="community-code">{board.key}</code>
   }));
   const postRows = filteredPosts.map((item) => {
@@ -211,20 +223,20 @@ export function AdminCommunityManager({
   }
 
   function selectBoard(board: BoardSummary) {
-    const item = board.intro ?? board.latest;
+    const item = board.intro ?? board.latest ?? null;
     setSelectedItem(item);
     setResult(null);
     setEditor({
       boardKey: board.key,
-      body: item.body ?? "",
-      imageUrl: item.imageUrl ?? "",
+      body: item?.body ?? board.summary,
+      imageUrl: item?.imageUrl ?? "",
       kind: "board",
-      locale: item.locale,
-      sourceUrl: item.sourceUrl ?? "",
+      locale: item?.locale ?? "ko",
+      sourceUrl: item?.sourceUrl ?? "",
       slug: board.key,
-      status: item.status,
-      summary: item.summary ?? "",
-      title: item.title
+      status: item?.status ?? "draft",
+      summary: item?.summary ?? board.summary,
+      title: item?.title ?? board.title
     });
   }
 
@@ -343,7 +355,7 @@ export function AdminCommunityManager({
             </button>
             <button className="console-primary-button" onClick={() => startCreate("board")} type="button">
               <FolderPlus size={16} />
-              새 게시판 등록
+              게시판 소개 등록
             </button>
           </div>
         </div>
@@ -399,6 +411,7 @@ export function AdminCommunityManager({
             columns={[
               { key: "name", label: "게시판명" },
               { key: "type", label: "게시판 키" },
+              { key: "summary", label: "기획서 기준 설명" },
               { key: "count", label: "게시글 수", align: "center" },
               { key: "status", label: "노출 상태", align: "center" },
               { key: "order", label: "정렬 순서", align: "center" },
@@ -466,9 +479,14 @@ export function AdminCommunityManager({
             </label>
             <label>
               게시판 키
-              {editor.kind === "post" && boards.length > 0 ? (
-                <select onChange={(event) => updateEditor("boardKey", event.target.value)} value={editor.boardKey}>
-                  <option value="">선택 안 함</option>
+              {boards.length > 0 ? (
+                <select
+                  disabled={Boolean(selectedItem)}
+                  onChange={(event) => updateEditor("boardKey", event.target.value)}
+                  required={editor.kind === "board"}
+                  value={editor.boardKey}
+                >
+                  <option value="">{editor.kind === "board" ? "게시판 선택" : "선택 안 함"}</option>
                   {boards.map((board) => (
                     <option key={board.key} value={board.key}>
                       {board.title} ({board.key})
@@ -477,11 +495,11 @@ export function AdminCommunityManager({
                 </select>
               ) : (
                 <input
+                  disabled={Boolean(selectedItem)}
                   onChange={(event) => updateEditor("boardKey", normalizeSlugInput(event.target.value))}
                   placeholder="notice"
                   required={editor.kind === "board"}
                   value={editor.boardKey}
-                  disabled={Boolean(selectedItem)}
                 />
               )}
             </label>
@@ -594,32 +612,43 @@ function buildKnownBoardKeys(activityOptions: ActivityOption[], items: AdminCont
   return Array.from(keys).sort((a, b) => b.length - a.length);
 }
 
-function buildBoards(items: AdminContentRow[], boardKeys: string[], optionTitleByKey: Map<string, string>) {
+function buildBoards(
+  items: AdminContentRow[],
+  boardKeys: string[],
+  activityOptions: ActivityOption[],
+  optionTitleByKey: Map<string, string>
+) {
   const groups = new Map<string, AdminContentRow[]>();
+  const plannedBoards = new Map(activityOptions.map((option) => [option.key, option]));
 
   items.forEach((item) => {
     const key = getBoardKey(item.slug ?? "", boardKeys);
     groups.set(key, [...(groups.get(key) ?? []), item]);
   });
 
-  return Array.from(groups.entries())
-    .map(([key, groupItems]) => {
+  return Array.from(new Set([...optionTitleByKey.keys(), ...groups.keys()]))
+    .map((key) => {
+      const groupItems = groups.get(key) ?? [];
       const sortedItems = [...groupItems].sort((a, b) => (b.updatedAtRaw ?? b.updatedAt).localeCompare(a.updatedAtRaw ?? a.updatedAt));
       const intro = sortedItems.find((item) => item.slug === key);
       const latest = sortedItems[0];
+      const option = plannedBoards.get(key);
 
       return {
         count: sortedItems.length,
-        id: intro?.id ?? latest.id ?? key,
+        id: intro?.id ?? latest?.id ?? key,
         intro,
         key,
         latest,
+        order: option?.order ?? 1000 + Array.from(groups.keys()).indexOf(key),
         postCount: sortedItems.filter((item) => item.slug !== key).length,
         published: sortedItems.some((item) => item.status === "published"),
-        title: intro?.title ?? optionTitleByKey.get(key) ?? latest.title ?? key
+        source: option?.source ?? "관리자 추가",
+        summary: intro?.summary ?? option?.summary ?? latest?.summary ?? "관리자에서 추가한 커뮤니티 게시판입니다.",
+        title: intro?.title ?? optionTitleByKey.get(key) ?? latest?.title ?? key
       };
     })
-    .sort((a, b) => (b.latest.updatedAtRaw ?? b.latest.updatedAt).localeCompare(a.latest.updatedAtRaw ?? a.latest.updatedAt));
+    .sort((a, b) => a.order - b.order);
 }
 
 function getBoardKey(slug: string, boardKeys: string[]) {

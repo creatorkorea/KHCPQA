@@ -6,8 +6,11 @@ import { getActivityGroups } from "@/lib/content";
 export default async function AdminCommunityPage() {
   const contentRows = await getAdminContentRows();
   const activityRows = contentRows.filter((row) => row.type === "Activity");
-  const activityOptions = getActivityGroups("ko").map((group) => ({
+  const activityOptions = getActivityGroups("ko").map((group, index) => ({
     key: group.key,
+    order: index + 1,
+    source: group.source,
+    summary: group.summary,
     title: group.title
   }));
 
