@@ -97,10 +97,9 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
               <small>{activityGroups.length} {pageCopy.categoriesLabel}</small>
             </div>
             <nav>
-              <Link className="is-active" href={`/${locale}/activities`}>
+              <Link aria-current="page" className="is-active" href={`/${locale}/activities`}>
                 <LayoutGrid size={17} />
                 <span>{pageCopy.allLabel}</span>
-                <small>all</small>
               </Link>
               {activityGroups.map((activity) => {
                 const Icon = activity.icon;
@@ -108,7 +107,6 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
                   <Link href={`/${locale}/activities/${activity.key}`} key={activity.key}>
                     <Icon size={17} />
                     <span>{activity.title}</span>
-                    <small>{activity.key}</small>
                   </Link>
                 );
               })}

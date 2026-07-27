@@ -3248,7 +3248,7 @@ p {
   align-items: start;
   display: grid;
   gap: 28px;
-  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  grid-template-columns: minmax(248px, 284px) minmax(0, 1fr);
 }
 
 .activities-side-menu {
@@ -3307,10 +3307,11 @@ p {
   border-radius: 10px;
   color: var(--ink);
   display: grid;
-  gap: 10px;
-  grid-template-columns: 22px minmax(0, 1fr) auto;
-  min-height: 46px;
-  padding: 10px 11px;
+  gap: 12px;
+  grid-template-columns: 24px minmax(0, 1fr);
+  min-height: 48px;
+  padding: 11px 13px;
+  position: relative;
   transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
@@ -3326,6 +3327,18 @@ p {
   color: var(--purple);
 }
 
+.activities-side-menu nav a.is-active::before {
+  background: var(--purple);
+  border-radius: 999px;
+  content: "";
+  height: 22px;
+  left: 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(-1px, -50%);
+  width: 3px;
+}
+
 .activities-side-menu nav svg {
   color: var(--purple);
 }
@@ -3334,22 +3347,6 @@ p {
   font-size: 13px;
   font-weight: 900;
   line-height: 1.35;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.activities-side-menu nav small {
-  background: var(--purple-soft);
-  border-radius: 999px;
-  color: var(--purple);
-  font-size: 10px;
-  font-weight: 900;
-  max-width: 88px;
-  overflow: hidden;
-  padding: 4px 8px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .activities-content-panel {
@@ -7531,12 +7528,6 @@ p {
 
   .activities-side-menu nav a {
     grid-template-columns: 22px minmax(0, 1fr);
-  }
-
-  .activities-side-menu nav small {
-    grid-column: 2;
-    max-width: 100%;
-    width: fit-content;
   }
 
   .activity-cms-section > div:last-child,

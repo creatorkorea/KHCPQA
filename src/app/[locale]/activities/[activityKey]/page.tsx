@@ -130,19 +130,18 @@ export default async function ActivityDetailPage({
               <Link href={`/${locale}/activities`}>
                 <LayoutGrid size={17} />
                 <span>{pageCopy.allLabel}</span>
-                <small>all</small>
               </Link>
               {activityGroups.map((item) => {
                 const ItemIcon = item.icon;
                 return (
                   <Link
+                    aria-current={item.key === activity.key ? "page" : undefined}
                     className={item.key === activity.key ? "is-active" : undefined}
                     href={`/${locale}/activities/${item.key}`}
                     key={item.key}
                   >
                     <ItemIcon size={17} />
                     <span>{item.title}</span>
-                    <small>{item.key}</small>
                   </Link>
                 );
               })}
