@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CalendarDays, CheckCircle2, ExternalLink, LayoutGrid } from "lucide-react";
+import { ArrowRight, CalendarDays, CheckCircle2, LayoutGrid } from "lucide-react";
 import { PageIntro } from "@/components/SiteShell";
 import {
   getActivityGroupByKey,
@@ -155,16 +155,6 @@ export default async function ActivityDetailPage({
                 <Icon size={28} />
                 <h2>{activityTitle}</h2>
                 <p>{activityBody}</p>
-                <dl>
-                  <div>
-                    <dt>{t.activitiesPage.sourceLabel}</dt>
-                    <dd>{activity.source}</dd>
-                  </div>
-                  <div>
-                    <dt>{t.activitiesPage.statusLabel}</dt>
-                    <dd>{t.activitiesPage.managedStatus}</dd>
-                  </div>
-                </dl>
               </div>
             </div>
             {detailSections.length > 0 ? (
@@ -199,25 +189,30 @@ export default async function ActivityDetailPage({
               </section>
             ) : null}
             <div className="section-heading">
-              <span className="eyebrow">CMS</span>
+              <span className="eyebrow">{activityTitle}</span>
               <h2>{t.activitiesPage.latestPostsTitle}</h2>
             </div>
             {posts.length > 0 ? (
               <div className="activity-post-list">
                 {posts.map((post) => (
-                  <article key={`${post.title}-${post.date}`}>
-                    <header>
-                      <CalendarDays size={18} />
-                      <span>{post.date}</span>
-                      <strong>{post.status}</strong>
-                    </header>
-                    <h3>{post.title}</h3>
-                    <p>{post.body}</p>
-                    <a href={post.sourceUrl} target="_blank" rel="noreferrer">
-                      <span>{t.activitiesPage.sourceLabel}</span>
-                      <ExternalLink size={14} />
-                    </a>
-                  </article>
+                  <Link
+                    className="activity-post-card"
+                    href={`/${locale}/activities/${activityKey}/${post.slug}`}
+                    key={post.slug}
+                  >
+                    <article>
+                      <header>
+                        <CalendarDays size={18} />
+                        <span>{post.date}</span>
+                      </header>
+                      <h3>{post.title}</h3>
+                      <p>{post.body}</p>
+                      <span className="activity-post-cta">
+                        {t.activitiesPage.detailCta}
+                        <ArrowRight size={15} />
+                      </span>
+                    </article>
+                  </Link>
                 ))}
               </div>
             ) : (

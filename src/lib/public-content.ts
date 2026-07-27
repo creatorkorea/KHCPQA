@@ -23,8 +23,9 @@ export type PublishedActivityPost = {
   body: string;
   date: string;
   imageUrl?: string;
-  sourceUrl: string;
-  status: string;
+  slug: string;
+  sourceUrl?: string;
+  status?: string;
   title: string;
 };
 
@@ -178,10 +179,55 @@ export async function getPublishedActivityPosts({
     body: row.body || row.summary || "",
     date: formatDate(row.updated_at),
     imageUrl: row.image_url || undefined,
+    slug: row.slug || "",
     sourceUrl: row.source_url || "https://www.smc365.ac/index.asp",
     status: "published",
     title: row.title
-  }));
+  })).filter((post) => Boolean(post.slug));
+}
+
+export async function getPublishedActivityPost({
+  fallback,
+  locale,
+  slug
+}: {
+  fallback?: PublishedActivityPost;
+  locale: Locale;
+  slug: string;
+}): Promise<PublishedActivityPost | undefined> {
+  if (!hasSupabaseBrowserEnv()) {
+    return fallback;
+  }
+
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("admin_content_items")
+    .select("slug, title, summary, body, source_url, image_url, updated_at")
+    .eq("content_type", "Activity")
+    .eq("locale", locale)
+    .eq("status", "published")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (error) {
+    return fallback;
+  }
+
+  if (!data) {
+    return undefined;
+  }
+
+  const row = data as PublishedContentRow;
+
+  return {
+    body: row.body || row.summary || "",
+    date: formatDate(row.updated_at),
+    imageUrl: row.image_url || undefined,
+    slug: row.slug || slug,
+    sourceUrl: row.source_url || undefined,
+    status: "published",
+    title: row.title
+  };
 }
 
 export async function getPublishedContentSections({

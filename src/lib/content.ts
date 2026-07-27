@@ -3890,6 +3890,7 @@ export function getActivityPosts(locale: string, activityKey: string) {
       date: "2026-07-12",
       status: text.previewStatus,
       body: text.firstBody,
+      slug: `${activityKey}-sample-01`,
       sourceUrl: "https://www.smc365.ac/index.asp"
     },
     {
@@ -3897,6 +3898,7 @@ export function getActivityPosts(locale: string, activityKey: string) {
       date: "2026-07-05",
       status: text.reviewStatus,
       body: text.secondBody,
+      slug: `${activityKey}-sample-02`,
       sourceUrl: "https://www.smc365.ac/index.asp"
     }
   ];
