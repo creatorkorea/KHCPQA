@@ -114,6 +114,7 @@ export default async function ActivityDetailPage({
     })
   ]);
   const Icon = activity.icon;
+  const isPhotoActivity = activity.key === "photo";
 
   return (
     <>
@@ -193,37 +194,45 @@ export default async function ActivityDetailPage({
               <h2>{t.activitiesPage.latestPostsTitle}</h2>
             </div>
             {posts.length > 0 ? (
-              <div className="activity-post-list">
-                {posts.map((post) => (
-                  <Link
-                    className="activity-post-card"
-                    href={`/${locale}/activities/${activityKey}/${post.slug}`}
-                    key={post.slug}
-                  >
-                    <article>
-                      {post.imageUrl ? (
-                        <Image
-                          className="activity-post-card-image"
-                          src={post.imageUrl}
-                          alt={post.title}
-                          width={520}
-                          height={300}
-                          unoptimized
-                        />
-                      ) : null}
-                      <header>
-                        <CalendarDays size={18} />
-                        <span>{post.date}</span>
-                      </header>
-                      <h3>{post.title}</h3>
-                      <p>{post.body}</p>
-                      <span className="activity-post-cta">
-                        {t.activitiesPage.detailCta}
-                        <ArrowRight size={15} />
-                      </span>
-                    </article>
-                  </Link>
-                ))}
+              <div className={`activity-post-list ${isPhotoActivity ? "is-card-grid" : "is-news-list"}`}>
+                {posts.map((post) => {
+                  const postLinkClass = isPhotoActivity
+                    ? "activity-post-card"
+                    : `activity-post-row${post.imageUrl ? " has-image" : ""}`;
+
+                  return (
+                    <Link
+                      className={postLinkClass}
+                      href={`/${locale}/activities/${activityKey}/${post.slug}`}
+                      key={post.slug}
+                    >
+                      <article>
+                        {post.imageUrl ? (
+                          <Image
+                            className="activity-post-card-image"
+                            src={post.imageUrl}
+                            alt={post.title}
+                            width={520}
+                            height={300}
+                            unoptimized
+                          />
+                        ) : null}
+                        <div className="activity-post-copy">
+                          <header>
+                            <CalendarDays size={18} />
+                            <span>{post.date}</span>
+                          </header>
+                          <h3>{post.title}</h3>
+                          <p>{post.body}</p>
+                        </div>
+                        <span className="activity-post-cta">
+                          {t.activitiesPage.detailCta}
+                          <ArrowRight size={15} />
+                        </span>
+                      </article>
+                    </Link>
+                  );
+                })}
               </div>
             ) : (
               <div className="activity-empty-state">
