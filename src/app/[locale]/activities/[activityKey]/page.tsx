@@ -235,7 +235,6 @@ export default async function ActivityDetailPage({
                     <span>번호</span>
                     <span>제목</span>
                     <span>작성일</span>
-                    <span>보기</span>
                   </div>
                   {posts.map((post, index) => (
                     <Link
@@ -246,15 +245,10 @@ export default async function ActivityDetailPage({
                       <span className="activity-board-no">{posts.length - index}</span>
                       <span className="activity-board-title">
                         <strong>{post.title}</strong>
-                        <small>{post.body}</small>
                       </span>
                       <span className="activity-board-date">
                         <CalendarDays size={16} />
                         {post.date}
-                      </span>
-                      <span className="activity-board-cta">
-                        {t.activitiesPage.detailCta}
-                        <ArrowRight size={15} />
                       </span>
                     </Link>
                   ))}
