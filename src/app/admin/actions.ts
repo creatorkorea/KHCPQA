@@ -24,6 +24,17 @@ const locales = ["ko", "en", "es"] as const;
 const bannerPlacements = ["home", "curriculum", "activities", "global"] as const;
 const bannerStatusOptions = ["draft", "published", "archived"] as const;
 const missingSupabaseMessage = "Supabase 환경변수가 설정되지 않아 저장할 수 없습니다.";
+const activitySlugRoots = [
+  "corporate-events",
+  "competition",
+  "volunteer",
+  "reviews",
+  "notice",
+  "awards",
+  "media",
+  "photo",
+  "pass"
+] as const;
 
 type AdminRole = (typeof roleOptions)[number];
 type AccountStatus = (typeof statusOptions)[number];
@@ -116,6 +127,10 @@ function getManagedCourseSlug(slug: string) {
   return slug.replace(/-(?:flow|panel|technique|process)-.+$/, "");
 }
 
+function getManagedActivitySlug(slug: string) {
+  return activitySlugRoots.find((root) => slug === root || slug.startsWith(`${root}-`)) ?? slug.split("-")[0];
+}
+
 function revalidateManagedContent(input: {
   contentType: ContentType;
   locale: Locale;
@@ -131,7 +146,7 @@ function revalidateManagedContent(input: {
   }
 
   if (input.contentType === "Activity") {
-    const activityKey = input.slug.split("-")[0];
+    const activityKey = getManagedActivitySlug(input.slug);
     revalidatePath(`/${input.locale}/activities`);
     revalidatePath(`/${input.locale}/activities/${activityKey}`);
     return;

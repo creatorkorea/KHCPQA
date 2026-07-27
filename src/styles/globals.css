@@ -787,6 +787,7 @@
   .console-panel-heading {
     padding-inline: 16px;
   }
+
 }
 
 * {
@@ -6895,6 +6896,162 @@ p {
 
 .secondary-button.danger:hover {
   background: #fff4f3;
+}
+
+.community-manager {
+  display: grid;
+  gap: 24px;
+  margin: 0 auto;
+  max-width: 1480px;
+  width: 100%;
+}
+
+.community-list-panel {
+  margin: 0;
+  max-width: none;
+}
+
+.community-panel-top {
+  align-items: flex-end;
+  border-bottom: 1px solid var(--console-line);
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.community-panel-top .console-tabs {
+  border-bottom: 0;
+  padding-inline: 0;
+}
+
+.community-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 14px;
+}
+
+.community-actions .secondary-button {
+  align-items: center;
+  border-radius: 10px;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 850;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+}
+
+.community-link-button {
+  background: transparent;
+  border: 0;
+  color: var(--console-ink);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 850;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.community-link-button:hover {
+  color: var(--console-purple-dark);
+}
+
+.community-code {
+  background: #f7f5ff;
+  border: 1px solid #e5def8;
+  border-radius: 8px;
+  color: var(--console-purple-dark);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1;
+  padding: 6px 8px;
+}
+
+.community-editor-panel {
+  margin: 0;
+  max-width: none;
+  padding: 20px;
+}
+
+.community-editor-form {
+  border-color: var(--console-line);
+  border-radius: 14px;
+}
+
+.community-editor-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.community-editor-heading h2 {
+  color: var(--console-ink);
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+
+.community-editor-heading p,
+.community-editor-note {
+  color: var(--console-muted);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.community-result {
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 850;
+  margin: 0;
+  padding: 12px 14px;
+}
+
+.community-result.is-success {
+  background: #e8f5ee;
+  color: #167244;
+}
+
+.community-result.is-error {
+  background: #fff0f0;
+  color: #b34848;
+}
+
+.admin-editor-grid input:disabled,
+.admin-editor-grid select:disabled {
+  background: #f8f7fb;
+  color: #8f889d;
+  cursor: not-allowed;
+}
+
+@media (max-width: 760px) {
+  .community-panel-top {
+    align-items: stretch;
+    display: grid;
+    padding-inline: 16px;
+  }
+
+  .community-actions {
+    padding-bottom: 16px;
+  }
+
+  .community-actions .console-primary-button,
+  .community-actions .secondary-button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .community-editor-panel {
+    padding: 14px;
+  }
 }
 
 .admin-user-role-panel {
