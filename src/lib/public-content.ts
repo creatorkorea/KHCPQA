@@ -166,8 +166,12 @@ export async function getPublishedActivityPosts({
     .order("updated_at", { ascending: false })
     .limit(20);
 
-  if (error || !data || data.length === 0) {
+  if (error) {
     return fallback;
+  }
+
+  if (!data || data.length === 0) {
+    return [];
   }
 
   return (data as PublishedContentRow[]).map((row) => ({

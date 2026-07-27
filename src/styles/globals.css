@@ -3320,6 +3320,12 @@ p {
   color: var(--purple);
 }
 
+.activities-side-menu nav a.is-active {
+  background: var(--purple-soft);
+  border-color: rgba(111, 76, 255, 0.22);
+  color: var(--purple);
+}
+
 .activities-side-menu nav svg {
   color: var(--purple);
 }
@@ -3534,6 +3540,12 @@ p {
   padding: 34px clamp(18px, 4vw, 48px) 74px;
 }
 
+.activities-content-panel.activity-detail-section {
+  margin: 0;
+  max-width: none;
+  padding: 0;
+}
+
 .activity-back-link {
   align-items: center;
   color: var(--green-dark);
@@ -3726,6 +3738,30 @@ p {
   font-weight: 900;
   gap: 6px;
   justify-self: start;
+}
+
+.activity-empty-state {
+  align-items: center;
+  background: white;
+  border: 1px dashed rgba(111, 76, 255, 0.28);
+  border-radius: 12px;
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  min-height: 180px;
+  padding: 28px;
+  text-align: center;
+}
+
+.activity-empty-state svg {
+  color: var(--purple);
+}
+
+.activity-empty-state p {
+  font-size: 15px;
+  font-weight: 850;
+  margin: 0;
 }
 
 .activities-preview {

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, LayoutGrid } from "lucide-react";
 import { PageIntro } from "@/components/SiteShell";
 import { getActivityGroups, getCopy, type Locale } from "@/lib/content";
 import { getPublishedContentIntro, getPublishedContentMap } from "@/lib/public-content";
@@ -97,6 +97,11 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
               <small>{activityGroups.length} {pageCopy.categoriesLabel}</small>
             </div>
             <nav>
+              <Link className="is-active" href={`/${locale}/activities`}>
+                <LayoutGrid size={17} />
+                <span>{pageCopy.allLabel}</span>
+                <small>all</small>
+              </Link>
               {activityGroups.map((activity) => {
                 const Icon = activity.icon;
                 return (
