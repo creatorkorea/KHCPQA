@@ -3691,12 +3691,7 @@ p {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.activity-post-list.is-news-list {
-  grid-template-columns: 1fr;
-}
-
-.activity-post-card,
-.activity-post-row {
+.activity-post-card {
   color: inherit;
   display: block;
 }
@@ -3719,28 +3714,6 @@ p {
   transform: translateY(-2px);
 }
 
-.activity-post-row article {
-  align-items: center;
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  display: grid;
-  gap: 18px;
-  grid-template-columns: minmax(0, 1fr) auto;
-  padding: 18px 20px;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
-}
-
-.activity-post-row.has-image article {
-  grid-template-columns: 124px minmax(0, 1fr) auto;
-}
-
-.activity-post-row:hover article {
-  border-color: rgba(111, 76, 255, 0.24);
-  box-shadow: 0 14px 30px rgba(43, 30, 83, 0.07);
-  transform: translateY(-1px);
-}
-
 .activity-post-card-image {
   aspect-ratio: 16 / 9;
   border-radius: 6px;
@@ -3748,14 +3721,6 @@ p {
   margin: -20px -20px 4px;
   object-fit: cover;
   width: calc(100% + 40px);
-}
-
-.activity-post-row .activity-post-card-image {
-  aspect-ratio: auto;
-  border-radius: 8px;
-  height: 86px;
-  margin: 0;
-  width: 124px;
 }
 
 .activity-post-copy {
@@ -3779,23 +3744,11 @@ p {
   margin: 0;
 }
 
-.activity-post-row h3 {
-  font-size: 18px;
-}
-
 .activity-post-list p {
   color: var(--muted);
   font-size: 14px;
   line-height: 1.6;
   margin: 0;
-}
-
-.activity-post-row p {
-  display: -webkit-box;
-  max-width: 760px;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
 }
 
 .activity-post-cta {
@@ -3808,25 +3761,123 @@ p {
   justify-self: start;
 }
 
-.activity-post-row .activity-post-cta {
-  justify-self: end;
+.activity-board-list {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 18px 42px rgba(43, 30, 83, 0.04);
+  overflow: hidden;
+}
+
+.activity-board-head,
+.activity-board-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) 150px 112px;
+}
+
+.activity-board-head {
+  background: rgba(247, 245, 255, 0.78);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 15px 22px;
+}
+
+.activity-board-row {
+  align-items: center;
+  color: inherit;
+  gap: 0;
+  min-height: 76px;
+  padding: 0 22px;
+  transition: background-color 0.18s ease;
+}
+
+.activity-board-row + .activity-board-row {
+  border-top: 1px solid var(--line);
+}
+
+.activity-board-row:hover {
+  background: rgba(250, 249, 255, 0.88);
+}
+
+.activity-board-no {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.activity-board-title {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding-right: 24px;
+}
+
+.activity-board-title strong {
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activity-board-title small {
+  color: var(--muted);
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activity-board-date {
+  align-items: center;
+  color: var(--muted);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 850;
+  gap: 7px;
+}
+
+.activity-board-date svg {
+  color: var(--green);
+}
+
+.activity-board-cta {
+  align-items: center;
+  color: var(--green-dark);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 900;
+  gap: 6px;
+  justify-content: flex-end;
   white-space: nowrap;
 }
 
 @media (max-width: 720px) {
-  .activity-post-row article,
-  .activity-post-row.has-image article {
-    grid-template-columns: 1fr;
+  .activity-board-list {
+    border-radius: 8px;
   }
 
-  .activity-post-row .activity-post-card-image {
-    aspect-ratio: 16 / 9;
-    height: auto;
-    width: 100%;
+  .activity-board-head {
+    display: none;
   }
 
-  .activity-post-row .activity-post-cta {
-    justify-self: start;
+  .activity-board-row {
+    gap: 10px;
+    grid-template-columns: 36px minmax(0, 1fr);
+    min-height: 96px;
+    padding: 18px;
+  }
+
+  .activity-board-date,
+  .activity-board-cta {
+    grid-column: 2;
+    justify-content: flex-start;
   }
 }
 

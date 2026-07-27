@@ -194,15 +194,11 @@ export default async function ActivityDetailPage({
               <h2>{t.activitiesPage.latestPostsTitle}</h2>
             </div>
             {posts.length > 0 ? (
-              <div className={`activity-post-list ${isPhotoActivity ? "is-card-grid" : "is-news-list"}`}>
-                {posts.map((post) => {
-                  const postLinkClass = isPhotoActivity
-                    ? "activity-post-card"
-                    : `activity-post-row${post.imageUrl ? " has-image" : ""}`;
-
-                  return (
+              isPhotoActivity ? (
+                <div className="activity-post-list is-card-grid">
+                  {posts.map((post) => (
                     <Link
-                      className={postLinkClass}
+                      className="activity-post-card"
                       href={`/${locale}/activities/${activityKey}/${post.slug}`}
                       key={post.slug}
                     >
@@ -231,9 +227,39 @@ export default async function ActivityDetailPage({
                         </span>
                       </article>
                     </Link>
-                  );
-                })}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="activity-board-list">
+                  <div className="activity-board-head" aria-hidden="true">
+                    <span>번호</span>
+                    <span>제목</span>
+                    <span>작성일</span>
+                    <span>보기</span>
+                  </div>
+                  {posts.map((post, index) => (
+                    <Link
+                      className="activity-board-row"
+                      href={`/${locale}/activities/${activityKey}/${post.slug}`}
+                      key={post.slug}
+                    >
+                      <span className="activity-board-no">{posts.length - index}</span>
+                      <span className="activity-board-title">
+                        <strong>{post.title}</strong>
+                        <small>{post.body}</small>
+                      </span>
+                      <span className="activity-board-date">
+                        <CalendarDays size={16} />
+                        {post.date}
+                      </span>
+                      <span className="activity-board-cta">
+                        {t.activitiesPage.detailCta}
+                        <ArrowRight size={15} />
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )
             ) : (
               <div className="activity-empty-state">
                 <CalendarDays size={22} />
