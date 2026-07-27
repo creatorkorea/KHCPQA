@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, CalendarDays, CheckCircle2, LayoutGrid } from "lucide-react";
+import { ArrowRight, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, LayoutGrid } from "lucide-react";
 import { PageIntro } from "@/components/SiteShell";
 import {
   getActivityGroupByKey,
@@ -26,26 +26,122 @@ const activityDirectoryCopy: Record<Locale, {
   categoriesLabel: string;
   exploreLabel: string;
   emptyPosts: string;
+  nextLabel: string;
+  paginationLabel: string;
+  previousLabel: string;
 }> = {
   ko: {
     allLabel: "전체 활동",
     categoriesLabel: "활동 카테고리",
     exploreLabel: "활동 메뉴",
-    emptyPosts: "등록된 게시글이 없습니다."
+    emptyPosts: "등록된 게시글이 없습니다.",
+    nextLabel: "다음",
+    paginationLabel: "게시글 페이지",
+    previousLabel: "이전"
   },
   en: {
     allLabel: "All Activities",
     categoriesLabel: "Activity categories",
     exploreLabel: "Activity Menu",
-    emptyPosts: "No posts have been published yet."
+    emptyPosts: "No posts have been published yet.",
+    nextLabel: "Next",
+    paginationLabel: "Post pages",
+    previousLabel: "Previous"
   },
   es: {
     allLabel: "Todas las Actividades",
     categoriesLabel: "Categorías",
     exploreLabel: "Menú de Actividades",
-    emptyPosts: "Aún no hay publicaciones publicadas."
+    emptyPosts: "Aún no hay publicaciones publicadas.",
+    nextLabel: "Siguiente",
+    paginationLabel: "Páginas de publicaciones",
+    previousLabel: "Anterior"
   }
 };
+
+function getRequestedPage(value?: string) {
+  const parsed = Number(value);
+
+  if (!Number.isFinite(parsed)) {
+    return 1;
+  }
+
+  return Math.max(1, Math.floor(parsed));
+}
+
+function getActivityPageHref(locale: Locale, activityKey: string, page: number) {
+  const baseHref = `/${locale}/activities/${activityKey}`;
+
+  return page <= 1 ? baseHref : `${baseHref}?page=${page}`;
+}
+
+function getVisiblePaginationPages(currentPage: number, totalPages: number) {
+  const visibleCount = 5;
+  const start = Math.max(1, Math.min(currentPage - 2, totalPages - visibleCount + 1));
+  const end = Math.min(totalPages, start + visibleCount - 1);
+
+  return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+}
+
+function ActivityPagination({
+  activityKey,
+  currentPage,
+  locale,
+  pageCopy,
+  totalPages
+}: {
+  activityKey: string;
+  currentPage: number;
+  locale: Locale;
+  pageCopy: (typeof activityDirectoryCopy)[Locale];
+  totalPages: number;
+}) {
+  if (totalPages <= 1) {
+    return null;
+  }
+
+  const activePage = Math.min(Math.max(1, currentPage), totalPages);
+  const pages = getVisiblePaginationPages(activePage, totalPages);
+
+  return (
+    <nav className="activity-pagination" aria-label={pageCopy.paginationLabel}>
+      {activePage > 1 ? (
+        <Link className="activity-pagination-nav" href={getActivityPageHref(locale, activityKey, activePage - 1)}>
+          <ChevronLeft size={16} />
+          <span>{pageCopy.previousLabel}</span>
+        </Link>
+      ) : (
+        <span className="activity-pagination-nav is-disabled" aria-disabled="true">
+          <ChevronLeft size={16} />
+          <span>{pageCopy.previousLabel}</span>
+        </span>
+      )}
+      <div className="activity-pagination-pages">
+        {pages.map((page) => (
+          <Link
+            aria-current={page === activePage ? "page" : undefined}
+            className={page === activePage ? "is-active" : undefined}
+            href={getActivityPageHref(locale, activityKey, page)}
+            key={page}
+          >
+            {page}
+          </Link>
+        ))}
+      </div>
+      {activePage < totalPages ? (
+        <Link className="activity-pagination-nav" href={getActivityPageHref(locale, activityKey, activePage + 1)}>
+          <span>{pageCopy.nextLabel}</span>
+          <ChevronRight size={16} />
+        </Link>
+      ) : (
+        <span className="activity-pagination-nav is-disabled" aria-disabled="true">
+          <span>{pageCopy.nextLabel}</span>
+          <ChevronRight size={16} />
+        </span>
+      )}
+    </nav>
+  );
+}
 
 export function generateStaticParams() {
   return ["ko", "en", "es"].flatMap((locale) =>
@@ -74,11 +170,15 @@ export async function generateMetadata({
 }
 
 export default async function ActivityDetailPage({
-  params
+  params,
+  searchParams
 }: {
   params: Promise<{ locale: Locale; activityKey: string }>;
+  searchParams?: Promise<{ page?: string }>;
 }) {
   const { locale, activityKey } = await params;
+  const { page: pageParam } = (await searchParams) ?? {};
+  const currentPage = getRequestedPage(pageParam);
   const t = getCopy(locale);
   const activity = getActivityGroupByKey(locale, activityKey);
 
@@ -101,11 +201,15 @@ export default async function ActivityDetailPage({
   const activitySummary = content.lead || activity.summary;
   const activityBody = content.body || activitySummary;
   const activityImageUrl = content.imageUrl || activity.imageUrl;
-  const [posts, detailSections] = await Promise.all([
+  const isPhotoActivity = activity.key === "photo";
+  const postsPageSize = isPhotoActivity ? 9 : 10;
+  const [postsResult, detailSections] = await Promise.all([
     getPublishedActivityPosts({
       activityKey,
       fallback: getActivityPosts(locale, activityKey),
-      locale
+      locale,
+      page: currentPage,
+      pageSize: postsPageSize
     }),
     getPublishedContentSections({
       contentType: "Activity",
@@ -113,8 +217,8 @@ export default async function ActivityDetailPage({
       slugPrefix: `${activityKey}-section-`
     })
   ]);
+  const posts = postsResult.items;
   const Icon = activity.icon;
-  const isPhotoActivity = activity.key === "photo";
 
   return (
     <>
@@ -242,7 +346,9 @@ export default async function ActivityDetailPage({
                       href={`/${locale}/activities/${activityKey}/${post.slug}`}
                       key={post.slug}
                     >
-                      <span className="activity-board-no">{posts.length - index}</span>
+                      <span className="activity-board-no">
+                        {postsResult.total - (postsResult.page - 1) * postsResult.pageSize - index}
+                      </span>
                       <span className="activity-board-title">
                         <strong>{post.title}</strong>
                       </span>
@@ -260,6 +366,13 @@ export default async function ActivityDetailPage({
                 <p>{pageCopy.emptyPosts}</p>
               </div>
             )}
+            <ActivityPagination
+              activityKey={activityKey}
+              currentPage={postsResult.page}
+              locale={locale}
+              pageCopy={pageCopy}
+              totalPages={postsResult.totalPages}
+            />
           </div>
         </div>
       </section>

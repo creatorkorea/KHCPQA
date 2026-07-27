@@ -29,6 +29,14 @@ export type PublishedActivityPost = {
   title: string;
 };
 
+export type PaginatedActivityPosts = {
+  items: PublishedActivityPost[];
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+};
+
 export type PublishedContentSection = {
   body: string;
   imageUrl?: string;
@@ -61,6 +69,32 @@ function formatDate(value?: string) {
   }
 
   return new Date(value).toISOString().slice(0, 10);
+}
+
+function normalizePagination(page = 1, pageSize = 10) {
+  const safePage = Number.isFinite(page) ? Math.max(1, Math.floor(page)) : 1;
+  const safePageSize = Number.isFinite(pageSize) ? Math.max(1, Math.floor(pageSize)) : 10;
+
+  return { page: safePage, pageSize: safePageSize };
+}
+
+function getPaginationMeta(total: number, page: number, pageSize: number) {
+  return {
+    page,
+    pageSize,
+    total,
+    totalPages: Math.max(1, Math.ceil(total / pageSize))
+  };
+}
+
+function paginateActivityPosts(posts: PublishedActivityPost[], page: number, pageSize: number): PaginatedActivityPosts {
+  const { page: safePage, pageSize: safePageSize } = normalizePagination(page, pageSize);
+  const start = (safePage - 1) * safePageSize;
+
+  return {
+    items: posts.slice(start, start + safePageSize),
+    ...getPaginationMeta(posts.length, safePage, safePageSize)
+  };
 }
 
 export async function getPublishedContentIntro({
@@ -146,44 +180,62 @@ export async function getPublishedContentMap({
 export async function getPublishedActivityPosts({
   activityKey,
   fallback,
-  locale
+  locale,
+  page = 1,
+  pageSize = 10
 }: {
   activityKey: string;
   fallback: PublishedActivityPost[];
   locale: Locale;
-}): Promise<PublishedActivityPost[]> {
+  page?: number;
+  pageSize?: number;
+}): Promise<PaginatedActivityPosts> {
+  const { page: safePage, pageSize: safePageSize } = normalizePagination(page, pageSize);
+
   if (!hasSupabaseBrowserEnv()) {
-    return fallback;
+    return paginateActivityPosts(fallback, safePage, safePageSize);
   }
 
+  const from = (safePage - 1) * safePageSize;
+  const to = from + safePageSize - 1;
   const supabase = createClient();
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from("admin_content_items")
-    .select("slug, title, summary, body, source_url, image_url, updated_at")
+    .select("slug, title, summary, body, source_url, image_url, updated_at", { count: "exact" })
     .eq("content_type", "Activity")
     .eq("locale", locale)
     .eq("status", "published")
     .like("slug", `${activityKey}-%`)
     .order("updated_at", { ascending: false })
-    .limit(20);
+    .range(from, to);
 
   if (error) {
-    return fallback;
+    return paginateActivityPosts(fallback, safePage, safePageSize);
   }
 
   if (!data || data.length === 0) {
-    return [];
+    return {
+      items: [],
+      ...getPaginationMeta(count ?? 0, safePage, safePageSize)
+    };
   }
 
-  return (data as PublishedContentRow[]).map((row) => ({
-    body: row.body || row.summary || "",
-    date: formatDate(row.updated_at),
-    imageUrl: row.image_url || undefined,
-    slug: row.slug || "",
-    sourceUrl: row.source_url || "https://www.smc365.ac/index.asp",
-    status: "published",
-    title: row.title
-  })).filter((post) => Boolean(post.slug));
+  const items = (data as PublishedContentRow[])
+    .map((row) => ({
+      body: row.body || row.summary || "",
+      date: formatDate(row.updated_at),
+      imageUrl: row.image_url || undefined,
+      slug: row.slug || "",
+      sourceUrl: row.source_url || "https://www.smc365.ac/index.asp",
+      status: "published",
+      title: row.title
+    }))
+    .filter((post) => Boolean(post.slug));
+
+  return {
+    items,
+    ...getPaginationMeta(count ?? items.length, safePage, safePageSize)
+  };
 }
 
 export async function getPublishedActivityPost({
