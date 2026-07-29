@@ -1,13 +1,17 @@
 "use client";
 
-import { useMemo, useState, useTransition, type FormEvent } from "react";
-import { Edit3, FilePlus2, FolderPlus, Save, Trash2, X } from "lucide-react";
+/* eslint-disable @next/next/no-img-element */
+
+import { useMemo, useRef, useState, useTransition, type FormEvent } from "react";
+import { Edit3, FilePlus2, FolderPlus, ImagePlus, Save, Trash2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   deleteAdminManagedItem,
   saveAdminContent,
+  uploadAdminContentImage,
   type DeleteAdminContentResult,
-  type SaveAdminContentResult
+  type SaveAdminContentResult,
+  type UploadAdminContentImageResult
 } from "@/app/admin/actions";
 import { AdminStatusBadge, AdminTable, getTone } from "@/components/AdminConsole";
 import type { AdminContentRow } from "@/lib/admin-data";
@@ -22,7 +26,7 @@ type ActivityOption = {
 
 type CommunityMode = "boards" | "posts";
 type EditorKind = "board" | "post";
-type ActionResult = SaveAdminContentResult | DeleteAdminContentResult;
+type ActionResult = SaveAdminContentResult | DeleteAdminContentResult | UploadAdminContentImageResult;
 
 type EditorState = {
   boardKey: string;
@@ -86,6 +90,7 @@ export function AdminCommunityManager({
   items: AdminContentRow[];
 }) {
   const router = useRouter();
+  const imageInputRef = useRef<HTMLInputElement>(null);
   const [activeTab, setActiveTab] = useState<CommunityMode>("boards");
   const [boardFilter, setBoardFilter] = useState("");
   const [editor, setEditor] = useState<EditorState>(blankEditor);
@@ -95,6 +100,7 @@ export function AdminCommunityManager({
   const [result, setResult] = useState<ActionResult | null>(null);
   const [search, setSearch] = useState("");
   const [selectedItem, setSelectedItem] = useState<AdminContentRow | null>(null);
+  const [selectedImageName, setSelectedImageName] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [isPending, startTransition] = useTransition();
 
@@ -213,6 +219,7 @@ export function AdminCommunityManager({
     setActiveTab(nextTab);
     setBoardFilter("");
     setEditor(blankEditor);
+    resetImageInput();
     setIsEditorOpen(false);
     setIsKeyLocked(false);
     setLocaleFilter("");
@@ -226,6 +233,7 @@ export function AdminCommunityManager({
     setIsEditorOpen(true);
     setIsKeyLocked(false);
     setSelectedItem(null);
+    resetImageInput();
     setResult(null);
     setEditor({
       ...blankEditor,
@@ -240,6 +248,7 @@ export function AdminCommunityManager({
     setIsEditorOpen(true);
     setIsKeyLocked(true);
     setSelectedItem(item);
+    resetImageInput();
     setResult(null);
     setEditor({
       boardKey: board.key,
@@ -260,6 +269,7 @@ export function AdminCommunityManager({
     setIsEditorOpen(true);
     setIsKeyLocked(true);
     setSelectedItem(item);
+    resetImageInput();
     setResult(null);
     setEditor({
       boardKey: getBoardKey(item.slug ?? "", boardKeys),
@@ -297,17 +307,45 @@ export function AdminCommunityManager({
     });
   }
 
+  function resetImageInput() {
+    setSelectedImageName("");
+
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
+    }
+  }
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setResult(null);
 
+    const formData = new FormData(event.currentTarget);
     const slug = (editor.kind === "board" ? editor.boardKey : editor.slug).trim().toLowerCase();
 
     startTransition(async () => {
+      let imageUrl = editor.imageUrl;
+      const imageFile = formData.get("imageFile");
+
+      if (imageFile instanceof File && imageFile.size > 0) {
+        const uploadFormData = new FormData();
+        uploadFormData.append("file", imageFile);
+        uploadFormData.append("contentType", "Activity");
+        uploadFormData.append("slug", slug || "content");
+
+        const uploadResult = await uploadAdminContentImage(uploadFormData);
+
+        if (!uploadResult.ok || !uploadResult.url) {
+          setResult(uploadResult);
+          return;
+        }
+
+        imageUrl = uploadResult.url;
+      }
+
       const nextResult = await saveAdminContent({
         body: editor.body,
         contentType: "Activity",
-        imageUrl: editor.imageUrl,
+        imageUrl,
         locale: editor.locale,
         preventOverwrite: editor.kind === "post" && !selectedItem,
         slug,
@@ -320,6 +358,7 @@ export function AdminCommunityManager({
       setResult(nextResult);
 
       if (nextResult.ok) {
+        resetImageInput();
         setSelectedItem(null);
         setIsEditorOpen(false);
         setIsKeyLocked(false);
@@ -350,6 +389,7 @@ export function AdminCommunityManager({
       setResult(nextResult);
 
       if (nextResult.ok) {
+        resetImageInput();
         setSelectedItem(null);
         setIsEditorOpen(false);
         setIsKeyLocked(false);
@@ -507,6 +547,7 @@ export function AdminCommunityManager({
                   setIsEditorOpen(false);
                   setIsKeyLocked(false);
                   setEditor(blankEditor);
+                  resetImageInput();
                   setResult(null);
                 }}
                 type="button"
@@ -597,16 +638,42 @@ export function AdminCommunityManager({
               </select>
             </label>
             <label>
-              대표 이미지 URL
-              <input
-                onChange={(event) => updateEditor("imageUrl", event.target.value)}
-                placeholder="/assets/community/example.jpg 또는 https://..."
-                value={editor.imageUrl}
-              />
+              대표 이미지 파일
+              <span className="community-file-upload">
+                <ImagePlus size={18} />
+                <span>
+                  <strong>이미지 선택</strong>
+                  <small>{selectedImageName || "JPG, PNG, WebP, GIF / 5MB 이하"}</small>
+                </span>
+                <input
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  name="imageFile"
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    setSelectedImageName(file ? `${file.name} 선택됨` : "");
+                  }}
+                  ref={imageInputRef}
+                  type="file"
+                />
+              </span>
+              {editor.imageUrl ? (
+                <div className="community-image-preview">
+                  <img alt="등록된 대표 이미지 미리보기" src={editor.imageUrl} />
+                  <button
+                    onClick={() => {
+                      updateEditor("imageUrl", "");
+                      resetImageInput();
+                    }}
+                    type="button"
+                  >
+                    이미지 제거
+                  </button>
+                </div>
+              ) : null}
               <span className="admin-field-help">
                 {editor.kind === "board"
-                  ? "게시판 소개 상단 대표 이미지로 사용됩니다."
-                  : "게시글 카드 썸네일과 상세 상단 이미지로 사용됩니다. 비워두면 상세 상단 이미지는 표시하지 않습니다."}
+                  ? "게시판 소개 상단 대표 이미지로 사용됩니다. 새 파일을 선택하면 기존 이미지를 대체합니다."
+                  : "게시글 상세 상단 이미지로 사용됩니다. 미선택 시 기존 이미지를 유지합니다."}
               </span>
             </label>
             <label className="full">

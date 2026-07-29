@@ -1,5 +1,6 @@
 "use server";
 
+import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { parseInquiryReceipt } from "@/lib/receipts";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
@@ -66,10 +67,18 @@ export type SaveAdminContentResult = {
   message: string;
 };
 
+export type UploadAdminContentImageResult = SaveAdminContentResult & {
+  url?: string;
+};
+
 export type DeleteAdminContentResult = {
   ok: boolean;
   message: string;
 };
+
+const adminUploadBucket = "admin-uploads";
+const maxAdminImageSize = 5 * 1024 * 1024;
+const allowedAdminImageTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"] as const;
 
 function isAdminRole(value: string): value is AdminRole {
   return roleOptions.includes(value as AdminRole);
@@ -109,6 +118,73 @@ function isBannerStatus(value: string): value is BannerStatus {
 
 function isValidDate(value: string) {
   return /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(new Date(value).getTime());
+}
+
+function isUploadFile(value: FormDataEntryValue | null): value is File {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "arrayBuffer" in value &&
+    "size" in value &&
+    "type" in value
+  );
+}
+
+function getDetectedImageType(bytes: Uint8Array): (typeof allowedAdminImageTypes)[number] | null {
+  if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) {
+    return "image/jpeg";
+  }
+
+  if (
+    bytes.length >= 8 &&
+    bytes[0] === 0x89 &&
+    bytes[1] === 0x50 &&
+    bytes[2] === 0x4e &&
+    bytes[3] === 0x47 &&
+    bytes[4] === 0x0d &&
+    bytes[5] === 0x0a &&
+    bytes[6] === 0x1a &&
+    bytes[7] === 0x0a
+  ) {
+    return "image/png";
+  }
+
+  const header = new TextDecoder().decode(bytes.slice(0, 12));
+
+  if (header.startsWith("GIF87a") || header.startsWith("GIF89a")) {
+    return "image/gif";
+  }
+
+  if (header.startsWith("RIFF") && header.slice(8, 12) === "WEBP") {
+    return "image/webp";
+  }
+
+  return null;
+}
+
+function getImageExtension(contentType: (typeof allowedAdminImageTypes)[number]) {
+  if (contentType === "image/png") {
+    return "png";
+  }
+
+  if (contentType === "image/webp") {
+    return "webp";
+  }
+
+  if (contentType === "image/gif") {
+    return "gif";
+  }
+
+  return "jpg";
+}
+
+function getSafeStorageSegment(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 64) || "content";
 }
 
 function getPublishEventAction(status: string, isExisting: boolean) {
@@ -366,6 +442,70 @@ export async function saveAdminInquiry(input: {
 
   revalidatePath("/admin");
   return { ok: true, message: "문의 처리 상태가 저장되었습니다." };
+}
+
+export async function uploadAdminContentImage(formData: FormData): Promise<UploadAdminContentImageResult> {
+  if (!hasSupabaseBrowserEnv()) {
+    return { ok: false, message: missingSupabaseMessage };
+  }
+
+  const actor = await getActiveAdminRole();
+
+  if (!actor.userId) {
+    return { ok: false, message: "로그인이 필요합니다." };
+  }
+
+  if (!["content_manager", "course_manager", "super_admin"].includes(actor.role) || actor.status !== "active") {
+    return { ok: false, message: "콘텐츠 관리자 권한이 필요합니다." };
+  }
+
+  const fileValue = formData.get("file");
+
+  if (!isUploadFile(fileValue) || fileValue.size === 0) {
+    return { ok: false, message: "대표 이미지 파일을 선택해 주세요." };
+  }
+
+  if (fileValue.size > maxAdminImageSize) {
+    return { ok: false, message: "대표 이미지는 5MB 이하 파일만 업로드할 수 있습니다." };
+  }
+
+  const claimedType = fileValue.type as (typeof allowedAdminImageTypes)[number];
+
+  if (!allowedAdminImageTypes.includes(claimedType)) {
+    return { ok: false, message: "JPG, PNG, WebP, GIF 이미지만 업로드할 수 있습니다." };
+  }
+
+  const arrayBuffer = await fileValue.arrayBuffer();
+  const bytes = new Uint8Array(arrayBuffer);
+  const detectedType = getDetectedImageType(bytes);
+
+  if (!detectedType || detectedType !== claimedType) {
+    return { ok: false, message: "파일 형식이 이미지 시그니처와 일치하지 않습니다." };
+  }
+
+  const contentTypeSegment = getSafeStorageSegment(String(formData.get("contentType") ?? "activity"));
+  const slugSegment = getSafeStorageSegment(String(formData.get("slug") ?? "content"));
+  const dateSegment = new Date().toISOString().slice(0, 10);
+  const extension = getImageExtension(detectedType);
+  const path = `${contentTypeSegment}/${dateSegment}/${slugSegment}-${randomUUID()}.${extension}`;
+
+  const { error } = await actor.supabase.storage.from(adminUploadBucket).upload(path, arrayBuffer, {
+    cacheControl: "31536000",
+    contentType: detectedType,
+    upsert: false
+  });
+
+  if (error) {
+    return { ok: false, message: `이미지 업로드에 실패했습니다. ${error.message}` };
+  }
+
+  const { data } = actor.supabase.storage.from(adminUploadBucket).getPublicUrl(path);
+
+  if (!data.publicUrl) {
+    return { ok: false, message: "업로드된 이미지 경로를 확인할 수 없습니다." };
+  }
+
+  return { ok: true, message: "대표 이미지가 업로드되었습니다.", url: data.publicUrl };
 }
 
 export async function saveAdminContent(input: {

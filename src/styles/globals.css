@@ -7320,6 +7320,94 @@ p {
   padding: 6px 8px;
 }
 
+.community-file-upload {
+  align-items: center;
+  background: #fbf9ff;
+  border: 1px dashed #d8cff6;
+  border-radius: 12px;
+  color: var(--console-ink);
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  min-height: 74px;
+  padding: 14px;
+  position: relative;
+  transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.community-file-upload:hover,
+.community-file-upload:focus-within {
+  background: #f6f1ff;
+  border-color: var(--console-purple);
+  box-shadow: 0 0 0 3px rgba(109, 75, 224, 0.12);
+}
+
+.community-file-upload svg {
+  color: var(--console-purple-dark);
+  flex: 0 0 auto;
+}
+
+.community-file-upload strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.community-file-upload small {
+  color: var(--console-muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.4;
+  margin-top: 3px;
+}
+
+.community-file-upload input[type="file"] {
+  cursor: pointer;
+  height: 100%;
+  inset: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.community-image-preview {
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--console-line);
+  border-radius: 12px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 76px 1fr;
+  margin-top: 2px;
+  padding: 10px;
+}
+
+.community-image-preview img {
+  aspect-ratio: 4 / 3;
+  background: #f5f3fb;
+  border-radius: 8px;
+  object-fit: cover;
+  width: 76px;
+}
+
+.community-image-preview button {
+  background: #fff2f2;
+  border: 0;
+  border-radius: 999px;
+  color: #9f2f2f;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+  justify-self: start;
+  min-height: 30px;
+  padding: 0 12px;
+}
+
+.community-image-preview button:hover {
+  background: #ffe5e5;
+}
+
 .community-board-summary {
   color: var(--console-muted);
   display: inline-block;
