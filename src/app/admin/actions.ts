@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { parseInquiryReceipt } from "@/lib/receipts";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
-import { createClient } from "@/lib/supabase/server";
+import { createClient as createServerSupabaseClient } from "@/lib/supabase/server";
 
 const roleOptions = [
   "user",
@@ -259,7 +259,7 @@ async function logPublishEvent({
 }
 
 async function getActiveAdminRole() {
-  const supabase = createClient();
+  const supabase = createServerSupabaseClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -279,6 +279,137 @@ async function getActiveAdminRole() {
     status: typeof actorProfile?.status === "string" ? actorProfile.status : "",
     supabase,
     userId: user.id
+  };
+}
+
+function getAdminStorageEnv() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!url || !serviceRoleKey) {
+    return null;
+  }
+
+  return {
+    apiKey: serviceRoleKey,
+    serviceRoleKey,
+    storageUrl: `${url.replace(/\/$/, "")}/storage/v1`
+  };
+}
+
+function isMissingBucketError(errorMessage: string) {
+  return /bucket not found|not found|does not exist/i.test(errorMessage);
+}
+
+async function ensureAdminUploadBucket() {
+  const storage = getAdminStorageEnv();
+
+  if (!storage) {
+    return {
+      ok: false,
+      message: "SUPABASE_SERVICE_ROLE_KEY가 설정되지 않아 파일 업로드를 준비할 수 없습니다.",
+      storage: null
+    };
+  }
+
+  const bucketResponse = await fetch(`${storage.storageUrl}/bucket/${adminUploadBucket}`, {
+    headers: {
+      apikey: storage.apiKey,
+      authorization: `Bearer ${storage.serviceRoleKey}`
+    }
+  });
+
+  if (bucketResponse.ok) {
+    return { ok: true, message: "", storage };
+  }
+
+  const bucketErrorMessage = await bucketResponse.text();
+
+  if (bucketResponse.status !== 404 && !isMissingBucketError(bucketErrorMessage)) {
+    return {
+      ok: false,
+      message: `이미지 저장소 상태를 확인할 수 없습니다. ${bucketErrorMessage || bucketResponse.statusText}`,
+      storage: null
+    };
+  }
+
+  const createResponse = await fetch(`${storage.storageUrl}/bucket`, {
+    body: JSON.stringify({
+      allowed_mime_types: [...allowedAdminImageTypes],
+      file_size_limit: maxAdminImageSize,
+      id: adminUploadBucket,
+      name: adminUploadBucket,
+      public: true
+    }),
+    headers: {
+      apikey: storage.apiKey,
+      authorization: `Bearer ${storage.serviceRoleKey}`,
+      "content-type": "application/json"
+    },
+    method: "POST"
+  });
+
+  if (!createResponse.ok) {
+    const createErrorMessage = await createResponse.text();
+
+    if (!/already exists|duplicate/i.test(createErrorMessage)) {
+      return {
+        ok: false,
+        message: `이미지 저장소를 생성할 수 없습니다. ${createErrorMessage || createResponse.statusText}`,
+        storage: null
+      };
+    }
+  }
+
+  return { ok: true, message: "", storage };
+}
+
+async function uploadAdminImageToStorage(input: {
+  arrayBuffer: ArrayBuffer;
+  contentType: (typeof allowedAdminImageTypes)[number];
+  path: string;
+}) {
+  const storage = await ensureAdminUploadBucket();
+
+  if (!storage.ok || !storage.storage) {
+    return {
+      ok: false,
+      message: storage.message,
+      publicUrl: ""
+    };
+  }
+
+  const objectPath = input.path
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+
+  const uploadResponse = await fetch(`${storage.storage.storageUrl}/object/${adminUploadBucket}/${objectPath}`, {
+    body: input.arrayBuffer,
+    headers: {
+      apikey: storage.storage.apiKey,
+      authorization: `Bearer ${storage.storage.serviceRoleKey}`,
+      "cache-control": "31536000",
+      "content-type": input.contentType,
+      "x-upsert": "false"
+    },
+    method: "POST"
+  });
+
+  if (!uploadResponse.ok) {
+    const errorMessage = await uploadResponse.text();
+
+    return {
+      ok: false,
+      message: `이미지 업로드에 실패했습니다. ${errorMessage || uploadResponse.statusText}`,
+      publicUrl: ""
+    };
+  }
+
+  return {
+    ok: true,
+    message: "",
+    publicUrl: `${storage.storage.storageUrl}/object/public/${adminUploadBucket}/${objectPath}`
   };
 }
 
@@ -488,24 +619,21 @@ export async function uploadAdminContentImage(formData: FormData): Promise<Uploa
   const dateSegment = new Date().toISOString().slice(0, 10);
   const extension = getImageExtension(detectedType);
   const path = `${contentTypeSegment}/${dateSegment}/${slugSegment}-${randomUUID()}.${extension}`;
-
-  const { error } = await actor.supabase.storage.from(adminUploadBucket).upload(path, arrayBuffer, {
-    cacheControl: "31536000",
+  const uploadResult = await uploadAdminImageToStorage({
+    arrayBuffer,
     contentType: detectedType,
-    upsert: false
+    path
   });
 
-  if (error) {
-    return { ok: false, message: `이미지 업로드에 실패했습니다. ${error.message}` };
+  if (!uploadResult.ok) {
+    return { ok: false, message: uploadResult.message };
   }
 
-  const { data } = actor.supabase.storage.from(adminUploadBucket).getPublicUrl(path);
-
-  if (!data.publicUrl) {
+  if (!uploadResult.publicUrl) {
     return { ok: false, message: "업로드된 이미지 경로를 확인할 수 없습니다." };
   }
 
-  return { ok: true, message: "대표 이미지가 업로드되었습니다.", url: data.publicUrl };
+  return { ok: true, message: "대표 이미지가 업로드되었습니다.", url: uploadResult.publicUrl };
 }
 
 export async function saveAdminContent(input: {
