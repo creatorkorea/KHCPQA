@@ -26,6 +26,7 @@ type ActivityOption = {
 
 type CommunityMode = "boards" | "posts";
 type EditorKind = "board" | "post";
+type PendingAction = "delete" | "save";
 type ActionResult = SaveAdminContentResult | DeleteAdminContentResult | UploadAdminContentImageResult;
 
 type EditorState = {
@@ -102,7 +103,9 @@ export function AdminCommunityManager({
   const [selectedItem, setSelectedItem] = useState<AdminContentRow | null>(null);
   const [selectedImageName, setSelectedImageName] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
   const [isPending, startTransition] = useTransition();
+  const isBusy = isPending || pendingAction !== null;
 
   const boardKeys = useMemo(() => buildKnownBoardKeys(activityOptions, items), [activityOptions, items]);
   const optionTitleByKey = useMemo(
@@ -322,48 +325,53 @@ export function AdminCommunityManager({
     const formData = new FormData(event.currentTarget);
     const slug = (editor.kind === "board" ? editor.boardKey : editor.slug).trim().toLowerCase();
 
+    setPendingAction("save");
     startTransition(async () => {
-      let imageUrl = editor.imageUrl;
-      const imageFile = formData.get("imageFile");
+      try {
+        let imageUrl = editor.imageUrl;
+        const imageFile = formData.get("imageFile");
 
-      if (imageFile instanceof File && imageFile.size > 0) {
-        const uploadFormData = new FormData();
-        uploadFormData.append("file", imageFile);
-        uploadFormData.append("contentType", "Activity");
-        uploadFormData.append("slug", slug || "content");
+        if (imageFile instanceof File && imageFile.size > 0) {
+          const uploadFormData = new FormData();
+          uploadFormData.append("file", imageFile);
+          uploadFormData.append("contentType", "Activity");
+          uploadFormData.append("slug", slug || "content");
 
-        const uploadResult = await uploadAdminContentImage(uploadFormData);
+          const uploadResult = await uploadAdminContentImage(uploadFormData);
 
-        if (!uploadResult.ok || !uploadResult.url) {
-          setResult(uploadResult);
-          return;
+          if (!uploadResult.ok || !uploadResult.url) {
+            setResult(uploadResult);
+            return;
+          }
+
+          imageUrl = uploadResult.url;
         }
 
-        imageUrl = uploadResult.url;
-      }
+        const nextResult = await saveAdminContent({
+          body: editor.body,
+          contentType: "Activity",
+          imageUrl,
+          locale: editor.locale,
+          preventOverwrite: editor.kind === "post" && !selectedItem,
+          slug,
+          sourceUrl: editor.sourceUrl,
+          status: editor.status,
+          summary: editor.summary,
+          title: editor.title
+        });
 
-      const nextResult = await saveAdminContent({
-        body: editor.body,
-        contentType: "Activity",
-        imageUrl,
-        locale: editor.locale,
-        preventOverwrite: editor.kind === "post" && !selectedItem,
-        slug,
-        sourceUrl: editor.sourceUrl,
-        status: editor.status,
-        summary: editor.summary,
-        title: editor.title
-      });
+        setResult(nextResult);
 
-      setResult(nextResult);
-
-      if (nextResult.ok) {
-        resetImageInput();
-        setSelectedItem(null);
-        setIsEditorOpen(false);
-        setIsKeyLocked(false);
-        setEditor(blankEditor);
-        router.refresh();
+        if (nextResult.ok) {
+          resetImageInput();
+          setSelectedItem(null);
+          setIsEditorOpen(false);
+          setIsKeyLocked(false);
+          setEditor(blankEditor);
+          router.refresh();
+        }
+      } finally {
+        setPendingAction(null);
       }
     });
   }
@@ -380,27 +388,33 @@ export function AdminCommunityManager({
     }
 
     setResult(null);
+    setPendingAction("delete");
     startTransition(async () => {
-      const nextResult = await deleteAdminManagedItem({
-        id: selectedItem.id ?? "",
-        itemType: "content"
-      });
+      try {
+        const nextResult = await deleteAdminManagedItem({
+          id: selectedItem.id ?? "",
+          itemType: "content"
+        });
 
-      setResult(nextResult);
+        setResult(nextResult);
 
-      if (nextResult.ok) {
-        resetImageInput();
-        setSelectedItem(null);
-        setIsEditorOpen(false);
-        setIsKeyLocked(false);
-        setEditor(blankEditor);
-        router.refresh();
+        if (nextResult.ok) {
+          resetImageInput();
+          setSelectedItem(null);
+          setIsEditorOpen(false);
+          setIsKeyLocked(false);
+          setEditor(blankEditor);
+          router.refresh();
+        }
+      } finally {
+        setPendingAction(null);
       }
     });
   }
 
   return (
     <div className="community-manager">
+      {isBusy ? <AdminActionOverlay action={pendingAction ?? "save"} /> : null}
       <section className="console-panel community-list-panel">
         <div className="community-panel-top">
           <div className="console-tabs community-tabs" role="tablist" aria-label="커뮤니티 관리 탭">
@@ -519,8 +533,8 @@ export function AdminCommunityManager({
           </button>
         </section>
       ) : (
-        <section className="console-panel community-editor-panel" aria-live="polite">
-          <form className="admin-editor-form community-editor-form" onSubmit={handleSubmit}>
+      <section className="console-panel community-editor-panel" aria-busy={isBusy} aria-live="polite">
+        <form className="admin-editor-form community-editor-form" onSubmit={handleSubmit}>
             <div className="community-editor-heading">
               <div>
                 <span className="community-editor-kicker">{editor.kind === "board" ? "게시판 소개" : "게시글 콘텐츠"}</span>
@@ -726,20 +740,41 @@ export function AdminCommunityManager({
           ) : null}
 
           <div className="admin-editor-actions">
-            <button className="primary-button" disabled={isPending} type="submit">
-              <Save size={16} />
-              {isPending ? "저장 중" : "저장"}
-            </button>
-            {selectedItem?.id ? (
-              <button className="secondary-button danger" disabled={isPending} onClick={handleDelete} type="button">
-                <Trash2 size={16} />
-                삭제
+              <button className="primary-button" disabled={isBusy} type="submit">
+                <Save size={16} />
+                {pendingAction === "save" ? "저장 중" : "저장"}
               </button>
-            ) : null}
+              {selectedItem?.id ? (
+                <button className="secondary-button danger" disabled={isBusy} onClick={handleDelete} type="button">
+                  <Trash2 size={16} />
+                  {pendingAction === "delete" ? "삭제 중" : "삭제"}
+                </button>
+              ) : null}
           </div>
           </form>
         </section>
       )}
+    </div>
+  );
+}
+
+function AdminActionOverlay({ action }: { action: PendingAction }) {
+  const title = action === "delete" ? "삭제 중입니다" : "저장 중입니다";
+  const description =
+    action === "delete"
+      ? "선택한 콘텐츠를 삭제하고 목록을 갱신하고 있습니다."
+      : "이미지 업로드와 콘텐츠 저장을 처리하고 있습니다.";
+
+  return (
+    <div className="admin-action-overlay" role="status" aria-live="assertive" aria-label={title}>
+      <div className="admin-action-loader">
+        <span className="admin-action-spinner" aria-hidden="true" />
+        <strong>{title}</strong>
+        <p>{description}</p>
+        <span className="admin-action-progress" aria-hidden="true">
+          <span />
+        </span>
+      </div>
     </div>
   );
 }
