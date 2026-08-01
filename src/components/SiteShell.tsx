@@ -7,6 +7,7 @@ import {
   type Locale,
   type TranslationStatus
 } from "@/lib/content";
+import { BrandLogoMark } from "@/components/BrandLogoMark";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MobileNav } from "@/components/MobileNav";
 
@@ -17,7 +18,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   return (
     <header className="site-header">
       <Link className="brand-mark" href={`/${locale}`} aria-label={t.a11y.homeLink}>
-        <span className="brand-symbol" aria-hidden="true" />
+        <BrandLogoMark className="site-brand-logo-mark" priority />
         <span>
           <strong>{t.brand}</strong>
           <small>{t.brandFull}</small>
@@ -54,7 +55,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
     <footer className="site-footer">
       <div className="footer-brand-block">
         <Link className="footer-logo" href={`/${locale}`}>
-          <span className="brand-symbol" aria-hidden="true" />
+          <BrandLogoMark className="footer-brand-logo-mark" />
           <span>
             <strong>{t.brand}</strong>
             <small>{t.brandFull}</small>

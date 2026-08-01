@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { BrandLogoMark } from "@/components/BrandLogoMark";
 
 export type AdminNavKey =
   | "dashboard"
@@ -79,9 +80,7 @@ export function AdminConsoleShell({
     <main className="console-shell">
       <aside className="console-sidebar">
         <Link href="/admin" className="console-logo" aria-label="KHCPQA 관리자 홈">
-          <span className="console-logo-symbol" aria-hidden="true">
-            <ShieldCheck size={22} />
-          </span>
+          <BrandLogoMark className="console-logo-symbol" priority />
           <strong>KHCPQA</strong>
         </Link>
         <nav className="console-nav" aria-label="관리자 메뉴">

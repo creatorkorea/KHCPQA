@@ -62,13 +62,7 @@
 }
 
 .console-logo-symbol {
-  align-items: center;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 16px;
-  display: inline-flex;
   height: 42px;
-  justify-content: center;
   width: 42px;
 }
 
@@ -860,43 +854,28 @@ img {
   min-width: 256px;
 }
 
-.brand-symbol {
+.brand-logo-mark {
+  align-items: center;
   background:
-    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.95) 0 18%, transparent 19%),
-    linear-gradient(135deg, rgba(111, 69, 199, 0.24), rgba(75, 46, 131, 0.1)),
+    radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.96), rgba(244, 239, 255, 0.78) 56%, rgba(111, 69, 199, 0.1)),
     #fff;
-  border: 1px solid rgba(111, 69, 199, 0.28);
-  border-radius: 54% 54% 48% 48%;
+  border: 1px solid rgba(111, 69, 199, 0.22);
+  border-radius: 16px;
   box-shadow:
-    inset 0 -7px 14px rgba(111, 69, 199, 0.13),
-    0 8px 20px rgba(111, 69, 199, 0.11);
-  display: block;
+    inset 0 -8px 16px rgba(111, 69, 199, 0.08),
+    0 10px 24px rgba(111, 69, 199, 0.13);
+  display: inline-flex;
   flex: 0 0 auto;
-  height: 38px;
+  height: 42px;
+  justify-content: center;
+  overflow: hidden;
   position: relative;
-  width: 38px;
+  width: 42px;
 }
 
-.brand-symbol::before,
-.brand-symbol::after {
-  background: var(--purple);
-  border-radius: 999px 999px 60px 60px;
-  content: "";
-  height: 21px;
-  opacity: 0.92;
-  position: absolute;
-  top: 9px;
-  width: 9px;
-}
-
-.brand-symbol::before {
-  left: 11px;
-  transform: rotate(-28deg);
-}
-
-.brand-symbol::after {
-  right: 11px;
-  transform: rotate(28deg);
+.brand-logo-mark img {
+  object-fit: contain;
+  padding: 5px;
 }
 
 .brand-mark strong,
@@ -923,6 +902,11 @@ img {
   line-height: 1.22;
   margin-top: 4px;
   max-width: 230px;
+}
+
+.site-brand-logo-mark {
+  height: 44px;
+  width: 44px;
 }
 
 .desktop-nav {
@@ -7725,12 +7709,13 @@ p {
   gap: 12px;
 }
 
-.footer-logo .brand-symbol {
+.footer-brand-logo-mark {
   background:
-    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.95) 0 18%, transparent 19%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(123, 79, 214, 0.22)),
+    radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.96), rgba(233, 224, 255, 0.72) 58%, rgba(123, 79, 214, 0.22)),
     rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.2);
+  height: 44px;
+  width: 44px;
 }
 
 .footer-logo strong {
