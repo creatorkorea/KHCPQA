@@ -284,7 +284,10 @@ async function getActiveAdminRole() {
 
 function getAdminStorageEnv() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceRoleKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SERVICE_KEY ||
+    process.env.SUPABASE_SECRET_KEY;
 
   if (!url || !serviceRoleKey) {
     return null;
@@ -307,7 +310,8 @@ async function ensureAdminUploadBucket() {
   if (!storage) {
     return {
       ok: false,
-      message: "SUPABASE_SERVICE_ROLE_KEY가 설정되지 않아 파일 업로드를 준비할 수 없습니다.",
+      message:
+        "서버 환경 변수 SUPABASE_SERVICE_ROLE_KEY가 설정되지 않아 파일 업로드를 준비할 수 없습니다. .env.local 또는 배포 환경 변수에 service_role 키를 추가한 뒤 서버를 재시작해 주세요.",
       storage: null
     };
   }
