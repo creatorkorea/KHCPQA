@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, LayoutGrid } from "lucide-react";
-import { PageIntro } from "@/components/SiteShell";
 import {
   getActivityGroupByKey,
   getActivityGroups,
@@ -37,10 +36,10 @@ const activityDirectoryCopy: Record<Locale, {
   writerLabel: string;
 }> = {
   ko: {
-    allLabel: "전체 활동",
-    categoriesLabel: "활동 카테고리",
+    allLabel: "전체 커뮤니티",
+    categoriesLabel: "커뮤니티 카테고리",
     dateLabel: "작성일",
-    exploreLabel: "활동 메뉴",
+    exploreLabel: "커뮤니티 메뉴",
     emptyPosts: "등록된 게시글이 없습니다.",
     numberLabel: "번호",
     nextLabel: "다음",
@@ -214,7 +213,6 @@ export default async function ActivityDetailPage({
   });
   const activityTitle = content.title;
   const activitySummary = content.lead || activity.summary;
-  const activityBody = content.body || activitySummary;
   const activityImageUrl = content.imageUrl || activity.imageUrl;
   const isPhotoActivity = activity.key === "photo";
   const postsPageSize = isPhotoActivity ? 9 : 10;
@@ -233,11 +231,25 @@ export default async function ActivityDetailPage({
     })
   ]);
   const posts = postsResult.items;
-  const Icon = activity.icon;
 
   return (
     <>
-      <PageIntro eyebrow={t.activitiesPage.detailEyebrow} title={activityTitle} lead={activitySummary} />
+      <section className="page-intro activity-category-intro">
+        <div className="activity-category-intro-copy">
+          <span className="eyebrow">{t.activitiesPage.detailEyebrow}</span>
+          <h1>{activityTitle}</h1>
+          <p>{activitySummary}</p>
+        </div>
+        <Image
+          className="activity-category-intro-image"
+          src={activityImageUrl}
+          alt={activityTitle}
+          width={760}
+          height={460}
+          unoptimized
+          priority
+        />
+      </section>
       <section className="activities-overview-section">
         <div className="activities-directory-shell">
           <aside className="activities-side-menu" aria-label={pageCopy.exploreLabel}>
@@ -269,14 +281,6 @@ export default async function ActivityDetailPage({
           </aside>
 
           <div className="activities-content-panel activity-detail-section">
-            <div className="activity-detail-hero">
-              <Image src={activityImageUrl} alt={activityTitle} width={960} height={540} unoptimized />
-              <div>
-                <Icon size={28} />
-                <h2>{activityTitle}</h2>
-                <p>{activityBody}</p>
-              </div>
-            </div>
             {detailSections.length > 0 ? (
               <section className="activity-cms-section" aria-labelledby="activity-cms-section-title">
                 <div className="section-heading">

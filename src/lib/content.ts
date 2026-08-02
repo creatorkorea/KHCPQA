@@ -812,7 +812,7 @@ export const copy = {
     activitiesPage: {
       eyebrow: "커뮤니티",
       lead: "공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 대기업 초청이벤트, 방송/언론, 봉사활동, 수강생 후기를 한곳에서 확인합니다.",
-      detailEyebrow: "활동 상세",
+      detailEyebrow: "커뮤니티",
       latestPostsTitle: "최근 게시글",
       managedContentTitle: "운영 콘텐츠",
       sourceLabel: "원본 출처",
