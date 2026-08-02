@@ -3,17 +3,16 @@ import { Images, Megaphone, Trophy, UserRound } from "lucide-react";
 import {
   getCopy,
   getTranslationStatusLabel,
-  headerNavItems,
   type Locale,
   type TranslationStatus
 } from "@/lib/content";
 import { BrandLogoMark } from "@/components/BrandLogoMark";
+import { DesktopNav } from "@/components/DesktopNav";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MobileNav } from "@/components/MobileNav";
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const t = getCopy(locale);
-  const visibleHeaderNavItems = headerNavItems.map((item) => ({ label: t.nav[item.key], href: item.href }));
 
   return (
     <header className="site-header">
@@ -25,13 +24,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         </span>
       </Link>
 
-      <nav className="desktop-nav" aria-label={t.a11y.primaryNavigation}>
-        {visibleHeaderNavItems.map((item) => (
-          <Link key={`${item.href}-${item.label}`} href={`/${locale}/${item.href}`}>
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      <DesktopNav ariaLabel={t.a11y.primaryNavigation} labels={t.nav} locale={locale} />
 
       <div className="header-actions">
         <LanguageSwitcher locale={locale} />

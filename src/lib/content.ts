@@ -508,7 +508,7 @@ export const copy = {
     secureCta: "로그인 후 자격 조회",
     trustTitle: "교육부터 취업과 창업까지 이어지는 지원",
     curriculumTitle: "교육과정 한눈에 보기",
-    activitiesTitle: "글로벌 활동",
+    activitiesTitle: "커뮤니티",
     pageReady: "번역 및 콘텐츠 검수 상태를 관리자에서 관리합니다.",
     accountTitle: "My Page",
     adminTitle: "관리자 대시보드",
@@ -536,7 +536,7 @@ export const copy = {
     },
     seo: {
       title: "KHCPQA 글로벌 전문 자격 교육",
-      description: "한국 기반 헬스케어·뷰티 전문 자격 교육, 과정 안내, 글로벌 활동, 파트너 문의를 제공하는 KHCPQA 플랫폼입니다."
+      description: "한국 기반 헬스케어·뷰티 전문 자격 교육, 과정 안내, 커뮤니티, 파트너 문의를 제공하는 KHCPQA 플랫폼입니다."
     },
     home: {
       heroImageAlt: "글로벌 전문 교육을 상징하는 KHCPQA 교육생과 전문가 이미지",
@@ -566,8 +566,8 @@ export const copy = {
       ],
       curriculumEyebrow: "커리큘럼",
       curriculumLead: "현장 경험이 풍부한 강사진과 체계적인 커리큘럼으로 전문 기술 성장을 돕습니다.",
-      activitiesEyebrow: "글로벌 활동",
-      activitiesLead: "공지, 합격 현황, 갤러리, 국제 활동을 한 곳에서 확인할 수 있도록 연결합니다.",
+      activitiesEyebrow: "커뮤니티",
+      activitiesLead: "공지, 합격 현황, 갤러리, 국제 활동을 커뮤니티에서 한눈에 확인할 수 있도록 연결합니다.",
       viewAll: "전체 보기",
       viewDetails: "상세 보기",
       certificationEyebrow: "자격 조회",
@@ -810,8 +810,8 @@ export const copy = {
       landingCtaEyebrow: "전문 테크닉으로 완성하는"
     },
     activitiesPage: {
-      eyebrow: "글로벌 활동",
-      lead: "공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 대기업 초청이벤트, 방송/언론, 봉사활동, 수강생 후기를 글로벌 신뢰 콘텐츠로 재배치합니다.",
+      eyebrow: "커뮤니티",
+      lead: "공지, 합격현황, 갤러리, 수상경력, 국제미용대회, 대기업 초청이벤트, 방송/언론, 봉사활동, 수강생 후기를 한곳에서 확인합니다.",
       detailEyebrow: "활동 상세",
       latestPostsTitle: "최근 게시글",
       managedContentTitle: "운영 콘텐츠",

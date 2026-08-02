@@ -923,11 +923,24 @@ img {
   font-weight: 850;
   line-height: 1.08;
   padding: 10px 0;
+  position: relative;
   white-space: nowrap;
 }
 
-.desktop-nav a:hover {
+.desktop-nav a:hover,
+.desktop-nav a[aria-current="page"] {
   color: var(--purple);
+}
+
+.desktop-nav a[aria-current="page"]::after {
+  background: var(--purple);
+  border-radius: 999px;
+  bottom: 2px;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 100%;
 }
 
 .header-actions {
@@ -1039,7 +1052,8 @@ img {
   padding: 11px 12px;
 }
 
-.mobile-nav-panel a:hover {
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a[aria-current="page"] {
   background: var(--purple-soft);
   color: var(--purple-dark);
 }
@@ -1733,6 +1747,19 @@ p {
 
 .page-intro.activity-post-intro p {
   max-width: 520px;
+}
+
+.page-intro.community-page-intro {
+  padding-block: clamp(40px, 5vw, 66px);
+}
+
+.page-intro.community-page-intro h1 {
+  font-size: clamp(40px, 4vw, 58px);
+  margin-bottom: 16px;
+}
+
+.page-intro.community-page-intro p {
+  max-width: 620px;
 }
 
 .section-band {
@@ -3262,12 +3289,12 @@ p {
 }
 
 .activities-side-menu > div {
-  background: linear-gradient(135deg, rgba(111, 76, 255, 0.12), rgba(36, 170, 114, 0.08));
-  border: 1px solid rgba(111, 76, 255, 0.12);
-  border-radius: 12px;
+  background: rgba(248, 245, 255, 0.7);
+  border: 1px solid rgba(111, 76, 255, 0.1);
+  border-radius: 8px;
   display: grid;
   gap: 6px;
-  padding: 16px;
+  padding: 14px;
 }
 
 .activities-side-menu > div span,
@@ -3284,7 +3311,7 @@ p {
 
 .activities-side-menu > div strong {
   color: var(--ink);
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.25;
 }
 
@@ -3310,13 +3337,14 @@ p {
   min-height: 48px;
   padding: 11px 13px;
   position: relative;
-  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
 .activities-side-menu nav a:hover {
   background: rgba(111, 76, 255, 0.08);
   border-color: rgba(111, 76, 255, 0.15);
   color: var(--purple);
+  transform: translateX(2px);
 }
 
 .activities-side-menu nav a.is-active {
@@ -3361,7 +3389,7 @@ p {
   box-shadow: 0 18px 45px rgba(43, 30, 83, 0.05);
   display: grid;
   grid-template-columns: minmax(0, 0.96fr) minmax(360px, 1.04fr);
-  min-height: 340px;
+  min-height: 312px;
   overflow: hidden;
 }
 
@@ -3369,12 +3397,12 @@ p {
   align-content: center;
   display: grid;
   gap: 16px;
-  padding: clamp(26px, 4vw, 46px);
+  padding: clamp(24px, 3.6vw, 40px);
 }
 
 .activities-feature-copy h2 {
   color: var(--ink);
-  font-size: clamp(26px, 3.3vw, 40px);
+  font-size: clamp(25px, 3vw, 36px);
   line-height: 1.16;
   margin: 0;
 }
@@ -3499,10 +3527,18 @@ p {
 .activity-card.renewed {
   box-shadow: 0 14px 34px rgba(43, 30, 83, 0.06);
   display: grid;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.activity-card.renewed:hover {
+  border-color: rgba(111, 76, 255, 0.22);
+  box-shadow: 0 22px 50px rgba(43, 30, 83, 0.08);
+  transform: translateY(-2px);
 }
 
 .activity-card.renewed img {
   height: 236px;
+  object-position: center;
 }
 
 .activity-card.renewed div {
@@ -3525,6 +3561,12 @@ p {
   gap: 7px;
   justify-self: start;
   margin-top: 4px;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.activity-card.renewed a:hover {
+  background: var(--purple-soft);
+  color: var(--purple-dark);
 }
 
 .activity-detail-section {
