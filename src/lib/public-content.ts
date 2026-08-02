@@ -3,6 +3,7 @@ import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 
 type PublishedContentRow = {
+  author_name?: string | null;
   body: string | null;
   image_url?: string | null;
   slug?: string;
@@ -10,6 +11,7 @@ type PublishedContentRow = {
   summary: string | null;
   title: string;
   updated_at?: string;
+  view_count?: number | null;
 };
 
 export type PublishedContentIntro = {
@@ -20,6 +22,7 @@ export type PublishedContentIntro = {
 };
 
 export type PublishedActivityPost = {
+  author: string;
   body: string;
   date: string;
   imageUrl?: string;
@@ -27,6 +30,7 @@ export type PublishedActivityPost = {
   sourceUrl?: string;
   status?: string;
   title: string;
+  viewCount: number;
 };
 
 export type PaginatedActivityPosts = {
@@ -69,6 +73,10 @@ function formatDate(value?: string) {
   }
 
   return new Date(value).toISOString().slice(0, 10);
+}
+
+function getDefaultAuthor(locale: Locale) {
+  return locale === "ko" ? "관리자" : "Admin";
 }
 
 function normalizePagination(page = 1, pageSize = 10) {
@@ -201,7 +209,7 @@ export async function getPublishedActivityPosts({
   const supabase = createClient();
   const { data, error, count } = await supabase
     .from("admin_content_items")
-    .select("slug, title, summary, body, source_url, image_url, updated_at", { count: "exact" })
+    .select("slug, title, summary, body, source_url, image_url, author_name, view_count, updated_at", { count: "exact" })
     .eq("content_type", "Activity")
     .eq("locale", locale)
     .eq("status", "published")
@@ -222,13 +230,15 @@ export async function getPublishedActivityPosts({
 
   const items = (data as PublishedContentRow[])
     .map((row) => ({
+      author: row.author_name || getDefaultAuthor(locale),
       body: row.body || row.summary || "",
       date: formatDate(row.updated_at),
       imageUrl: row.image_url || undefined,
       slug: row.slug || "",
       sourceUrl: row.source_url || "https://www.smc365.ac/index.asp",
       status: "published",
-      title: row.title
+      title: row.title,
+      viewCount: row.view_count ?? 0
     }))
     .filter((post) => Boolean(post.slug));
 
@@ -254,7 +264,7 @@ export async function getPublishedActivityPost({
   const supabase = createClient();
   const { data, error } = await supabase
     .from("admin_content_items")
-    .select("slug, title, summary, body, source_url, image_url, updated_at")
+    .select("slug, title, summary, body, source_url, image_url, author_name, view_count, updated_at")
     .eq("content_type", "Activity")
     .eq("locale", locale)
     .eq("status", "published")
@@ -272,14 +282,34 @@ export async function getPublishedActivityPost({
   const row = data as PublishedContentRow;
 
   return {
+    author: row.author_name || getDefaultAuthor(locale),
     body: row.body || row.summary || "",
     date: formatDate(row.updated_at),
     imageUrl: row.image_url || undefined,
     slug: row.slug || slug,
     sourceUrl: row.source_url || undefined,
     status: "published",
-    title: row.title
+    title: row.title,
+    viewCount: row.view_count ?? 0
   };
+}
+
+export async function incrementPublishedActivityPostViewCount({
+  locale,
+  slug
+}: {
+  locale: Locale;
+  slug: string;
+}) {
+  if (!hasSupabaseBrowserEnv()) {
+    return;
+  }
+
+  const supabase = createClient();
+  await supabase.rpc("increment_admin_content_item_view_count", {
+    item_locale: locale,
+    item_slug: slug
+  });
 }
 
 export async function getPublishedContentSections({

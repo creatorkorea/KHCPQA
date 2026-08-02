@@ -3756,7 +3756,7 @@ p {
 .activity-board-head,
 .activity-board-row {
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr) 150px;
+  grid-template-columns: 64px minmax(0, 1fr) 116px 142px 82px;
 }
 
 .activity-board-head {
@@ -3816,10 +3816,32 @@ p {
   font-size: 13px;
   font-weight: 850;
   gap: 7px;
+  min-width: 0;
 }
 
 .activity-board-date svg {
   color: var(--green);
+  flex: 0 0 auto;
+}
+
+.activity-board-author,
+.activity-board-views {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+  min-width: 0;
+}
+
+.activity-board-author {
+  overflow: hidden;
+  padding-right: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activity-board-views {
+  justify-self: end;
+  text-align: right;
 }
 
 .activity-pagination {
@@ -3894,13 +3916,28 @@ p {
 
   .activity-board-row {
     gap: 10px;
-    grid-template-columns: 36px minmax(0, 1fr);
+    grid-template-columns: 36px minmax(0, 1fr) auto;
     min-height: 96px;
     padding: 18px;
   }
 
+  .activity-board-title {
+    padding-right: 0;
+  }
+
+  .activity-board-author {
+    grid-column: 2;
+  }
+
   .activity-board-date {
     grid-column: 2;
+  }
+
+  .activity-board-views {
+    align-self: start;
+    grid-column: 3;
+    grid-row: 1 / span 3;
+    justify-self: end;
   }
 
   .activity-pagination {

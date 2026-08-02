@@ -6,13 +6,14 @@ import { PageIntro } from "@/components/SiteShell";
 import {
   getActivityGroupByKey,
   getActivityGroups,
-  getActivityKeys,
   getActivityPosts,
   getCopy,
   type Locale
 } from "@/lib/content";
 import { getPublishedActivityPosts, getPublishedContentIntro, getPublishedContentSections, type PublishedContentSection } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
+
+export const dynamic = "force-dynamic";
 
 function splitSectionLines(section: PublishedContentSection) {
   return section.body
@@ -26,36 +27,56 @@ const activityDirectoryCopy: Record<Locale, {
   categoriesLabel: string;
   exploreLabel: string;
   emptyPosts: string;
+  dateLabel: string;
+  numberLabel: string;
   nextLabel: string;
   paginationLabel: string;
   previousLabel: string;
+  titleLabel: string;
+  viewsLabel: string;
+  writerLabel: string;
 }> = {
   ko: {
     allLabel: "전체 활동",
     categoriesLabel: "활동 카테고리",
+    dateLabel: "작성일",
     exploreLabel: "활동 메뉴",
     emptyPosts: "등록된 게시글이 없습니다.",
+    numberLabel: "번호",
     nextLabel: "다음",
     paginationLabel: "게시글 페이지",
-    previousLabel: "이전"
+    previousLabel: "이전",
+    titleLabel: "제목",
+    viewsLabel: "조회수",
+    writerLabel: "작성자"
   },
   en: {
     allLabel: "All Activities",
     categoriesLabel: "Activity categories",
+    dateLabel: "Date",
     exploreLabel: "Activity Menu",
     emptyPosts: "No posts have been published yet.",
+    numberLabel: "No.",
     nextLabel: "Next",
     paginationLabel: "Post pages",
-    previousLabel: "Previous"
+    previousLabel: "Previous",
+    titleLabel: "Title",
+    viewsLabel: "Views",
+    writerLabel: "Author"
   },
   es: {
     allLabel: "Todas las Actividades",
     categoriesLabel: "Categorías",
+    dateLabel: "Fecha",
     exploreLabel: "Menú de Actividades",
     emptyPosts: "Aún no hay publicaciones publicadas.",
+    numberLabel: "Nro.",
     nextLabel: "Siguiente",
     paginationLabel: "Páginas de publicaciones",
-    previousLabel: "Anterior"
+    previousLabel: "Anterior",
+    titleLabel: "Título",
+    viewsLabel: "Vistas",
+    writerLabel: "Autor"
   }
 };
 
@@ -140,12 +161,6 @@ function ActivityPagination({
         </span>
       )}
     </nav>
-  );
-}
-
-export function generateStaticParams() {
-  return ["ko", "en", "es"].flatMap((locale) =>
-    getActivityKeys().map((activityKey) => ({ locale, activityKey }))
   );
 }
 
@@ -336,9 +351,11 @@ export default async function ActivityDetailPage({
               ) : (
                 <div className="activity-board-list">
                   <div className="activity-board-head" aria-hidden="true">
-                    <span>번호</span>
-                    <span>제목</span>
-                    <span>작성일</span>
+                    <span>{pageCopy.numberLabel}</span>
+                    <span>{pageCopy.titleLabel}</span>
+                    <span>{pageCopy.writerLabel}</span>
+                    <span>{pageCopy.dateLabel}</span>
+                    <span>{pageCopy.viewsLabel}</span>
                   </div>
                   {posts.map((post, index) => (
                     <Link
@@ -352,10 +369,12 @@ export default async function ActivityDetailPage({
                       <span className="activity-board-title">
                         <strong>{post.title}</strong>
                       </span>
+                      <span className="activity-board-author">{post.author}</span>
                       <span className="activity-board-date">
                         <CalendarDays size={16} />
                         {post.date}
                       </span>
+                      <span className="activity-board-views">{post.viewCount.toLocaleString()}</span>
                     </Link>
                   ))}
                 </div>

@@ -3858,24 +3858,28 @@ export function getActivityPosts(locale: string, activityKey: string) {
   }
 
   const copyByLocale: Record<Locale, {
+    author: string;
     previewStatus: string;
     reviewStatus: string;
     firstBody: string;
     secondBody: string;
   }> = {
     ko: {
+      author: "관리자",
       previewStatus: "게시 예정",
       reviewStatus: "검수 중",
       firstBody: "기존 SMC365 콘텐츠를 관리자 게시판 구조로 이관하기 위한 대표 게시글 예시입니다.",
       secondBody: "발주사 검수 후 최종 이미지, 원문 링크, 게시 상태를 확정해 공개합니다."
     },
     en: {
+      author: "Admin",
       previewStatus: "Scheduled",
       reviewStatus: "Under review",
       firstBody: "A representative sample post for migrating existing SMC365 content into the admin board structure.",
       secondBody: "Final images, source links, and publish status will be confirmed after client review."
     },
     es: {
+      author: "Admin",
       previewStatus: "Programado",
       reviewStatus: "En revisión",
       firstBody: "Publicación de ejemplo para migrar contenido existente de SMC365 a la estructura del tablero.",
@@ -3886,20 +3890,24 @@ export function getActivityPosts(locale: string, activityKey: string) {
 
   return [
     {
+      author: text.author,
       title: activity.title,
       date: "2026-07-12",
       status: text.previewStatus,
       body: text.firstBody,
       slug: `${activityKey}-sample-01`,
-      sourceUrl: "https://www.smc365.ac/index.asp"
+      sourceUrl: "https://www.smc365.ac/index.asp",
+      viewCount: 128
     },
     {
+      author: text.author,
       title: `${activity.title} 02`,
       date: "2026-07-05",
       status: text.reviewStatus,
       body: text.secondBody,
       slug: `${activityKey}-sample-02`,
-      sourceUrl: "https://www.smc365.ac/index.asp"
+      sourceUrl: "https://www.smc365.ac/index.asp",
+      viewCount: 96
     }
   ];
 }

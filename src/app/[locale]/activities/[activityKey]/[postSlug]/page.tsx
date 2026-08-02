@@ -5,24 +5,13 @@ import { ArrowLeft, CalendarDays } from "lucide-react";
 import { PageIntro } from "@/components/SiteShell";
 import {
   getActivityGroupByKey,
-  getActivityKeys,
   getActivityPosts,
   type Locale
 } from "@/lib/content";
-import { getPublishedActivityPost } from "@/lib/public-content";
+import { getPublishedActivityPost, incrementPublishedActivityPostViewCount } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
-export function generateStaticParams() {
-  return ["ko", "en", "es"].flatMap((locale) =>
-    getActivityKeys().flatMap((activityKey) =>
-      getActivityPosts(locale, activityKey).map((post) => ({
-        activityKey,
-        locale,
-        postSlug: post.slug
-      }))
-    )
-  );
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params
@@ -64,6 +53,8 @@ export default async function ActivityPostDetailPage({
   if (!post) {
     notFound();
   }
+
+  await incrementPublishedActivityPostViewCount({ locale, slug: post.slug });
 
   const imageUrl = post.imageUrl;
   const bodyLines = post.body
