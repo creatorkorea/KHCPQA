@@ -494,7 +494,7 @@ export const copy = {
     nav: {
       about: "협회 소개",
       curriculum: "교육과정",
-      activities: "글로벌 활동",
+      activities: "커뮤니티",
       partner: "파트너 문의",
       contact: "찾아오시는 길",
       login: "로그인"
