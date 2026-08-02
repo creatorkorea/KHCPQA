@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays } from "lucide-react";
+import { ArrowLeft, CalendarDays, Eye, List, UserRound } from "lucide-react";
 import { PageIntro } from "@/components/SiteShell";
 import {
   getActivityGroupByKey,
@@ -12,6 +12,32 @@ import { getPublishedActivityPost, incrementPublishedActivityPostViewCount } fro
 import { buildLocaleMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+const postDetailCopy: Record<Locale, {
+  authorLabel: string;
+  dateLabel: string;
+  listLabel: string;
+  viewsLabel: string;
+}> = {
+  ko: {
+    authorLabel: "작성자",
+    dateLabel: "작성일",
+    listLabel: "목록으로",
+    viewsLabel: "조회수"
+  },
+  en: {
+    authorLabel: "Author",
+    dateLabel: "Date",
+    listLabel: "Back to List",
+    viewsLabel: "Views"
+  },
+  es: {
+    authorLabel: "Autor",
+    dateLabel: "Fecha",
+    listLabel: "Volver a la Lista",
+    viewsLabel: "Vistas"
+  }
+};
 
 export async function generateMetadata({
   params
@@ -54,9 +80,11 @@ export default async function ActivityPostDetailPage({
     notFound();
   }
 
-  await incrementPublishedActivityPostViewCount({ locale, slug: post.slug });
+  const didIncrementViewCount = await incrementPublishedActivityPostViewCount({ locale, slug: post.slug });
 
   const imageUrl = post.imageUrl;
+  const copy = postDetailCopy[locale];
+  const displayedViewCount = post.viewCount + (didIncrementViewCount ? 1 : 0);
   const bodyLines = post.body
     .split("\n")
     .map((line) => line.trim())
@@ -64,7 +92,7 @@ export default async function ActivityPostDetailPage({
 
   return (
     <>
-      <PageIntro eyebrow={activity.title} title={post.title} lead={post.body} />
+      <PageIntro className="activity-post-intro" eyebrow={activity.title} title={post.title} lead={post.body} />
       <section className="activity-post-detail-section">
         <Link className="activity-back-link" href={`/${locale}/activities/${activityKey}`}>
           <ArrowLeft size={16} />
@@ -73,10 +101,29 @@ export default async function ActivityPostDetailPage({
         <article className="activity-post-detail-card">
           {imageUrl ? <Image src={imageUrl} alt={post.title} width={1180} height={640} unoptimized /> : null}
           <div>
-            <p className="activity-post-date">
-              <CalendarDays size={18} />
-              <span>{post.date}</span>
-            </p>
+            <dl className="activity-post-meta">
+              <div>
+                <dt>
+                  <UserRound size={16} />
+                  <span>{copy.authorLabel}</span>
+                </dt>
+                <dd>{post.author}</dd>
+              </div>
+              <div>
+                <dt>
+                  <CalendarDays size={16} />
+                  <span>{copy.dateLabel}</span>
+                </dt>
+                <dd>{post.date}</dd>
+              </div>
+              <div>
+                <dt>
+                  <Eye size={16} />
+                  <span>{copy.viewsLabel}</span>
+                </dt>
+                <dd>{displayedViewCount.toLocaleString()}</dd>
+              </div>
+            </dl>
             <h2>{post.title}</h2>
             <div className="activity-post-body">
               {bodyLines.length > 0 ? (
@@ -84,6 +131,12 @@ export default async function ActivityPostDetailPage({
               ) : (
                 <p>등록된 상세 본문이 없습니다.</p>
               )}
+            </div>
+            <div className="activity-post-actions">
+              <Link href={`/${locale}/activities/${activityKey}`}>
+                <List size={17} />
+                <span>{copy.listLabel}</span>
+              </Link>
             </div>
           </div>
         </article>

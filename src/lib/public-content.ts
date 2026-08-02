@@ -302,14 +302,16 @@ export async function incrementPublishedActivityPostViewCount({
   slug: string;
 }) {
   if (!hasSupabaseBrowserEnv()) {
-    return;
+    return false;
   }
 
   const supabase = createClient();
-  await supabase.rpc("increment_admin_content_item_view_count", {
+  const { error } = await supabase.rpc("increment_admin_content_item_view_count", {
     item_locale: locale,
     item_slug: slug
   });
+
+  return !error;
 }
 
 export async function getPublishedContentSections({
