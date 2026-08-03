@@ -841,12 +841,12 @@ img {
   gap: clamp(18px, 3vw, 42px);
   justify-content: space-between;
   margin: 12px auto 0;
-  max-width: 1200px;
+  max-width: 1420px;
   min-height: 72px;
   padding: 12px clamp(22px, 3.5vw, 44px);
   position: sticky;
   top: 12px;
-  width: min(calc(100% - 48px), 1200px);
+  width: min(calc(100% - 32px), 1420px);
   z-index: 20;
 }
 
