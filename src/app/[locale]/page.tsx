@@ -33,7 +33,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
   const t = getCopy(locale);
   const courses = getCourses(locale);
   const banners = await getPublishedBanners({ placement: "home" });
-  const previewCourseIndexes = [5, 3, 4, 6, 7, 8];
+  const previewCourseIndexes = [5, 3, 4, 7];
   const previewCourses = previewCourseIndexes.flatMap((index) => (courses[index] ? [courses[index]] : []));
   const quickNavItems = [
     { label: courses[0]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[0]?.slug ?? ""}` },
@@ -168,6 +168,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
               <article key={program.title}>
                 <Image src={program.image} alt="" width={220} height={170} />
                 <div>
+                  <span className="home-support-step">{String(index + 1).padStart(2, "0")}</span>
                   <Icon size={20} strokeWidth={1.55} />
                   <h3>{program.title}</h3>
                   <p>{program.body}</p>
