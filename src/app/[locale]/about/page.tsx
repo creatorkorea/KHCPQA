@@ -1,4 +1,6 @@
+import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { AboutSubnav } from "@/components/AboutSubnav";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
@@ -47,10 +49,10 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       />
       <section className="about-photo-hero" aria-label={intro.title}>
         <Image
-          src="/assets/about-hero-leadership.jpg"
-          alt="KHCPQA leadership partnership ceremony"
+          src="/assets/client-smc/training-room-beds-wide.jpg"
+          alt="KHCPQA practical health and beauty training room"
           width={2000}
-          height={1429}
+          height={1125}
           sizes="(max-width: 900px) 100vw, 1120px"
           priority
         />
@@ -81,6 +83,12 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               </article>
             );
           })}
+        </div>
+        <div className="about-next">
+          <Link href={`/${locale}/curriculum`}>
+            {t.primaryCta}
+            <ArrowRight size={15} />
+          </Link>
         </div>
       </section>
     </>

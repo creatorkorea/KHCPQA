@@ -2041,18 +2041,22 @@ p {
 
 .about-story {
   display: grid;
-  gap: clamp(24px, 5vw, 64px);
+  gap: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .about-subnav {
-  background: #fbfaff;
-  border-bottom: 1px solid rgba(229, 222, 242, 0.72);
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(229, 222, 242, 0.9);
+  border-top: 1px solid rgba(229, 222, 242, 0.7);
+  box-shadow: 0 16px 34px rgba(64, 48, 118, 0.04);
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  justify-content: center;
   margin: 0;
   max-width: none;
   overflow-x: auto;
-  padding: 30px max(var(--page-gutter), calc((100vw - var(--page-max)) / 2)) 26px;
+  padding: 18px max(var(--page-gutter), calc((100vw - var(--page-max)) / 2));
   position: relative;
   scrollbar-width: none;
   white-space: nowrap;
@@ -2067,14 +2071,14 @@ p {
 .about-subnav span {
   align-items: center;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 8px;
   color: var(--muted);
   display: inline-flex;
   flex: 0 0 auto;
   font-size: 13px;
   font-weight: 900;
-  min-height: 40px;
-  padding: 0 16px;
+  min-height: 42px;
+  padding: 0 18px;
 }
 
 .about-subnav a {
@@ -2094,21 +2098,27 @@ p {
 }
 
 .about-feature {
-  align-items: center;
+  align-content: start;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(229, 222, 242, 0.92);
+  border-radius: 8px;
+  box-shadow: 0 18px 48px rgba(64, 48, 118, 0.06);
   display: grid;
-  gap: clamp(22px, 5vw, 72px);
-  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+  overflow: hidden;
 }
 
-.about-feature:nth-child(even) .about-feature-media {
-  order: 2;
+.about-feature:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.72fr);
+}
+
+.about-feature:last-child:nth-child(odd) .about-feature-media {
+  aspect-ratio: 16 / 8;
 }
 
 .about-feature-media {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   background: var(--purple-pale);
-  border-radius: 8px;
-  box-shadow: 0 18px 48px rgba(64, 48, 118, 0.1);
   overflow: hidden;
 }
 
@@ -2119,8 +2129,7 @@ p {
 }
 
 .about-feature-copy {
-  border-top: 1px solid var(--line);
-  padding-top: clamp(18px, 3vw, 32px);
+  padding: clamp(24px, 3vw, 34px);
 }
 
 .about-feature-copy span {
@@ -2128,30 +2137,29 @@ p {
   display: inline-block;
   font-size: 13px;
   font-weight: 900;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .about-feature-copy h3 {
-  font-size: clamp(28px, 4vw, 50px);
+  font-size: clamp(25px, 2.4vw, 34px);
   letter-spacing: 0;
-  line-height: 1.08;
-  margin: 0 0 18px;
+  line-height: 1.18;
+  margin: 0 0 14px;
   word-break: keep-all;
 }
 
 .about-feature-copy p {
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.82;
+  color: #5f596b;
+  font-size: 16.5px;
+  line-height: 1.78;
   margin: 0;
-  max-width: 620px;
   word-break: keep-all;
 }
 
 .about-photo-hero {
-  aspect-ratio: 2.25 / 1;
+  aspect-ratio: 2.45 / 1;
   border-radius: 8px;
-  box-shadow: 0 18px 48px rgba(64, 48, 118, 0.1);
+  box-shadow: 0 20px 56px rgba(64, 48, 118, 0.1);
   margin: clamp(24px, 4vw, 44px) auto 22px;
   max-width: var(--max);
   overflow: hidden;
@@ -2162,7 +2170,7 @@ p {
   display: block;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center 42%;
   width: 100%;
 }
 
@@ -2173,8 +2181,8 @@ p {
 .about-next {
   border-top: 1px solid var(--line);
   display: flex;
-  justify-content: flex-end;
-  margin-top: clamp(32px, 6vw, 72px);
+  justify-content: center;
+  margin-top: clamp(28px, 5vw, 52px);
   padding-top: 24px;
 }
 
@@ -8701,10 +8709,6 @@ p {
     border-bottom: 0;
   }
 
-  .about-feature:nth-child(even) .about-feature-media {
-    order: 0;
-  }
-
   .location-detail-head {
     align-items: flex-start;
     flex-direction: column;
@@ -8791,6 +8795,19 @@ p {
   .activity-card,
   .feature-card {
     min-width: 0;
+  }
+
+  .about-story {
+    grid-template-columns: 1fr;
+  }
+
+  .about-feature:last-child:nth-child(odd) {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .about-feature:last-child:nth-child(odd) .about-feature-media {
+    aspect-ratio: 16 / 9;
   }
 
   .hero-copy h1,
