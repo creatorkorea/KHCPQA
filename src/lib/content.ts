@@ -71,7 +71,7 @@ export const navItems = [
   { key: "contact", href: "contact" }
 ] as const;
 
-export const headerNavItems = navItems.filter((item) => item.key !== "contact");
+export const headerNavItems = navItems.filter((item) => item.key !== "contact" && item.key !== "partner");
 
 type FeatureCopy = {
   title: string;
