@@ -13,7 +13,6 @@ import {
   HeartPulse,
   Leaf,
   Lightbulb,
-  MessageCircle,
   Mountain,
   Store,
   Users
@@ -21,7 +20,7 @@ import {
 import { getCopy, getCourses, type Locale } from "@/lib/content";
 import { StatusBadge } from "@/components/SiteShell";
 
-const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, HeartPulse, Leaf, Mountain, Headphones, MessageCircle];
+const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, HeartPulse, Leaf, Mountain];
 const supportIcons = [Users, BadgeCheck, Lightbulb, HandHeart];
 const reasonIcons = [BookOpenCheck, Award, Handshake, Headphones];
 
@@ -37,9 +36,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
     { label: courses[2]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[2]?.slug ?? ""}` },
     { label: courses[4]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[4]?.slug ?? ""}` },
     { label: courses[5]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[5]?.slug ?? ""}` },
-    { label: courses[7]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[7]?.slug ?? ""}` },
-    { label: t.courseDetail.inquiryCta, href: `/${locale}/partner-inquiry` },
-    { label: t.home.onlineInquiry, href: `/${locale}/partner-inquiry` }
+    { label: courses[7]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[7]?.slug ?? ""}` }
   ];
   const partners = [
     "SHILLA",
@@ -74,10 +71,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
               <Link className="primary-button" href={`/${locale}/curriculum`}>
                 {t.primaryCta}
                 <ArrowRight size={18} />
-              </Link>
-              <Link className="secondary-button subtle" href={`/${locale}/partner-inquiry`}>
-                {t.secondaryCta}
-                <MessageCircle size={15} />
               </Link>
             </div>
           </div>
@@ -160,7 +153,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
                   <Icon size={20} strokeWidth={1.55} />
                   <h3>{program.title}</h3>
                   <p>{program.body}</p>
-                  <Link href={`/${locale}/partner-inquiry`}>{t.home.learnMore} <ArrowRight size={13} /></Link>
                 </div>
               </article>
             );
@@ -197,22 +189,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
                 </div>
               ))}
             </div>
-          </article>
-          <article className="consult-card">
-            <div>
-              <MessageCircle size={28} />
-              <h2>{t.home.consultTitle.split("\n").map((line, index) => (
-                <span key={line}>
-                  {index > 0 ? <br /> : null}
-                  {line}
-                </span>
-              ))}</h2>
-              <p>{t.home.consultLead}</p>
-              <Link href={`/${locale}/partner-inquiry`}>
-                {t.home.consultCta} <ArrowRight size={15} />
-              </Link>
-            </div>
-            <span className="consult-plant" aria-hidden="true" />
           </article>
         </div>
       </section>
