@@ -1085,7 +1085,7 @@ img {
   margin: 0 auto;
   max-width: var(--page-max);
   min-height: 620px;
-  overflow: hidden;
+  overflow: visible;
   padding: clamp(64px, 6vw, 88px) clamp(48px, 6vw, 96px) 0;
   position: relative;
   width: var(--page-width);
@@ -1268,6 +1268,7 @@ p {
 }
 
 .hero-video-backdrop {
+  border-radius: inherit;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
@@ -8139,7 +8140,7 @@ p {
   .hero-card {
     grid-column: 1 / -1;
     grid-template-columns: minmax(0, 1fr);
-    overflow: hidden;
+    overflow: visible;
   }
 
   .curriculum-hero {
@@ -8680,7 +8681,7 @@ p {
 
   .hero-card {
     min-height: auto;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .hero-visual {
