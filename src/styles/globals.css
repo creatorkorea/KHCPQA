@@ -2244,6 +2244,9 @@ p {
 .greeting-list {
   display: grid;
   gap: 18px;
+  margin: 0 auto;
+  max-width: 1320px;
+  width: 100%;
 }
 
 .greeting-card {
@@ -2333,6 +2336,9 @@ p {
   display: grid;
   gap: 18px;
   grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0 auto;
+  max-width: 1320px;
+  width: 100%;
 }
 
 .instructor-card {
