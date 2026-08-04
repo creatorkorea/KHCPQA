@@ -82,9 +82,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
             </div>
           </div>
 
-          <div className="hero-visual">
+          <div className="hero-video-backdrop" aria-hidden="true">
             <video
-              aria-label={t.home.heroImageAlt}
               autoPlay
               loop
               muted
