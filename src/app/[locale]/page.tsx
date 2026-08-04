@@ -83,7 +83,17 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
           </div>
 
           <div className="hero-visual">
-            <Image src="/assets/premium-hero-wellness-education.png" alt={t.home.heroImageAlt} width={960} height={620} priority />
+            <video
+              aria-label={t.home.heroImageAlt}
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="/assets/premium-hero-wellness-education.png"
+              preload="metadata"
+            >
+              <source src="/assets/home-hero-background-v2.mp4" type="video/mp4" />
+            </video>
           </div>
 
           <div className="home-quick-nav" aria-label={t.curriculumTitle}>

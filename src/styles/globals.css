@@ -1311,7 +1311,8 @@ p {
   z-index: 3;
 }
 
-.hero-visual img {
+.hero-visual img,
+.hero-visual video {
   height: 100%;
   max-width: none;
   object-fit: cover;
@@ -1322,6 +1323,10 @@ p {
   width: 100%;
   -webkit-mask-image: radial-gradient(104% 98% at 70% 46%, #000 0%, #000 68%, rgba(0, 0, 0, 0.74) 82%, transparent 100%);
   mask-image: radial-gradient(104% 98% at 70% 46%, #000 0%, #000 68%, rgba(0, 0, 0, 0.74) 82%, transparent 100%);
+}
+
+.hero-visual video {
+  display: block;
 }
 
 .home-quick-nav {
@@ -8723,7 +8728,8 @@ p {
     display: none;
   }
 
-  .hero-visual img {
+  .hero-visual img,
+  .hero-visual video {
     border-radius: 20px;
     transform: none;
     width: 100%;
@@ -8961,8 +8967,9 @@ p {
     display: none;
   }
 
-  .hero-visual img {
-    object-fit: contain;
+  .hero-visual img,
+  .hero-visual video {
+    object-fit: cover;
     transform: none;
     width: 100%;
     -webkit-mask-image: none;
