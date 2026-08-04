@@ -3189,20 +3189,76 @@ p {
 
 .home-partner-logos {
   align-items: center;
-  display: grid;
-  gap: 18px;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  display: flex;
+  gap: clamp(46px, 5vw, 76px);
   margin: 0 auto;
   max-width: 1420px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.home-partner-logos::before,
+.home-partner-logos::after {
+  content: "";
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: clamp(42px, 8vw, 120px);
+  z-index: 1;
+}
+
+.home-partner-logos::before {
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0));
+  left: 0;
+}
+
+.home-partner-logos::after {
+  background: linear-gradient(270deg, #fff, rgba(255, 255, 255, 0));
+  right: 0;
+}
+
+.home-partner-track {
+  align-items: center;
+  animation: partner-logo-roll 24s linear infinite;
+  display: flex;
+  flex: 0 0 auto;
+  gap: clamp(46px, 5vw, 76px);
+  min-width: max-content;
+}
+
+.home-partner-logos:hover .home-partner-track {
+  animation-play-state: paused;
 }
 
 .home-partner-logos span {
   color: #716a81;
+  display: inline-flex;
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: clamp(18px, 1.6vw, 22px);
   font-weight: 900;
   letter-spacing: 0.02em;
+  line-height: 1;
+  min-width: max-content;
   opacity: 0.98;
+  white-space: nowrap;
+}
+
+@keyframes partner-logo-roll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-100% - clamp(46px, 5vw, 76px)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-partner-track {
+    animation: none;
+  }
 }
 
 .home-final-cta-section {
@@ -8248,10 +8304,6 @@ p {
     grid-template-columns: 1fr 1fr;
   }
 
-  .home-partner-logos {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   .consult-card {
     grid-column: 1 / -1;
   }
@@ -8699,10 +8751,6 @@ p {
 
   .home-course-card div {
     min-height: 116px;
-  }
-
-  .home-partner-logos {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .home-final-cta img {

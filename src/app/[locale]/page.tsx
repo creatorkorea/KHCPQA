@@ -210,16 +210,23 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
 
       <section className="home-partner-section">
         <h2>{t.home.partnersTitle}</h2>
-        <div className="home-partner-logos">
-          {partners.map((partner) => (
-            <span key={partner}>{partner}</span>
-          ))}
+        <div className="home-partner-logos" aria-label={t.home.partnersTitle}>
+          <div className="home-partner-track">
+            {partners.map((partner) => (
+              <span key={partner}>{partner}</span>
+            ))}
+          </div>
+          <div className="home-partner-track" aria-hidden="true">
+            {partners.map((partner) => (
+              <span key={`duplicate-${partner}`}>{partner}</span>
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="bottom-cta-section home-final-cta-section">
         <div className="bottom-cta-banner home-final-cta">
-          <Image src="/assets/hero-professionals.png" alt="" width={220} height={160} />
+          <Image src="/assets/home-final-cta-consultation-v2.png" alt="" width={220} height={160} />
           <div>
             <p>{t.home.finalKicker}</p>
             <h2>{t.home.finalTitle}</h2>
