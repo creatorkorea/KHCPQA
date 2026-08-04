@@ -1684,6 +1684,26 @@ p {
   max-width: 620px;
 }
 
+.page-intro.about-page-intro {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.82) 42%, rgba(255, 255, 255, 0.42) 68%, rgba(255, 255, 255, 0.22) 100%),
+    url("/assets/client-smc/training-room-beds-wide.jpg") center 42% / cover;
+  min-height: clamp(360px, 36vw, 520px);
+  padding-block: clamp(70px, 8vw, 112px);
+}
+
+.page-intro.about-page-intro::after {
+  background: rgba(255, 255, 255, 0.22);
+  height: 160%;
+  right: 28%;
+  top: -28%;
+}
+
+.page-intro.about-page-intro h1,
+.page-intro.about-page-intro p {
+  max-width: 560px;
+}
+
 .page-intro.activity-category-intro {
   align-items: center;
   display: grid;
@@ -8799,6 +8819,27 @@ p {
 
   .about-story {
     grid-template-columns: 1fr;
+  }
+
+  .page-intro.about-page-intro {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.72) 48%, rgba(255, 255, 255, 0.54) 100%),
+      url("/assets/client-smc/training-room-beds-wide.jpg") center 42% / cover;
+    min-height: 330px;
+    padding-block: 54px 64px;
+  }
+
+  .page-intro.about-page-intro h1 {
+    font-size: clamp(32px, 9.5vw, 38px);
+    line-height: 1.16;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .page-intro.about-page-intro p {
+    font-size: 16px;
+    max-width: 100%;
   }
 
   .about-feature:last-child:nth-child(odd) {

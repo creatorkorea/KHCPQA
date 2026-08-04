@@ -43,20 +43,11 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   return (
     <>
       <PageIntro
+        className="about-page-intro"
         eyebrow={t.about.eyebrow}
         title={intro.title}
         lead={intro.lead}
       />
-      <section className="about-photo-hero" aria-label={intro.title}>
-        <Image
-          src="/assets/client-smc/training-room-beds-wide.jpg"
-          alt="KHCPQA practical health and beauty training room"
-          width={2000}
-          height={1125}
-          sizes="(max-width: 900px) 100vw, 1120px"
-          priority
-        />
-      </section>
       <AboutSubnav locale={locale} activeKey="intro" />
       <section className="content-section">
         <div className="about-story">
