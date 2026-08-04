@@ -20,6 +20,10 @@
   --shadow: 0 28px 80px rgba(64, 48, 118, 0.14);
   --soft-shadow: 0 14px 38px rgba(64, 48, 118, 0.1);
   --radius: 20px;
+  --page-max: 1420px;
+  --page-gutter: 16px;
+  --page-width: min(calc(100% - (var(--page-gutter) * 2)), var(--page-max));
+  --max: var(--page-max);
 }
 
 .console-shell {
@@ -841,12 +845,12 @@ img {
   gap: clamp(18px, 2.4vw, 34px);
   justify-content: space-between;
   margin: 12px auto 0;
-  max-width: 1420px;
+  max-width: var(--page-max);
   min-height: 82px;
   padding: 14px clamp(28px, 4vw, 56px);
   position: sticky;
   top: 12px;
-  width: min(calc(100% - 32px), 1420px);
+  width: var(--page-width);
   z-index: 20;
 }
 
@@ -1080,12 +1084,12 @@ img {
   gap: 0 clamp(36px, 5vw, 74px);
   grid-template-columns: minmax(390px, 0.82fr) minmax(520px, 1fr);
   margin: 0 auto;
-  max-width: 1420px;
+  max-width: var(--page-max);
   min-height: 574px;
   overflow: visible;
   padding: clamp(64px, 6vw, 88px) clamp(48px, 6vw, 96px) 0;
   position: relative;
-  width: min(calc(100% - 32px), 1420px);
+  width: var(--page-width);
 }
 
 .hero-card::after {
@@ -1623,7 +1627,7 @@ p {
 .auth-section,
 .page-intro,
 .admin-page {
-  padding: clamp(44px, 7vw, 84px) clamp(18px, 6vw, 92px);
+  padding: clamp(44px, 7vw, 84px) var(--page-gutter);
 }
 
 .page-intro {
@@ -1631,8 +1635,12 @@ p {
     linear-gradient(105deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.9) 56%, rgba(248, 245, 255, 0.92) 100%),
     linear-gradient(180deg, #ffffff 0%, #fbfaff 100%);
   border-bottom: 1px solid var(--line);
+  border-radius: 8px;
+  margin: 16px auto 0;
+  max-width: var(--page-max);
   overflow: hidden;
   position: relative;
+  width: var(--page-width);
 }
 
 .page-intro::after {
@@ -1651,6 +1659,31 @@ p {
 .page-intro > * {
   position: relative;
   z-index: 1;
+}
+
+.content-section > :where(
+  .about-story,
+  .account-nav,
+  .account-panel,
+  .cert-table,
+  .account-action-row,
+  .feature-row,
+  .section-heading
+) {
+  margin-inline: auto;
+  max-width: var(--page-max);
+  width: 100%;
+}
+
+.form-section,
+.auth-section {
+  display: grid;
+  justify-items: center;
+}
+
+.form-section > *,
+.auth-section > * {
+  max-width: var(--page-max);
 }
 
 .page-intro.activity-post-intro {
@@ -2048,7 +2081,7 @@ p {
   margin: 0;
   max-width: none;
   overflow-x: auto;
-  padding: 30px max(clamp(20px, 4vw, 48px), calc((100vw - 1200px) / 2)) 26px;
+  padding: 30px max(var(--page-gutter), calc((100vw - var(--page-max)) / 2)) 26px;
   position: relative;
   scrollbar-width: none;
   white-space: nowrap;
@@ -2151,7 +2184,7 @@ p {
   margin: clamp(24px, 4vw, 44px) auto 22px;
   max-width: var(--max);
   overflow: hidden;
-  width: calc(100% - 36px);
+  width: var(--page-width);
 }
 
 .about-photo-hero img {
@@ -3226,8 +3259,9 @@ p {
   display: grid;
   gap: 24px;
   margin: 0 auto;
-  max-width: 1240px;
-  padding: 56px clamp(18px, 4vw, 48px) 82px;
+  max-width: var(--page-max);
+  padding: 56px 0 82px;
+  width: var(--page-width);
 }
 
 .activities-directory-shell {
@@ -5955,8 +5989,9 @@ p {
   display: grid;
   gap: 18px;
   grid-template-columns: repeat(2, 1fr);
-  max-width: 980px;
+  max-width: var(--page-max);
   padding: clamp(20px, 4vw, 34px);
+  width: 100%;
 }
 
 .inquiry-form label,
@@ -7911,7 +7946,7 @@ p {
   gap: 42px;
   grid-template-columns: minmax(260px, 0.9fr) minmax(300px, 1fr) minmax(260px, 0.8fr);
   justify-content: space-between;
-  padding: 56px max(clamp(28px, 6vw, 92px), calc((100vw - 1420px) / 2));
+  padding: 56px max(var(--page-gutter), calc((100vw - var(--page-max)) / 2));
 }
 
 .site-footer p {
