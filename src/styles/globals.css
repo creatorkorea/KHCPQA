@@ -2371,14 +2371,18 @@ p {
   width: 100%;
 }
 
-.instructor-card > div:last-child {
-  padding: 18px;
+.instructor-card > a > div:last-child {
+  display: grid;
+  gap: 8px;
+  min-height: 76px;
+  padding: 18px 18px 20px;
 }
 
 .instructor-card h2 {
-  font-size: 20px;
+  font-size: 21px;
   letter-spacing: 0;
-  margin: 0 0 6px;
+  line-height: 1.18;
+  margin: 0;
 }
 
 .instructor-card p {
@@ -2386,6 +2390,7 @@ p {
   font-size: 13px;
   font-weight: 900;
   margin: 0;
+  line-height: 1.2;
 }
 
 .instructor-modal {
