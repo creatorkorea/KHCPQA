@@ -3070,6 +3070,16 @@ p {
   padding: 10px 16px;
 }
 
+.consult-card a svg {
+  background: transparent;
+  border-radius: 0;
+  flex: 0 0 auto;
+  height: 15px;
+  margin: 0;
+  padding: 0;
+  width: 15px;
+}
+
 .consult-plant {
   background:
     radial-gradient(circle at 50% 10%, #eaf5ee 0 8px, transparent 9px),
