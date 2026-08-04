@@ -7,32 +7,28 @@ import {
   BookOpenCheck,
   BriefcaseBusiness,
   CalendarDays,
-  ClipboardPenLine,
   Handshake,
   HandHeart,
   Headphones,
   HeartPulse,
   Leaf,
   Lightbulb,
-  Megaphone,
   MessageCircle,
   Mountain,
   Store,
   Users
 } from "lucide-react";
 import { getCopy, getCourses, type Locale } from "@/lib/content";
-import { getPublishedBanners, type PublishedBanner } from "@/lib/public-content";
 import { StatusBadge } from "@/components/SiteShell";
 
 const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, HeartPulse, Leaf, Mountain, Headphones, MessageCircle];
-const supportIcons = [Users, BadgeCheck, Lightbulb, Megaphone];
+const supportIcons = [Users, BadgeCheck, Lightbulb, HandHeart];
 const reasonIcons = [BookOpenCheck, Award, Handshake, Headphones];
 
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
   const courses = getCourses(locale);
-  const banners = await getPublishedBanners({ placement: "home" });
   const previewCourseIndexes = [5, 3, 4, 7];
   const previewCourses = previewCourseIndexes.flatMap((index) => (courses[index] ? [courses[index]] : []));
   const quickNavItems = [
@@ -88,15 +84,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
 
           <div className="hero-visual">
             <Image src="/assets/premium-hero-wellness-education.png" alt={t.home.heroImageAlt} width={960} height={620} priority />
-            <Link className="hero-floating-card" href={`/${locale}/partner-inquiry`}>
-              <GraduationCapIcon />
-              <span>
-                <strong>{t.home.heroFloatingTitle}</strong>
-                <small>{t.home.heroFloatingLead}</small>
-                <em>1 / 3</em>
-              </span>
-              <ArrowRight size={16} />
-            </Link>
           </div>
 
           <div className="home-quick-nav" aria-label={t.curriculumTitle}>
@@ -112,14 +99,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
           </div>
         </div>
       </section>
-
-      {banners.length > 0 ? (
-        <section className="home-admin-banner-section" aria-label={t.home.noticesTitle}>
-          {banners.map((banner) => (
-            <HomeBanner banner={banner} fallbackHref={`/${locale}/partner-inquiry`} key={`${banner.placement}-${banner.title}`} />
-          ))}
-        </section>
-      ) : null}
 
       <section className="content-section curriculum-preview">
         {renderSectionTitle(t.home.featuredCoursesTitle, t.home.featuredCoursesLead)}
@@ -251,24 +230,5 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         </div>
       </section>
     </>
-  );
-}
-
-function GraduationCapIcon() {
-  return <BadgeCheck size={24} aria-hidden="true" />;
-}
-
-function HomeBanner({ banner, fallbackHref }: { banner: PublishedBanner; fallbackHref: string }) {
-  const href = banner.targetUrl || fallbackHref;
-  const isExternal = href.startsWith("http://") || href.startsWith("https://");
-
-  return (
-    <Link className="home-admin-banner" href={href} rel={isExternal ? "noreferrer" : undefined} target={isExternal ? "_blank" : undefined}>
-      <span className="home-admin-banner-icon">
-        <Megaphone size={20} aria-hidden="true" />
-      </span>
-      <span>{banner.title}</span>
-      <ArrowRight size={16} aria-hidden="true" />
-    </Link>
   );
 }
