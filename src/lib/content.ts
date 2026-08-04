@@ -588,10 +588,10 @@ export const copy = {
       ],
       supportTitle: "취업 & 창업 지원 서비스",
       supportPrograms: [
-        { title: "1:1 취업 상담", body: "전문 상담사와 1:1 상담을 통해 맞춤형 취업 전략을 제안합니다.", image: "/assets/course-employment-consulting.jpg" },
-        { title: "취업 연계 시스템", body: "전국의 우수 협력 네트워크를 통한 취업 연계 서비스를 제공합니다.", image: "/assets/partner-network.png" },
-        { title: "창업 컨설팅", body: "창업 준비부터 오픈까지 전문 컨설팅을 지원합니다.", image: "/assets/course-startup-consulting.jpg" },
-        { title: "마케팅 지원", body: "홍보, 브랜딩, SNS 마케팅 등 실무적인 마케팅을 지원합니다.", image: "/assets/course-thumb-business-planning.png" }
+        { title: "1:1 취업 상담", body: "전문 상담사와 1:1 상담을 통해 맞춤형 취업 전략을 제안합니다.", image: "/assets/support-career-consulting-v2.png" },
+        { title: "취업 연계 시스템", body: "전국의 우수 협력 네트워크를 통한 취업 연계 서비스를 제공합니다.", image: "/assets/support-job-network-v2.png" },
+        { title: "창업 컨설팅", body: "창업 준비부터 오픈까지 전문 컨설팅을 지원합니다.", image: "/assets/support-startup-consulting-v2.png" },
+        { title: "마케팅 지원", body: "홍보, 브랜딩, SNS 마케팅 등 실무적인 마케팅을 지원합니다.", image: "/assets/support-marketing-v2.png" }
       ],
       noticesTitle: "공지사항",
       moreCta: "더보기",
@@ -1152,10 +1152,10 @@ export const copy = {
       ],
       supportTitle: "Employment and Startup Support",
       supportPrograms: [
-        { title: "1:1 Career Consultation", body: "Specialized advisors suggest a tailored employment strategy through individual consultation.", image: "/assets/course-employment-consulting.jpg" },
-        { title: "Employment Matching System", body: "A nationwide partner network supports practical employment connections.", image: "/assets/partner-network.png" },
-        { title: "Startup Consulting", body: "Expert consulting supports preparation from business planning to opening.", image: "/assets/course-startup-consulting.jpg" },
-        { title: "Marketing Support", body: "Practical support covers promotion, branding, and social media marketing.", image: "/assets/course-thumb-business-planning.png" }
+        { title: "1:1 Career Consultation", body: "Specialized advisors suggest a tailored employment strategy through individual consultation.", image: "/assets/support-career-consulting-v2.png" },
+        { title: "Employment Matching System", body: "A nationwide partner network supports practical employment connections.", image: "/assets/support-job-network-v2.png" },
+        { title: "Startup Consulting", body: "Expert consulting supports preparation from business planning to opening.", image: "/assets/support-startup-consulting-v2.png" },
+        { title: "Marketing Support", body: "Practical support covers promotion, branding, and social media marketing.", image: "/assets/support-marketing-v2.png" }
       ],
       noticesTitle: "Notices",
       moreCta: "View more",
@@ -1716,10 +1716,10 @@ export const copy = {
       ],
       supportTitle: "Apoyo para empleo y emprendimiento",
       supportPrograms: [
-        { title: "Consulta laboral 1:1", body: "Asesores especializados proponen una estrategia laboral personalizada mediante consulta individual.", image: "/assets/course-employment-consulting.jpg" },
-        { title: "Sistema de conexión laboral", body: "Una red nacional de socios apoya conexiones prácticas de empleo.", image: "/assets/partner-network.png" },
-        { title: "Consultoría de emprendimiento", body: "La consultoría experta apoya desde la planificación del negocio hasta la apertura.", image: "/assets/course-startup-consulting.jpg" },
-        { title: "Apoyo de marketing", body: "Apoyo práctico en promoción, branding y marketing en redes sociales.", image: "/assets/course-thumb-business-planning.png" }
+        { title: "Consulta laboral 1:1", body: "Asesores especializados proponen una estrategia laboral personalizada mediante consulta individual.", image: "/assets/support-career-consulting-v2.png" },
+        { title: "Sistema de conexión laboral", body: "Una red nacional de socios apoya conexiones prácticas de empleo.", image: "/assets/support-job-network-v2.png" },
+        { title: "Consultoría de emprendimiento", body: "La consultoría experta apoya desde la planificación del negocio hasta la apertura.", image: "/assets/support-startup-consulting-v2.png" },
+        { title: "Apoyo de marketing", body: "Apoyo práctico en promoción, branding y marketing en redes sociales.", image: "/assets/support-marketing-v2.png" }
       ],
       noticesTitle: "Avisos",
       moreCta: "Ver más",
