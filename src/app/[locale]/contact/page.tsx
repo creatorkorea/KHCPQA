@@ -130,6 +130,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
   return (
     <>
       <PageIntro
+        className="about-visual-intro location-page-intro"
         eyebrow={t.contact.eyebrow}
         title={intro.title}
         lead={intro.lead}

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { AboutSubnav } from "@/components/AboutSubnav";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
@@ -278,22 +277,13 @@ export default async function HistoryPage({ params }: { params: Promise<{ locale
   return (
     <>
       <PageIntro
+        className="about-visual-intro history-page-intro"
         eyebrow={t.historyPage.eyebrow}
         title={t.historyPage.title}
         lead={t.historyPage.lead}
       />
       <AboutSubnav locale={locale} activeKey="history" />
       <section className="content-section history-section">
-        <div className="history-hero">
-          <Image
-            src="/assets/history-hero.jpg"
-            alt={t.historyPage.imageAlt}
-            width={760}
-            height={220}
-            sizes="(max-width: 900px) 100vw, 760px"
-            priority
-          />
-        </div>
         <div className="history-highlights" aria-label={t.historyPage.timelineLabel}>
           {historyHighlights.map((item) => (
             <article key={`${item.date}-${item.title}`}>

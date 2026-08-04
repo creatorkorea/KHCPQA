@@ -1704,6 +1704,51 @@ p {
   max-width: 560px;
 }
 
+.page-intro.about-visual-intro {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.84) 44%, rgba(255, 255, 255, 0.48) 70%, rgba(255, 255, 255, 0.28) 100%),
+    var(--about-intro-image) center / cover;
+  min-height: clamp(320px, 32vw, 480px);
+  padding-block: clamp(64px, 7vw, 104px);
+}
+
+.page-intro.about-visual-intro::after {
+  background: rgba(255, 255, 255, 0.2);
+  height: 150%;
+  right: 24%;
+  top: -24%;
+}
+
+.page-intro.about-visual-intro h1,
+.page-intro.about-visual-intro p {
+  max-width: 560px;
+}
+
+.page-intro.greeting-page-intro {
+  --about-intro-image: url("/assets/greeting-hero-leadership.jpg");
+  background-position: center 36%;
+}
+
+.page-intro.instructors-page-intro {
+  --about-intro-image: url("/assets/course-generated-instructor-training.png");
+  background-position: center 42%;
+}
+
+.page-intro.history-page-intro {
+  --about-intro-image: url("/assets/client-smc/global-competition-hall-wide.jpg");
+  background-position: center 46%;
+}
+
+.page-intro.organization-page-intro {
+  --about-intro-image: url("/assets/client-smc/mou-leadership-table.jpg");
+  background-position: center 42%;
+}
+
+.page-intro.location-page-intro {
+  --about-intro-image: url("/assets/client-smc/smc-reception-hero.jpg");
+  background-position: center 46%;
+}
+
 .page-intro.activity-category-intro {
   align-items: center;
   display: grid;
@@ -2176,28 +2221,6 @@ p {
   word-break: keep-all;
 }
 
-.about-photo-hero {
-  aspect-ratio: 2.45 / 1;
-  border-radius: 8px;
-  box-shadow: 0 20px 56px rgba(64, 48, 118, 0.1);
-  margin: clamp(24px, 4vw, 44px) auto 22px;
-  max-width: var(--max);
-  overflow: hidden;
-  width: var(--page-width);
-}
-
-.about-photo-hero img {
-  display: block;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 42%;
-  width: 100%;
-}
-
-.greeting-photo-hero img {
-  object-position: center 38%;
-}
-
 .about-next {
   border-top: 1px solid var(--line);
   display: flex;
@@ -2412,24 +2435,6 @@ p {
 
 .history-section {
   padding-top: 36px;
-}
-
-.history-hero {
-  background:
-    linear-gradient(135deg, rgba(111, 69, 199, 0.11), rgba(250, 248, 255, 0.95));
-  border-radius: 8px;
-  margin: 0 auto 24px;
-  max-width: 1320px;
-  overflow: hidden;
-  padding: clamp(10px, 2vw, 18px);
-}
-
-.history-hero img {
-  display: block;
-  height: auto;
-  margin: 0 auto;
-  max-width: 1080px;
-  width: 100%;
 }
 
 .history-highlights {
@@ -2676,7 +2681,7 @@ p {
   }
 
   .history-years {
-    margin-inline: -18px;
+    margin-inline: 0;
     padding-inline: 18px;
     top: 0;
   }
@@ -8753,7 +8758,7 @@ p {
   }
 
   .location-tabs {
-    margin-inline: -18px;
+    margin-inline: 0;
     padding-inline: 18px;
     top: 0;
   }
@@ -8838,6 +8843,27 @@ p {
   }
 
   .page-intro.about-page-intro p {
+    font-size: 16px;
+    max-width: 100%;
+  }
+
+  .page-intro.about-visual-intro {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.76) 52%, rgba(255, 255, 255, 0.58) 100%),
+      var(--about-intro-image) center / cover;
+    min-height: 320px;
+    padding-block: 48px 58px;
+  }
+
+  .page-intro.about-visual-intro h1 {
+    font-size: clamp(32px, 9.5vw, 38px);
+    line-height: 1.16;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .page-intro.about-visual-intro p {
     font-size: 16px;
     max-width: 100%;
   }

@@ -23,6 +23,7 @@ export default async function OrganizationPage({ params }: { params: Promise<{ l
   return (
     <>
       <PageIntro
+        className="about-visual-intro organization-page-intro"
         eyebrow={t.organizationPage.eyebrow}
         title={t.organizationPage.title}
         lead={t.organizationPage.lead}
