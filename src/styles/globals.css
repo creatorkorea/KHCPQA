@@ -1519,19 +1519,6 @@ p {
   width: var(--page-width);
 }
 
-.page-intro::after {
-  background: linear-gradient(180deg, rgba(111, 69, 199, 0.18), rgba(255, 255, 255, 0));
-  border-radius: 999px 0 0 999px;
-  content: "";
-  height: 120%;
-  pointer-events: none;
-  position: absolute;
-  right: 17%;
-  top: -10%;
-  transform: skewX(-18deg);
-  width: 72px;
-}
-
 .page-intro > * {
   position: relative;
   z-index: 1;
@@ -1597,27 +1584,12 @@ p {
   max-width: 620px;
 }
 
-.page-intro.community-page-intro::after {
-  background: rgba(255, 255, 255, 0.22);
-  height: 150%;
-  right: 24%;
-  top: -24%;
-  width: 82px;
-}
-
 .page-intro.about-page-intro {
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.82) 42%, rgba(255, 255, 255, 0.42) 68%, rgba(255, 255, 255, 0.22) 100%),
     url("/assets/client-smc/training-room-beds-wide.jpg") center 42% / cover;
   min-height: clamp(360px, 36vw, 520px);
   padding-block: clamp(70px, 8vw, 112px);
-}
-
-.page-intro.about-page-intro::after {
-  background: rgba(255, 255, 255, 0.22);
-  height: 160%;
-  right: 28%;
-  top: -28%;
 }
 
 .page-intro.about-page-intro h1,
@@ -1631,13 +1603,6 @@ p {
     var(--about-intro-image) center / cover;
   min-height: clamp(320px, 32vw, 480px);
   padding-block: clamp(64px, 7vw, 104px);
-}
-
-.page-intro.about-visual-intro::after {
-  background: rgba(255, 255, 255, 0.2);
-  height: 150%;
-  right: 24%;
-  top: -24%;
 }
 
 .page-intro.about-visual-intro h1,
@@ -1697,14 +1662,6 @@ p {
 
 .page-intro.activity-category-intro p {
   max-width: 620px;
-}
-
-.page-intro.activity-category-intro::after {
-  background: rgba(255, 255, 255, 0.22);
-  height: 150%;
-  right: 24%;
-  top: -24%;
-  width: 82px;
 }
 
 .section-band {
