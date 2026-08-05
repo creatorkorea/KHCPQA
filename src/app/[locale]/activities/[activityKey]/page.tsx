@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { CSSProperties } from "react";
 import { ArrowRight, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, LayoutGrid } from "lucide-react";
 import {
   getActivityGroupByKey,
@@ -231,24 +232,18 @@ export default async function ActivityDetailPage({
     })
   ]);
   const posts = postsResult.items;
+  const categoryIntroStyle = {
+    "--activity-category-image": `url("${activityImageUrl.replace(/"/g, "%22")}")`
+  } as CSSProperties;
 
   return (
     <>
-      <section className="page-intro activity-category-intro">
+      <section className="page-intro activity-category-intro" style={categoryIntroStyle}>
         <div className="activity-category-intro-copy">
           <span className="eyebrow">{t.activitiesPage.detailEyebrow}</span>
           <h1>{activityTitle}</h1>
           <p>{activitySummary}</p>
         </div>
-        <Image
-          className="activity-category-intro-image"
-          src={activityImageUrl}
-          alt={activityTitle}
-          width={760}
-          height={460}
-          unoptimized
-          priority
-        />
       </section>
       <section className="activities-overview-section">
         <div className="activities-directory-shell">
