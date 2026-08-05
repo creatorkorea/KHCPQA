@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { CSSProperties } from "react";
 import {
   ArrowRight,
   Award,
@@ -284,6 +285,9 @@ export default async function CourseDetailPage({
     12
   );
   const originalHeroImage = content.imageUrl || getOriginalCourseImage(course.source, "img01.jpg");
+  const courseHeroStyle = {
+    "--course-hero-image": `url("${originalHeroImage.replace(/"/g, "%22")}")`
+  } as CSSProperties;
   const originalSupportImage = getOriginalCourseImage(course.source, "img02.jpg");
   const originalProcessImages = hasOriginalProcessImages ? getOriginalProcessImages(course.source, processLabels.length) : [];
   const originalCourseDetail = originalCourseDetails[originalCourseNumber];
@@ -293,7 +297,7 @@ export default async function CourseDetailPage({
 
   return (
     <article className="course-detail course-landing">
-      <section className="course-landing-hero">
+      <section className="course-landing-hero" style={courseHeroStyle}>
         <div className="course-landing-copy">
           <span className="eyebrow">{courseSummary}</span>
           <h1>{courseTitle}</h1>
@@ -312,9 +316,6 @@ export default async function CourseDetailPage({
               );
             })}
           </dl>
-        </div>
-        <div className="course-landing-media">
-          <Image src={originalHeroImage} alt={courseTitle} width={960} height={620} priority unoptimized />
         </div>
       </section>
 

@@ -5084,41 +5084,48 @@ p {
 }
 
 .course-landing {
+  --course-detail-width: 1420px;
   background:
     radial-gradient(circle at 12% 8%, rgba(123, 79, 214, 0.1), transparent 25%),
     linear-gradient(180deg, #ffffff 0%, #fbf8ff 34%, #ffffff 100%);
-  padding: 0 clamp(18px, 5vw, 64px) clamp(56px, 7vw, 88px);
+  padding: 0 max(16px, calc((100vw - var(--course-detail-width)) / 2)) clamp(56px, 7vw, 88px);
 }
 
 .course-landing-hero {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.9) 40%, rgba(255, 255, 255, 0.56) 70%, rgba(255, 255, 255, 0.26) 100%),
+    var(--course-hero-image) center 48% / cover;
+  border: 1px solid rgba(232, 226, 243, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 22px 64px rgba(64, 48, 118, 0.06);
   display: grid;
-  gap: clamp(28px, 5vw, 72px);
-  grid-template-columns: minmax(420px, 0.82fr) minmax(520px, 1fr);
+  gap: 0;
+  grid-template-columns: minmax(0, 1fr);
   margin: 0 auto;
-  max-width: 1280px;
-  min-height: 520px;
-  overflow: hidden;
-  padding: clamp(58px, 6vw, 90px) 0 0;
+  max-width: var(--course-detail-width);
+  min-height: clamp(520px, 38vw, 640px);
+  overflow: visible;
+  padding: clamp(76px, 7vw, 112px) clamp(54px, 6vw, 96px);
   position: relative;
 }
 
 .course-landing-hero::after {
-  background: transparent;
-  border-left: 72px solid rgba(123, 79, 214, 0.18);
-  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 999px 0 0 999px;
   content: "";
-  height: 760px;
-  left: 49%;
+  height: 150%;
   pointer-events: none;
   position: absolute;
-  top: -150px;
-  transform: rotate(14deg);
-  width: 360px;
+  right: 25%;
+  top: -24%;
+  transform: skewX(-18deg);
+  width: 82px;
   z-index: 1;
 }
 
 .course-landing-copy {
   align-self: center;
+  max-width: 760px;
   position: relative;
   z-index: 2;
 }
@@ -5135,10 +5142,11 @@ p {
 
 .course-landing-copy h1 {
   color: var(--purple-dark);
-  font-size: clamp(58px, 7vw, 96px);
-  letter-spacing: -0.02em;
-  line-height: 0.98;
+  font-size: clamp(54px, 5.8vw, 88px);
+  letter-spacing: 0;
+  line-height: 1.02;
   margin: 0 0 24px;
+  max-width: 720px;
   word-break: keep-all;
 }
 
@@ -5146,7 +5154,7 @@ p {
   color: var(--muted);
   font-size: 17px;
   line-height: 1.82;
-  max-width: 560px;
+  max-width: 620px;
 }
 
 .course-landing-metrics {
@@ -5154,7 +5162,7 @@ p {
   gap: 18px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 42px 0 0;
-  max-width: 660px;
+  max-width: 760px;
 }
 
 .course-landing-metrics div {
@@ -5193,40 +5201,14 @@ p {
   margin: 0;
 }
 
-.course-landing-media {
-  align-self: end;
-  height: 520px;
-  position: relative;
-  z-index: 1;
-}
-
-.course-landing-media::before {
-  background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.65) 20%, transparent 54%);
-  content: "";
-  inset: 0 auto 0 0;
-  pointer-events: none;
-  position: absolute;
-  width: 42%;
-  z-index: 2;
-}
-
-.course-landing-media img {
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  width: 100%;
-  -webkit-mask-image: radial-gradient(105% 98% at 68% 46%, #000 0%, #000 68%, rgba(0, 0, 0, 0.8) 82%, transparent 100%);
-  mask-image: radial-gradient(105% 98% at 68% 46%, #000 0%, #000 68%, rgba(0, 0, 0, 0.8) 82%, transparent 100%);
-}
-
 .course-landing-feature-band {
   background: linear-gradient(135deg, #8c5ee8, #5a35bd);
-  border-radius: 18px 18px 0 0;
+  border-radius: 8px;
   color: white;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: -16px auto 0;
-  max-width: 1160px;
+  margin: 24px auto 0;
+  max-width: var(--course-detail-width);
   overflow: hidden;
   position: relative;
   z-index: 3;
@@ -5264,7 +5246,7 @@ p {
 .course-career-cert,
 .course-landing-cta {
   margin: 0 auto;
-  max-width: 1160px;
+  max-width: var(--course-detail-width);
 }
 
 .course-landing-overview {
@@ -5354,7 +5336,7 @@ p {
   border: 1px solid #e5dcf7;
   border-radius: 18px;
   box-shadow: 0 16px 48px rgba(64, 48, 118, 0.08);
-  padding: 30px;
+  padding: clamp(30px, 3.6vw, 46px);
 }
 
 .course-curriculum-flow > h2,
@@ -5553,7 +5535,7 @@ p {
   border-radius: 28px;
   box-shadow: 0 24px 70px rgba(64, 48, 118, 0.08);
   margin: clamp(72px, 8vw, 108px) auto 0;
-  max-width: 1160px;
+  max-width: var(--course-detail-width);
   padding: clamp(38px, 5vw, 64px);
 }
 
@@ -5662,7 +5644,7 @@ p {
   border-radius: 32px;
   box-shadow: 0 28px 90px rgba(79, 45, 145, 0.09);
   margin: clamp(72px, 9vw, 120px) auto 0;
-  max-width: 1160px;
+  max-width: var(--course-detail-width);
   padding: clamp(42px, 6vw, 76px);
 }
 
@@ -8285,10 +8267,6 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .course-landing-media {
-    height: 420px;
-  }
-
   .course-landing-feature-band,
   .course-curriculum-flow > div,
   .course-info-panels,
@@ -8516,12 +8494,14 @@ p {
   }
 
   .course-landing-hero {
-    min-height: auto;
-    padding-top: 36px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.86) 48%, rgba(255, 255, 255, 0.7) 100%),
+      var(--course-hero-image) center 45% / cover;
+    min-height: 480px;
+    padding: 54px 20px 34px;
   }
 
-  .course-landing-hero::after,
-  .course-landing-media::before {
+  .course-landing-hero::after {
     display: none;
   }
 
@@ -8537,16 +8517,6 @@ p {
   .course-original-detail-section > div:last-child,
   .course-career-cert article > div:not(.certificate-card) {
     grid-template-columns: 1fr;
-  }
-
-  .course-landing-media {
-    height: 300px;
-  }
-
-  .course-landing-media img {
-    border-radius: 20px;
-    -webkit-mask-image: none;
-    mask-image: none;
   }
 
   .course-landing-feature-band {
