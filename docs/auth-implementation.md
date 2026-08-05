@@ -25,9 +25,10 @@
 - 프로필 생성, 자격 조회, 문의 내역 조회는 로그인 사용자 ID 기준으로 제한한다.
 
 Supabase Auth URL 설정:
-- Site URL: 배포 도메인 또는 로컬 개발 주소
-- Redirect URLs: `https://도메인/auth/callback`, `http://localhost:3000/auth/callback`
+- Site URL: 운영은 `https://khcpqa.vercel.app`, 로컬 개발은 `http://localhost:3000`
+- Redirect URLs: `https://khcpqa.vercel.app/auth/callback`, `http://localhost:3000/auth/callback`
 - 이메일 확인을 켠 경우 확인 링크는 `/auth/callback?next=/[locale]/account`로 돌아와 세션 쿠키를 생성한다.
+- 운영 메일 링크가 `http://localhost:3000/?code=...`로 생성되면 Supabase Dashboard의 Site URL 또는 Email Template URL 변수가 로컬 주소로 남아 있는 상태다.
 
 마이그레이션 적용 순서와 검증 SQL은 `docs/supabase-migration-runbook.md`를 따른다.
 

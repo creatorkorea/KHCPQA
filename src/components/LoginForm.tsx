@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Lock } from "lucide-react";
 import { getCopy, type Locale } from "@/lib/content";
+import { buildAuthCallbackUrl } from "@/lib/site-url";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/client";
 
@@ -101,7 +102,7 @@ export function LoginForm({ locale }: { locale: Locale }) {
       setIsSubmitting(true);
       const supabase = createClient();
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/callback?next=/${locale}/account/security`
+        redirectTo: buildAuthCallbackUrl(locale, "account/security")
       });
       setIsSubmitting(false);
 

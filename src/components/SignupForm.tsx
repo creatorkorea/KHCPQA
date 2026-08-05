@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, UserPlus } from "lucide-react";
 import { getCopy, type Locale } from "@/lib/content";
+import { buildAuthCallbackUrl } from "@/lib/site-url";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/client";
 
@@ -106,7 +107,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
       email: form.email,
       password: form.password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=/${locale}/account`,
+        emailRedirectTo: buildAuthCallbackUrl(locale, "account"),
         data: {
           country: form.country,
           full_name: form.name,
