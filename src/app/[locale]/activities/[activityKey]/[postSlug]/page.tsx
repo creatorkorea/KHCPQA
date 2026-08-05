@@ -16,32 +16,24 @@ export const dynamic = "force-dynamic";
 const postDetailCopy: Record<Locale, {
   authorLabel: string;
   dateLabel: string;
-  heroLead: string;
-  heroTitle: string;
   listLabel: string;
   viewsLabel: string;
 }> = {
   ko: {
     authorLabel: "작성자",
     dateLabel: "작성일",
-    heroLead: "게시글의 작성자, 작성일, 조회수와 상세 내용을 확인합니다.",
-    heroTitle: "게시글 상세",
     listLabel: "목록으로",
     viewsLabel: "조회수"
   },
   en: {
     authorLabel: "Author",
     dateLabel: "Date",
-    heroLead: "Review the author, date, view count, and full post details.",
-    heroTitle: "Post Detail",
     listLabel: "Back to List",
     viewsLabel: "Views"
   },
   es: {
     authorLabel: "Autor",
     dateLabel: "Fecha",
-    heroLead: "Consulta el autor, la fecha, las vistas y el detalle completo de la publicación.",
-    heroTitle: "Detalle de Publicación",
     listLabel: "Volver a la Lista",
     viewsLabel: "Vistas"
   }
@@ -105,8 +97,8 @@ export default async function ActivityPostDetailPage({
     <>
       <section className="page-intro activity-post-intro" style={postIntroStyle}>
         <span className="eyebrow">{activity.title}</span>
-        <h1>{copy.heroTitle}</h1>
-        <p>{copy.heroLead}</p>
+        <h1>{post.title}</h1>
+        <p>{activity.summary}</p>
       </section>
       <section className="activity-post-detail-section">
         <Link className="activity-back-link" href={`/${locale}/activities/${activityKey}`}>
@@ -116,10 +108,6 @@ export default async function ActivityPostDetailPage({
         <article className="activity-post-detail-card">
           {imageUrl ? <Image src={imageUrl} alt={post.title} width={1180} height={640} unoptimized /> : null}
           <div className="activity-post-content">
-            <header className="activity-post-header">
-              <span>{activity.title}</span>
-              <h2>{post.title}</h2>
-            </header>
             <dl className="activity-post-meta">
               <div>
                 <dt>

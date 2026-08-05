@@ -1563,13 +1563,18 @@ p {
 .page-intro.activity-post-intro h1 {
   font-size: clamp(44px, 4.8vw, 68px);
   margin-bottom: 16px;
-  max-width: 620px;
+  max-width: 760px;
 }
 
 .page-intro.activity-post-intro p {
   color: #5f5a6e;
+  display: -webkit-box;
   font-size: clamp(16px, 1.35vw, 19px);
-  max-width: 640px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-height: 1.7;
+  max-width: 720px;
+  overflow: hidden;
 }
 
 .page-intro.community-page-intro {
@@ -3776,8 +3781,9 @@ p {
   display: grid;
   gap: 18px;
   margin: 0 auto;
-  max-width: 1120px;
-  padding: 46px clamp(18px, 4vw, 48px) 104px;
+  max-width: var(--page-max);
+  padding: 46px 0 104px;
+  width: var(--page-width);
 }
 
 .activity-post-detail-card {
@@ -3802,29 +3808,8 @@ p {
 .activity-post-content {
   display: grid;
   gap: 26px;
+  justify-items: stretch;
   padding: clamp(30px, 4.8vw, 58px);
-}
-
-.activity-post-header {
-  border-bottom: 1px solid var(--line);
-  display: grid;
-  gap: 14px;
-  padding-bottom: 24px;
-}
-
-.activity-post-header > span {
-  color: var(--purple);
-  font-size: 13px;
-  font-weight: 900;
-}
-
-.activity-post-header h2 {
-  color: var(--ink);
-  font-size: clamp(34px, 4.2vw, 54px);
-  line-height: 1.08;
-  margin: 0;
-  max-width: 860px;
-  word-break: keep-all;
 }
 
 .activity-post-meta {
