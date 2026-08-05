@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { CSSProperties } from "react";
 import { ArrowLeft, CalendarDays, Eye, List, UserRound } from "lucide-react";
-import { PageIntro } from "@/components/SiteShell";
 import {
   getActivityGroupByKey,
   getActivityPosts,
@@ -93,6 +93,9 @@ export default async function ActivityPostDetailPage({
   const imageUrl = post.imageUrl;
   const copy = postDetailCopy[locale];
   const displayedViewCount = post.viewCount + (didIncrementViewCount ? 1 : 0);
+  const postIntroStyle = {
+    "--activity-post-hero-image": `url("${(imageUrl || activity.imageUrl).replace(/"/g, "%22")}")`
+  } as CSSProperties;
   const bodyLines = post.body
     .split("\n")
     .map((line) => line.trim())
@@ -100,7 +103,11 @@ export default async function ActivityPostDetailPage({
 
   return (
     <>
-      <PageIntro className="activity-post-intro" eyebrow={activity.title} title={copy.heroTitle} lead={copy.heroLead} />
+      <section className="page-intro activity-post-intro" style={postIntroStyle}>
+        <span className="eyebrow">{activity.title}</span>
+        <h1>{copy.heroTitle}</h1>
+        <p>{copy.heroLead}</p>
+      </section>
       <section className="activity-post-detail-section">
         <Link className="activity-back-link" href={`/${locale}/activities/${activityKey}`}>
           <ArrowLeft size={16} />
@@ -108,7 +115,11 @@ export default async function ActivityPostDetailPage({
         </Link>
         <article className="activity-post-detail-card">
           {imageUrl ? <Image src={imageUrl} alt={post.title} width={1180} height={640} unoptimized /> : null}
-          <div>
+          <div className="activity-post-content">
+            <header className="activity-post-header">
+              <span>{activity.title}</span>
+              <h2>{post.title}</h2>
+            </header>
             <dl className="activity-post-meta">
               <div>
                 <dt>
@@ -132,7 +143,6 @@ export default async function ActivityPostDetailPage({
                 <dd>{displayedViewCount.toLocaleString()}</dd>
               </div>
             </dl>
-            <h2>{post.title}</h2>
             <div className="activity-post-body">
               {bodyLines.length > 0 ? (
                 bodyLines.map((line) => <p key={line}>{line}</p>)
