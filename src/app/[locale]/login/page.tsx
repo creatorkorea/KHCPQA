@@ -22,12 +22,28 @@ export default async function LoginPage({ params }: { params: Promise<{ locale: 
   return (
     <>
       <PageIntro
+        className="login-page-intro"
         eyebrow={t.login.eyebrow}
         title={t.nav.login}
         lead={t.login.lead}
       />
-      <section className="auth-section">
-        <LoginForm locale={locale} />
+      <section className="auth-section login-auth-section">
+        <div className="login-auth-shell">
+          <div className="login-auth-summary">
+            <span className="eyebrow">{t.account.eyebrow}</span>
+            <h2>{t.accountTitle}</h2>
+            <p>{t.login.note}</p>
+            <div>
+              {t.account.nav.slice(1).map((item) => (
+                <article key={item.href}>
+                  <strong>{item.title}</strong>
+                  <span>{item.description}</span>
+                </article>
+              ))}
+            </div>
+          </div>
+          <LoginForm locale={locale} />
+        </div>
       </section>
     </>
   );
