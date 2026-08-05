@@ -8,14 +8,11 @@ import { buildLocaleMetadata } from "@/lib/seo";
 
 const activitiesOverviewCopy: Record<Locale, {
   categoryCtas: Record<string, string>;
-  featureTitle: string;
-  featureLead: string;
   categoriesLabel: string;
   exploreLabel: string;
   gridTitle: string;
   gridLead: string;
   allLabel: string;
-  publishedLabel: string;
 }> = {
   ko: {
     categoryCtas: {
@@ -29,36 +26,27 @@ const activitiesOverviewCopy: Record<Locale, {
       reviews: "후기 보기",
       volunteer: "봉사 보기"
     },
-    featureTitle: "협회 소식과 성과를 커뮤니티에서 탐색합니다",
-    featureLead: "공지부터 국제대회, 수상경력, 언론 보도까지 커뮤니티 콘텐츠를 한 흐름으로 정리합니다.",
     categoriesLabel: "커뮤니티 카테고리",
     exploreLabel: "커뮤니티 메뉴",
     gridTitle: "커뮤니티 콘텐츠",
     gridLead: "카테고리별 최신 공지와 현장 기록을 확인할 수 있습니다.",
-    allLabel: "전체 커뮤니티",
-    publishedLabel: "공개 콘텐츠"
+    allLabel: "전체 커뮤니티"
   },
   en: {
     categoryCtas: {},
-    featureTitle: "Explore association activities and achievements in one place",
-    featureLead: "From notices to competitions, awards, and media records, planned activity content is organized into a clear journey.",
     categoriesLabel: "Activity categories",
     exploreLabel: "Activity Menu",
     gridTitle: "Activity Content",
     gridLead: "Browse the latest notices and field records by category.",
-    allLabel: "All Activities",
-    publishedLabel: "Published content"
+    allLabel: "All Activities"
   },
   es: {
     categoryCtas: {},
-    featureTitle: "Explore actividades y logros de la asociación en un solo lugar",
-    featureLead: "Desde avisos hasta concursos, premios y medios, el contenido planificado se organiza en un recorrido claro.",
     categoriesLabel: "Categorías",
     exploreLabel: "Menú de Actividades",
     gridTitle: "Contenido de Actividades",
     gridLead: "Consulte avisos recientes y registros de campo por categoría.",
-    allLabel: "Todas las Actividades",
-    publishedLabel: "Contenido publicado"
+    allLabel: "Todas las Actividades"
   }
 };
 
@@ -95,7 +83,6 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
   const pageCopy = activitiesOverviewCopy[locale];
   const introTitle = locale === "ko" ? t.activitiesTitle : intro.title;
   const introLead = locale === "ko" ? t.activitiesPage.lead : intro.lead;
-  const publishedCount = activityGroups.filter((activity) => activityContent.has(activity.key)).length;
 
   return (
     <>
@@ -131,32 +118,6 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
           </aside>
 
           <div className="activities-content-panel">
-            <div className="activities-feature-row">
-              <div className="activities-feature-copy">
-                <span>{t.activitiesPage.eyebrow}</span>
-                <h2>{pageCopy.featureTitle}</h2>
-                <p>{pageCopy.featureLead}</p>
-                <dl>
-                  <div>
-                    <dt>{activityGroups.length}</dt>
-                    <dd>{pageCopy.categoriesLabel}</dd>
-                  </div>
-                  <div>
-                    <dt>{publishedCount}</dt>
-                    <dd>{pageCopy.publishedLabel}</dd>
-                  </div>
-                </dl>
-              </div>
-              <Image
-                src="/assets/client-smc/global-competition-hall-wide.jpg"
-                alt={intro.title}
-                width={960}
-                height={620}
-                unoptimized
-                priority
-              />
-            </div>
-
             <div className="section-heading activities-heading">
               <span className="eyebrow">{t.activitiesPage.eyebrow}</span>
               <div>
