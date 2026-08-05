@@ -6453,6 +6453,7 @@ p {
   gap: 16px;
   justify-content: space-between;
   list-style: none;
+  min-height: 42px;
 }
 
 .location-bus summary::-webkit-details-marker {
@@ -6468,7 +6469,31 @@ p {
   gap: 8px;
 }
 
-.location-bus summary strong {
+.location-bus-toggle {
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  min-height: 38px;
+  min-width: 164px;
+  padding: 4px 8px 4px 4px;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.location-bus summary:hover .location-bus-toggle,
+.location-bus summary:focus-visible .location-bus-toggle {
+  border-color: rgba(0, 112, 82, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 112, 82, 0.08);
+}
+
+.location-bus-toggle strong {
   background: #eef6f1;
   border-radius: 999px;
   color: var(--green);
@@ -6476,8 +6501,53 @@ p {
   padding: 7px 10px;
 }
 
+.location-bus-toggle-label {
+  color: var(--ink);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 900;
+  min-width: 52px;
+  justify-content: center;
+}
+
+.location-bus-toggle .when-open {
+  display: none;
+}
+
+.location-bus-toggle svg {
+  color: var(--green);
+  transition: transform 160ms ease;
+}
+
 .location-bus[open] summary {
   margin-bottom: 14px;
+}
+
+.location-bus[open] .location-bus-toggle {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.location-bus[open] .location-bus-toggle-label {
+  color: #fff;
+}
+
+.location-bus[open] .location-bus-toggle-label span {
+  color: #fff;
+}
+
+.location-bus[open] .location-bus-toggle .when-closed {
+  display: none;
+}
+
+.location-bus[open] .location-bus-toggle .when-open {
+  display: inline-flex;
+}
+
+.location-bus[open] .location-bus-toggle svg {
+  color: #fff;
+  transform: rotate(180deg);
 }
 
 .location-bus-table {
@@ -8803,6 +8873,16 @@ p {
 
   .location-bus {
     margin: 0 16px 16px;
+  }
+
+  .location-bus summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .location-bus-toggle {
+    align-self: stretch;
+    justify-content: space-between;
   }
 
   .location-bus-row {

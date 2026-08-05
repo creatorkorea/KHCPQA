@@ -299,6 +299,8 @@ type Copy = {
     drivingTitle: string;
     busTitle: string;
     busStopsCountLabel: string;
+    busExpandLabel: string;
+    busCollapseLabel: string;
   };
   legal: {
     privacyTitle: string;
@@ -836,7 +838,9 @@ export const copy = {
       subwayTitle: "지하철 이용",
       drivingTitle: "자가용 이용",
       busTitle: "버스 이용",
-      busStopsCountLabel: "개 정류장"
+      busStopsCountLabel: "개 정류장",
+      busExpandLabel: "펼쳐보기",
+      busCollapseLabel: "접기"
     },
     legal: {
       privacyTitle: "개인정보처리방침",
@@ -1400,7 +1404,9 @@ export const copy = {
       subwayTitle: "By Subway",
       drivingTitle: "By Car",
       busTitle: "By Bus",
-      busStopsCountLabel: "stops"
+      busStopsCountLabel: "stops",
+      busExpandLabel: "Show routes",
+      busCollapseLabel: "Hide routes"
     },
     legal: {
       privacyTitle: "Privacy Policy",
@@ -1964,7 +1970,9 @@ export const copy = {
       subwayTitle: "En metro",
       drivingTitle: "En coche",
       busTitle: "En autobús",
-      busStopsCountLabel: "paradas"
+      busStopsCountLabel: "paradas",
+      busExpandLabel: "Ver rutas",
+      busCollapseLabel: "Ocultar rutas"
     },
     legal: {
       privacyTitle: "Política de Privacidad",

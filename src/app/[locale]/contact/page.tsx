@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Bus, Car, ExternalLink, MapPin, Phone, Train } from "lucide-react";
+import { Bus, Car, ChevronDown, ExternalLink, MapPin, Phone, Train } from "lucide-react";
 import { AboutSubnav } from "@/components/AboutSubnav";
 import { PageIntro } from "@/components/SiteShell";
 import { getCopy, type Locale } from "@/lib/content";
@@ -213,11 +213,18 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
               <details className="location-bus">
                 <summary>
                   <span><Bus size={18} /> {t.contact.busTitle}</span>
-                  <strong>
-                    {locale === "ko"
-                      ? `${location.busStops.length}${t.contact.busStopsCountLabel}`
-                      : `${location.busStops.length} ${t.contact.busStopsCountLabel}`}
-                  </strong>
+                  <span className="location-bus-toggle">
+                    <strong>
+                      {locale === "ko"
+                        ? `${location.busStops.length}${t.contact.busStopsCountLabel}`
+                        : `${location.busStops.length} ${t.contact.busStopsCountLabel}`}
+                    </strong>
+                    <span className="location-bus-toggle-label">
+                      <span className="when-closed">{t.contact.busExpandLabel}</span>
+                      <span className="when-open">{t.contact.busCollapseLabel}</span>
+                    </span>
+                    <ChevronDown size={18} />
+                  </span>
                 </summary>
                 <div className="location-bus-table">
                   {location.busStops.map((stop) => (
