@@ -1577,16 +1577,32 @@ p {
 }
 
 .page-intro.community-page-intro {
-  padding-block: clamp(40px, 5vw, 66px);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 255, 255, 0.9) 42%, rgba(255, 255, 255, 0.55) 72%, rgba(255, 255, 255, 0.28) 100%),
+    url("/assets/client-smc/global-competition-hall-wide.jpg") center 48% / cover;
+  border: 1px solid rgba(232, 226, 243, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 22px 64px rgba(64, 48, 118, 0.06);
+  min-height: clamp(360px, 34vw, 520px);
+  padding-block: clamp(72px, 8vw, 112px);
 }
 
 .page-intro.community-page-intro h1 {
-  font-size: clamp(40px, 4vw, 58px);
+  font-size: clamp(48px, 5vw, 76px);
   margin-bottom: 16px;
+  max-width: 620px;
 }
 
 .page-intro.community-page-intro p {
   max-width: 620px;
+}
+
+.page-intro.community-page-intro::after {
+  background: rgba(255, 255, 255, 0.22);
+  height: 150%;
+  right: 24%;
+  top: -24%;
+  width: 82px;
 }
 
 .page-intro.about-page-intro {
@@ -8800,6 +8816,24 @@ p {
 
   .page-intro.about-page-intro p {
     font-size: 16px;
+    max-width: 100%;
+  }
+
+  .page-intro.community-page-intro {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 255, 255, 0.88) 50%, rgba(255, 255, 255, 0.72) 100%),
+      url("/assets/client-smc/global-competition-hall-wide.jpg") center 48% / cover;
+    min-height: 360px;
+    padding-block: 54px 64px;
+  }
+
+  .page-intro.community-page-intro h1 {
+    font-size: clamp(38px, 13vw, 54px);
+    line-height: 1.12;
+    max-width: 100%;
+  }
+
+  .page-intro.community-page-intro p {
     max-width: 100%;
   }
 
