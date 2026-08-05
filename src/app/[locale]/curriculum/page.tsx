@@ -1,20 +1,9 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  BriefcaseBusiness,
-  CalendarDays,
-  ClipboardPenLine,
-  Headphones,
-  HeartPulse,
-  Sparkles,
-  Store
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { getCopy, getCourses, type Locale } from "@/lib/content";
 import { CurriculumCatalog } from "@/components/CurriculumCatalog";
 import { getPublishedContentIntro, getPublishedContentMap } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
-
-const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, Sparkles, HeartPulse, ClipboardPenLine, Headphones];
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
@@ -56,15 +45,6 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
     locale,
     slug: "curriculum"
   });
-  const heroQuickItems = [
-    { label: mergedCourses[0]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[0]?.slug ?? ""}` },
-    { label: mergedCourses[1]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[1]?.slug ?? ""}` },
-    { label: mergedCourses[2]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[2]?.slug ?? ""}` },
-    { label: mergedCourses[4]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${mergedCourses[4]?.slug ?? ""}` },
-    { label: t.curriculumPage.massageProgramsLabel, href: `/${locale}/curriculum/${mergedCourses[6]?.slug ?? ""}` },
-    { label: t.primaryCta, href: `/${locale}/curriculum#curriculum-list` },
-    { label: t.courseDetail.inquiryCta, href: `/${locale}/partner-inquiry` }
-  ];
   return (
     <>
       <section className="curriculum-hero">
@@ -87,17 +67,6 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
           </div>
         </div>
 
-        <nav className="curriculum-quick-nav" aria-label={t.curriculumTitle}>
-          {heroQuickItems.map((item, index) => {
-            const Icon = quickNavIcons[index] ?? HeartPulse;
-            return (
-              <Link key={`${item.label}-${index}`} href={item.href}>
-                <Icon aria-hidden="true" size={23} strokeWidth={1.55} />
-                <span>{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
       </section>
       <section className="content-section">
         <div id="curriculum-list">

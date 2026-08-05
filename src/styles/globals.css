@@ -1420,60 +1420,9 @@ p {
   padding-inline: 20px;
 }
 
-.curriculum-quick-nav {
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(232, 226, 243, 0.9);
-  border-radius: 8px;
-  box-shadow: 0 18px 48px rgba(64, 48, 118, 0.1);
-  display: grid;
-  gap: 0;
-  grid-column: 1 / -1;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  margin: 0 auto -46px;
-  max-width: 1420px;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  z-index: 8;
-}
-
-.curriculum-quick-nav a {
-  align-items: center;
-  border-right: 1px solid var(--line);
-  color: var(--ink);
-  display: grid;
-  gap: 7px;
-  justify-items: center;
-  min-height: 82px;
-  padding: 12px 14px;
-  text-align: center;
-}
-
-.curriculum-quick-nav a:last-child {
-  border-right: 0;
-}
-
-.curriculum-quick-nav svg {
-  color: var(--purple);
-  height: 20px;
-  width: 20px;
-}
-
-.curriculum-quick-nav span {
-  font-size: 12px;
-  font-weight: 850;
-  line-height: 1.25;
-  word-break: keep-all;
-}
-
 .curriculum-hero + .content-section {
   padding-inline: max(clamp(18px, 6vw, 92px), calc((100vw - 1420px) / 2));
-  padding-top: clamp(18px, 2.6vw, 34px);
-}
-
-.curriculum-quick-nav a:hover {
-  background: #fbf8ff;
-  color: var(--purple);
+  padding-top: clamp(8px, 1.8vw, 24px);
 }
 
 .hero-panel-grid {
@@ -8184,14 +8133,6 @@ p {
     min-height: 360px;
   }
 
-  .curriculum-quick-nav {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .curriculum-quick-nav a {
-    border-bottom: 1px solid var(--line);
-  }
-
   .curriculum-preview .course-grid.compact {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -8757,35 +8698,6 @@ p {
 
   .curriculum-hero-copy h1 {
     font-size: clamp(38px, 13vw, 54px);
-  }
-
-  .curriculum-quick-nav {
-    display: flex;
-    gap: 8px;
-    margin: 26px auto -44px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 8px;
-    scroll-padding-inline: 8px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    width: 100%;
-  }
-
-  .curriculum-quick-nav::-webkit-scrollbar {
-    display: none;
-  }
-
-  .curriculum-quick-nav a {
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    flex: 0 0 136px;
-    min-height: 88px;
-    scroll-snap-align: start;
-  }
-
-  .curriculum-quick-nav a:last-child {
-    border-right: 1px solid var(--line);
   }
 
   .hero-trust-row div {
