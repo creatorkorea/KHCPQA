@@ -36,17 +36,19 @@ export function CurriculumCatalog({
     <div className="catalog-layout">
       <aside className="catalog-rail">
         <span>{t.categoryLabel}</span>
-        <div className="catalog-rail-pills" aria-label={t.categoryLabel}>
-          {categories.map((item) => (
-            <button
-              key={item}
-              type="button"
-              className={item === category ? "active" : ""}
-              onClick={() => setCategory(item)}
-            >
-              {t.categories[item]}
-            </button>
-          ))}
+        <div className="catalog-rail-scroll">
+          <div className="catalog-rail-pills" aria-label={t.categoryLabel}>
+            {categories.map((item) => (
+              <button
+                key={item}
+                type="button"
+                className={item === category ? "active" : ""}
+                onClick={() => setCategory(item)}
+              >
+                {t.categories[item]}
+              </button>
+            ))}
+          </div>
         </div>
       </aside>
 
@@ -98,11 +100,14 @@ export function CurriculumCatalog({
               <p>{t.catalogLead}</p>
             </div>
             <div className="course-grid">
-              {catalogCourses.map((course) => (
+              {catalogCourses.map((course, index) => (
                 <article className="course-card" key={course.title}>
                   <Image src={course.imageUrl} alt={course.title} width={640} height={320} unoptimized />
                   <div className="course-card-body">
-                    <span>{course.category}</span>
+                    <div className="course-card-meta">
+                      <span>{course.category}</span>
+                      <small>{String(index + 1).padStart(2, "0")}</small>
+                    </div>
                     <h3>{course.title}</h3>
                     <p>{course.summary}</p>
                   </div>

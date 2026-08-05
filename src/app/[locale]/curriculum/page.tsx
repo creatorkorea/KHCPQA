@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -86,10 +85,6 @@ export default async function CurriculumPage({ params }: { params: Promise<{ loc
               {t.courseDetail.allCoursesCta}
             </Link>
           </div>
-        </div>
-
-        <div className="curriculum-hero-visual">
-          <Image src="/assets/premium-hero-wellness-education.png" alt={t.home.heroImageAlt} width={960} height={620} priority />
         </div>
 
         <nav className="curriculum-quick-nav" aria-label={t.curriculumTitle}>

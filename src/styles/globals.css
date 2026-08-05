@@ -1343,32 +1343,34 @@ p {
 
 .curriculum-hero {
   background:
-    radial-gradient(circle at 62% 10%, rgba(123, 79, 214, 0.12) 0 7%, transparent 28%),
-    linear-gradient(105deg, #ffffff 0%, #ffffff 43%, #f7f2ff 43%, #fbf9ff 100%);
+    linear-gradient(90deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 255, 255, 0.88) 43%, rgba(255, 255, 255, 0.52) 70%, rgba(255, 255, 255, 0.3) 100%),
+    url("/assets/premium-hero-wellness-education.png") center 44% / cover;
+  border: 1px solid rgba(232, 226, 243, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 22px 64px rgba(64, 48, 118, 0.06);
   display: grid;
-  gap: 0 clamp(34px, 4.8vw, 80px);
-  grid-template-columns: minmax(420px, 0.82fr) minmax(520px, 1.08fr);
+  gap: 0;
+  grid-template-columns: minmax(0, 1fr);
   margin: 0 auto clamp(54px, 5.5vw, 78px);
   max-width: 1420px;
-  min-height: 520px;
+  min-height: clamp(500px, 37vw, 590px);
   overflow: visible;
-  padding: clamp(58px, 5.8vw, 82px) clamp(52px, 6vw, 92px) 0;
+  padding: clamp(74px, 7.4vw, 112px) clamp(52px, 6vw, 92px) 0;
   position: relative;
   width: 100%;
 }
 
 .curriculum-hero::after {
-  background: transparent;
-  border-left: 52px solid rgba(123, 79, 214, 0.28);
-  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px 0 0 999px;
   content: "";
-  height: 780px;
-  left: 46%;
+  height: 150%;
   pointer-events: none;
   position: absolute;
-  top: -170px;
-  transform: rotate(13deg);
-  width: 330px;
+  right: 26%;
+  top: -24%;
+  transform: skewX(-18deg);
+  width: 76px;
   z-index: 1;
 }
 
@@ -1399,7 +1401,7 @@ p {
   color: var(--muted);
   font-size: clamp(16px, 1.5vw, 19px);
   line-height: 1.72;
-  max-width: 455px;
+  max-width: 500px;
 }
 
 .curriculum-hero .hero-actions {
@@ -1416,52 +1418,6 @@ p {
   background: rgba(255, 255, 255, 0.74);
   min-height: 50px;
   padding-inline: 20px;
-}
-
-.curriculum-hero-visual {
-  align-self: end;
-  height: clamp(430px, 34vw, 526px);
-  margin: -52px 0 0 -42px;
-  position: relative;
-  z-index: 1;
-}
-
-.curriculum-hero-visual::before {
-  background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.52) 20%, rgba(255, 255, 255, 0) 48%);
-  content: "";
-  inset: 0 auto 0 0;
-  pointer-events: none;
-  position: absolute;
-  width: 42%;
-  z-index: 2;
-}
-
-.curriculum-hero-visual::after {
-  background: linear-gradient(
-    180deg,
-    rgba(249, 252, 250, 0.68) 0%,
-    rgba(249, 252, 250, 0) 18%,
-    rgba(249, 252, 250, 0) 86%,
-    rgba(249, 252, 250, 0.42) 100%
-  );
-  content: "";
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
-  z-index: 3;
-}
-
-.curriculum-hero-visual img {
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: 72% center;
-  opacity: 1;
-  transform: scale(1.06);
-  transform-origin: center right;
-  width: 100%;
-  -webkit-mask-image: radial-gradient(106% 98% at 72% 46%, #000 0%, #000 66%, rgba(0, 0, 0, 0.82) 80%, transparent 100%);
-  mask-image: radial-gradient(106% 98% at 72% 46%, #000 0%, #000 66%, rgba(0, 0, 0, 0.82) 80%, transparent 100%);
 }
 
 .curriculum-quick-nav {
@@ -4325,6 +4281,10 @@ p {
   padding: 13px 14px;
 }
 
+.catalog-rail-scroll {
+  position: relative;
+}
+
 .catalog-rail-pills {
   display: grid;
   gap: 4px;
@@ -4558,8 +4518,28 @@ p {
   gap: 7px;
 }
 
+.course-card-meta {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  min-width: 0;
+}
+
 .program-course-section .course-card span {
   font-size: 11px;
+}
+
+.course-card-meta small {
+  background: rgba(123, 79, 214, 0.08);
+  border: 1px solid rgba(222, 210, 251, 0.78);
+  border-radius: 999px;
+  color: var(--purple-dark);
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1;
+  padding: 6px 8px;
 }
 
 .program-course-section .course-card h3 {
@@ -8173,9 +8153,8 @@ p {
   }
 
   .curriculum-hero {
-    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1fr);
-    min-height: 560px;
-    overflow: hidden;
+    min-height: 520px;
+    overflow: visible;
     padding-inline: 42px;
   }
 
@@ -8203,11 +8182,6 @@ p {
   .hero-visual {
     margin: -24px -34px -24px -64px;
     min-height: 360px;
-  }
-
-  .curriculum-hero-visual {
-    height: 470px;
-    margin: -34px 0 0 -64px;
   }
 
   .curriculum-quick-nav {
@@ -8252,10 +8226,23 @@ p {
     position: static;
   }
 
+  .catalog-rail-scroll::after {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), #ffffff 72%);
+    border-radius: 0 6px 6px 0;
+    content: "";
+    inset: 0 0 0 auto;
+    pointer-events: none;
+    position: absolute;
+    width: 38px;
+  }
+
   .catalog-rail-pills {
     display: flex;
+    gap: 8px;
     max-width: 100%;
     overflow-x: auto;
+    scroll-padding-inline: 2px 44px;
+    scroll-snap-type: x mandatory;
     scrollbar-width: none;
     white-space: nowrap;
   }
@@ -8265,9 +8252,10 @@ p {
   }
 
   .catalog-rail-pills button {
-    border-bottom: 0;
-    border-right: 1px solid var(--line);
+    border: 1px solid var(--line);
     flex: 0 0 auto;
+    min-width: 104px;
+    scroll-snap-align: start;
     text-align: center;
   }
 
@@ -8751,9 +8739,12 @@ p {
   }
 
   .curriculum-hero {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.82) 48%, rgba(255, 255, 255, 0.64) 100%),
+      url("/assets/premium-hero-wellness-education.png") center 42% / cover;
     margin: 0 auto 70px;
-    min-height: auto;
-    padding: 34px 18px 0;
+    min-height: 420px;
+    padding: 48px 18px 0;
   }
 
   .curriculum-hero::after {
@@ -8768,41 +8759,33 @@ p {
     font-size: clamp(38px, 13vw, 54px);
   }
 
-  .curriculum-hero-visual {
-    height: 300px;
-    margin: 10px 0 0;
+  .curriculum-quick-nav {
+    display: flex;
+    gap: 8px;
+    margin: 26px auto -44px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px;
+    scroll-padding-inline: 8px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    width: 100%;
   }
 
-  .curriculum-hero-visual::before,
-  .curriculum-hero-visual::after {
+  .curriculum-quick-nav::-webkit-scrollbar {
     display: none;
   }
 
-  .curriculum-hero-visual img {
-    border-radius: 8px;
-    transform: none;
-    width: 100%;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .curriculum-quick-nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin: 8px auto -54px;
-    width: 100%;
-  }
-
   .curriculum-quick-nav a {
-    border-bottom: 1px solid var(--line);
-    min-height: 92px;
-  }
-
-  .curriculum-quick-nav a:nth-child(2n) {
-    border-right: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    flex: 0 0 136px;
+    min-height: 88px;
+    scroll-snap-align: start;
   }
 
   .curriculum-quick-nav a:last-child {
-    grid-column: 1 / -1;
+    border-right: 1px solid var(--line);
   }
 
   .hero-trust-row div {
