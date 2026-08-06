@@ -26,6 +26,7 @@ export default async function AccountCertificationsPage({ params }: { params: Pr
   return (
     <>
       <PageIntro
+        className="account-page-intro"
         eyebrow={t.account.eyebrow}
         title={t.account.certifications.title}
         lead={t.account.certifications.lead}
@@ -60,7 +61,10 @@ export default async function AccountCertificationsPage({ params }: { params: Pr
               ))}
             </div>
           ) : (
-            <div className="inquiry-empty-state" role="status">{t.account.certifications.emptyState}</div>
+            <div className="certificate-empty-state" role="status">
+              <strong>{t.account.certifications.emptyState}</strong>
+              <span>{t.account.certifications.emptyGuide}</span>
+            </div>
           )}
         </AccountSection>
       </section>

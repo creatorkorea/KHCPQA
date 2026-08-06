@@ -1530,6 +1530,7 @@ p {
   .account-panel,
   .cert-table,
   .profile-edit-panel,
+  .certificate-lookup,
   .account-action-row,
   .feature-row,
   .section-heading
@@ -6916,23 +6917,29 @@ p {
 }
 
 .certificate-lookup {
-  background: white;
-  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(251, 249, 255, 0.92)),
+    white;
+  border: 1px solid rgba(232, 226, 243, 0.95);
   border-radius: 8px;
+  box-shadow: 0 24px 60px rgba(65, 50, 118, 0.06);
   display: grid;
-  gap: 18px;
+  gap: clamp(16px, 2.5vw, 24px);
   margin-bottom: 22px;
-  padding: 22px;
+  padding: clamp(22px, 4vw, 36px);
 }
 
 .certificate-lookup .section-heading {
+  border-bottom: 1px solid rgba(232, 226, 243, 0.9);
+  margin-bottom: 0;
   padding: 0;
+  padding-bottom: 20px;
 }
 
 .certificate-lookup-form {
   align-items: flex-end;
   display: grid;
-  gap: 14px;
+  gap: 16px;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
 }
 
@@ -6945,24 +6952,38 @@ p {
 }
 
 .certificate-lookup-form input {
-  border: 1px solid var(--line);
+  background: white;
+  border: 1px solid rgba(225, 218, 239, 0.95);
   border-radius: 8px;
-  min-height: 44px;
-  padding: 11px 12px;
+  min-height: 48px;
+  padding: 12px 14px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.certificate-lookup-form input:focus {
+  border-color: rgba(119, 74, 214, 0.72);
+  box-shadow: 0 0 0 4px rgba(119, 74, 214, 0.12);
+  outline: none;
 }
 
 .certificate-lookup-form .primary-button {
   align-items: center;
   display: inline-flex;
   gap: 8px;
-  min-height: 44px;
+  min-height: 48px;
+  padding-inline: 20px;
 }
 
 .certificate-demo-hint {
+  background: rgba(237, 251, 245, 0.68);
+  border: 1px solid rgba(0, 107, 53, 0.12);
+  border-radius: 8px;
   color: var(--muted);
   font-size: 13px;
   font-weight: 800;
-  margin: -4px 0 0;
+  line-height: 1.6;
+  margin: -2px 0 0;
+  padding: 12px 14px;
 }
 
 .certificate-result {
@@ -7012,6 +7033,27 @@ p {
   font-size: 13px;
   font-weight: 900;
   margin: 4px 0 0;
+}
+
+.certificate-empty-state {
+  background:
+    linear-gradient(135deg, rgba(245, 240, 255, 0.82), rgba(237, 251, 245, 0.76)),
+    white;
+  border: 1px solid rgba(217, 204, 249, 0.9);
+  border-radius: 8px;
+  display: grid;
+  gap: 7px;
+  padding: 18px;
+}
+
+.certificate-empty-state strong {
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.certificate-empty-state span {
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .certificate-result p {
