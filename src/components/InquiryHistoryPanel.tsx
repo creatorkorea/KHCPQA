@@ -5,12 +5,24 @@ import { ClipboardList } from "lucide-react";
 import type { AccountInquiry } from "@/lib/account-data";
 import { getCopy, type Locale } from "@/lib/content";
 
+function getShortReceipt(receipt: string) {
+  const parts = receipt.split("-");
+
+  return parts.length > 3 ? `${parts[0]}-${parts[1]}-${parts[2]}` : receipt;
+}
+
 export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]; locale: Locale }) {
   const t = getCopy(locale);
-  const statuses = useMemo(
-    () => [t.account.inquiries.allLabel, ...Array.from(new Set(items.map((item) => item.status)))],
-    [items, t.account.inquiries.allLabel]
-  );
+  const statusCounts = useMemo(() => {
+    const counts = new Map<string, number>([[t.account.inquiries.allLabel, items.length]]);
+
+    items.forEach((item) => {
+      counts.set(item.status, (counts.get(item.status) ?? 0) + 1);
+    });
+
+    return counts;
+  }, [items, t.account.inquiries.allLabel]);
+  const statuses = useMemo(() => Array.from(statusCounts.keys()), [statusCounts]);
   const [activeStatus, setActiveStatus] = useState(statuses[0]);
   const visibleItems =
     activeStatus === t.account.inquiries.allLabel
@@ -29,7 +41,8 @@ export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]
             role="tab"
             type="button"
           >
-            {status}
+            <span>{status}</span>
+            <b>{statusCounts.get(status) ?? 0}</b>
           </button>
         ))}
       </div>
@@ -40,14 +53,15 @@ export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]
               <header>
                 <ClipboardList size={20} />
                 <div>
-                  <strong>{item.title}</strong>
-                  <span>{item.receipt}</span>
+                  <strong>{item.type}</strong>
+                  <span title={item.receipt}>{getShortReceipt(item.receipt)}</span>
                 </div>
+                <em>{item.status}</em>
               </header>
               <dl>
                 <div>
                   <dt>{t.account.inquiries.receiptLabel}</dt>
-                  <dd>{item.receipt}</dd>
+                  <dd className="receipt-code">{item.receipt}</dd>
                 </div>
                 <div>
                   <dt>{t.account.inquiries.typeLabel}</dt>
