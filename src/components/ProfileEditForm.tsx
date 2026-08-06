@@ -95,7 +95,7 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
   return (
     <section className="profile-edit-panel">
       <div className="section-heading">
-        <span className="eyebrow">Profile</span>
+        <span className="eyebrow">{t.account.profile.title}</span>
         <h2>{t.account.profile.editTitle}</h2>
         <p>{t.account.profile.editLead}</p>
       </div>

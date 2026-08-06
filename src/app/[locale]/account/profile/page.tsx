@@ -25,7 +25,12 @@ export default async function AccountProfilePage({ params }: { params: Promise<{
 
   return (
     <>
-      <PageIntro eyebrow={t.account.eyebrow} title={t.account.profile.title} lead={t.account.profile.lead} />
+      <PageIntro
+        className="account-page-intro"
+        eyebrow={t.account.eyebrow}
+        title={t.account.profile.title}
+        lead={t.account.profile.lead}
+      />
       <section className="content-section">
         <AccountNav locale={locale} activeHref="account/profile" />
         <AccountSection title={t.account.profile.title} lead={t.account.profile.lead}>
