@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { MobileAccountLink } from "@/components/HeaderAccountLink";
 import { getCopy, headerNavItems, type Locale } from "@/lib/content";
 
 export function MobileNav({ locale }: { locale: Locale }) {
@@ -63,9 +64,7 @@ export function MobileNav({ locale }: { locale: Locale }) {
               </Link>
             );
           })}
-          <Link aria-current={pathname === `/${locale}/login` ? "page" : undefined} href={`/${locale}/login`} onClick={() => setIsOpen(false)}>
-            {t.nav.login}
-          </Link>
+          <MobileAccountLink accountLabel={t.accountTitle} locale={locale} loginLabel={t.nav.login} onNavigate={() => setIsOpen(false)} />
         </nav>
       ) : null}
     </div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Images, Megaphone, Trophy, UserRound } from "lucide-react";
+import { Images, Megaphone, Trophy } from "lucide-react";
 import {
   getCopy,
   getTranslationStatusLabel,
@@ -8,6 +8,7 @@ import {
 } from "@/lib/content";
 import { BrandLogoMark } from "@/components/BrandLogoMark";
 import { DesktopNav } from "@/components/DesktopNav";
+import { HeaderAccountLink } from "@/components/HeaderAccountLink";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MobileNav } from "@/components/MobileNav";
 
@@ -28,10 +29,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
       <div className="header-actions">
         <LanguageSwitcher locale={locale} />
-        <Link className="icon-link" href={`/${locale}/login`} aria-label={t.nav.login}>
-          <span>{t.nav.login}</span>
-          <UserRound size={13} />
-        </Link>
+        <HeaderAccountLink accountLabel={t.accountTitle} locale={locale} loginLabel={t.nav.login} />
         <Link className="consult-link" href={`/${locale}/partner-inquiry`}>
           {t.layout.consultCta}
         </Link>
