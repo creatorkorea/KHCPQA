@@ -400,6 +400,12 @@ type Copy = {
     lead: string;
     overviewTitle: string;
     overviewLead: string;
+    profileStatus: {
+      ready: string;
+      empty: string;
+    };
+    countSuffix: string;
+    noindexStatus: string;
     nav: Array<{
       title: string;
       href: string;
@@ -440,6 +446,7 @@ type Copy = {
       lookupEmptyMessage: string;
       demoHint: string;
       emptyState: string;
+      emptyGuide: string;
     };
     inquiries: {
       title: string;
@@ -513,7 +520,7 @@ export const copy = {
     curriculumTitle: "교육과정 한눈에 보기",
     activitiesTitle: "커뮤니티",
     pageReady: "번역 및 콘텐츠 검수 상태를 관리자에서 관리합니다.",
-    accountTitle: "My Page",
+    accountTitle: "마이페이지",
     adminTitle: "관리자 대시보드",
     formSubmit: "문의 저장",
     menuOpen: "메뉴 열기",
@@ -951,14 +958,20 @@ export const copy = {
       lead: "로그인한 회원만 이용할 수 있는 개인 계정 영역입니다.",
       overviewTitle: "계정 요약",
       overviewLead: "프로필, 자격 조회, 문의 내역을 한 화면에서 확인합니다.",
+      profileStatus: {
+        ready: "확인됨",
+        empty: "미입력"
+      },
+      countSuffix: "건",
+      noindexStatus: "비공개",
       nav: [
-        { title: "My Page", href: "account", description: "계정 요약" },
-        { title: "Profile", href: "account/profile", description: "회원 정보" },
-        { title: "Certification Inquiry", href: "account/certifications", description: "자격 취득 조회" },
-        { title: "Inquiry History", href: "account/inquiries", description: "문의 내역" }
+        { title: "마이페이지", href: "account", description: "계정 요약" },
+        { title: "프로필", href: "account/profile", description: "회원 정보" },
+        { title: "자격 조회", href: "account/certifications", description: "자격 취득 조회" },
+        { title: "문의 내역", href: "account/inquiries", description: "문의 내역" }
       ],
       profile: {
-        title: "Profile",
+        title: "프로필",
         lead: "회원 정보를 확인하고 필요한 내용을 수정할 수 있습니다.",
         editTitle: "프로필 수정",
         editLead: "이름, 국가, 선호 언어를 수정할 수 있습니다.",
@@ -977,7 +990,7 @@ export const copy = {
         ]
       },
       certifications: {
-        title: "Certification Inquiry",
+        title: "자격 조회",
         lead: "보유한 자격 내역과 검증 정보를 확인합니다.",
         lookupTitle: "자격번호 조회",
         lookupLead: "자격번호와 검증 코드를 입력해 일치하는 자격 정보를 확인합니다.",
@@ -993,10 +1006,11 @@ export const copy = {
         lookupEmptyTitle: "일치하는 자격 정보가 없습니다.",
         lookupEmptyMessage: "자격번호와 검증 코드를 다시 확인해 주세요.",
         demoHint: "예시: SMC-2026-001 / PUBLIC-CODE-001",
-        emptyState: "등록된 자격 내역이 없습니다."
+        emptyState: "등록된 자격 내역이 없습니다.",
+        emptyGuide: "자격번호가 있다면 바로 조회하고, 아직 수강 전이라면 교육과정을 먼저 확인해 보세요."
       },
       inquiries: {
-        title: "Inquiry History",
+        title: "문의 내역",
         lead: "파트너 문의와 상담 요청의 접수 상태를 확인하는 사용자 화면입니다.",
         allLabel: "전체",
         receiptLabel: "접수번호",
@@ -1518,6 +1532,12 @@ export const copy = {
       lead: "This personal account area is available to logged-in members only.",
       overviewTitle: "Account Summary",
       overviewLead: "Review your profile, certification records, and inquiry history in one place.",
+      profileStatus: {
+        ready: "Ready",
+        empty: "Incomplete"
+      },
+      countSuffix: "",
+      noindexStatus: "Private",
       nav: [
         { title: "My Page", href: "account", description: "Account summary" },
         { title: "Profile", href: "account/profile", description: "Member information" },
@@ -1560,7 +1580,8 @@ export const copy = {
         lookupEmptyTitle: "No matching certification record.",
         lookupEmptyMessage: "Please check the certificate number and verification code.",
         demoHint: "Example: SMC-2026-001 / PUBLIC-CODE-001",
-        emptyState: "No certification records are registered."
+        emptyState: "No certification records are registered.",
+        emptyGuide: "If you have a certificate number, look it up now. If not, review available programs first."
       },
       inquiries: {
         title: "Inquiry History",
@@ -2085,6 +2106,12 @@ export const copy = {
       lead: "Esta área personal está disponible solo para miembros con sesión iniciada.",
       overviewTitle: "Resumen de Cuenta",
       overviewLead: "Revise su perfil, certificaciones e historial de consultas en un solo lugar.",
+      profileStatus: {
+        ready: "Listo",
+        empty: "Incompleto"
+      },
+      countSuffix: "",
+      noindexStatus: "Privado",
       nav: [
         { title: "My Page", href: "account", description: "Resumen de cuenta" },
         { title: "Perfil", href: "account/profile", description: "Información de miembro" },
@@ -2127,7 +2154,8 @@ export const copy = {
         lookupEmptyTitle: "No hay registro coincidente.",
         lookupEmptyMessage: "Revise el número de certificado y el código de verificación.",
         demoHint: "Ejemplo: SMC-2026-001 / PUBLIC-CODE-001",
-        emptyState: "No hay certificaciones registradas."
+        emptyState: "No hay certificaciones registradas.",
+        emptyGuide: "Si tiene un número de certificado, puede consultarlo ahora. Si no, revise primero los programas."
       },
       inquiries: {
         title: "Historial de Consultas",

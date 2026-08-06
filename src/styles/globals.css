@@ -1589,6 +1589,17 @@ p {
   padding-block: clamp(52px, 6.4vw, 82px);
 }
 
+.page-intro.account-page-intro {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.9) 44%, rgba(255, 255, 255, 0.62) 74%, rgba(255, 255, 255, 0.38) 100%),
+    url("/assets/client-smc/awards-books-consulting-room.jpg") center 48% / cover;
+  border: 1px solid rgba(232, 226, 243, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 22px 64px rgba(64, 48, 118, 0.06);
+  min-height: clamp(280px, 24vw, 360px);
+  padding-block: clamp(52px, 6.4vw, 82px);
+}
+
 .page-intro.signup-page-intro {
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.9) 42%, rgba(255, 255, 255, 0.6) 72%, rgba(255, 255, 255, 0.38) 100%),
@@ -2010,6 +2021,28 @@ p {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 22px;
+}
+
+.account-grid > article {
+  min-height: 176px;
+}
+
+.account-card-head {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.account-card-head strong {
+  background: var(--green-soft);
+  border-radius: 999px;
+  color: var(--green-dark);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+  padding: 8px 10px;
+  white-space: nowrap;
 }
 
 .feature-row svg,
@@ -6642,6 +6675,54 @@ p {
   padding: 18px;
 }
 
+.cert-table .account-empty-state {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(245, 240, 255, 0.82), rgba(237, 251, 245, 0.8)),
+    var(--surface);
+  border: 1px solid rgba(217, 204, 249, 0.9);
+  border-radius: 8px;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.account-empty-state div:first-child {
+  display: grid;
+  gap: 7px;
+}
+
+.account-empty-state strong {
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.account-empty-state span {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.account-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.account-empty-actions a {
+  align-items: center;
+  background: white;
+  border: 1px solid rgba(217, 204, 249, 0.95);
+  border-radius: 999px;
+  color: var(--green-dark);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 900;
+  gap: 7px;
+  min-height: 38px;
+  padding: 9px 13px;
+}
+
 .account-nav {
   display: grid;
   gap: 10px;
@@ -8882,6 +8963,7 @@ p {
   }
 
   .page-intro.login-page-intro,
+  .page-intro.account-page-intro,
   .page-intro.signup-page-intro {
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.82) 54%, rgba(255, 255, 255, 0.68) 100%),
@@ -8904,6 +8986,16 @@ p {
   .login-auth-section,
   .signup-auth-section {
     padding-top: 28px;
+  }
+
+  .cert-table .account-empty-state {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .account-empty-actions {
+    justify-content: flex-start;
+    width: 100%;
   }
 
   .login-auth-shell,

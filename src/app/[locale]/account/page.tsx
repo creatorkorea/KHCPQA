@@ -24,10 +24,17 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
   const t = getCopy(locale);
   const accountData = await getAccountData(locale);
   const moduleIcons = [UserRound, BadgeCheck, FileText, Lock];
+  const moduleMetrics = [
+    accountData.profileForm.name || accountData.profileForm.email ? t.account.profileStatus.ready : t.account.profileStatus.empty,
+    `${accountData.certificates.length}${t.account.countSuffix}`,
+    `${accountData.inquiries.length}${t.account.countSuffix}`,
+    t.account.noindexStatus
+  ];
 
   return (
     <>
       <PageIntro
+        className="account-page-intro"
         eyebrow={t.account.eyebrow}
         title={t.accountTitle}
         lead={t.account.lead}
@@ -40,7 +47,10 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
             const Icon = moduleIcons[index];
             return (
               <article key={module.title}>
-                <Icon size={28} />
+                <div className="account-card-head">
+                  <Icon size={28} />
+                  <strong>{moduleMetrics[index]}</strong>
+                </div>
                 <h3>{module.title}</h3>
                 <p>{module.body}</p>
               </article>
@@ -58,16 +68,23 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
               </div>
             ))
           ) : (
-            <p className="cert-empty-state">{t.account.certifications.emptyState}</p>
+            <div className="cert-empty-state account-empty-state" role="status">
+              <div>
+                <strong>{t.account.certifications.emptyState}</strong>
+                <span>{t.account.certifications.emptyGuide}</span>
+              </div>
+              <div className="account-empty-actions">
+                <Link href={`/${locale}/account/certifications`}>
+                  <span>{t.account.certifications.lookupTitle}</span>
+                  <ArrowRight size={15} />
+                </Link>
+                <Link href={`/${locale}/curriculum`}>
+                  <span>{t.curriculumTitle}</span>
+                  <ArrowRight size={15} />
+                </Link>
+              </div>
+            </div>
           )}
-        </div>
-        <div className="account-action-row">
-          {t.account.nav.slice(1).map((item) => (
-            <Link key={item.href} href={`/${locale}/${item.href}`}>
-              <span>{item.title}</span>
-              <ArrowRight size={16} />
-            </Link>
-          ))}
         </div>
       </section>
     </>
