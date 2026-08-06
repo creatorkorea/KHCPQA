@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { FormEvent } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Lock } from "lucide-react";
 import { getCopy, type Locale } from "@/lib/content";
@@ -12,6 +12,11 @@ import { createClient } from "@/lib/supabase/client";
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function isEmailRateLimitError(message: string) {
+  const normalized = message.toLowerCase();
+  return normalized.includes("email rate limit") || normalized.includes("rate limit") || normalized.includes("too many requests");
 }
 
 function getSafeNextPath(locale: Locale) {
@@ -34,6 +39,7 @@ function getSafeNextPath(locale: Locale) {
 export function LoginForm({ locale }: { locale: Locale }) {
   const router = useRouter();
   const t = getCopy(locale);
+  const resetRequestInFlightRef = useRef(false);
   const [mode, setMode] = useState<"login" | "reset">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -88,6 +94,10 @@ export function LoginForm({ locale }: { locale: Locale }) {
     event.preventDefault();
 
     if (mode === "reset") {
+      if (resetRequestInFlightRef.current || isSubmitted) {
+        return;
+      }
+
       if (!validateReset()) {
         setIsSubmitted(false);
         return;
@@ -99,21 +109,32 @@ export function LoginForm({ locale }: { locale: Locale }) {
         return;
       }
 
+      resetRequestInFlightRef.current = true;
       setIsSubmitting(true);
       const supabase = createClient();
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: buildAuthCallbackUrl(locale, "account/security")
-      });
-      setIsSubmitting(false);
+      try {
+        const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+          redirectTo: buildAuthCallbackUrl(locale, "account/security")
+        });
 
-      if (error) {
-        setErrors({ form: error.message });
+        if (error) {
+          setErrors({ form: isEmailRateLimitError(error.message) ? t.login.rateLimitError : error.message });
+          setIsSubmitted(false);
+          return;
+        }
+
+        setErrors({});
+        setIsSubmitted(true);
+        return;
+      } catch (error) {
+        const message = error instanceof Error ? error.message : t.login.configurationError;
+        setErrors({ form: isEmailRateLimitError(message) ? t.login.rateLimitError : message });
         setIsSubmitted(false);
         return;
+      } finally {
+        resetRequestInFlightRef.current = false;
+        setIsSubmitting(false);
       }
-
-      setIsSubmitted(true);
-      return;
     }
 
     if (!validate()) {
@@ -197,7 +218,7 @@ export function LoginForm({ locale }: { locale: Locale }) {
         </div>
       ) : null}
       {errors.form ? <span className="form-error">{errors.form}</span> : null}
-      <button className="primary-button" disabled={isSubmitting} type="submit">
+      <button className="primary-button" disabled={isSubmitting || (mode === "reset" && isSubmitted)} type="submit">
         {isSubmitting ? "..." : mode === "login" ? t.login.submitCta : t.login.resetCta}
       </button>
       <button className="text-button" type="button" onClick={() => switchMode(mode === "login" ? "reset" : "login")}>

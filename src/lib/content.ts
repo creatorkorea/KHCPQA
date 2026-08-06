@@ -356,6 +356,7 @@ type Copy = {
     resetSuccessTitle: string;
     resetSuccessMessage: string;
     configurationError: string;
+    rateLimitError: string;
     validation: {
       emailRequired: string;
       emailInvalid: string;
@@ -906,6 +907,7 @@ export const copy = {
       resetSuccessTitle: "재설정 안내를 보냈습니다.",
       resetSuccessMessage: "입력하신 이메일로 비밀번호 재설정 안내를 보냈습니다.",
       configurationError: "로그인 설정이 아직 연결되지 않았습니다. 관리자에게 문의해 주세요.",
+      rateLimitError: "비밀번호 재설정 메일 발송 한도를 초과했습니다. 잠시 후 다시 시도해 주세요.",
       validation: {
         emailRequired: "이메일을 입력해 주세요.",
         emailInvalid: "올바른 이메일 주소를 입력해 주세요.",
@@ -1472,6 +1474,7 @@ export const copy = {
       resetSuccessTitle: "Reset instructions sent.",
       resetSuccessMessage: "Password reset instructions have been sent to your email.",
       configurationError: "Login is not connected yet. Please contact the administrator.",
+      rateLimitError: "Password reset email limit was exceeded. Please try again later.",
       validation: {
         emailRequired: "Please enter your email.",
         emailInvalid: "Please enter a valid email address.",
@@ -2038,6 +2041,7 @@ export const copy = {
       resetSuccessTitle: "Instrucciones enviadas.",
       resetSuccessMessage: "Las instrucciones para restablecer la contraseña se enviaron a su email.",
       configurationError: "El inicio de sesión aún no está conectado. Contacte al administrador.",
+      rateLimitError: "Se superó el límite de emails de restablecimiento. Inténtelo de nuevo más tarde.",
       validation: {
         emailRequired: "Ingrese su email.",
         emailInvalid: "Ingrese una dirección de email válida.",
