@@ -53,7 +53,7 @@ export default async function AdminUsersPage() {
       <AdminPanel className="admin-users-crud-panel">
         <div className="console-panel-heading">
           <div>
-            <h2>사용자 CRUD</h2>
+            <h2>사용자 추가 및 편집</h2>
             <p>새 계정 등록, 회원 정보 수정, 삭제 상태 전환을 한 화면에서 처리합니다.</p>
           </div>
         </div>

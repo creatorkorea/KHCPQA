@@ -8305,9 +8305,76 @@ p {
 
 .admin-users-crud {
   display: grid;
-  gap: 18px;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
+  gap: 24px;
+  grid-template-columns: minmax(320px, 0.76fr) minmax(0, 1.24fr);
   padding: 22px 30px 30px;
+}
+
+.admin-users-picker {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-users-picker-header {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+.admin-users-picker-header div {
+  display: grid;
+  gap: 4px;
+}
+
+.admin-users-picker-header strong {
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.admin-users-picker-header span,
+.admin-users-summary span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.admin-users-new-button {
+  align-items: center;
+  background: var(--console-purple);
+  border: 1px solid var(--console-purple-dark);
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 900;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 12px;
+}
+
+.admin-users-summary {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.admin-users-summary span {
+  background: #fff;
+  border: 1px solid var(--console-line);
+  border-radius: 10px;
+  display: grid;
+  gap: 3px;
+  min-height: 54px;
+  padding: 9px 10px;
+}
+
+.admin-users-summary strong {
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1;
 }
 
 .admin-empty-panel {
@@ -8353,9 +8420,9 @@ p {
 
 .admin-user-list button {
   align-items: center;
-  background: var(--surface-muted);
+  background: #fff;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 10px;
   color: var(--ink);
   cursor: pointer;
   display: grid;
@@ -8367,8 +8434,13 @@ p {
 }
 
 .admin-user-list button.is-active {
-  background: var(--green-soft);
+  background: linear-gradient(135deg, #edf8f2 0%, #f8fffb 100%);
   border-color: rgba(0, 107, 53, 0.34);
+  box-shadow: 0 10px 22px rgba(0, 107, 53, 0.08);
+}
+
+.admin-user-list button.is-deleted {
+  opacity: 0.62;
 }
 
 .admin-user-list svg {
@@ -8409,11 +8481,57 @@ p {
 }
 
 .admin-user-role-form {
+  background: #fff;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 12px;
   display: grid;
-  gap: 18px;
-  padding: 18px;
+  gap: 20px;
+  padding: 22px;
+}
+
+.admin-users-mode-badge {
+  align-self: start;
+  border-radius: 999px;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 900;
+  margin-left: auto;
+  padding: 8px 11px;
+}
+
+.admin-users-mode-badge.is-create,
+.admin-users-mode-badge.is-active {
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+.admin-users-mode-badge.is-suspended {
+  background: #fff7df;
+  color: #8a6200;
+}
+
+.admin-users-mode-badge.is-deleted {
+  background: #f0eef6;
+  color: #6f6a7c;
+}
+
+.admin-users-form-section {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-users-form-section + .admin-users-form-section {
+  border-top: 1px solid var(--console-line);
+  padding-top: 4px;
+}
+
+.admin-users-form-section-title {
+  align-items: center;
+  color: var(--console-purple-dark);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 950;
+  gap: 8px;
 }
 
 .admin-user-role-form .primary-button {
@@ -9043,6 +9161,20 @@ p {
   .admin-users-crud {
     grid-template-columns: 1fr;
     padding: 18px 16px 22px;
+  }
+
+  .admin-users-picker-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-users-new-button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .admin-users-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .admin-user-list {
