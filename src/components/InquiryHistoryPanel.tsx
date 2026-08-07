@@ -11,6 +11,28 @@ function getShortReceipt(receipt: string) {
   return parts.length > 3 ? `${parts[0]}-${parts[1]}-${parts[2]}` : receipt;
 }
 
+function getInquiryTypeLabel(type: string, locale: Locale) {
+  const labels: Record<string, Record<Locale, string>> = {
+    certification: { en: "Certification inquiry", es: "Consulta de certificacion", ko: "자격 문의" },
+    course: { en: "Course inquiry", es: "Consulta de curso", ko: "교육과정 문의" },
+    general: { en: "General inquiry", es: "Consulta general", ko: "일반 문의" },
+    partnership: { en: "Partnership inquiry", es: "Consulta de alianza", ko: "파트너십 문의" }
+  };
+
+  return labels[type]?.[locale] ?? type;
+}
+
+function getInquiryStatusLabel(status: string, locale: Locale) {
+  const labels: Record<string, Record<Locale, string>> = {
+    answered: { en: "Answered", es: "Respondida", ko: "답변 완료" },
+    closed: { en: "Closed", es: "Cerrada", ko: "종료" },
+    in_review: { en: "In review", es: "En revision", ko: "검토 중" },
+    new: { en: "New", es: "Nueva", ko: "신규" }
+  };
+
+  return labels[status]?.[locale] ?? status;
+}
+
 export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]; locale: Locale }) {
   const t = getCopy(locale);
   const statusCounts = useMemo(() => {
@@ -33,7 +55,11 @@ export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]
     <section className="inquiry-history-panel">
       <div className="inquiry-panel-toolbar">
         <div>
-          <strong>{activeStatus}</strong>
+          <strong>
+            {activeStatus === t.account.inquiries.allLabel
+              ? activeStatus
+              : getInquiryStatusLabel(activeStatus, locale)}
+          </strong>
           <span>
             {visibleItems.length}
             {t.account.countSuffix}
@@ -49,7 +75,9 @@ export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]
               role="tab"
               type="button"
             >
-              <span>{status}</span>
+              <span>
+                {status === t.account.inquiries.allLabel ? status : getInquiryStatusLabel(status, locale)}
+              </span>
               <b>{statusCounts.get(status) ?? 0}</b>
             </button>
           ))}
@@ -62,10 +90,10 @@ export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]
               <header>
                 <ClipboardList size={20} />
                 <div>
-                  <strong>{item.type}</strong>
+                  <strong>{getInquiryTypeLabel(item.type, locale)}</strong>
                   <span title={item.receipt}>{getShortReceipt(item.receipt)}</span>
                 </div>
-                <em>{item.status}</em>
+                <em>{getInquiryStatusLabel(item.status, locale)}</em>
               </header>
               <dl>
                 <div>
@@ -73,16 +101,8 @@ export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]
                   <dd className="receipt-code">{item.receipt}</dd>
                 </div>
                 <div>
-                  <dt>{t.account.inquiries.typeLabel}</dt>
-                  <dd>{item.type}</dd>
-                </div>
-                <div>
                   <dt>{t.account.inquiries.submittedLabel}</dt>
                   <dd>{item.submittedAt}</dd>
-                </div>
-                <div>
-                  <dt>{t.account.inquiries.statusLabel}</dt>
-                  <dd>{item.status}</dd>
                 </div>
               </dl>
               <p>

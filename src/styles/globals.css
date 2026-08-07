@@ -1598,8 +1598,8 @@ p {
   border: 1px solid rgba(232, 226, 243, 0.9);
   border-radius: 8px;
   box-shadow: 0 22px 64px rgba(64, 48, 118, 0.06);
-  min-height: clamp(280px, 24vw, 360px);
-  padding-block: clamp(52px, 6.4vw, 82px);
+  min-height: clamp(250px, 21vw, 320px);
+  padding-block: clamp(44px, 5.8vw, 72px);
 }
 
 .page-intro.signup-page-intro {
@@ -6802,6 +6802,7 @@ p {
 }
 
 .inquiry-account-panel .section-heading h2 {
+  font-size: clamp(34px, 4vw, 52px);
   margin: 0;
 }
 
@@ -7183,7 +7184,7 @@ p {
     white;
   border: 1px solid rgba(226, 235, 231, 0.95);
   border-radius: 8px;
-  box-shadow: 0 16px 42px rgba(48, 70, 63, 0.055);
+  box-shadow: 0 10px 26px rgba(48, 70, 63, 0.038);
   display: grid;
   gap: 16px;
   padding: clamp(18px, 2.4vw, 24px);
@@ -7242,8 +7243,8 @@ p {
 
 .inquiry-list dl {
   display: grid;
-  gap: 0;
-  grid-template-columns: minmax(220px, 1.45fr) repeat(3, minmax(120px, 0.8fr));
+  gap: 14px;
+  grid-template-columns: minmax(220px, 1fr) minmax(140px, 0.45fr);
   margin: 0;
 }
 
@@ -7254,14 +7255,14 @@ p {
 }
 
 .inquiry-list article p {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(226, 235, 231, 0.9);
   border-radius: 8px;
-  color: var(--muted);
+  color: #5f5a6e;
   font-size: 13px;
   line-height: 1.55;
   margin: 0;
-  padding: 14px;
+  padding: 12px 14px;
 }
 
 .inquiry-list article p span {
@@ -7271,10 +7272,27 @@ p {
   margin-bottom: 5px;
 }
 
+.inquiry-list dd {
+  background: transparent;
+  border-radius: 0;
+  color: var(--ink);
+  display: block;
+  font-weight: 850;
+  padding: 0;
+}
+
 .inquiry-list .receipt-code {
+  background: rgba(27, 23, 39, 0.035);
+  border: 1px solid rgba(27, 23, 39, 0.06);
+  border-radius: 6px;
+  color: #3f3a4f;
   display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 800;
   max-width: 36ch;
   overflow-wrap: anywhere;
+  padding: 6px 8px;
 }
 
 .inquiry-empty-state {
