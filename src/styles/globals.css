@@ -1360,20 +1360,6 @@ p {
   width: 100%;
 }
 
-.curriculum-hero::after {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 999px 0 0 999px;
-  content: "";
-  height: 150%;
-  pointer-events: none;
-  position: absolute;
-  right: 26%;
-  top: -24%;
-  transform: skewX(-18deg);
-  width: 76px;
-  z-index: 1;
-}
-
 .curriculum-hero-copy {
   align-self: start;
   padding-top: clamp(2px, 1.2vw, 12px);
