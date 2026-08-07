@@ -31,20 +31,29 @@ export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]
 
   return (
     <section className="inquiry-history-panel">
-      <div className="inquiry-filter-tabs" role="tablist" aria-label={t.account.inquiries.statusLabel}>
-        {statuses.map((status) => (
-          <button
-            aria-selected={activeStatus === status}
-            className={activeStatus === status ? "is-active" : undefined}
-            key={status}
-            onClick={() => setActiveStatus(status)}
-            role="tab"
-            type="button"
-          >
-            <span>{status}</span>
-            <b>{statusCounts.get(status) ?? 0}</b>
-          </button>
-        ))}
+      <div className="inquiry-panel-toolbar">
+        <div>
+          <strong>{activeStatus}</strong>
+          <span>
+            {visibleItems.length}
+            {t.account.countSuffix}
+          </span>
+        </div>
+        <div className="inquiry-filter-tabs" role="tablist" aria-label={t.account.inquiries.statusLabel}>
+          {statuses.map((status) => (
+            <button
+              aria-selected={activeStatus === status}
+              className={activeStatus === status ? "is-active" : undefined}
+              key={status}
+              onClick={() => setActiveStatus(status)}
+              role="tab"
+              type="button"
+            >
+              <span>{status}</span>
+              <b>{statusCounts.get(status) ?? 0}</b>
+            </button>
+          ))}
+        </div>
       </div>
       <div className="inquiry-list">
         {visibleItems.length > 0 ? (

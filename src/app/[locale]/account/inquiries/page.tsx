@@ -25,10 +25,15 @@ export default async function AccountInquiriesPage({ params }: { params: Promise
 
   return (
     <>
-      <PageIntro eyebrow={t.account.eyebrow} title={t.account.inquiries.title} lead={t.account.inquiries.lead} />
+      <PageIntro
+        className="account-page-intro"
+        eyebrow={t.account.eyebrow}
+        title={t.account.inquiries.title}
+        lead={t.account.inquiries.lead}
+      />
       <section className="content-section">
         <AccountNav locale={locale} activeHref="account/inquiries" />
-        <AccountSection title={t.account.inquiries.title} lead={t.account.inquiries.lead}>
+        <AccountSection className="inquiry-account-panel" title={t.account.inquiries.title} lead={t.account.inquiries.lead}>
           <InquiryHistoryPanel items={accountData.inquiries} locale={locale} />
         </AccountSection>
       </section>

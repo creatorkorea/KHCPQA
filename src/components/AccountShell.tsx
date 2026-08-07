@@ -40,15 +40,17 @@ export function AccountNav({
 
 export function AccountSection({
   children,
+  className,
   lead,
   title
 }: {
   children: React.ReactNode;
+  className?: string;
   lead: string;
   title: string;
 }) {
   return (
-    <section className="account-panel">
+    <section className={className ? `account-panel ${className}` : "account-panel"}>
       <div className="section-heading">
         <span className="eyebrow">Member Area</span>
         <h2>{title}</h2>
