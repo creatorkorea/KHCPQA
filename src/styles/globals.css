@@ -8299,6 +8299,17 @@ p {
   padding: 18px;
 }
 
+.admin-users-crud-panel {
+  margin-top: 24px;
+}
+
+.admin-users-crud {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
+  padding: 22px 30px 30px;
+}
+
 .admin-empty-panel {
   align-items: center;
   background: var(--surface-muted);
@@ -8332,8 +8343,12 @@ p {
 }
 
 .admin-user-list {
+  align-content: start;
   display: grid;
   gap: 10px;
+  max-height: 620px;
+  overflow: auto;
+  padding-right: 4px;
 }
 
 .admin-user-list button {
@@ -8386,7 +8401,11 @@ p {
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--green-dark);
+  max-width: 140px;
+  overflow: hidden;
   padding: 6px 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .admin-user-role-form {
@@ -9019,6 +9038,25 @@ p {
 
   .admin-user-role-panel {
     grid-template-columns: 1fr;
+  }
+
+  .admin-users-crud {
+    grid-template-columns: 1fr;
+    padding: 18px 16px 22px;
+  }
+
+  .admin-user-list {
+    max-height: none;
+    padding-right: 0;
+  }
+
+  .admin-user-list button {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .admin-user-list em {
+    grid-column: 2;
+    width: max-content;
   }
 
   .home-support-service-grid article {

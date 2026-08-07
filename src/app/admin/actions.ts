@@ -2,7 +2,13 @@
 
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
+import { createClient as createSupabaseAdminClient } from "@supabase/supabase-js";
 import { parseInquiryReceipt } from "@/lib/receipts";
+import {
+  buildCreateAdminUserPayload,
+  buildUpdateAdminUserPayload,
+  type AdminUserInput
+} from "@/lib/admin-users";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient as createServerSupabaseClient } from "@/lib/supabase/server";
 
@@ -48,6 +54,11 @@ type BannerPlacement = (typeof bannerPlacements)[number];
 type BannerStatus = (typeof bannerStatusOptions)[number];
 
 export type UpdateAdminUserRoleResult = {
+  ok: boolean;
+  message: string;
+};
+
+export type SaveAdminUserResult = {
   ok: boolean;
   message: string;
 };
@@ -300,6 +311,35 @@ function getAdminStorageEnv() {
   };
 }
 
+function getSupabaseAdminEnv() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SERVICE_KEY ||
+    process.env.SUPABASE_SECRET_KEY;
+
+  if (!url || !serviceRoleKey) {
+    return null;
+  }
+
+  return { serviceRoleKey, url };
+}
+
+function createSupabaseAdminServiceClient() {
+  const adminEnv = getSupabaseAdminEnv();
+
+  if (!adminEnv) {
+    return null;
+  }
+
+  return createSupabaseAdminClient(adminEnv.url, adminEnv.serviceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  });
+}
+
 function isMissingBucketError(errorMessage: string) {
   return /bucket not found|not found|does not exist/i.test(errorMessage);
 }
@@ -454,6 +494,148 @@ export async function updateAdminUserRole(input: {
 
   revalidatePath("/admin");
   return { ok: true, message: "회원 권한이 저장되었습니다." };
+}
+
+export async function saveAdminUser(input: AdminUserInput & { mode: "create" | "update" }): Promise<SaveAdminUserResult> {
+  if (!hasSupabaseBrowserEnv()) {
+    return { ok: false, message: missingSupabaseMessage };
+  }
+
+  const actor = await getActiveAdminRole();
+
+  if (!actor.userId) {
+    return { ok: false, message: "로그인이 필요합니다." };
+  }
+
+  if (actor.role !== "super_admin" || actor.status !== "active") {
+    return { ok: false, message: "super_admin 권한이 필요합니다." };
+  }
+
+  if (input.mode === "create") {
+    const validation = buildCreateAdminUserPayload(input);
+
+    if (!validation.ok) {
+      return { ok: false, message: validation.message };
+    }
+
+    const adminClient = createSupabaseAdminServiceClient();
+
+    if (!adminClient) {
+      return {
+        ok: false,
+        message: "서버 환경 변수 SUPABASE_SERVICE_ROLE_KEY가 설정되어야 관리자 사용자 등록이 가능합니다."
+      };
+    }
+
+    const payload = validation.payload;
+    const { data, error } = await adminClient.auth.admin.createUser({
+      email: payload.email,
+      email_confirm: true,
+      password: payload.password,
+      user_metadata: {
+        country: payload.country,
+        full_name: payload.fullName,
+        preferred_locale: payload.preferredLocale
+      }
+    });
+
+    if (error) {
+      return { ok: false, message: error.message };
+    }
+
+    const userId = data.user?.id;
+
+    if (!userId) {
+      return { ok: false, message: "생성된 사용자 ID를 확인할 수 없습니다." };
+    }
+
+    const { error: profileError } = await adminClient.from("profiles").upsert(
+      {
+        country: payload.country,
+        email: payload.email,
+        full_name: payload.fullName,
+        id: userId,
+        preferred_locale: payload.preferredLocale,
+        role: payload.role,
+        status: payload.status
+      },
+      { onConflict: "id" }
+    );
+
+    if (profileError) {
+      return { ok: false, message: profileError.message };
+    }
+
+    revalidatePath("/admin");
+    revalidatePath("/admin/users");
+    return { ok: true, message: "사용자가 등록되었습니다." };
+  }
+
+  const validation = buildUpdateAdminUserPayload(input);
+
+  if (!validation.ok) {
+    return { ok: false, message: validation.message };
+  }
+
+  const payload = validation.payload;
+  const { error } = await actor.supabase
+    .from("profiles")
+    .update({
+      country: payload.country,
+      email: payload.email,
+      full_name: payload.fullName,
+      preferred_locale: payload.preferredLocale,
+      role: payload.role,
+      status: payload.status
+    })
+    .eq("id", payload.userId);
+
+  if (error) {
+    return { ok: false, message: error.message };
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/users");
+  return { ok: true, message: "사용자 정보가 수정되었습니다." };
+}
+
+export async function deleteAdminUser(input: { userId: string }): Promise<SaveAdminUserResult> {
+  const userId = input.userId.trim();
+
+  if (!userId) {
+    return { ok: false, message: "삭제할 사용자를 선택해 주세요." };
+  }
+
+  if (!hasSupabaseBrowserEnv()) {
+    return { ok: false, message: missingSupabaseMessage };
+  }
+
+  const actor = await getActiveAdminRole();
+
+  if (!actor.userId) {
+    return { ok: false, message: "로그인이 필요합니다." };
+  }
+
+  if (actor.role !== "super_admin" || actor.status !== "active") {
+    return { ok: false, message: "super_admin 권한이 필요합니다." };
+  }
+
+  if (actor.userId === userId) {
+    return { ok: false, message: "현재 로그인한 관리자 계정은 삭제할 수 없습니다." };
+  }
+
+  const { error } = await actor.supabase
+    .from("profiles")
+    .update({ status: "deleted" })
+    .eq("id", userId);
+
+  if (error) {
+    return { ok: false, message: error.message };
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/users");
+  return { ok: true, message: "사용자가 삭제 상태로 변경되었습니다." };
 }
 
 export async function saveAdminCertification(input: {

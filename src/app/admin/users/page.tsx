@@ -1,10 +1,7 @@
-import { Plus } from "lucide-react";
 import {
   AdminConsoleShell,
   AdminFilterBar,
   AdminPanel,
-  AdminPrimaryButton,
-  AdminRowAction,
   AdminSearchInput,
   AdminSelect,
   AdminStatusBadge,
@@ -12,6 +9,8 @@ import {
   AdminTabs,
   getTone
 } from "@/components/AdminConsole";
+import { AdminUsersManager } from "@/components/AdminUsersManager";
+import { getAdminUserRoleLabel, getAdminUserStatusLabel } from "@/lib/admin-users";
 import { getAdminUsers } from "@/lib/admin-data";
 
 export default async function AdminUsersPage() {
@@ -20,15 +19,13 @@ export default async function AdminUsersPage() {
     id: user.id,
     email: user.email,
     joinedAt: user.lastLoginAt,
-    manage: <AdminRowAction />,
     name: user.name,
-    role: user.role,
-    status: <AdminStatusBadge tone={getTone(user.status)}>{user.status === "active" ? "활성" : "비활성"}</AdminStatusBadge>
+    role: getAdminUserRoleLabel(user.role),
+    status: <AdminStatusBadge tone={getTone(user.status)}>{getAdminUserStatusLabel(user.status)}</AdminStatusBadge>
   }));
 
   return (
     <AdminConsoleShell
-      actions={<AdminPrimaryButton icon={Plus}>새 사용자 등록</AdminPrimaryButton>}
       active="users"
       description="사용자 정보를 관리하고 권한을 설정합니다."
       title="사용자 관리"
@@ -46,12 +43,21 @@ export default async function AdminUsersPage() {
             { key: "email", label: "이메일" },
             { key: "role", label: "역할" },
             { key: "status", label: "상태" },
-            { key: "joinedAt", label: "가입일" },
-            { key: "manage", label: "관리", align: "center" }
+            { key: "joinedAt", label: "수정일" }
           ]}
           emptyLabel="등록된 사용자 데이터가 없습니다."
           rows={rows}
         />
+      </AdminPanel>
+
+      <AdminPanel className="admin-users-crud-panel">
+        <div className="console-panel-heading">
+          <div>
+            <h2>사용자 CRUD</h2>
+            <p>새 계정 등록, 회원 정보 수정, 삭제 상태 전환을 한 화면에서 처리합니다.</p>
+          </div>
+        </div>
+        <AdminUsersManager users={users} />
       </AdminPanel>
     </AdminConsoleShell>
   );

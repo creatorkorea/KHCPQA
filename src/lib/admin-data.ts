@@ -3,9 +3,11 @@ import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 
 export type AdminUserRow = {
+  country: string;
   id: string;
   name: string;
   email: string;
+  preferredLocale: string;
   role: string;
   status: string;
   lastLoginAt: string;
@@ -58,9 +60,11 @@ export type AdminPublishEventRow = {
 };
 
 type ProfileRow = {
+  country: string | null;
   id: string;
   email: string | null;
   full_name: string | null;
+  preferred_locale: string;
   role: string;
   status: string;
   updated_at: string;
@@ -138,7 +142,7 @@ export async function getAdminUsers(): Promise<AdminUserRow[]> {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, email, full_name, role, status, updated_at")
+    .select("id, email, full_name, country, preferred_locale, role, status, updated_at")
     .order("updated_at", { ascending: false })
     .limit(50);
 
@@ -147,9 +151,11 @@ export async function getAdminUsers(): Promise<AdminUserRow[]> {
   }
 
   return (data as ProfileRow[]).map((profile) => ({
+    country: profile.country || "",
     id: profile.id,
     name: profile.full_name || profile.email || "Unnamed member",
     email: profile.email || "-",
+    preferredLocale: profile.preferred_locale || "ko",
     role: profile.role,
     status: profile.status,
     lastLoginAt: formatDate(profile.updated_at)
