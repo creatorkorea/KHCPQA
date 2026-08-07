@@ -17,63 +17,10 @@ async function importTsModule(path) {
 }
 
 const {
-  buildCreateAdminInquiryPayload,
   buildUpdateAdminInquiryPayload,
   getAdminInquiryStatusLabel,
   getAdminInquiryTypeLabel
 } = await importTsModule("src/lib/admin-inquiries.ts");
-
-test("buildCreateAdminInquiryPayload trims values and defaults locale, type, and status", () => {
-  const result = buildCreateAdminInquiryPayload({
-    country: " Korea ",
-    email: " Member@Example.COM ",
-    inquiryType: "",
-    locale: "",
-    managerNote: " 확인 필요 ",
-    message: " 상담 요청드립니다. ",
-    name: " 홍길동 ",
-    organization: " KHCPQA ",
-    phone: "010-0000-0000",
-    status: ""
-  });
-
-  assert.equal(result.ok, true);
-  assert.deepEqual(result.payload, {
-    country: "Korea",
-    email: "member@example.com",
-    inquiryType: "general",
-    locale: "ko",
-    managerNote: "확인 필요",
-    message: "상담 요청드립니다.",
-    name: "홍길동",
-    organization: "KHCPQA",
-    phone: "010-0000-0000",
-    status: "new"
-  });
-});
-
-test("buildCreateAdminInquiryPayload rejects missing required fields and invalid options", () => {
-  const result = buildCreateAdminInquiryPayload({
-    country: "",
-    email: "not-email",
-    inquiryType: "unknown",
-    locale: "fr",
-    managerNote: "",
-    message: "",
-    name: "",
-    organization: "",
-    phone: "",
-    status: "waiting"
-  });
-
-  assert.equal(result.ok, false);
-  assert.match(result.message, /이름/);
-  assert.match(result.message, /이메일/);
-  assert.match(result.message, /문의 내용/);
-  assert.match(result.message, /문의 유형/);
-  assert.match(result.message, /언어/);
-  assert.match(result.message, /처리 상태/);
-});
 
 test("buildUpdateAdminInquiryPayload requires receipt and normalizes status note", () => {
   const result = buildUpdateAdminInquiryPayload({

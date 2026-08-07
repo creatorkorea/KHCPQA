@@ -3,55 +3,28 @@
 import type { FormEvent } from "react";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, FileText, MessageSquarePlus, Pencil, Save, Trash2, X } from "lucide-react";
+import { CheckCircle2, FileText, Pencil, Save, Trash2, X } from "lucide-react";
 import {
-  createAdminInquiry,
   deleteAdminInquiry,
   updateAdminInquiry,
   type SaveAdminInquiryResult
 } from "@/app/admin/actions";
 import {
-  adminInquiryLocales,
   adminInquiryStatuses,
-  adminInquiryTypes,
   getAdminInquiryStatusLabel,
   getAdminInquiryTypeLabel
 } from "@/lib/admin-inquiries";
 import type { AdminInquiryRow } from "@/lib/admin-data";
 
-type Mode = "create" | "update";
-
 type InquiryFormValue = {
-  country: string;
-  email: string;
-  inquiryType: string;
-  locale: string;
   managerNote: string;
-  message: string;
-  name: string;
-  organization: string;
-  phone: string;
   status: string;
-};
-
-const emptyForm: InquiryFormValue = {
-  country: "",
-  email: "",
-  inquiryType: "general",
-  locale: "ko",
-  managerNote: "",
-  message: "",
-  name: "",
-  organization: "",
-  phone: "",
-  status: "new"
 };
 
 export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRow[] }) {
   const router = useRouter();
-  const [mode, setMode] = useState<Mode>("create");
   const [selectedReceipt, setSelectedReceipt] = useState("");
-  const [formValue, setFormValue] = useState<InquiryFormValue>(emptyForm);
+  const [formValue, setFormValue] = useState<InquiryFormValue>({ managerNote: "", status: "new" });
   const [result, setResult] = useState<SaveAdminInquiryResult | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -61,27 +34,10 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
   const answeredCount = inquiries.filter((inquiry) => inquiry.status === "answered").length;
   const closedCount = inquiries.filter((inquiry) => inquiry.status === "closed").length;
 
-  function openCreateModal() {
-    setMode("create");
-    setSelectedReceipt("");
-    setFormValue(emptyForm);
-    setResult(null);
-    setIsModalOpen(true);
-  }
-
   function openEditModal(inquiry: AdminInquiryRow) {
-    setMode("update");
     setSelectedReceipt(inquiry.receipt);
     setFormValue({
-      country: inquiry.country === "-" ? "" : inquiry.country,
-      email: inquiry.email,
-      inquiryType: inquiry.type,
-      locale: inquiry.locale || "ko",
       managerNote: inquiry.managerNote,
-      message: inquiry.message,
-      name: inquiry.name,
-      organization: inquiry.organization === "-" ? "" : inquiry.organization,
-      phone: inquiry.phone,
       status: inquiry.status
     });
     setResult(null);
@@ -106,18 +62,15 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
     event.preventDefault();
 
     startTransition(async () => {
-      const nextResult = mode === "create"
-        ? await createAdminInquiry(formValue)
-        : await updateAdminInquiry({
-            managerNote: formValue.managerNote,
-            receipt: selectedReceipt,
-            status: formValue.status
-          });
+      const nextResult = await updateAdminInquiry({
+        managerNote: formValue.managerNote,
+        receipt: selectedReceipt,
+        status: formValue.status
+      });
       setResult(nextResult);
 
       if (nextResult.ok) {
         setIsModalOpen(false);
-        setFormValue(emptyForm);
         router.refresh();
       }
     });
@@ -141,7 +94,6 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
       if (nextResult.ok) {
         setIsModalOpen(false);
         setSelectedReceipt("");
-        setFormValue(emptyForm);
         router.refresh();
       }
     });
@@ -157,10 +109,6 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
           <span><strong>{answeredCount}</strong>답변</span>
           <span><strong>{closedCount}</strong>종료</span>
         </div>
-        <button className="admin-inquiries-new-button" onClick={openCreateModal} type="button">
-          <MessageSquarePlus size={15} />
-          새 문의
-        </button>
       </div>
 
       <div className="admin-inquiries-table-wrap">
@@ -199,7 +147,7 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
                   <td>
                     <button className="admin-inquiries-edit-button" onClick={() => openEditModal(inquiry)} type="button">
                       <Pencil size={14} />
-                      수정
+                      처리
                     </button>
                   </td>
                 </tr>
@@ -218,7 +166,7 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
         </table>
       </div>
 
-      {isModalOpen ? (
+      {isModalOpen && selectedInquiry ? (
         <div
           className="admin-inquiries-modal-backdrop"
           onMouseDown={(event) => {
@@ -229,10 +177,10 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
         >
           <form className="admin-inquiries-modal" onSubmit={handleSubmit} noValidate role="dialog" aria-modal="true" aria-labelledby="admin-inquiry-modal-title">
             <div className="admin-inquiries-modal-heading">
-              <MessageSquarePlus size={22} />
+              <FileText size={22} />
               <div>
-                <h3 id="admin-inquiry-modal-title">{mode === "create" ? "새 문의 등록" : selectedInquiry?.receipt ?? "문의 수정"}</h3>
-                <p>{mode === "create" ? "전화/이메일로 접수된 문의를 관리자 화면에 등록합니다." : selectedInquiry?.message}</p>
+                <h3 id="admin-inquiry-modal-title">{selectedInquiry.receipt}</h3>
+                <p>{selectedInquiry.message}</p>
               </div>
               <span className={`admin-inquiry-status is-${formValue.status}`}>
                 {getAdminInquiryStatusLabel(formValue.status)}
@@ -242,100 +190,36 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
               </button>
             </div>
 
-            <div className="admin-inquiries-form-section">
-              <div className="admin-inquiries-form-section-title">
-                <FileText size={16} />
-                <strong>문의 정보</strong>
-              </div>
-              <div className="admin-editor-grid">
-                <label>
-                  이름
-                  <input
-                    disabled={mode === "update"}
-                    name="name"
-                    onChange={(event) => updateField("name", event.target.value)}
-                    placeholder="홍길동"
-                    value={formValue.name}
-                  />
-                </label>
-                <label>
-                  이메일
-                  <input
-                    disabled={mode === "update"}
-                    name="email"
-                    onChange={(event) => updateField("email", event.target.value)}
-                    placeholder="member@example.com"
-                    type="email"
-                    value={formValue.email}
-                  />
-                </label>
-                <label>
-                  연락처
-                  <input
-                    disabled={mode === "update"}
-                    name="phone"
-                    onChange={(event) => updateField("phone", event.target.value)}
-                    placeholder="010-0000-0000"
-                    value={formValue.phone}
-                  />
-                </label>
-                <label>
-                  기관
-                  <input
-                    disabled={mode === "update"}
-                    name="organization"
-                    onChange={(event) => updateField("organization", event.target.value)}
-                    placeholder="기관명"
-                    value={formValue.organization}
-                  />
-                </label>
-                <label>
-                  국가
-                  <input
-                    disabled={mode === "update"}
-                    name="country"
-                    onChange={(event) => updateField("country", event.target.value)}
-                    placeholder="Korea"
-                    value={formValue.country}
-                  />
-                </label>
-                <label>
-                  문의 유형
-                  <select
-                    disabled={mode === "update"}
-                    name="inquiryType"
-                    onChange={(event) => updateField("inquiryType", event.target.value)}
-                    value={formValue.inquiryType}
-                  >
-                    {adminInquiryTypes.map((type) => (
-                      <option key={type} value={type}>{getAdminInquiryTypeLabel(type)}</option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  언어
-                  <select
-                    disabled={mode === "update"}
-                    name="locale"
-                    onChange={(event) => updateField("locale", event.target.value)}
-                    value={formValue.locale}
-                  >
-                    {adminInquiryLocales.map((locale) => (
-                      <option key={locale} value={locale}>{locale.toUpperCase()}</option>
-                    ))}
-                  </select>
-                </label>
-                <label className="full">
-                  문의 내용
-                  <textarea
-                    disabled={mode === "update"}
-                    name="message"
-                    onChange={(event) => updateField("message", event.target.value)}
-                    placeholder="문의 내용을 입력하세요."
-                    rows={4}
-                    value={formValue.message}
-                  />
-                </label>
+            <div className="admin-inquiries-detail-grid">
+              <dl>
+                <div>
+                  <dt>이름</dt>
+                  <dd>{selectedInquiry.name}</dd>
+                </div>
+                <div>
+                  <dt>이메일</dt>
+                  <dd>{selectedInquiry.email}</dd>
+                </div>
+                <div>
+                  <dt>연락처</dt>
+                  <dd>{selectedInquiry.phone || "-"}</dd>
+                </div>
+                <div>
+                  <dt>기관</dt>
+                  <dd>{selectedInquiry.organization}</dd>
+                </div>
+                <div>
+                  <dt>국가</dt>
+                  <dd>{selectedInquiry.country}</dd>
+                </div>
+                <div>
+                  <dt>문의 유형</dt>
+                  <dd>{getAdminInquiryTypeLabel(selectedInquiry.type)}</dd>
+                </div>
+              </dl>
+              <div className="admin-inquiries-message-box">
+                <strong>문의 내용</strong>
+                <p>{selectedInquiry.message}</p>
               </div>
             </div>
 
@@ -380,14 +264,12 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
             <div className="admin-editor-actions">
               <button className="primary-button" disabled={isPending} type="submit">
                 <Save size={16} />
-                <span>{isPending ? "..." : mode === "create" ? "문의 등록" : "문의 수정"}</span>
+                <span>{isPending ? "..." : "문의 처리 저장"}</span>
               </button>
-              {mode === "update" ? (
-                <button className="secondary-button danger" disabled={isPending} onClick={handleDelete} type="button">
-                  <Trash2 size={16} />
-                  <span>문의 삭제</span>
-                </button>
-              ) : null}
+              <button className="secondary-button danger" disabled={isPending} onClick={handleDelete} type="button">
+                <Trash2 size={16} />
+                <span>문의 삭제</span>
+              </button>
             </div>
           </form>
         </div>

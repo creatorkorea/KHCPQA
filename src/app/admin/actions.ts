@@ -10,9 +10,7 @@ import {
   type AdminUserInput
 } from "@/lib/admin-users";
 import {
-  buildCreateAdminInquiryPayload,
   buildUpdateAdminInquiryPayload,
-  type AdminInquiryCreateInput,
   type AdminInquiryUpdateInput
 } from "@/lib/admin-inquiries";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
@@ -30,7 +28,6 @@ const roleOptions = [
 
 const statusOptions = ["active", "suspended", "deleted"] as const;
 const certificationStatusOptions = ["issued", "expired", "revoked"] as const;
-const inquiryStatusOptions = ["new", "in_review", "answered", "closed"] as const;
 const contentTypes = ["Page", "Course", "Activity", "Review"] as const;
 const contentStatusOptions = ["draft", "translated", "reviewed", "published", "archived"] as const;
 const locales = ["ko", "en", "es"] as const;
@@ -52,7 +49,6 @@ const activitySlugRoots = [
 type AdminRole = (typeof roleOptions)[number];
 type AccountStatus = (typeof statusOptions)[number];
 type CertificationStatus = (typeof certificationStatusOptions)[number];
-type InquiryStatus = (typeof inquiryStatusOptions)[number];
 type ContentType = (typeof contentTypes)[number];
 type ContentStatus = (typeof contentStatusOptions)[number];
 type Locale = (typeof locales)[number];
@@ -109,10 +105,6 @@ function isAccountStatus(value: string): value is AccountStatus {
 
 function isCertificationStatus(value: string): value is CertificationStatus {
   return certificationStatusOptions.includes(value as CertificationStatus);
-}
-
-function isInquiryStatus(value: string): value is InquiryStatus {
-  return inquiryStatusOptions.includes(value as InquiryStatus);
 }
 
 function isContentType(value: string): value is ContentType {
@@ -728,60 +720,6 @@ export async function saveAdminInquiry(input: {
   status: string;
 }): Promise<SaveAdminInquiryResult> {
   return updateAdminInquiry(input);
-}
-
-export async function createAdminInquiry(input: AdminInquiryCreateInput): Promise<SaveAdminInquiryResult> {
-  const validation = buildCreateAdminInquiryPayload(input);
-
-  if (!validation.ok) {
-    return { ok: false, message: validation.message };
-  }
-
-  if (!hasSupabaseBrowserEnv()) {
-    return { ok: false, message: missingSupabaseMessage };
-  }
-
-  const actor = await getActiveAdminRole();
-
-  if (!actor.userId) {
-    return { ok: false, message: "로그인이 필요합니다." };
-  }
-
-  if (!["inquiry_manager", "super_admin"].includes(actor.role) || actor.status !== "active") {
-    return { ok: false, message: "문의 관리자 권한이 필요합니다." };
-  }
-
-  const adminClient = createSupabaseAdminServiceClient();
-
-  if (!adminClient) {
-    return {
-      ok: false,
-      message: "서버 환경 변수 SUPABASE_SERVICE_ROLE_KEY가 설정되어야 관리자 문의 등록이 가능합니다."
-    };
-  }
-
-  const payload = validation.payload;
-  const { error } = await adminClient.from("inquiries").insert({
-    country: payload.country,
-    email: payload.email,
-    inquiry_type: payload.inquiryType,
-    locale: payload.locale,
-    manager_note: payload.managerNote,
-    message: payload.message,
-    name: payload.name,
-    organization: payload.organization,
-    phone: payload.phone,
-    status: payload.status,
-    user_id: null
-  });
-
-  if (error) {
-    return { ok: false, message: error.message };
-  }
-
-  revalidatePath("/admin");
-  revalidatePath("/admin/inquiries");
-  return { ok: true, message: "문의가 등록되었습니다." };
 }
 
 export async function updateAdminInquiry(input: AdminInquiryUpdateInput): Promise<SaveAdminInquiryResult> {

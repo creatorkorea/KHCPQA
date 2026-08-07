@@ -8542,22 +8542,6 @@ p {
   justify-content: space-between;
 }
 
-.admin-inquiries-new-button {
-  align-items: center;
-  background: var(--console-purple);
-  border: 1px solid var(--console-purple-dark);
-  border-radius: 10px;
-  color: #fff;
-  cursor: pointer;
-  display: inline-flex;
-  flex: 0 0 auto;
-  font-size: 12px;
-  font-weight: 900;
-  gap: 6px;
-  min-height: 34px;
-  padding: 0 12px;
-}
-
 .admin-inquiries-summary {
   display: grid;
   gap: 8px;
@@ -8756,6 +8740,63 @@ p {
   height: 34px;
   justify-content: center;
   width: 34px;
+}
+
+.admin-inquiries-detail-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-inquiries-detail-grid dl {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.admin-inquiries-detail-grid dl div {
+  background: #fbfaff;
+  border: 1px solid var(--console-line);
+  border-radius: 10px;
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 12px;
+}
+
+.admin-inquiries-detail-grid dt {
+  color: var(--console-muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.admin-inquiries-detail-grid dd {
+  color: var(--console-ink);
+  font-size: 13px;
+  font-weight: 900;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-inquiries-message-box {
+  background: #fff;
+  border: 1px solid var(--console-line);
+  border-radius: 10px;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.admin-inquiries-message-box strong {
+  color: var(--console-ink);
+  font-size: 13px;
+}
+
+.admin-inquiries-message-box p {
+  color: var(--console-muted);
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
 }
 
 .admin-inquiries-form-section {
@@ -9613,11 +9654,6 @@ p {
     flex-direction: column;
   }
 
-  .admin-inquiries-new-button {
-    justify-content: center;
-    width: 100%;
-  }
-
   .admin-inquiries-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     max-width: none;
@@ -9647,6 +9683,10 @@ p {
   .admin-inquiries-modal-close {
     grid-column: 3;
     grid-row: 1;
+  }
+
+  .admin-inquiries-detail-grid dl {
+    grid-template-columns: 1fr;
   }
 
   .home-support-service-grid article {
