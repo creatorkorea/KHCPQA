@@ -6714,19 +6714,32 @@ p {
 .account-nav {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   margin-bottom: 22px;
 }
 
-.account-nav a {
+.account-nav a,
+.account-nav button {
   align-items: center;
   background: white;
   border: 1px solid var(--line);
   border-radius: 8px;
+  color: inherit;
   display: flex;
+  font: inherit;
   gap: 12px;
   min-height: 76px;
   padding: 14px;
+  text-align: left;
+  width: 100%;
+}
+
+.account-nav button {
+  cursor: pointer;
+}
+
+.account-nav form {
+  margin: 0;
 }
 
 .account-nav a.is-active {
@@ -6740,6 +6753,17 @@ p {
 .account-nav svg {
   color: var(--green);
   flex: 0 0 auto;
+}
+
+.account-nav .account-logout-button {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(251, 249, 255, 0.96)),
+    white;
+  border-color: rgba(119, 74, 214, 0.22);
+}
+
+.account-nav .account-logout-button svg {
+  color: var(--purple);
 }
 
 .account-nav strong,

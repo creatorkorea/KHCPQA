@@ -1,8 +1,15 @@
 import Link from "next/link";
-import { BadgeCheck, ClipboardList, LayoutDashboard, UserRound } from "lucide-react";
+import { BadgeCheck, ClipboardList, LayoutDashboard, LogOut, UserRound } from "lucide-react";
+import { signOutFromAccount } from "@/app/[locale]/account/actions";
 import { getCopy, type Locale } from "@/lib/content";
 
 const accountIcons = [LayoutDashboard, UserRound, BadgeCheck, ClipboardList];
+
+const logoutCopy: Record<Locale, { description: string; label: string }> = {
+  en: { description: "End session", label: "Logout" },
+  es: { description: "Cerrar sesion", label: "Salir" },
+  ko: { description: "세션 종료", label: "로그아웃" }
+};
 
 export function AccountNav({
   locale,
@@ -12,6 +19,7 @@ export function AccountNav({
   activeHref: string;
 }) {
   const t = getCopy(locale);
+  const signOutAction = signOutFromAccount.bind(null, locale);
 
   return (
     <nav className="account-nav" aria-label={t.a11y.accountNavigation}>
@@ -34,6 +42,15 @@ export function AccountNav({
           </Link>
         );
       })}
+      <form action={signOutAction}>
+        <button className="account-logout-button" type="submit">
+          <LogOut size={18} />
+          <span>
+            <strong>{logoutCopy[locale].label}</strong>
+            <small>{logoutCopy[locale].description}</small>
+          </span>
+        </button>
+      </form>
     </nav>
   );
 }
