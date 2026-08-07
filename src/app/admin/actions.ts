@@ -9,6 +9,12 @@ import {
   buildUpdateAdminUserPayload,
   type AdminUserInput
 } from "@/lib/admin-users";
+import {
+  buildCreateAdminInquiryPayload,
+  buildUpdateAdminInquiryPayload,
+  type AdminInquiryCreateInput,
+  type AdminInquiryUpdateInput
+} from "@/lib/admin-inquiries";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient as createServerSupabaseClient } from "@/lib/supabase/server";
 
@@ -72,6 +78,8 @@ export type SaveAdminInquiryResult = {
   ok: boolean;
   message: string;
 };
+
+export type DeleteAdminInquiryResult = SaveAdminInquiryResult;
 
 export type SaveAdminContentResult = {
   ok: boolean;
@@ -719,14 +727,14 @@ export async function saveAdminInquiry(input: {
   receipt: string;
   status: string;
 }): Promise<SaveAdminInquiryResult> {
-  const trimmed = {
-    managerNote: input.managerNote.trim(),
-    receipt: input.receipt.trim(),
-    status: input.status.trim()
-  };
+  return updateAdminInquiry(input);
+}
 
-  if (!trimmed.receipt || !isInquiryStatus(trimmed.status)) {
-    return { ok: false, message: "문의 접수번호와 처리 상태를 확인해 주세요." };
+export async function createAdminInquiry(input: AdminInquiryCreateInput): Promise<SaveAdminInquiryResult> {
+  const validation = buildCreateAdminInquiryPayload(input);
+
+  if (!validation.ok) {
+    return { ok: false, message: validation.message };
   }
 
   if (!hasSupabaseBrowserEnv()) {
@@ -743,13 +751,68 @@ export async function saveAdminInquiry(input: {
     return { ok: false, message: "문의 관리자 권한이 필요합니다." };
   }
 
-  const receiptId = parseInquiryReceipt(trimmed.receipt);
+  const adminClient = createSupabaseAdminServiceClient();
+
+  if (!adminClient) {
+    return {
+      ok: false,
+      message: "서버 환경 변수 SUPABASE_SERVICE_ROLE_KEY가 설정되어야 관리자 문의 등록이 가능합니다."
+    };
+  }
+
+  const payload = validation.payload;
+  const { error } = await adminClient.from("inquiries").insert({
+    country: payload.country,
+    email: payload.email,
+    inquiry_type: payload.inquiryType,
+    locale: payload.locale,
+    manager_note: payload.managerNote,
+    message: payload.message,
+    name: payload.name,
+    organization: payload.organization,
+    phone: payload.phone,
+    status: payload.status,
+    user_id: null
+  });
+
+  if (error) {
+    return { ok: false, message: error.message };
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/inquiries");
+  return { ok: true, message: "문의가 등록되었습니다." };
+}
+
+export async function updateAdminInquiry(input: AdminInquiryUpdateInput): Promise<SaveAdminInquiryResult> {
+  const validation = buildUpdateAdminInquiryPayload(input);
+
+  if (!validation.ok) {
+    return { ok: false, message: validation.message };
+  }
+
+  if (!hasSupabaseBrowserEnv()) {
+    return { ok: false, message: missingSupabaseMessage };
+  }
+
+  const actor = await getActiveAdminRole();
+
+  if (!actor.userId) {
+    return { ok: false, message: "로그인이 필요합니다." };
+  }
+
+  if (!["inquiry_manager", "super_admin"].includes(actor.role) || actor.status !== "active") {
+    return { ok: false, message: "문의 관리자 권한이 필요합니다." };
+  }
+
+  const payload = validation.payload;
+  const receiptId = parseInquiryReceipt(payload.receipt);
 
   const { error } = await actor.supabase
     .from("inquiries")
     .update({
-      manager_note: trimmed.managerNote || null,
-      status: trimmed.status
+      manager_note: payload.managerNote,
+      status: payload.status
     })
     .eq("id", receiptId);
 
@@ -758,7 +821,49 @@ export async function saveAdminInquiry(input: {
   }
 
   revalidatePath("/admin");
+  revalidatePath("/admin/inquiries");
   return { ok: true, message: "문의 처리 상태가 저장되었습니다." };
+}
+
+export async function deleteAdminInquiry(input: { receipt: string }): Promise<DeleteAdminInquiryResult> {
+  const receipt = input.receipt.trim();
+
+  if (!receipt) {
+    return { ok: false, message: "삭제할 문의를 선택해 주세요." };
+  }
+
+  if (!hasSupabaseBrowserEnv()) {
+    return { ok: false, message: missingSupabaseMessage };
+  }
+
+  const actor = await getActiveAdminRole();
+
+  if (!actor.userId) {
+    return { ok: false, message: "로그인이 필요합니다." };
+  }
+
+  if (!["inquiry_manager", "super_admin"].includes(actor.role) || actor.status !== "active") {
+    return { ok: false, message: "문의 관리자 권한이 필요합니다." };
+  }
+
+  const adminClient = createSupabaseAdminServiceClient();
+
+  if (!adminClient) {
+    return {
+      ok: false,
+      message: "서버 환경 변수 SUPABASE_SERVICE_ROLE_KEY가 설정되어야 관리자 문의 삭제가 가능합니다."
+    };
+  }
+
+  const { error } = await adminClient.from("inquiries").delete().eq("id", parseInquiryReceipt(receipt));
+
+  if (error) {
+    return { ok: false, message: error.message };
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/inquiries");
+  return { ok: true, message: "문의가 삭제되었습니다." };
 }
 
 export async function uploadAdminContentImage(formData: FormData): Promise<UploadAdminContentImageResult> {

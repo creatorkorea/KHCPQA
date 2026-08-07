@@ -24,8 +24,13 @@ export type AdminCertificationRow = {
 export type AdminInquiryRow = {
   country: string;
   email: string;
+  id: string;
+  locale: string;
+  managerNote: string;
+  message: string;
   name: string;
   organization: string;
+  phone: string;
   receipt: string;
   status: string;
   submittedAt: string;
@@ -84,8 +89,12 @@ type InquiryRow = {
   email: string;
   id: string;
   inquiry_type: string;
+  locale: string;
+  manager_note: string | null;
+  message: string;
   name: string;
   organization: string | null;
+  phone: string | null;
   status: string;
 };
 
@@ -208,7 +217,7 @@ export async function getAdminInquiries(): Promise<AdminInquiryRow[]> {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("inquiries")
-    .select("id, name, email, organization, country, inquiry_type, status, created_at")
+    .select("id, name, organization, email, phone, country, inquiry_type, locale, message, status, manager_note, created_at")
     .order("created_at", { ascending: false })
     .limit(50);
 
@@ -219,8 +228,13 @@ export async function getAdminInquiries(): Promise<AdminInquiryRow[]> {
   return (data as InquiryRow[]).map((inquiry) => ({
     country: inquiry.country || "-",
     email: inquiry.email,
+    id: inquiry.id,
+    locale: inquiry.locale || "ko",
+    managerNote: inquiry.manager_note || "",
+    message: inquiry.message,
     name: inquiry.name,
     organization: inquiry.organization || "-",
+    phone: inquiry.phone || "",
     receipt: formatInquiryReceipt(inquiry.id, inquiry.created_at),
     status: inquiry.status,
     submittedAt: formatDate(inquiry.created_at),
