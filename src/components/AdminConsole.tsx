@@ -119,7 +119,7 @@ export function AdminConsoleShell({
             <label className="console-global-search">
               <Search size={16} />
               <span className="sr-only">관리자 전체 검색</span>
-              <input placeholder="검색" />
+              <input placeholder="과정, 문의, 사용자 검색" />
             </label>
             <button className="console-icon-button" type="button" aria-label="알림">
               <Bell size={17} />
@@ -259,17 +259,19 @@ export function AdminPanel({
 
 export function AdminStatCard({
   description,
+  href,
   icon: Icon,
   label,
   value
 }: {
   description: string;
+  href?: string;
   icon: LucideIcon;
   label: string;
   value: string | number;
 }) {
-  return (
-    <article className="console-stat-card">
+  const content = (
+    <>
       <span>
         <Icon size={22} />
       </span>
@@ -278,6 +280,20 @@ export function AdminStatCard({
         <strong>{value}</strong>
         <em>{description}</em>
       </div>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link className="console-stat-card" href={href}>
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <article className="console-stat-card">
+      {content}
     </article>
   );
 }

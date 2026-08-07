@@ -1,8 +1,11 @@
-import { BadgeCheck, BookOpen, FileText, Inbox, Languages } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, BadgeCheck, BookOpen, FileText, Inbox, Languages, MessageSquare, Plus } from "lucide-react";
 import {
   AdminConsoleShell,
   AdminPanel,
-  AdminStatCard
+  AdminStatCard,
+  AdminStatusBadge,
+  getTone
 } from "@/components/AdminConsole";
 import { getAdminContentRows, type AdminContentRow } from "@/lib/admin-data";
 
@@ -39,18 +42,63 @@ export default async function AdminDashboardPage() {
       title="대시보드"
     >
       <section className="console-stats-grid">
-        <AdminStatCard description="실제 등록 과정" icon={BookOpen} label="전체 과정 수" value={courseGroups.size} />
-        <AdminStatCard description="공개 중인 과정" icon={BadgeCheck} label="공개 과정" value={publishedCount} />
-        <AdminStatCard description="임시저장 상태" icon={FileText} label="임시저장" value={draftCount} />
-        <AdminStatCard description="번역 미완료 과정" icon={Languages} label="번역 필요" value={translationNeededCount} />
+        <AdminStatCard
+          description="과정 관리로 이동"
+          href="/admin/courses"
+          icon={BookOpen}
+          label="전체 과정 수"
+          value={courseGroups.size}
+        />
+        <AdminStatCard
+          description="공개 상태 확인"
+          href="/admin/courses"
+          icon={BadgeCheck}
+          label="공개 과정"
+          value={publishedCount}
+        />
+        <AdminStatCard
+          description="임시저장 검토"
+          href="/admin/courses"
+          icon={FileText}
+          label="임시저장"
+          value={draftCount}
+        />
+        <AdminStatCard
+          description="번역 관리로 이동"
+          href="/admin/translations"
+          icon={Languages}
+          label="번역 필요"
+          value={translationNeededCount}
+        />
+      </section>
+
+      <section className="console-quick-actions" aria-label="빠른 작업">
+        <Link href="/admin/courses">
+          <span><Plus size={18} /></span>
+          <strong>새 과정 등록</strong>
+          <small>교육과정 콘텐츠 추가</small>
+        </Link>
+        <Link href="/admin/inquiries">
+          <span><MessageSquare size={18} /></span>
+          <strong>문의 확인</strong>
+          <small>상담 요청 상태 점검</small>
+        </Link>
+        <Link href="/admin/translations">
+          <span><Languages size={18} /></span>
+          <strong>번역 필요 보기</strong>
+          <small>언어별 누락 콘텐츠 확인</small>
+        </Link>
       </section>
 
       <section className="console-dashboard-grid">
         <AdminPanel className="console-chart-panel">
           <div className="console-panel-heading">
-            <h2>과정 등록 현황</h2>
+            <div>
+              <h2>과정 등록 현황</h2>
+              <p>최근 등록일 기준으로 과정 데이터 흐름을 확인합니다.</p>
+            </div>
           </div>
-          {chartBuckets.length ? (
+          {chartBuckets.length > 1 ? (
             <div className="console-line-chart" aria-label="과정 등록 현황 차트">
               <svg viewBox="0 0 640 280" role="img">
                 <defs>
@@ -77,21 +125,40 @@ export default async function AdminDashboardPage() {
           ) : (
             <div className="console-empty-state console-chart-empty" role="status">
               <Inbox size={18} />
-              <span>등록된 과정 데이터가 없습니다.</span>
+              <strong>{courseRows.length ? `등록 과정 ${courseRows.length}건` : "등록된 과정 없음"}</strong>
+              <span>
+                {courseRows.length
+                  ? "추세 차트는 서로 다른 등록일 데이터가 2개 이상일 때 표시됩니다."
+                  : "새 과정을 등록하면 현황 차트가 자동으로 채워집니다."}
+              </span>
             </div>
           )}
         </AdminPanel>
 
         <AdminPanel>
           <div className="console-panel-heading">
-            <h2>최근 등록 과정</h2>
+            <div>
+              <h2>최근 등록 과정</h2>
+              <p>마지막으로 수정된 과정부터 표시합니다.</p>
+            </div>
+            <Link className="console-panel-link" href="/admin/courses">
+              전체 보기
+              <ArrowRight size={14} />
+            </Link>
           </div>
           {recentCourses.length ? (
             <ul className="console-recent-list">
               {recentCourses.map((row) => (
                 <li key={row.id ?? row.slug ?? row.title}>
-                  <strong>{row.title}</strong>
-                  <span>{row.updatedAt}</span>
+                  <div className="console-recent-main">
+                    <strong>{row.title}</strong>
+                    <span>{row.locale.toUpperCase()} · {row.updatedAt}</span>
+                  </div>
+                  <AdminStatusBadge tone={getTone(row.status)}>{statusLabel(row.status)}</AdminStatusBadge>
+                  <Link className="console-recent-action" href="/admin/courses">
+                    수정
+                    <ArrowRight size={13} />
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -105,6 +172,13 @@ export default async function AdminDashboardPage() {
       </section>
     </AdminConsoleShell>
   );
+}
+
+function statusLabel(status: string) {
+  if (status === "published") return "공개";
+  if (status === "draft") return "임시저장";
+  if (status === "translated") return "검수중";
+  return status;
 }
 
 const supportedLocales = ["ko", "en", "es"];
