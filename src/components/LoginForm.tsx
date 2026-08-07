@@ -36,6 +36,42 @@ function getSafeNextPath(locale: Locale) {
   return isInternal && isAllowedPath ? next : `/${locale}/account`;
 }
 
+const adminRoles = [
+  "viewer",
+  "content_manager",
+  "course_manager",
+  "certification_manager",
+  "inquiry_manager",
+  "super_admin"
+] as const;
+
+async function getPostLoginPath(locale: Locale, supabase: ReturnType<typeof createClient>) {
+  const safeNextPath = getSafeNextPath(locale);
+
+  if (safeNextPath.startsWith("/admin")) {
+    return safeNextPath;
+  }
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return safeNextPath;
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role, status")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  const role = typeof profile?.role === "string" ? profile.role : "";
+  const status = typeof profile?.status === "string" ? profile.status : "";
+
+  return status === "active" && adminRoles.includes(role as (typeof adminRoles)[number]) ? "/admin" : safeNextPath;
+}
+
 export function LoginForm({ locale }: { locale: Locale }) {
   const router = useRouter();
   const t = getCopy(locale);
@@ -160,8 +196,9 @@ export function LoginForm({ locale }: { locale: Locale }) {
     }
 
     setIsSubmitted(true);
+    const postLoginPath = await getPostLoginPath(locale, supabase);
     window.setTimeout(() => {
-      router.replace(getSafeNextPath(locale));
+      router.replace(postLoginPath);
     }, 650);
   }
 
