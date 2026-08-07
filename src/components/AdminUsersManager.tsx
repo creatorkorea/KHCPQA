@@ -1,8 +1,9 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useMemo, useState, useTransition } from "react";
-import { CheckCircle2, Save, ShieldCheck, Trash2, UserCog, UserPlus } from "lucide-react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { CheckCircle2, Pencil, Save, ShieldCheck, Trash2, UserCog, UserPlus, X } from "lucide-react";
 import { deleteAdminUser, saveAdminUser, type SaveAdminUserResult } from "@/app/admin/actions";
 import {
   adminUserLocales,
@@ -36,27 +37,27 @@ const emptyForm: UserFormValue = {
 };
 
 export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
+  const router = useRouter();
   const [mode, setMode] = useState<Mode>("create");
   const [selectedUserId, setSelectedUserId] = useState("");
   const [formValue, setFormValue] = useState<UserFormValue>(emptyForm);
   const [result, setResult] = useState<SaveAdminUserResult | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const selectedUser = useMemo(
-    () => users.find((user) => user.id === selectedUserId) ?? null,
-    [selectedUserId, users]
-  );
+  const selectedUser = users.find((user) => user.id === selectedUserId) ?? null;
   const activeCount = users.filter((user) => user.status === "active").length;
   const suspendedCount = users.filter((user) => user.status === "suspended").length;
   const deletedCount = users.filter((user) => user.status === "deleted").length;
 
-  function switchToCreate() {
+  function openCreateModal() {
     setMode("create");
     setSelectedUserId("");
     setFormValue(emptyForm);
     setResult(null);
+    setIsModalOpen(true);
   }
 
-  function selectUser(user: AdminUserRow) {
+  function openEditModal(user: AdminUserRow) {
     setMode("update");
     setSelectedUserId(user.id);
     setFormValue({
@@ -68,6 +69,16 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
       role: user.role,
       status: user.status
     });
+    setResult(null);
+    setIsModalOpen(true);
+  }
+
+  function closeModal() {
+    if (isPending) {
+      return;
+    }
+
+    setIsModalOpen(false);
     setResult(null);
   }
 
@@ -87,8 +98,10 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
       });
       setResult(nextResult);
 
-      if (nextResult.ok && mode === "create") {
+      if (nextResult.ok) {
+        setIsModalOpen(false);
         setFormValue(emptyForm);
+        router.refresh();
       }
     });
   }
@@ -109,189 +122,223 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
       setResult(nextResult);
 
       if (nextResult.ok) {
-        switchToCreate();
+        setIsModalOpen(false);
+        setSelectedUserId("");
+        setFormValue(emptyForm);
+        router.refresh();
       }
     });
   }
 
   return (
-    <section className="admin-users-crud">
-      <div className="admin-users-picker">
-        <div className="admin-users-picker-header">
-          <div>
-            <strong>편집 대상</strong>
-            <span>계정을 선택하거나 새 사용자를 등록합니다.</span>
-          </div>
-          <button className="admin-users-new-button" onClick={switchToCreate} type="button">
-            <UserPlus size={15} />
-            새 사용자
-          </button>
-        </div>
+    <section className="admin-users-manager">
+      <div className="admin-users-toolbar">
         <div className="admin-users-summary" aria-label="사용자 상태 요약">
           <span><strong>{users.length}</strong>전체</span>
           <span><strong>{activeCount}</strong>활성</span>
           <span><strong>{suspendedCount}</strong>정지</span>
           <span><strong>{deletedCount}</strong>삭제</span>
         </div>
-        <div className="admin-user-list" aria-label="사용자 선택 목록">
-          <button className={mode === "create" ? "is-active" : undefined} onClick={switchToCreate} type="button">
-            <UserPlus size={17} />
-            <span>
-              <strong>새 사용자 등록</strong>
-              <small>Auth 계정과 프로필 생성</small>
-            </span>
-            <em>신규</em>
-          </button>
-          {users.map((user) => (
-            <button
-              className={`${selectedUserId === user.id ? "is-active" : ""} ${user.status === "deleted" ? "is-deleted" : ""}`.trim()}
-              key={user.id}
-              onClick={() => selectUser(user)}
-              type="button"
-            >
-              <UserCog size={17} />
-              <span>
-                <strong>{user.name}</strong>
-                <small>{user.email}</small>
-              </span>
-              <em>{getAdminUserRoleLabel(user.role)}</em>
-            </button>
-          ))}
-        </div>
+        <button className="admin-users-new-button" onClick={openCreateModal} type="button">
+          <UserPlus size={15} />
+          새 사용자
+        </button>
       </div>
 
-      <form className="admin-user-role-form" onSubmit={handleSubmit} noValidate>
-        <div className="admin-editor-heading">
-          {mode === "create" ? <UserPlus size={22} /> : <UserCog size={22} />}
-          <div>
-            <h3>{mode === "create" ? "새 사용자 등록" : selectedUser?.name ?? "사용자 수정"}</h3>
-            <p>
-              {mode === "create"
-                ? "이메일/비밀번호로 로그인 가능한 회원을 만들고 기본 권한을 지정합니다."
-                : `${selectedUser?.email ?? ""} · ${selectedUser?.lastLoginAt ?? ""}`}
-            </p>
-          </div>
-          <span className={`admin-users-mode-badge is-${mode === "create" ? "create" : formValue.status}`}>
-            {mode === "create" ? "등록" : getAdminUserStatusLabel(formValue.status)}
-          </span>
-        </div>
+      <div className="admin-users-table-wrap">
+        <table className="admin-users-table">
+          <thead>
+            <tr>
+              <th>이름</th>
+              <th>이메일</th>
+              <th>역할</th>
+              <th>상태</th>
+              <th>수정일</th>
+              <th>관리</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.length ? (
+              users.map((user) => (
+                <tr className={user.status === "deleted" ? "is-deleted" : undefined} key={user.id}>
+                  <td>
+                    <strong>{user.name}</strong>
+                    <span>{user.preferredLocale.toUpperCase()} · {user.country || "-"}</span>
+                  </td>
+                  <td>{user.email}</td>
+                  <td>{getAdminUserRoleLabel(user.role)}</td>
+                  <td>
+                    <span className={`admin-user-status is-${user.status}`}>{getAdminUserStatusLabel(user.status)}</span>
+                  </td>
+                  <td>{user.lastLoginAt}</td>
+                  <td>
+                    <button className="admin-users-edit-button" onClick={() => openEditModal(user)} type="button">
+                      <Pencil size={14} />
+                      수정
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6}>
+                  <div className="console-empty-state" role="status">
+                    <UserCog size={18} />
+                    <span>등록된 사용자 데이터가 없습니다.</span>
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
-        <div className="admin-users-form-section">
-          <div className="admin-users-form-section-title">
-            <UserCog size={16} />
-            <strong>기본 정보</strong>
-          </div>
-          <div className="admin-editor-grid">
-            <label>
-              이름
-              <input
-                name="fullName"
-                onChange={(event) => updateField("fullName", event.target.value)}
-                placeholder="홍길동"
-                value={formValue.fullName}
-              />
-            </label>
-            <label>
-              이메일
-              <input
-                name="email"
-                onChange={(event) => updateField("email", event.target.value)}
-                placeholder="member@example.com"
-                type="email"
-                value={formValue.email}
-              />
-            </label>
-            {mode === "create" ? (
-              <label>
-                임시 비밀번호
-                <input
-                  name="password"
-                  onChange={(event) => updateField("password", event.target.value)}
-                  placeholder="8자 이상"
-                  type="password"
-                  value={formValue.password}
-                />
-              </label>
+      {isModalOpen ? (
+        <div
+          className="admin-users-modal-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              closeModal();
+            }
+          }}
+        >
+          <form className="admin-users-modal" onSubmit={handleSubmit} noValidate role="dialog" aria-modal="true" aria-labelledby="admin-user-modal-title">
+            <div className="admin-users-modal-heading">
+              {mode === "create" ? <UserPlus size={22} /> : <UserCog size={22} />}
+              <div>
+                <h3 id="admin-user-modal-title">{mode === "create" ? "새 사용자 등록" : selectedUser?.name ?? "사용자 수정"}</h3>
+                <p>
+                  {mode === "create"
+                    ? "로그인 가능한 회원을 만들고 기본 권한을 지정합니다."
+                    : `${selectedUser?.email ?? ""} · ${selectedUser?.lastLoginAt ?? ""}`}
+                </p>
+              </div>
+              <span className={`admin-users-mode-badge is-${mode === "create" ? "create" : formValue.status}`}>
+                {mode === "create" ? "등록" : getAdminUserStatusLabel(formValue.status)}
+              </span>
+              <button className="admin-users-modal-close" onClick={closeModal} type="button" aria-label="닫기">
+                <X size={17} />
+              </button>
+            </div>
+
+            <div className="admin-users-form-section">
+              <div className="admin-users-form-section-title">
+                <UserCog size={16} />
+                <strong>기본 정보</strong>
+              </div>
+              <div className="admin-editor-grid">
+                <label>
+                  이름
+                  <input
+                    name="fullName"
+                    onChange={(event) => updateField("fullName", event.target.value)}
+                    placeholder="홍길동"
+                    value={formValue.fullName}
+                  />
+                </label>
+                <label>
+                  이메일
+                  <input
+                    name="email"
+                    onChange={(event) => updateField("email", event.target.value)}
+                    placeholder="member@example.com"
+                    type="email"
+                    value={formValue.email}
+                  />
+                </label>
+                {mode === "create" ? (
+                  <label>
+                    임시 비밀번호
+                    <input
+                      name="password"
+                      onChange={(event) => updateField("password", event.target.value)}
+                      placeholder="8자 이상"
+                      type="password"
+                      value={formValue.password}
+                    />
+                  </label>
+                ) : null}
+                <label>
+                  국가
+                  <input
+                    name="country"
+                    onChange={(event) => updateField("country", event.target.value)}
+                    placeholder="Korea"
+                    value={formValue.country}
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div className="admin-users-form-section">
+              <div className="admin-users-form-section-title">
+                <ShieldCheck size={16} />
+                <strong>권한 설정</strong>
+              </div>
+              <div className="admin-editor-grid">
+                <label>
+                  선호 언어
+                  <select
+                    name="preferredLocale"
+                    onChange={(event) => updateField("preferredLocale", event.target.value)}
+                    value={formValue.preferredLocale}
+                  >
+                    {adminUserLocales.map((locale) => (
+                      <option key={locale} value={locale}>
+                        {locale.toUpperCase()}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  권한
+                  <select name="role" onChange={(event) => updateField("role", event.target.value)} value={formValue.role}>
+                    {adminUserRoles.map((role) => (
+                      <option key={role} value={role}>
+                        {getAdminUserRoleLabel(role)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  상태
+                  <select
+                    name="status"
+                    onChange={(event) => updateField("status", event.target.value)}
+                    value={formValue.status}
+                  >
+                    {adminUserStatuses.map((status) => (
+                      <option key={status} value={status}>
+                        {getAdminUserStatusLabel(status)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            {result ? (
+              <div className={result.ok ? "form-success" : "form-error full"} role="status">
+                {result.ok ? <CheckCircle2 size={20} /> : null}
+                <span>{result.message}</span>
+              </div>
             ) : null}
-            <label>
-              국가
-              <input
-                name="country"
-                onChange={(event) => updateField("country", event.target.value)}
-                placeholder="Korea"
-                value={formValue.country}
-              />
-            </label>
-          </div>
-        </div>
 
-        <div className="admin-users-form-section">
-          <div className="admin-users-form-section-title">
-            <ShieldCheck size={16} />
-            <strong>권한 설정</strong>
-          </div>
-          <div className="admin-editor-grid">
-            <label>
-              선호 언어
-              <select
-                name="preferredLocale"
-                onChange={(event) => updateField("preferredLocale", event.target.value)}
-                value={formValue.preferredLocale}
-              >
-                {adminUserLocales.map((locale) => (
-                  <option key={locale} value={locale}>
-                    {locale.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              권한
-              <select name="role" onChange={(event) => updateField("role", event.target.value)} value={formValue.role}>
-                {adminUserRoles.map((role) => (
-                  <option key={role} value={role}>
-                    {getAdminUserRoleLabel(role)}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              상태
-              <select
-                name="status"
-                onChange={(event) => updateField("status", event.target.value)}
-                value={formValue.status}
-              >
-                {adminUserStatuses.map((status) => (
-                  <option key={status} value={status}>
-                    {getAdminUserStatusLabel(status)}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
+            <div className="admin-editor-actions">
+              <button className="primary-button" disabled={isPending} type="submit">
+                <Save size={16} />
+                <span>{isPending ? "..." : mode === "create" ? "사용자 등록" : "사용자 수정"}</span>
+              </button>
+              {mode === "update" ? (
+                <button className="secondary-button danger" disabled={isPending} onClick={handleDelete} type="button">
+                  <Trash2 size={16} />
+                  <span>삭제 상태로 변경</span>
+                </button>
+              ) : null}
+            </div>
+          </form>
         </div>
-
-        {result ? (
-          <div className={result.ok ? "form-success" : "form-error full"} role="status">
-            {result.ok ? <CheckCircle2 size={20} /> : null}
-            <span>{result.message}</span>
-          </div>
-        ) : null}
-
-        <div className="admin-editor-actions">
-          <button className="primary-button" disabled={isPending} type="submit">
-            <Save size={16} />
-            <span>{isPending ? "..." : mode === "create" ? "사용자 등록" : "사용자 수정"}</span>
-          </button>
-          {mode === "update" ? (
-            <button className="secondary-button danger" disabled={isPending} onClick={handleDelete} type="button">
-              <Trash2 size={16} />
-              <span>삭제 상태로 변경</span>
-            </button>
-          ) : null}
-        </div>
-      </form>
+      ) : null}
     </section>
   );
 }
