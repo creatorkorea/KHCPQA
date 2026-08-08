@@ -396,20 +396,11 @@ export function AdminPopupsManager({ banners }: { banners: AdminContentRow[] }) 
                   value={editor.endsAt}
                 />
               </label>
-              <label className="full">
-                이미지 URL
-                <input
-                  onChange={(event) => updateEditor("imageUrl", event.target.value)}
-                  placeholder="/assets/banner-image.jpg 또는 https://..."
-                  value={editor.imageUrl}
-                />
-                <span className="admin-field-help">직접 URL을 입력하거나 아래에서 이미지 파일을 업로드할 수 있습니다.</span>
-              </label>
               <label className="full community-file-upload">
                 <ImagePlus size={20} />
                 <span>
                   <strong>{selectedImageName || "이미지 파일 선택"}</strong>
-                  <small>JPG, PNG, WebP, GIF / 최대 5MB</small>
+                  <small>JPG, PNG, WebP, GIF / 최대 5MB / 저장 시 업로드됩니다</small>
                 </span>
                 <input
                   accept="image/jpeg,image/png,image/webp,image/gif"
@@ -427,7 +418,7 @@ export function AdminPopupsManager({ banners }: { banners: AdminContentRow[] }) 
                 <div>
                   <strong>{editor.title || "이미지 미리보기"}</strong>
                   <button onClick={() => updateEditor("imageUrl", "")} type="button">
-                    이미지 URL 제거
+                    등록 이미지 제거
                   </button>
                 </div>
               </div>
