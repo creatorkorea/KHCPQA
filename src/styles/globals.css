@@ -8640,6 +8640,23 @@ p {
   justify-content: space-between;
 }
 
+.admin-certifications-new-button {
+  align-items: center;
+  background: var(--console-purple);
+  border: 1px solid var(--console-purple-dark);
+  border-radius: 8px;
+  box-shadow: 0 12px 24px rgba(84, 55, 189, 0.18);
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 900;
+  gap: 7px;
+  min-height: 42px;
+  padding: 0 15px;
+}
+
 .admin-certifications-summary {
   display: grid;
   gap: 12px;
@@ -8695,7 +8712,7 @@ p {
   align-items: center;
   display: grid;
   gap: 12px;
-  grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
+  grid-template-columns: minmax(300px, 1fr) auto;
 }
 
 .admin-certifications-filter-bar .console-search-input {
@@ -8711,7 +8728,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  justify-content: flex-end;
+  justify-content: flex-start;
   min-height: 46px;
   padding: 5px;
 }
@@ -8742,7 +8759,7 @@ p {
 }
 
 .admin-certifications-manager .console-table {
-  min-width: 1040px;
+  min-width: 1160px;
 }
 
 .admin-certifications-manager .console-table th,
@@ -8791,6 +8808,54 @@ p {
   vertical-align: middle;
 }
 
+.admin-certification-number-cell {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  min-width: 260px;
+}
+
+.admin-certification-number-cell > span:first-child {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.admin-certification-number-cell small {
+  color: var(--console-muted);
+  font-size: 11px;
+  font-weight: 750;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-certification-copy-actions {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 5px;
+}
+
+.admin-certification-copy-button {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e3ddf2;
+  border-radius: 7px;
+  color: var(--console-purple-dark);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 900;
+  gap: 4px;
+  min-height: 28px;
+  padding: 0 8px;
+}
+
+.admin-certification-copy-button:hover {
+  background: #f7f3ff;
+  border-color: #d6cef0;
+}
+
 .admin-certification-user-cell {
   align-items: flex-start;
   flex-direction: column;
@@ -8801,9 +8866,11 @@ p {
   color: var(--console-muted);
   font-size: 11px;
   font-weight: 750;
-  max-width: 220px;
+  max-width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-all;
 }
 
 .admin-certification-muted-date {
@@ -10134,6 +10201,11 @@ p {
 
   .admin-certifications-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .admin-certifications-new-button {
+    justify-content: center;
     width: 100%;
   }
 

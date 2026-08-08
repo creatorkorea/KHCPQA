@@ -122,8 +122,15 @@ test("AdminCertificationsManager keeps the certification list scannable", async 
   assert.match(managerSource, /admin-certifications-status-filter/);
   assert.match(managerSource, /admin-certification-number/);
   assert.match(managerSource, /admin-certification-user-cell/);
+  assert.match(managerSource, /copyText/);
+  assert.match(managerSource, /navigator\.clipboard\.writeText/);
+  assert.match(managerSource, /자격번호 복사/);
+  assert.match(managerSource, /검증 코드 복사/);
   assert.match(styleSource, /\.admin-certifications-panel/);
   assert.match(styleSource, /\.admin-certifications-filter-bar/);
+  assert.match(styleSource, /grid-template-columns: minmax\(300px, 1fr\) auto/);
   assert.match(styleSource, /\.admin-certifications-status-filter button\.is-active/);
+  assert.match(styleSource, /\.admin-certifications-new-button/);
   assert.match(styleSource, /\.admin-certification-number/);
+  assert.match(styleSource, /\.admin-certification-copy-button/);
 });

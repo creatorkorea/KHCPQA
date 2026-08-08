@@ -3,7 +3,7 @@
 import type { FormEvent } from "react";
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Clock3, Pencil, Plus, Save, Search, ShieldCheck, X } from "lucide-react";
+import { CheckCircle2, Clipboard, ClipboardCheck, Clock3, Pencil, Plus, Save, Search, ShieldCheck, X } from "lucide-react";
 import {
   saveAdminCertification,
   type SaveAdminCertificationResult
@@ -47,6 +47,7 @@ export function AdminCertificationsManager({ certifications }: { certifications:
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [copiedKey, setCopiedKey] = useState("");
   const [isPending, startTransition] = useTransition();
   const issuedCount = certifications.filter((certification) => certification.status === "issued").length;
   const expiredCount = certifications.filter((certification) => certification.status === "expired").length;
@@ -109,6 +110,20 @@ export function AdminCertificationsManager({ certifications }: { certifications:
     setResult(null);
   }
 
+  async function copyText(value: string, key: string) {
+    if (!value) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopiedKey(key);
+      window.setTimeout(() => setCopiedKey(""), 1400);
+    } catch {
+      setCopiedKey("");
+    }
+  }
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setResult(null);
@@ -136,7 +151,7 @@ export function AdminCertificationsManager({ certifications }: { certifications:
             </span>
           ))}
         </div>
-        <button className="admin-users-new-button" onClick={openCreateModal} type="button">
+        <button className="admin-certifications-new-button" onClick={openCreateModal} type="button">
           <Plus size={15} />
           새 자격 등록
         </button>
@@ -193,12 +208,37 @@ export function AdminCertificationsManager({ certifications }: { certifications:
                     </span>
                   </td>
                   <td>
-                    <code className="admin-certification-number">{certification.number}</code>
+                    <span className="admin-certification-number-cell">
+                      <span>
+                        <code className="admin-certification-number" title={certification.number}>{certification.number}</code>
+                        <small title={certification.verificationCode}>검증코드 {certification.verificationCode}</small>
+                      </span>
+                      <span className="admin-certification-copy-actions">
+                        <button
+                          aria-label={`${certification.number} 자격번호 복사`}
+                          className="admin-certification-copy-button"
+                          onClick={() => copyText(certification.number, `number-${certification.number}`)}
+                          type="button"
+                        >
+                          {copiedKey === `number-${certification.number}` ? <ClipboardCheck size={13} /> : <Clipboard size={13} />}
+                          번호
+                        </button>
+                        <button
+                          aria-label={`${certification.verificationCode} 검증 코드 복사`}
+                          className="admin-certification-copy-button"
+                          onClick={() => copyText(certification.verificationCode, `code-${certification.number}`)}
+                          type="button"
+                        >
+                          {copiedKey === `code-${certification.number}` ? <ClipboardCheck size={13} /> : <Clipboard size={13} />}
+                          코드
+                        </button>
+                      </span>
+                    </span>
                   </td>
                   <td>
                     <span className="admin-certification-user-cell">
                       <strong>{certification.user}</strong>
-                      <small>{certification.userEmail || "이메일 미등록"}</small>
+                      <small title={certification.userEmail || "이메일 미등록"}>{certification.userEmail || "이메일 미등록"}</small>
                     </span>
                   </td>
                   <td>{certification.issuedAt}</td>
