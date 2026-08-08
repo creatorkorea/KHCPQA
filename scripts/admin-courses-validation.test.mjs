@@ -73,3 +73,22 @@ test("getAdminCourseSectionLabel explains where the section appears publicly", (
   assert.equal(getAdminCourseSectionLabel("main"), "대표 정보");
   assert.equal(getAdminCourseSectionLabel("process-1"), "수업 진행 과정");
 });
+
+test("AdminCoursesManager uses file attachment upload for representative images", async () => {
+  const source = await readFile("src/components/AdminCoursesManager.tsx", "utf8");
+
+  assert.match(source, /uploadAdminContentImage/);
+  assert.match(source, /name="imageFile"/);
+  assert.match(source, /type="file"/);
+  assert.match(source, /대표 이미지 파일/);
+  assert.doesNotMatch(source, /대표 이미지 URL\s*<\/label>/);
+});
+
+test("AdminCoursesManager distinguishes upload and save progress in the editor", async () => {
+  const source = await readFile("src/components/AdminCoursesManager.tsx", "utf8");
+
+  assert.match(source, /type PendingAction = "delete" \| "save" \| "upload"/);
+  assert.match(source, /업로드 중/);
+  assert.match(source, /이미지 업로드와 섹션 저장을 처리하고 있습니다\./);
+  assert.match(source, /aria-live="polite"/);
+});

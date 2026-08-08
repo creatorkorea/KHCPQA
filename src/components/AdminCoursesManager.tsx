@@ -1,15 +1,18 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowUpRight, CheckCircle2, FilePenLine, Save, Search, Trash2 } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, FilePenLine, ImagePlus, Save, Search, Trash2 } from "lucide-react";
 import {
   deleteAdminManagedItem,
   saveAdminContent,
+  uploadAdminContentImage,
   type DeleteAdminContentResult,
-  type SaveAdminContentResult
+  type SaveAdminContentResult,
+  type UploadAdminContentImageResult
 } from "@/app/admin/actions";
 import { AdminStatusBadge, getTone } from "@/components/AdminConsole";
 import {
@@ -25,7 +28,8 @@ import {
 } from "@/lib/admin-courses";
 import type { AdminContentRow } from "@/lib/admin-data";
 
-type ActionResult = SaveAdminContentResult | DeleteAdminContentResult;
+type ActionResult = SaveAdminContentResult | DeleteAdminContentResult | UploadAdminContentImageResult;
+type PendingAction = "delete" | "save" | "upload";
 
 type CourseEditorValue = {
   body: string;
@@ -53,12 +57,15 @@ export function AdminCoursesManager({
   items: AdminContentRow[];
 }) {
   const router = useRouter();
+  const imageInputRef = useRef<HTMLInputElement>(null);
   const [activeCourseSlug, setActiveCourseSlug] = useState(courseOptions[0]?.slug ?? "");
   const [activeLocale, setActiveLocale] = useState("ko");
   const [activeSection, setActiveSection] = useState("main");
   const [editor, setEditor] = useState<CourseEditorValue>(emptyEditor);
   const [result, setResult] = useState<ActionResult | null>(null);
   const [search, setSearch] = useState("");
+  const [selectedImageName, setSelectedImageName] = useState("");
+  const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
   const [isPending, startTransition] = useTransition();
   const activeCourse = courseOptions.find((course) => course.slug === activeCourseSlug) ?? courseOptions[0] ?? null;
   const activeItem = items.find((item) => item.locale === activeLocale && item.slug === getAdminCourseManagedSlug(activeCourseSlug, activeSection));
@@ -66,6 +73,23 @@ export function AdminCoursesManager({
   const currentLocaleItems = selectedCourseItems.filter((item) => item.locale === activeLocale);
   const publishedCount = items.filter((item) => item.status === "published").length;
   const draftCount = items.filter((item) => item.status === "draft").length;
+  const isWorking = isPending || pendingAction !== null;
+  const progressMessage =
+    pendingAction === "upload"
+      ? "이미지 업로드와 섹션 저장을 처리하고 있습니다."
+      : pendingAction === "save"
+        ? "과정 섹션을 저장하고 있습니다."
+        : pendingAction === "delete"
+          ? "과정 섹션을 삭제하고 있습니다."
+          : "";
+  const saveButtonLabel =
+    pendingAction === "upload"
+      ? "업로드 중"
+      : pendingAction === "save"
+        ? "저장 중"
+        : activeItem
+          ? "섹션 수정"
+          : "섹션 저장";
   const filteredCourses = useMemo(() => {
     const keyword = search.trim().toLowerCase();
 
@@ -95,6 +119,11 @@ export function AdminCoursesManager({
       title: activeItem?.title ?? (activeSection === "main" ? activeCourse.label : getAdminCourseSectionLabel(activeSection))
     });
     setResult(null);
+    setSelectedImageName("");
+
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
+    }
   }, [activeCourse, activeItem, activeSection]);
 
   function selectCourse(courseSlug: string) {
@@ -107,27 +136,69 @@ export function AdminCoursesManager({
     setResult(null);
   }
 
+  function resetImageInput() {
+    setSelectedImageName("");
+
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
+    }
+  }
+
   function handleSave(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setResult(null);
 
-    const validation = buildAdminCourseContentInput({
-      ...editor,
-      courseSection: activeSection,
-      courseSlug: activeCourseSlug,
-      locale: activeLocale
-    });
-
-    if (!validation.ok) {
-      setResult(validation);
-      return;
-    }
+    const formData = new FormData(event.currentTarget);
+    const sectionSlug = getAdminCourseManagedSlug(activeCourseSlug, activeSection);
 
     startTransition(async () => {
-      const nextResult = await saveAdminContent(validation.payload);
-      setResult(nextResult);
+      try {
+        let imageUrl = editor.imageUrl;
+        const imageFile = formData.get("imageFile");
 
-      if (nextResult.ok) {
-        router.refresh();
+        if (imageFile instanceof File && imageFile.size > 0) {
+          setPendingAction("upload");
+
+          const uploadFormData = new FormData();
+          uploadFormData.append("file", imageFile);
+          uploadFormData.append("contentType", "Course");
+          uploadFormData.append("slug", sectionSlug || activeCourseSlug || "course");
+
+          const uploadResult = await uploadAdminContentImage(uploadFormData);
+
+          if (!uploadResult.ok || !uploadResult.url) {
+            setResult(uploadResult);
+            return;
+          }
+
+          imageUrl = uploadResult.url;
+          setEditor((current) => ({ ...current, imageUrl }));
+        }
+
+        setPendingAction("save");
+
+        const validation = buildAdminCourseContentInput({
+          ...editor,
+          imageUrl,
+          courseSection: activeSection,
+          courseSlug: activeCourseSlug,
+          locale: activeLocale
+        });
+
+        if (!validation.ok) {
+          setResult(validation);
+          return;
+        }
+
+        const nextResult = await saveAdminContent(validation.payload);
+        setResult(nextResult);
+
+        if (nextResult.ok) {
+          resetImageInput();
+          router.refresh();
+        }
+      } finally {
+        setPendingAction(null);
       }
     });
   }
@@ -143,15 +214,23 @@ export function AdminCoursesManager({
       return;
     }
 
-    startTransition(async () => {
-      const nextResult = await deleteAdminManagedItem({
-        id: activeItem.id ?? "",
-        itemType: "content"
-      });
-      setResult(nextResult);
+    setResult(null);
 
-      if (nextResult.ok) {
-        router.refresh();
+    startTransition(async () => {
+      try {
+        setPendingAction("delete");
+
+        const nextResult = await deleteAdminManagedItem({
+          id: activeItem.id ?? "",
+          itemType: "content"
+        });
+        setResult(nextResult);
+
+        if (nextResult.ok) {
+          router.refresh();
+        }
+      } finally {
+        setPendingAction(null);
       }
     });
   }
@@ -271,12 +350,48 @@ export function AdminCoursesManager({
                 </select>
               </label>
               <label>
-                대표 이미지 URL
-                <input
-                  onChange={(event) => updateEditor("imageUrl", event.target.value)}
-                  placeholder="/assets/course-image.jpg 또는 https://..."
-                  value={editor.imageUrl}
-                />
+                대표 이미지 파일
+                <span className="community-file-upload">
+                  <ImagePlus size={18} />
+                  <span>
+                    <strong>이미지 선택</strong>
+                    <small>{selectedImageName || "JPG, PNG, WebP, GIF / 5MB 이하"}</small>
+                  </span>
+                  <input
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    name="imageFile"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      setSelectedImageName(file ? `${file.name} 선택됨` : "");
+                      setResult(null);
+                    }}
+                    ref={imageInputRef}
+                    type="file"
+                  />
+                </span>
+                {editor.imageUrl ? (
+                  <div className="community-image-preview">
+                    <Image
+                      alt="등록된 대표 이미지 미리보기"
+                      height={57}
+                      src={editor.imageUrl}
+                      unoptimized
+                      width={76}
+                    />
+                    <button
+                      onClick={() => {
+                        updateEditor("imageUrl", "");
+                        resetImageInput();
+                      }}
+                      type="button"
+                    >
+                      이미지 제거
+                    </button>
+                  </div>
+                ) : null}
+                <span className="admin-field-help">
+                  새 파일을 선택하면 저장 시 업로드되어 공개 과정의 대표 이미지로 적용됩니다.
+                </span>
               </label>
               <label className="full">
                 제목
@@ -322,13 +437,19 @@ export function AdminCoursesManager({
               </div>
             ) : null}
 
+            {progressMessage ? (
+              <div className="form-progress full" role="status" aria-live="polite">
+                {progressMessage}
+              </div>
+            ) : null}
+
             <div className="admin-editor-actions">
-              <button className="primary-button" disabled={isPending || !activeCourseSlug} type="submit">
+              <button className="primary-button" disabled={isWorking || !activeCourseSlug} type="submit">
                 <Save size={16} />
-                <span>{isPending ? "저장 중" : activeItem ? "섹션 수정" : "섹션 저장"}</span>
+                <span>{saveButtonLabel}</span>
               </button>
               {activeItem?.id ? (
-                <button className="secondary-button danger" disabled={isPending} onClick={handleDelete} type="button">
+                <button className="secondary-button danger" disabled={isWorking} onClick={handleDelete} type="button">
                   <Trash2 size={16} />
                   <span>섹션 삭제</span>
                 </button>

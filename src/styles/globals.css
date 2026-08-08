@@ -6087,7 +6087,8 @@ p {
 }
 
 .form-error.full,
-.form-success.full {
+.form-success.full,
+.form-progress.full {
   grid-column: 1 / -1;
 }
 
@@ -6112,6 +6113,17 @@ p {
   font-size: 13px;
   gap: 3px;
   line-height: 1.45;
+}
+
+.form-progress {
+  background: #fbf9ff;
+  border: 1px solid #d8cff6;
+  border-radius: var(--radius);
+  color: var(--console-purple-dark);
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.45;
+  padding: 12px 14px;
 }
 
 .inquiry-receipt {
