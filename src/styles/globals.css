@@ -8674,8 +8674,8 @@ p {
   font-size: 12px;
   font-weight: 850;
   gap: 7px;
-  min-height: 78px;
-  padding: 14px 15px;
+  min-height: 86px;
+  padding: 22px 15px 14px;
   position: relative;
 }
 
@@ -8687,7 +8687,7 @@ p {
   left: 15px;
   position: absolute;
   right: 15px;
-  top: 0;
+  top: 8px;
 }
 
 .admin-certifications-summary .is-issued::before {
