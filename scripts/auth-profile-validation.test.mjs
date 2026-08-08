@@ -12,7 +12,7 @@ test("signup collects structured profile metadata with country select", async ()
   assert.match(source, /name="marketingOptIn"/);
   assert.match(source, /interested_course: form\.interestedCourse/);
   assert.match(source, /marketing_opt_in: form\.marketingOptIn/);
-  assert.match(source, /phone: normalizePhoneNumber\(form\.phone\)/);
+  assert.match(source, /phone: normalizePhoneNumber\(form\.phone, form\.country\)/);
 });
 
 test("profile edit persists the same structured fields", async () => {
@@ -25,7 +25,7 @@ test("profile edit persists the same structured fields", async () => {
   assert.match(source, /name="marketingOptIn"/);
   assert.match(source, /interested_course: form\.interestedCourse\.trim\(\) \|\| null/);
   assert.match(source, /marketing_opt_in: form\.marketingOptIn/);
-  assert.match(source, /phone: normalizePhoneNumber\(form\.phone\)/);
+  assert.match(source, /phone: normalizePhoneNumber\(form\.phone, form\.country\)/);
 });
 
 test("profile migration stores signup metadata in public profiles", async () => {

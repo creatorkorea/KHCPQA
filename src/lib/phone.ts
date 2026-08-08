@@ -1,6 +1,41 @@
-export function normalizePhoneNumber(value: string) {
+const countryDialCodes: Record<string, string> = {
+  China: "+86",
+  Japan: "+81",
+  Korea: "+82",
+  Mexico: "+52",
+  Spain: "+34",
+  "United States": "+1"
+};
+
+function getCountryDialCode(countryValue?: string) {
+  return countryValue ? countryDialCodes[countryValue] ?? "" : "";
+}
+
+function compactInternationalPhone(value: string) {
+  const compacted = value.replace(/[^\d+]/g, "");
+  return compacted.startsWith("+") ? `+${compacted.slice(1).replace(/\+/g, "")}` : compacted;
+}
+
+export function normalizePhoneNumber(value: string, countryValue?: string) {
   const trimmed = value.trim();
   const digits = trimmed.replace(/\D/g, "");
+
+  if (!trimmed) {
+    return "";
+  }
+
+  if (countryValue === "Korea" && digits.startsWith("0") && digits.length >= 9 && digits.length <= 11) {
+    return digits;
+  }
+
+  if (trimmed.startsWith("+")) {
+    return compactInternationalPhone(trimmed);
+  }
+
+  const dialCode = getCountryDialCode(countryValue);
+  if (dialCode && countryValue !== "Korea" && digits.length >= 6) {
+    return `${dialCode}${digits.replace(/^0+/, "")}`;
+  }
 
   if (digits.startsWith("0") && digits.length >= 9 && digits.length <= 11) {
     return digits;
@@ -9,11 +44,18 @@ export function normalizePhoneNumber(value: string) {
   return trimmed.replace(/\s+/g, " ");
 }
 
-export function formatPhoneNumber(value: string) {
-  const normalized = normalizePhoneNumber(value);
+function groupInternationalDigits(digits: string) {
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 3)} ${digits.slice(3)}`;
+  if (digits.length <= 10) return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`;
+  return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6, 10)} ${digits.slice(10)}`;
+}
+
+export function formatPhoneNumber(value: string, countryValue?: string) {
+  const normalized = normalizePhoneNumber(value, countryValue);
   const digits = normalized.replace(/\D/g, "");
 
-  if (/^01[016789]\d{7,8}$/.test(digits)) {
+  if (countryValue === "Korea" && /^01[016789]\d{7,8}$/.test(digits)) {
     if (digits.length === 10) {
       return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
     }
@@ -21,7 +63,7 @@ export function formatPhoneNumber(value: string) {
     return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
   }
 
-  if (/^02\d{7,8}$/.test(digits)) {
+  if (countryValue === "Korea" && /^02\d{7,8}$/.test(digits)) {
     if (digits.length === 9) {
       return `${digits.slice(0, 2)}-${digits.slice(2, 5)}-${digits.slice(5)}`;
     }
@@ -29,12 +71,19 @@ export function formatPhoneNumber(value: string) {
     return `${digits.slice(0, 2)}-${digits.slice(2, 6)}-${digits.slice(6)}`;
   }
 
-  if (/^0\d{8,10}$/.test(digits)) {
+  if (countryValue === "Korea" && /^0\d{8,10}$/.test(digits)) {
     if (digits.length === 10) {
       return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
     }
 
     return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+  }
+
+  if (normalized.startsWith("+")) {
+    const dialCode = getCountryDialCode(countryValue);
+    if (dialCode && normalized.startsWith(dialCode)) {
+      return `${dialCode} ${groupInternationalDigits(normalized.slice(dialCode.length))}`.trim();
+    }
   }
 
   return normalized.replace(/\s+/g, " ");

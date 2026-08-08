@@ -138,14 +138,16 @@ export function getAdminUserRoleLabel(role: string) {
 }
 
 function normalizeAdminUserInput(input: AdminUserInput) {
+  const country = input.country.trim();
+
   return {
-    country: input.country.trim(),
+    country,
     email: input.email.trim().toLowerCase(),
     fullName: input.fullName.trim(),
     interestedCourse: input.interestedCourse?.trim() ?? "",
     marketingOptIn: Boolean(input.marketingOptIn),
     password: input.password?.trim() ?? "",
-    phone: normalizePhoneNumber(input.phone ?? ""),
+    phone: normalizePhoneNumber(input.phone ?? "", country),
     preferredLocale: input.preferredLocale.trim() || "ko",
     role: input.role.trim() || "user",
     status: input.status.trim() || "active"

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { CheckCircle2, Pencil, Save, ShieldCheck, Trash2, UserCog, UserPlus, X } from "lucide-react";
 import { deleteAdminUser, saveAdminUser, type SaveAdminUserResult } from "@/app/admin/actions";
 import { getCourses } from "@/lib/content";
-import { countryOptions } from "@/lib/countries";
+import { countryOptions, getCountryPhonePlaceholder } from "@/lib/countries";
 import { formatPhoneNumber } from "@/lib/phone";
 import {
   adminUserLocales,
@@ -77,7 +77,7 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
       interestedCourse: user.interestedCourse,
       marketingOptIn: user.marketingOptIn,
       password: "",
-      phone: formatPhoneNumber(user.phone),
+      phone: formatPhoneNumber(user.phone, user.country),
       preferredLocale: user.preferredLocale || "ko",
       role: user.role,
       status: user.status
@@ -176,7 +176,7 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
                 <tr className={user.status === "deleted" ? "is-deleted" : undefined} key={user.id}>
                   <td>
                     <strong>{user.name}</strong>
-                    <span>{user.preferredLocale.toUpperCase()} · {user.country || "-"} · {user.phone ? formatPhoneNumber(user.phone) : "연락처 없음"}</span>
+                    <span>{user.preferredLocale.toUpperCase()} · {user.country || "-"} · {user.phone ? formatPhoneNumber(user.phone, user.country) : "연락처 없음"}</span>
                   </td>
                   <td>{user.email}</td>
                   <td>{getAdminUserRoleLabel(user.role)}</td>
@@ -290,9 +290,9 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
                   휴대폰
                   <input
                     name="phone"
-                    onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value))}
+                    onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value, formValue.country))}
                     onChange={(event) => updateField("phone", event.target.value)}
-                    placeholder="010-0000-0000"
+                    placeholder={formValue.country ? getCountryPhonePlaceholder(formValue.country) : "010-0000-0000"}
                     type="tel"
                     value={formValue.phone}
                   />

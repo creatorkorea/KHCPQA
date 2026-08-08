@@ -19,18 +19,25 @@ async function importTsModule(path) {
 const { formatPhoneNumber, normalizePhoneNumber } = await importTsModule("src/lib/phone.ts");
 
 test("normalizePhoneNumber stores Korean phone numbers as digits only", () => {
-  assert.equal(normalizePhoneNumber("010-1234-1234"), "01012341234");
-  assert.equal(normalizePhoneNumber("01012341234"), "01012341234");
-  assert.equal(normalizePhoneNumber("02-581-1278"), "025811278");
+  assert.equal(normalizePhoneNumber("010-1234-1234", "Korea"), "01012341234");
+  assert.equal(normalizePhoneNumber("01012341234", "Korea"), "01012341234");
+  assert.equal(normalizePhoneNumber("02-581-1278", "Korea"), "025811278");
 });
 
 test("formatPhoneNumber displays Korean phone numbers with hyphens", () => {
-  assert.equal(formatPhoneNumber("01012341234"), "010-1234-1234");
-  assert.equal(formatPhoneNumber("0101234567"), "010-123-4567");
-  assert.equal(formatPhoneNumber("025811278"), "02-581-1278");
+  assert.equal(formatPhoneNumber("01012341234", "Korea"), "010-1234-1234");
+  assert.equal(formatPhoneNumber("0101234567", "Korea"), "010-123-4567");
+  assert.equal(formatPhoneNumber("025811278", "Korea"), "02-581-1278");
 });
 
-test("international phone-like values are preserved without forced Korean formatting", () => {
-  assert.equal(normalizePhoneNumber("+34 600 000 000"), "+34 600 000 000");
-  assert.equal(formatPhoneNumber("+34 600 000 000"), "+34 600 000 000");
+test("normalizePhoneNumber stores international values with country dial codes", () => {
+  assert.equal(normalizePhoneNumber("+34 600 000 000", "Spain"), "+34600000000");
+  assert.equal(normalizePhoneNumber("600 000 000", "Spain"), "+34600000000");
+  assert.equal(normalizePhoneNumber("212 555 1234", "United States"), "+12125551234");
+});
+
+test("formatPhoneNumber displays international values with readable spacing", () => {
+  assert.equal(formatPhoneNumber("+34600000000", "Spain"), "+34 600 000 000");
+  assert.equal(formatPhoneNumber("600000000", "Spain"), "+34 600 000 000");
+  assert.equal(formatPhoneNumber("+12125551234", "United States"), "+1 212 555 1234");
 });

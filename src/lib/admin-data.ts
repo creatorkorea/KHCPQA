@@ -183,7 +183,7 @@ export async function getAdminUsers(): Promise<AdminUserRow[]> {
     marketingOptIn: Boolean(profile.marketing_opt_in),
     name: profile.full_name || profile.email || "Unnamed member",
     email: profile.email || "-",
-    phone: profile.phone ? formatPhoneNumber(profile.phone) : "",
+    phone: profile.phone ? formatPhoneNumber(profile.phone, profile.country ?? "") : "",
     preferredLocale: profile.preferred_locale || "ko",
     role: profile.role,
     status: profile.status,

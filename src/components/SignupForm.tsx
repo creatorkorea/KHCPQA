@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, UserPlus } from "lucide-react";
 import { getCopy, getCourses, type Locale } from "@/lib/content";
-import { countryOptions } from "@/lib/countries";
+import { countryOptions, getCountryPhonePlaceholder } from "@/lib/countries";
 import { formatPhoneNumber, normalizePhoneNumber } from "@/lib/phone";
 import { buildAuthCallbackUrl } from "@/lib/site-url";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
@@ -104,8 +104,8 @@ export function SignupForm({ locale }: { locale: Locale }) {
       nextErrors.consent = t.signup.validation.consent;
     }
 
-    if (!nextErrors.phone && form.phone !== formatPhoneNumber(form.phone)) {
-      setForm((current) => ({ ...current, phone: formatPhoneNumber(current.phone) }));
+    if (!nextErrors.phone && form.phone !== formatPhoneNumber(form.phone, form.country)) {
+      setForm((current) => ({ ...current, phone: formatPhoneNumber(current.phone, current.country) }));
     }
 
     setErrors(nextErrors);
@@ -138,7 +138,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
           full_name: form.name,
           interested_course: form.interestedCourse,
           marketing_opt_in: form.marketingOptIn,
-          phone: normalizePhoneNumber(form.phone),
+          phone: normalizePhoneNumber(form.phone, form.country),
           preferred_locale: locale,
           role: "user"
         }
@@ -206,9 +206,9 @@ export function SignupForm({ locale }: { locale: Locale }) {
           aria-invalid={Boolean(errors.phone)}
           autoComplete="tel"
           name="phone"
-          onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value))}
+          onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value, form.country))}
           onChange={(event) => updateField("phone", event.target.value)}
-          placeholder={t.signup.phonePlaceholder}
+          placeholder={form.country ? getCountryPhonePlaceholder(form.country) : t.signup.phonePlaceholder}
           type="tel"
           value={form.phone}
         />
