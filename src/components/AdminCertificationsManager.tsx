@@ -28,6 +28,11 @@ type CertificationFormValue = {
 
 type Mode = "create" | "update";
 
+type CertificationCourseOption = {
+  category: string;
+  title: string;
+};
+
 const emptyForm: CertificationFormValue = {
   adminNote: "",
   certificateNumber: "",
@@ -39,7 +44,13 @@ const emptyForm: CertificationFormValue = {
   verificationCode: ""
 };
 
-export function AdminCertificationsManager({ certifications }: { certifications: AdminCertificationRow[] }) {
+export function AdminCertificationsManager({
+  certifications,
+  courseOptions
+}: {
+  certifications: AdminCertificationRow[];
+  courseOptions: CertificationCourseOption[];
+}) {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("create");
   const [formValue, setFormValue] = useState<CertificationFormValue>(emptyForm);
@@ -58,6 +69,18 @@ export function AdminCertificationsManager({ certifications }: { certifications:
     { className: "is-expired", label: "만료", value: expiredCount },
     { className: "is-revoked", label: "취소", value: revokedCount }
   ];
+  const selectableCourseOptions = useMemo(() => {
+    const optionByTitle = new Map(courseOptions.map((course) => [course.title, course]));
+
+    if (formValue.courseTitle && !optionByTitle.has(formValue.courseTitle)) {
+      optionByTitle.set(formValue.courseTitle, {
+        category: "기존 저장값",
+        title: formValue.courseTitle
+      });
+    }
+
+    return Array.from(optionByTitle.values());
+  }, [courseOptions, formValue.courseTitle]);
   const filteredCertifications = useMemo(() => {
     const keyword = search.trim().toLowerCase();
 
@@ -321,12 +344,18 @@ export function AdminCertificationsManager({ certifications }: { certifications:
                 </label>
                 <label>
                   자격명
-                  <input
+                  <select
                     name="courseTitle"
                     onChange={(event) => updateField("courseTitle", event.target.value)}
-                    placeholder="피부미용사 국가자격증"
                     value={formValue.courseTitle}
-                  />
+                  >
+                    <option value="">자격명을 선택하세요</option>
+                    {selectableCourseOptions.map((course) => (
+                      <option key={course.title} value={course.title}>
+                        {course.title} · {course.category}
+                      </option>
+                    ))}
+                  </select>
                 </label>
                 <label>
                   자격번호

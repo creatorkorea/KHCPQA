@@ -1,9 +1,14 @@
 import { AdminConsoleShell, AdminPanel } from "@/components/AdminConsole";
 import { AdminCertificationsManager } from "@/components/AdminCertificationsManager";
 import { getAdminCertifications } from "@/lib/admin-data";
+import { getCourses } from "@/lib/content";
 
 export default async function AdminCertificationsPage() {
   const certifications = await getAdminCertifications();
+  const courseOptions = getCourses("ko").map((course) => ({
+    category: course.category,
+    title: course.title
+  }));
 
   return (
     <AdminConsoleShell
@@ -12,7 +17,7 @@ export default async function AdminCertificationsPage() {
       title="자격 데이터"
     >
       <AdminPanel className="admin-certifications-panel">
-        <AdminCertificationsManager certifications={certifications} />
+        <AdminCertificationsManager certifications={certifications} courseOptions={courseOptions} />
       </AdminPanel>
     </AdminConsoleShell>
   );

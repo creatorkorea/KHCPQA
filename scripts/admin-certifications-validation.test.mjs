@@ -85,10 +85,14 @@ test("AdminCertificationsManager connects the new certification form to the save
 
   assert.match(pageSource, /AdminCertificationsManager/);
   assert.match(pageSource, /admin-certifications-panel/);
+  assert.match(pageSource, /getCourses\("ko"\)/);
+  assert.match(pageSource, /courseOptions=\{courseOptions\}/);
   assert.match(managerSource, /saveAdminCertification/);
   assert.match(managerSource, /새 자격 등록/);
   assert.match(managerSource, /name="userEmail"/);
   assert.match(managerSource, /name="courseTitle"/);
+  assert.match(managerSource, /자격명을 선택하세요/);
+  assert.match(managerSource, /selectableCourseOptions\.map/);
   assert.match(managerSource, /name="certificateNumber"/);
   assert.match(managerSource, /name="issuedAt"/);
   assert.match(managerSource, /name="verificationCode"/);
@@ -107,6 +111,7 @@ test("AdminCertificationsManager can open existing certifications for editing", 
   assert.match(managerSource, /name="adminNote"/);
   assert.match(managerSource, /만료일/);
   assert.match(managerSource, /expiresAtDisplay/);
+  assert.match(managerSource, /기존 저장값/);
   assert.match(managerSource, /type Mode = "create" \| "update"/);
   assert.match(managerSource, /openEditModal/);
   assert.match(managerSource, /자격 수정/);
