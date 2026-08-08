@@ -8622,6 +8622,194 @@ p {
   padding: 0 24px 26px;
 }
 
+.admin-certifications-manager {
+  display: grid;
+  gap: 20px;
+  padding: 0 26px 28px;
+}
+
+.admin-certifications-panel {
+  margin: 0 auto;
+  max-width: 1520px;
+}
+
+.admin-certifications-toolbar {
+  align-items: flex-end;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.admin-certifications-summary {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  width: min(760px, 100%);
+}
+
+.admin-certifications-summary span {
+  background: #fff;
+  border: 1px solid var(--console-line);
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(64, 48, 118, 0.06);
+  color: var(--console-muted);
+  display: grid;
+  font-size: 12px;
+  font-weight: 850;
+  gap: 7px;
+  min-height: 78px;
+  padding: 14px 15px;
+  position: relative;
+}
+
+.admin-certifications-summary span::before {
+  background: #d6cee8;
+  border-radius: 999px;
+  content: "";
+  height: 4px;
+  left: 15px;
+  position: absolute;
+  right: 15px;
+  top: 0;
+}
+
+.admin-certifications-summary .is-issued::before {
+  background: #33a06f;
+}
+
+.admin-certifications-summary .is-expired::before {
+  background: #d39a31;
+}
+
+.admin-certifications-summary .is-revoked::before {
+  background: #d96060;
+}
+
+.admin-certifications-summary strong {
+  color: var(--console-ink);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.admin-certifications-filter-bar {
+  align-items: center;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
+}
+
+.admin-certifications-filter-bar .console-search-input {
+  max-width: none;
+  width: 100%;
+}
+
+.admin-certifications-status-filter {
+  align-items: center;
+  background: #fbfaff;
+  border: 1px solid var(--console-line);
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: flex-end;
+  min-height: 46px;
+  padding: 5px;
+}
+
+.admin-certifications-status-filter button {
+  background: transparent;
+  border: 0;
+  border-radius: 7px;
+  color: var(--console-muted);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+  min-height: 34px;
+  padding: 0 12px;
+}
+
+.admin-certifications-status-filter button.is-active {
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(64, 48, 118, 0.1);
+  color: var(--console-purple-dark);
+}
+
+.admin-certifications-manager .console-table-wrap {
+  background: #fff;
+  border: 1px solid var(--console-line);
+  border-radius: 8px;
+  padding: 0;
+}
+
+.admin-certifications-manager .console-table {
+  min-width: 1040px;
+}
+
+.admin-certifications-manager .console-table th,
+.admin-certifications-manager .console-table td {
+  padding: 17px 16px;
+}
+
+.admin-certifications-manager .console-table th {
+  background: #f8f6fd;
+}
+
+.admin-certification-title-cell,
+.admin-certification-user-cell,
+.admin-certification-muted-date,
+.admin-certifications-manager td:nth-child(5) span:not(.console-status) {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+  min-width: 0;
+}
+
+.admin-certification-title-cell svg {
+  color: var(--console-purple-dark);
+  flex: 0 0 auto;
+}
+
+.admin-certification-title-cell strong,
+.admin-certification-user-cell strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-certification-number {
+  background: #f6f3ff;
+  border: 1px solid #e4dcfb;
+  border-radius: 7px;
+  color: #3b3164;
+  display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+  font-weight: 800;
+  max-width: 260px;
+  overflow: hidden;
+  padding: 6px 8px;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.admin-certification-user-cell {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-certification-user-cell small {
+  color: var(--console-muted);
+  font-size: 11px;
+  font-weight: 750;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-certification-muted-date {
+  color: #9b94aa;
+}
+
 .admin-users-toolbar {
   align-items: center;
   display: flex;
@@ -9933,6 +10121,29 @@ p {
   .admin-users-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     max-width: none;
+  }
+
+  .admin-certifications-manager {
+    padding: 0 16px 22px;
+  }
+
+  .admin-certifications-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-certifications-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .admin-certifications-filter-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-certifications-status-filter {
+    justify-content: flex-start;
+    overflow-x: auto;
   }
 
   .admin-users-modal-backdrop {

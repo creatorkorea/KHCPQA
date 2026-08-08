@@ -11,7 +11,7 @@ export default async function AdminCertificationsPage() {
       description="자격 정보 및 발급 내역을 관리합니다."
       title="자격 데이터"
     >
-      <AdminPanel>
+      <AdminPanel className="admin-certifications-panel">
         <AdminCertificationsManager certifications={certifications} />
       </AdminPanel>
     </AdminConsoleShell>

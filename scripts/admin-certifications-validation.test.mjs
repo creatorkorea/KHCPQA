@@ -84,6 +84,7 @@ test("AdminCertificationsManager connects the new certification form to the save
   const managerSource = await readFile("src/components/AdminCertificationsManager.tsx", "utf8");
 
   assert.match(pageSource, /AdminCertificationsManager/);
+  assert.match(pageSource, /admin-certifications-panel/);
   assert.match(managerSource, /saveAdminCertification/);
   assert.match(managerSource, /새 자격 등록/);
   assert.match(managerSource, /name="userEmail"/);
@@ -110,4 +111,19 @@ test("AdminCertificationsManager can open existing certifications for editing", 
   assert.match(managerSource, /openEditModal/);
   assert.match(managerSource, /자격 수정/);
   assert.match(managerSource, /자격 수정 저장/);
+});
+
+test("AdminCertificationsManager keeps the certification list scannable", async () => {
+  const managerSource = await readFile("src/components/AdminCertificationsManager.tsx", "utf8");
+  const styleSource = await readFile("src/styles/globals.css", "utf8");
+
+  assert.match(managerSource, /admin-certifications-toolbar/);
+  assert.match(managerSource, /admin-certifications-summary/);
+  assert.match(managerSource, /admin-certifications-status-filter/);
+  assert.match(managerSource, /admin-certification-number/);
+  assert.match(managerSource, /admin-certification-user-cell/);
+  assert.match(styleSource, /\.admin-certifications-panel/);
+  assert.match(styleSource, /\.admin-certifications-filter-bar/);
+  assert.match(styleSource, /\.admin-certifications-status-filter button\.is-active/);
+  assert.match(styleSource, /\.admin-certification-number/);
 });

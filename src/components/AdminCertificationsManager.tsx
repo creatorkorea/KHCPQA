@@ -3,7 +3,7 @@
 import type { FormEvent } from "react";
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Pencil, Plus, Save, Search, ShieldCheck, X } from "lucide-react";
+import { CheckCircle2, Clock3, Pencil, Plus, Save, Search, ShieldCheck, X } from "lucide-react";
 import {
   saveAdminCertification,
   type SaveAdminCertificationResult
@@ -51,6 +51,12 @@ export function AdminCertificationsManager({ certifications }: { certifications:
   const issuedCount = certifications.filter((certification) => certification.status === "issued").length;
   const expiredCount = certifications.filter((certification) => certification.status === "expired").length;
   const revokedCount = certifications.filter((certification) => certification.status === "revoked").length;
+  const statusSummary = [
+    { className: "is-total", label: "전체", value: certifications.length },
+    { className: "is-issued", label: "발급", value: issuedCount },
+    { className: "is-expired", label: "만료", value: expiredCount },
+    { className: "is-revoked", label: "취소", value: revokedCount }
+  ];
   const filteredCertifications = useMemo(() => {
     const keyword = search.trim().toLowerCase();
 
@@ -121,12 +127,14 @@ export function AdminCertificationsManager({ certifications }: { certifications:
 
   return (
     <section className="admin-certifications-manager">
-      <div className="admin-users-toolbar">
-        <div className="admin-users-summary" aria-label="자격 상태 요약">
-          <span><strong>{certifications.length}</strong>전체</span>
-          <span><strong>{issuedCount}</strong>발급</span>
-          <span><strong>{expiredCount}</strong>만료</span>
-          <span><strong>{revokedCount}</strong>취소</span>
+      <div className="admin-certifications-toolbar">
+        <div className="admin-certifications-summary" aria-label="자격 상태 요약">
+          {statusSummary.map((item) => (
+            <span className={item.className} key={item.label}>
+              <strong>{item.value}</strong>
+              {item.label}
+            </span>
+          ))}
         </div>
         <button className="admin-users-new-button" onClick={openCreateModal} type="button">
           <Plus size={15} />
@@ -134,7 +142,7 @@ export function AdminCertificationsManager({ certifications }: { certifications:
         </button>
       </div>
 
-      <div className="console-filter-bar">
+      <div className="admin-certifications-filter-bar">
         <label className="console-search-input">
           <Search size={16} />
           <span className="sr-only">자격명, 자격번호, 사용자 검색</span>
@@ -144,17 +152,21 @@ export function AdminCertificationsManager({ certifications }: { certifications:
             value={search}
           />
         </label>
-        <label className="console-select">
-          <span className="sr-only">상태 전체</span>
-          <select onChange={(event) => setStatusFilter(event.target.value)} value={statusFilter}>
-            <option value="">상태 전체</option>
-            {adminCertificationStatuses.map((status) => (
-              <option key={status} value={status}>
-                {getAdminCertificationStatusLabel(status)}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="admin-certifications-status-filter" aria-label="자격 상태 필터">
+          <button className={!statusFilter ? "is-active" : undefined} onClick={() => setStatusFilter("")} type="button">
+            전체
+          </button>
+          {adminCertificationStatuses.map((status) => (
+            <button
+              className={statusFilter === status ? "is-active" : undefined}
+              key={status}
+              onClick={() => setStatusFilter(status)}
+              type="button"
+            >
+              {getAdminCertificationStatusLabel(status)}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="console-table-wrap">
@@ -174,11 +186,28 @@ export function AdminCertificationsManager({ certifications }: { certifications:
             {filteredCertifications.length ? (
               filteredCertifications.map((certification) => (
                 <tr key={certification.number}>
-                  <td>{certification.course}</td>
-                  <td>{certification.number}</td>
-                  <td>{certification.user}</td>
+                  <td>
+                    <span className="admin-certification-title-cell">
+                      <ShieldCheck size={16} />
+                      <strong>{certification.course}</strong>
+                    </span>
+                  </td>
+                  <td>
+                    <code className="admin-certification-number">{certification.number}</code>
+                  </td>
+                  <td>
+                    <span className="admin-certification-user-cell">
+                      <strong>{certification.user}</strong>
+                      <small>{certification.userEmail || "이메일 미등록"}</small>
+                    </span>
+                  </td>
                   <td>{certification.issuedAt}</td>
-                  <td>{certification.expiresAtDisplay}</td>
+                  <td>
+                    <span className={certification.expiresAt ? undefined : "admin-certification-muted-date"}>
+                      {certification.expiresAt ? <Clock3 size={14} /> : null}
+                      {certification.expiresAtDisplay}
+                    </span>
+                  </td>
                   <td>
                     <AdminStatusBadge tone={getTone(certification.status)}>
                       {getAdminCertificationStatusLabel(certification.status)}
