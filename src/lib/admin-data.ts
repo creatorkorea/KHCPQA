@@ -1,4 +1,5 @@
 import { formatInquiryReceipt } from "@/lib/receipts";
+import { formatAdminCertificationDate } from "@/lib/admin-certifications";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 
@@ -14,11 +15,17 @@ export type AdminUserRow = {
 };
 
 export type AdminCertificationRow = {
+  adminNote: string;
   course: string;
+  expiresAt: string;
+  expiresAtDisplay: string;
   issuedAt: string;
+  issuedAtRaw: string;
   number: string;
   status: string;
   user: string;
+  userEmail: string;
+  verificationCode: string;
 };
 
 export type AdminInquiryRow = {
@@ -76,11 +83,14 @@ type ProfileRow = {
 };
 
 type CertificationRow = {
+  admin_note: string | null;
   certificate_number: string;
   course_title: string;
+  expires_at: string | null;
   issued_at: string;
   status: string;
   user_id: string;
+  verification_code: string | null;
 };
 
 type InquiryRow = {
@@ -179,7 +189,7 @@ export async function getAdminCertifications(): Promise<AdminCertificationRow[]>
   const supabase = createClient();
   const { data, error } = await supabase
     .from("certifications")
-    .select("certificate_number, course_title, issued_at, status, user_id")
+    .select("certificate_number, course_title, expires_at, issued_at, status, user_id, verification_code, admin_note")
     .order("issued_at", { ascending: false })
     .limit(50);
 
@@ -196,16 +206,25 @@ export async function getAdminCertifications(): Promise<AdminCertificationRow[]>
   const profileById = new Map(
     ((profiles as Array<Pick<ProfileRow, "email" | "full_name" | "id">> | null) ?? []).map((profile) => [
       profile.id,
-      profile.full_name || profile.email || "Unnamed member"
+      {
+        email: profile.email || "",
+        name: profile.full_name || profile.email || "Unnamed member"
+      }
     ])
   );
 
   return certificationRows.map((certification) => ({
+    adminNote: certification.admin_note || "",
     course: certification.course_title,
+    expiresAt: certification.expires_at || "",
+    expiresAtDisplay: formatAdminCertificationDate(certification.expires_at || ""),
     issuedAt: formatDate(certification.issued_at),
+    issuedAtRaw: certification.issued_at,
     number: certification.certificate_number,
     status: certification.status,
-    user: profileById.get(certification.user_id) ?? "Unnamed member"
+    user: profileById.get(certification.user_id)?.name ?? "Unnamed member",
+    userEmail: profileById.get(certification.user_id)?.email ?? "",
+    verificationCode: certification.verification_code || certification.certificate_number
   }));
 }
 

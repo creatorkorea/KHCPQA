@@ -3,6 +3,7 @@
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { createClient as createSupabaseAdminClient } from "@supabase/supabase-js";
+import { buildAdminCertificationPayload } from "@/lib/admin-certifications";
 import { parseInquiryReceipt } from "@/lib/receipts";
 import {
   buildCreateAdminUserPayload,
@@ -27,7 +28,6 @@ const roleOptions = [
 ] as const;
 
 const statusOptions = ["active", "suspended", "deleted"] as const;
-const certificationStatusOptions = ["issued", "expired", "revoked"] as const;
 const contentTypes = ["Page", "Course", "Activity", "Review"] as const;
 const contentStatusOptions = ["draft", "translated", "reviewed", "published", "archived"] as const;
 const locales = ["ko", "en", "es"] as const;
@@ -48,7 +48,6 @@ const activitySlugRoots = [
 
 type AdminRole = (typeof roleOptions)[number];
 type AccountStatus = (typeof statusOptions)[number];
-type CertificationStatus = (typeof certificationStatusOptions)[number];
 type ContentType = (typeof contentTypes)[number];
 type ContentStatus = (typeof contentStatusOptions)[number];
 type Locale = (typeof locales)[number];
@@ -101,10 +100,6 @@ function isAdminRole(value: string): value is AdminRole {
 
 function isAccountStatus(value: string): value is AccountStatus {
   return statusOptions.includes(value as AccountStatus);
-}
-
-function isCertificationStatus(value: string): value is CertificationStatus {
-  return certificationStatusOptions.includes(value as CertificationStatus);
 }
 
 function isContentType(value: string): value is ContentType {
@@ -639,32 +634,22 @@ export async function deleteAdminUser(input: { userId: string }): Promise<SaveAd
 }
 
 export async function saveAdminCertification(input: {
+  adminNote?: string;
   certificateNumber: string;
   courseTitle: string;
+  expiresAt?: string;
   issuedAt: string;
   status: string;
   userEmail: string;
   verificationCode: string;
 }): Promise<SaveAdminCertificationResult> {
-  const trimmed = {
-    certificateNumber: input.certificateNumber.trim(),
-    courseTitle: input.courseTitle.trim(),
-    issuedAt: input.issuedAt.trim(),
-    status: input.status.trim(),
-    userEmail: input.userEmail.trim().toLowerCase(),
-    verificationCode: input.verificationCode.trim()
-  };
+  const validation = buildAdminCertificationPayload(input);
 
-  if (
-    !trimmed.certificateNumber ||
-    !trimmed.courseTitle ||
-    !trimmed.issuedAt ||
-    !trimmed.userEmail ||
-    !isValidDate(trimmed.issuedAt) ||
-    !isCertificationStatus(trimmed.status)
-  ) {
-    return { ok: false, message: "자격 데이터 필수 항목을 확인해 주세요." };
+  if (!validation.ok) {
+    return { ok: false, message: validation.message };
   }
+
+  const trimmed = validation.payload;
 
   if (!hasSupabaseBrowserEnv()) {
     return { ok: false, message: missingSupabaseMessage };
@@ -696,12 +681,14 @@ export async function saveAdminCertification(input: {
 
   const { error } = await actor.supabase.from("certifications").upsert(
     {
+      admin_note: trimmed.adminNote || null,
       certificate_number: trimmed.certificateNumber,
       course_title: trimmed.courseTitle,
+      expires_at: trimmed.expiresAt || null,
       issued_at: trimmed.issuedAt,
       status: trimmed.status,
       user_id: targetProfile.id,
-      verification_code: trimmed.verificationCode || trimmed.certificateNumber
+      verification_code: trimmed.verificationCode
     },
     { onConflict: "certificate_number" }
   );
@@ -711,6 +698,7 @@ export async function saveAdminCertification(input: {
   }
 
   revalidatePath("/admin");
+  revalidatePath("/admin/certifications");
   return { ok: true, message: "자격 데이터가 저장되었습니다." };
 }
 

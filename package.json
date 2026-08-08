@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test:admin-courses": "node --test scripts/admin-courses-validation.test.mjs",
+    "test:admin-certifications": "node --test scripts/admin-certifications-validation.test.mjs",
     "test:admin-inquiries": "node --test scripts/admin-inquiries-validation.test.mjs",
     "test:admin-users": "node --test scripts/admin-users-validation.test.mjs",
     "qa:data": "node scripts/import-data-qa.mjs",
