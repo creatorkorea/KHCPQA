@@ -6,6 +6,7 @@ import { CheckCircle2, Save } from "lucide-react";
 import type { ProfileFormValue } from "@/lib/account-data";
 import { getCopy, getCourses, localeLabels, locales, type Locale } from "@/lib/content";
 import { countryOptions } from "@/lib/countries";
+import { formatPhoneNumber, normalizePhoneNumber } from "@/lib/phone";
 import { createClient } from "@/lib/supabase/client";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 
@@ -52,6 +53,10 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
       nextErrors.country = t.account.profile.validation.required;
     }
 
+    if (!nextErrors.phone && form.phone !== formatPhoneNumber(form.phone)) {
+      setForm((current) => ({ ...current, phone: formatPhoneNumber(current.phone) }));
+    }
+
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   }
@@ -85,7 +90,7 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
           full_name: form.name.trim(),
           interested_course: form.interestedCourse.trim() || null,
           marketing_opt_in: form.marketingOptIn,
-          phone: form.phone.trim(),
+          phone: normalizePhoneNumber(form.phone),
           preferred_locale: form.preferredLanguage
         })
         .eq("id", user.id);
@@ -136,6 +141,7 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
             aria-invalid={Boolean(errors.phone)}
             autoComplete="tel"
             name="phone"
+            onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value))}
             onChange={(event) => updateField("phone", event.target.value)}
             type="tel"
             value={form.phone}

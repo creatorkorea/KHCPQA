@@ -1,5 +1,6 @@
 import { getCopy, localeLabels, type Locale } from "@/lib/content";
 import { getCountryLabel } from "@/lib/countries";
+import { formatPhoneNumber } from "@/lib/phone";
 import { formatInquiryReceipt } from "@/lib/receipts";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
@@ -91,7 +92,7 @@ function buildProfileData(locale: Locale, profile: ProfileRow | null, email?: st
   const profileForm = {
     name: profile?.full_name ?? "",
     email: profile?.email ?? email ?? "",
-    phone: profile?.phone ?? "",
+    phone: profile?.phone ? formatPhoneNumber(profile.phone) : "",
     country: profile?.country ?? "",
     interestedCourse: profile?.interested_course ?? "",
     marketingOptIn: Boolean(profile?.marketing_opt_in),
@@ -102,7 +103,7 @@ function buildProfileData(locale: Locale, profile: ProfileRow | null, email?: st
     profileFields: [
       { label: t.account.profile.fields[0]?.label ?? "Name", value: profileForm.name || "-" },
       { label: t.account.profile.fields[1]?.label ?? "Email", value: profileForm.email || "-" },
-      { label: t.account.profile.fields[2]?.label ?? "Phone", value: profileForm.phone || "-" },
+      { label: t.account.profile.fields[2]?.label ?? "Phone", value: profileForm.phone ? formatPhoneNumber(profileForm.phone) : "-" },
       { label: t.account.profile.fields[3]?.label ?? "Country", value: profileForm.country ? getCountryLabel(profileForm.country, locale) : "-" },
       { label: t.account.profile.fields[4]?.label ?? "Interested Course", value: profileForm.interestedCourse || "-" },
       { label: t.account.profile.fields[5]?.label ?? "Marketing Consent", value: profileForm.marketingOptIn ? "Y" : "N" },

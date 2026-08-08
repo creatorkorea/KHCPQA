@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { CheckCircle2, UserPlus } from "lucide-react";
 import { getCopy, getCourses, type Locale } from "@/lib/content";
 import { countryOptions } from "@/lib/countries";
+import { formatPhoneNumber, normalizePhoneNumber } from "@/lib/phone";
 import { buildAuthCallbackUrl } from "@/lib/site-url";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/client";
@@ -103,6 +104,10 @@ export function SignupForm({ locale }: { locale: Locale }) {
       nextErrors.consent = t.signup.validation.consent;
     }
 
+    if (!nextErrors.phone && form.phone !== formatPhoneNumber(form.phone)) {
+      setForm((current) => ({ ...current, phone: formatPhoneNumber(current.phone) }));
+    }
+
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   }
@@ -133,7 +138,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
           full_name: form.name,
           interested_course: form.interestedCourse,
           marketing_opt_in: form.marketingOptIn,
-          phone: form.phone,
+          phone: normalizePhoneNumber(form.phone),
           preferred_locale: locale,
           role: "user"
         }
@@ -201,6 +206,7 @@ export function SignupForm({ locale }: { locale: Locale }) {
           aria-invalid={Boolean(errors.phone)}
           autoComplete="tel"
           name="phone"
+          onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value))}
           onChange={(event) => updateField("phone", event.target.value)}
           placeholder={t.signup.phonePlaceholder}
           type="tel"

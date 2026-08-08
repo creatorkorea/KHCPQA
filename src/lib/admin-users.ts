@@ -1,3 +1,5 @@
+import { normalizePhoneNumber } from "@/lib/phone";
+
 export const adminUserRoles = [
   "user",
   "viewer",
@@ -143,7 +145,7 @@ function normalizeAdminUserInput(input: AdminUserInput) {
     interestedCourse: input.interestedCourse?.trim() ?? "",
     marketingOptIn: Boolean(input.marketingOptIn),
     password: input.password?.trim() ?? "",
-    phone: input.phone?.trim() ?? "",
+    phone: normalizePhoneNumber(input.phone ?? ""),
     preferredLocale: input.preferredLocale.trim() || "ko",
     role: input.role.trim() || "user",
     status: input.status.trim() || "active"

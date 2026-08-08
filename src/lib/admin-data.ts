@@ -1,5 +1,6 @@
 import { formatInquiryReceipt } from "@/lib/receipts";
 import { formatAdminCertificationDate } from "@/lib/admin-certifications";
+import { formatPhoneNumber } from "@/lib/phone";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 
@@ -182,7 +183,7 @@ export async function getAdminUsers(): Promise<AdminUserRow[]> {
     marketingOptIn: Boolean(profile.marketing_opt_in),
     name: profile.full_name || profile.email || "Unnamed member",
     email: profile.email || "-",
-    phone: profile.phone || "",
+    phone: profile.phone ? formatPhoneNumber(profile.phone) : "",
     preferredLocale: profile.preferred_locale || "ko",
     role: profile.role,
     status: profile.status,

@@ -5,7 +5,18 @@ import test from "node:test";
 import ts from "typescript";
 
 async function importTsModule(path) {
-  const source = await readFile(path, "utf8");
+  let source = await readFile(path, "utf8");
+  if (source.includes("@/lib/phone")) {
+    const phoneSource = await readFile("src/lib/phone.ts", "utf8");
+    const phoneOutput = ts.transpileModule(phoneSource, {
+      compilerOptions: {
+        module: ts.ModuleKind.ESNext,
+        target: ts.ScriptTarget.ES2020
+      }
+    }).outputText;
+    const phoneUrl = `data:text/javascript;base64,${Buffer.from(phoneOutput).toString("base64")}`;
+    source = source.replace("@/lib/phone", phoneUrl);
+  }
   const output = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
@@ -30,7 +41,7 @@ test("buildCreateAdminUserPayload trims values and defaults member metadata", ()
     interestedCourse: " 피부미용사 국가자격증 ",
     marketingOptIn: true,
     password: "secret123",
-    phone: " 010-1234-5678 ",
+    phone: " 01012345678 ",
     preferredLocale: "",
     role: "",
     status: ""
@@ -42,7 +53,7 @@ test("buildCreateAdminUserPayload trims values and defaults member metadata", ()
   assert.equal(result.payload.country, "Korea");
   assert.equal(result.payload.interestedCourse, "피부미용사 국가자격증");
   assert.equal(result.payload.marketingOptIn, true);
-  assert.equal(result.payload.phone, "010-1234-5678");
+  assert.equal(result.payload.phone, "01012345678");
   assert.equal(result.payload.preferredLocale, "ko");
   assert.equal(result.payload.role, "user");
   assert.equal(result.payload.status, "active");
@@ -94,6 +105,22 @@ test("buildUpdateAdminUserPayload requires id and normalizes editable profile fi
     status: "suspended",
     userId: "user-1"
   });
+});
+
+test("buildUpdateAdminUserPayload stores Korean mobile numbers as digits only", () => {
+  const result = buildUpdateAdminUserPayload({
+    country: "Korea",
+    email: "member@example.com",
+    fullName: "Member",
+    phone: "01012341234",
+    preferredLocale: "ko",
+    role: "user",
+    status: "active",
+    userId: "user-2"
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.payload.phone, "01012341234");
 });
 
 test("getAdminUserStatusLabel maps deleted accounts distinctly", () => {
