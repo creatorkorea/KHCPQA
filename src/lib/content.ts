@@ -669,11 +669,10 @@ export const copy = {
       lead: "건강미용 교육의 발전과 수강생의 성공을 위해 함께 성장하겠습니다.",
       greetings: [
         {
-          name: "황인근",
+          name: "봉성중",
           role: "한국건강관리사자격협회 협회장",
-          meta: "연세대학교 의과대학 특성화 학생실습 지도교수",
           imageUrl: "/assets/greeting-hwang-ingeun.jpg",
-          contact: "H : 010-6283-1206",
+          contact: "H : 010-3011-6886",
           paragraphs: [
             "협회는 한류의 성장과 함께 무한한 잠재력을 지닌 대체의학과 서비스 산업의 발전에 발맞춰 건강미용 산업 교육의 시너지를 만들 수 있는 체계를 갖추고 있습니다.",
             "수강생 여러분이 현재에서 미래로 성장할 수 있도록 함께 협력하고 상부상조하는 교류 시스템을 마련했으며, 세계 수준의 교육시스템과 체계적인 조직 관리로 맡은 역할에 충실하겠습니다.",
@@ -1243,11 +1242,10 @@ export const copy = {
       lead: "We grow together with learners through professional health and beauty education.",
       greetings: [
         {
-          name: "Hwang In-geun",
+          name: "Bong Seong-jung",
           role: "President, Korea Health Manager Approved Association",
-          meta: "Specialized student practice advisor, Yonsei University College of Medicine",
           imageUrl: "/assets/greeting-hwang-ingeun.jpg",
-          contact: "H : 010-6283-1206",
+          contact: "H : 010-3011-6886",
           paragraphs: [
             "The association is structured to create new educational synergy for the health and beauty industry in step with the growth of alternative medicine and service industries.",
             "KHCPQA maintains an exchange system that helps learners grow from the present into the future, and it will continue to fulfill its role through a world-class education system and organized management.",
@@ -1817,11 +1815,10 @@ export const copy = {
       lead: "Crecemos junto con los estudiantes mediante educación profesional en salud y belleza.",
       greetings: [
         {
-          name: "Hwang In-geun",
+          name: "Bong Seong-jung",
           role: "Presidente de Korea Health Manager Approved Association",
-          meta: "Profesor guía de práctica estudiantil especializada, Yonsei University College of Medicine",
           imageUrl: "/assets/greeting-hwang-ingeun.jpg",
-          contact: "H : 010-6283-1206",
+          contact: "H : 010-3011-6886",
           paragraphs: [
             "La asociación cuenta con un sistema educativo diseñado para crear sinergia en la formación de salud y belleza junto con el crecimiento de la medicina alternativa y la industria de servicios.",
             "KHCPQA mantiene un sistema de intercambio para ayudar a los estudiantes a crecer desde el presente hacia el futuro, y seguirá cumpliendo su papel mediante educación de nivel mundial y gestión organizada.",

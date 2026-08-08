@@ -40,9 +40,6 @@ const blankEditor: BannerEditorState = {
 };
 
 const placementLabels: Record<string, string> = {
-  activities: "활동 배너",
-  curriculum: "과정 배너",
-  global: "공통 배너",
   home: "메인 팝업"
 };
 
@@ -58,7 +55,6 @@ export function AdminPopupsManager({ banners }: { banners: AdminContentRow[] }) 
   const [editor, setEditor] = useState<BannerEditorState>(blankEditor);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
-  const [placementFilter, setPlacementFilter] = useState("");
   const [result, setResult] = useState<ActionResult | null>(null);
   const [search, setSearch] = useState("");
   const [selectedBanner, setSelectedBanner] = useState<AdminContentRow | null>(null);
@@ -76,12 +72,12 @@ export function AdminPopupsManager({ banners }: { banners: AdminContentRow[] }) 
         banner.title.toLowerCase().includes(keyword) ||
         banner.locale.toLowerCase().includes(keyword) ||
         banner.sourceUrl?.toLowerCase().includes(keyword);
-      const matchesPlacement = !placementFilter || banner.locale === placementFilter;
+      const matchesPlacement = banner.locale === "home";
       const matchesStatus = !statusFilter || banner.status === statusFilter;
 
       return matchesKeyword && matchesPlacement && matchesStatus;
     });
-  }, [banners, placementFilter, search, statusFilter]);
+  }, [banners, search, statusFilter]);
 
   const rows = filteredBanners.map((banner) => ({
     id: banner.id ?? banner.title,
@@ -124,7 +120,7 @@ export function AdminPopupsManager({ banners }: { banners: AdminContentRow[] }) 
     setEditor({
       endsAt: banner.endsAt?.slice(0, 10) ?? "",
       imageUrl: banner.imageUrl ?? "",
-      placement: banner.locale,
+      placement: "home",
       startsAt: banner.startsAt?.slice(0, 10) ?? "",
       status: banner.status,
       targetUrl: banner.sourceUrl ?? "",
@@ -145,7 +141,6 @@ export function AdminPopupsManager({ banners }: { banners: AdminContentRow[] }) 
   }
 
   function resetFilters() {
-    setPlacementFilter("");
     setSearch("");
     setStatusFilter("");
   }
@@ -276,17 +271,6 @@ export function AdminPopupsManager({ banners }: { banners: AdminContentRow[] }) 
             />
           </label>
           <label className="console-select">
-            <span className="sr-only">노출 위치 필터</span>
-            <select onChange={(event) => setPlacementFilter(event.target.value)} value={placementFilter}>
-              <option value="">노출 위치 전체</option>
-              {Object.entries(placementLabels).map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="console-select">
             <span className="sr-only">상태 필터</span>
             <select onChange={(event) => setStatusFilter(event.target.value)} value={statusFilter}>
               <option value="">상태 전체</option>
@@ -319,7 +303,7 @@ export function AdminPopupsManager({ banners }: { banners: AdminContentRow[] }) 
         <section className="console-panel community-helper-card">
           <div>
             <strong>메인 팝업과 공개 화면 배너를 등록해 필요한 캠페인만 노출하세요.</strong>
-            <p>이미지 파일 업로드, 노출 위치, 게시 상태, 기간, 연결 URL을 한 화면에서 관리합니다.</p>
+            <p>메인 팝업 이미지, 게시 상태, 기간, 연결 URL을 한 화면에서 관리합니다.</p>
           </div>
           <button className="console-primary-button" onClick={startCreate} type="button">
             <ImagePlus size={16} />
@@ -333,7 +317,7 @@ export function AdminPopupsManager({ banners }: { banners: AdminContentRow[] }) 
               <div>
                 <span className="community-editor-kicker">팝업/배너 콘텐츠</span>
                 <h2>{selectedBanner ? "팝업/배너 수정" : "새 팝업/배너 등록"}</h2>
-                <p>노출 위치와 기간을 설정하고 대표 이미지를 등록합니다.</p>
+                <p>메인 팝업의 기간을 설정하고 대표 이미지를 등록합니다.</p>
               </div>
               <button aria-label="편집 패널 닫기" className="console-row-action" onClick={closeEditor} type="button">
                 <X size={14} />
@@ -352,13 +336,7 @@ export function AdminPopupsManager({ banners }: { banners: AdminContentRow[] }) 
               </label>
               <label>
                 노출 위치
-                <select onChange={(event) => updateEditor("placement", event.target.value)} required value={editor.placement}>
-                  {Object.entries(placementLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
+                <input readOnly value="메인 팝업" />
               </label>
               <label>
                 게시 상태
