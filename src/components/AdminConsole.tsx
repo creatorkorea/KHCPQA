@@ -10,7 +10,6 @@ import {
   Globe2,
   ImageIcon,
   Inbox,
-  Languages,
   LayoutDashboard,
   MessageSquare,
   MoreHorizontal,
@@ -59,8 +58,7 @@ const adminNavItems: AdminNavItem[] = [
   { href: "/admin/inquiries", icon: Inbox, key: "inquiries", label: "문의 관리" },
   { href: "/admin/users", icon: Users, key: "users", label: "사용자 관리" },
   { href: "/admin/certifications", icon: ShieldCheck, key: "certifications", label: "자격 데이터" },
-  { href: "/admin/popups", icon: ImageIcon, key: "popups", label: "팝업/배너 관리" },
-  { href: "/admin/translations", icon: Languages, key: "translations", label: "번역 관리" }
+  { href: "/admin/popups", icon: ImageIcon, key: "popups", label: "팝업/배너 관리" }
 ];
 
 export function AdminConsoleShell({

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, BookOpen, FileText, Inbox, Languages, MessageSquare, Plus } from "lucide-react";
+import { ArrowRight, BadgeCheck, BookOpen, FileText, Inbox, MessageSquare, Plus } from "lucide-react";
 import {
   AdminConsoleShell,
   AdminPanel,
@@ -25,9 +25,6 @@ export default async function AdminDashboardPage() {
     items.some((row) => row.status === "published")
   ).length;
   const draftCount = courseRows.filter((row) => row.status === "draft").length;
-  const translationNeededCount = Array.from(courseGroups.values()).filter((items) =>
-    new Set(items.map((row) => row.locale)).size < supportedLocales.length
-  ).length;
   const chartBuckets = buildChartBuckets(courseRows);
   const chart = buildChartPoints(chartBuckets);
   const recentCourses = Array.from(courseGroups.values())
@@ -63,13 +60,6 @@ export default async function AdminDashboardPage() {
           label="임시저장"
           value={draftCount}
         />
-        <AdminStatCard
-          description="번역 관리로 이동"
-          href="/admin/translations"
-          icon={Languages}
-          label="번역 필요"
-          value={translationNeededCount}
-        />
       </section>
 
       <section className="console-quick-actions" aria-label="빠른 작업">
@@ -82,11 +72,6 @@ export default async function AdminDashboardPage() {
           <span><MessageSquare size={18} /></span>
           <strong>문의 확인</strong>
           <small>상담 요청 상태 점검</small>
-        </Link>
-        <Link href="/admin/translations">
-          <span><Languages size={18} /></span>
-          <strong>번역 필요 보기</strong>
-          <small>언어별 누락 콘텐츠 확인</small>
         </Link>
       </section>
 
@@ -180,8 +165,6 @@ function statusLabel(status: string) {
   if (status === "translated") return "검수중";
   return status;
 }
-
-const supportedLocales = ["ko", "en", "es"];
 
 function groupCourses(rows: AdminContentRow[]) {
   const groups = new Map<string, AdminContentRow[]>();
