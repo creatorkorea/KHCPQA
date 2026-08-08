@@ -34,7 +34,10 @@
 | id | Auth user ID |
 | name | 이름 |
 | email | 이메일 |
+| phone | 휴대폰/연락처 |
 | country | 국가 |
+| interested_course | 관심 과정 |
+| marketing_opt_in | 교육/상담 안내 수신 동의 여부 |
 | preferred_locale | 선호 언어 |
 | role | `user`/`viewer`/`content_manager`/`course_manager`/`certification_manager`/`inquiry_manager`/`super_admin` |
 | status | `active`/`suspended`/`deleted` |

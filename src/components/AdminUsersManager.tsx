@@ -5,6 +5,8 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Pencil, Save, ShieldCheck, Trash2, UserCog, UserPlus, X } from "lucide-react";
 import { deleteAdminUser, saveAdminUser, type SaveAdminUserResult } from "@/app/admin/actions";
+import { getCourses } from "@/lib/content";
+import { countryOptions } from "@/lib/countries";
 import {
   adminUserLocales,
   adminUserRoles,
@@ -20,7 +22,10 @@ type UserFormValue = {
   country: string;
   email: string;
   fullName: string;
+  interestedCourse: string;
+  marketingOptIn: boolean;
   password: string;
+  phone: string;
   preferredLocale: string;
   role: string;
   status: string;
@@ -30,7 +35,10 @@ const emptyForm: UserFormValue = {
   country: "",
   email: "",
   fullName: "",
+  interestedCourse: "",
+  marketingOptIn: false,
   password: "",
+  phone: "",
   preferredLocale: "ko",
   role: "user",
   status: "active"
@@ -38,6 +46,7 @@ const emptyForm: UserFormValue = {
 
 export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
   const router = useRouter();
+  const courseOptions = getCourses("ko");
   const [mode, setMode] = useState<Mode>("create");
   const [selectedUserId, setSelectedUserId] = useState("");
   const [formValue, setFormValue] = useState<UserFormValue>(emptyForm);
@@ -64,7 +73,10 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
       country: user.country,
       email: user.email === "-" ? "" : user.email,
       fullName: user.name === user.email ? "" : user.name,
+      interestedCourse: user.interestedCourse,
+      marketingOptIn: user.marketingOptIn,
       password: "",
+      phone: user.phone,
       preferredLocale: user.preferredLocale || "ko",
       role: user.role,
       status: user.status
@@ -82,7 +94,7 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
     setResult(null);
   }
 
-  function updateField(name: keyof UserFormValue, value: string) {
+  function updateField<Key extends keyof UserFormValue>(name: Key, value: UserFormValue[Key]) {
     setFormValue((current) => ({ ...current, [name]: value }));
     setResult(null);
   }
@@ -163,7 +175,7 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
                 <tr className={user.status === "deleted" ? "is-deleted" : undefined} key={user.id}>
                   <td>
                     <strong>{user.name}</strong>
-                    <span>{user.preferredLocale.toUpperCase()} · {user.country || "-"}</span>
+                    <span>{user.preferredLocale.toUpperCase()} · {user.country || "-"} · {user.phone || "연락처 없음"}</span>
                   </td>
                   <td>{user.email}</td>
                   <td>{getAdminUserRoleLabel(user.role)}</td>
@@ -260,12 +272,52 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
                 ) : null}
                 <label>
                   국가
-                  <input
+                  <select
                     name="country"
                     onChange={(event) => updateField("country", event.target.value)}
-                    placeholder="Korea"
                     value={formValue.country}
+                  >
+                    <option value="">국가 선택</option>
+                    {countryOptions.map((country) => (
+                      <option key={country.value} value={country.value}>
+                        {country.labels.ko}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  휴대폰
+                  <input
+                    name="phone"
+                    onChange={(event) => updateField("phone", event.target.value)}
+                    placeholder="010-0000-0000"
+                    type="tel"
+                    value={formValue.phone}
                   />
+                </label>
+                <label>
+                  관심 과정
+                  <select
+                    name="interestedCourse"
+                    onChange={(event) => updateField("interestedCourse", event.target.value)}
+                    value={formValue.interestedCourse}
+                  >
+                    <option value="">관심 과정 없음</option>
+                    {courseOptions.map((course) => (
+                      <option key={course.slug} value={course.title}>
+                        {course.title}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="checkbox full">
+                  <input
+                    checked={formValue.marketingOptIn}
+                    name="marketingOptIn"
+                    onChange={(event) => updateField("marketingOptIn", event.target.checked)}
+                    type="checkbox"
+                  />
+                  <span>마케팅 정보 수신 동의</span>
                 </label>
               </div>
             </div>

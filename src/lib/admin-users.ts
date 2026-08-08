@@ -19,7 +19,10 @@ export type AdminUserInput = {
   country: string;
   email: string;
   fullName: string;
+  interestedCourse?: string;
+  marketingOptIn?: boolean;
   password?: string;
+  phone?: string;
   preferredLocale: string;
   role: string;
   status: string;
@@ -30,7 +33,10 @@ export type CreateAdminUserPayload = {
   country: string | null;
   email: string;
   fullName: string | null;
+  interestedCourse: string | null;
+  marketingOptIn: boolean;
   password: string;
+  phone: string | null;
   preferredLocale: AdminUserLocale;
   role: AdminUserRole;
   status: AdminUserStatus;
@@ -70,7 +76,10 @@ export function buildCreateAdminUserPayload(input: AdminUserInput): ValidationRe
       country: normalized.country || null,
       email: normalized.email,
       fullName: normalized.fullName || null,
+      interestedCourse: normalized.interestedCourse || null,
+      marketingOptIn: normalized.marketingOptIn,
       password: normalized.password,
+      phone: normalized.phone || null,
       preferredLocale: normalized.preferredLocale as AdminUserLocale,
       role: normalized.role as AdminUserRole,
       status: normalized.status as AdminUserStatus
@@ -97,6 +106,9 @@ export function buildUpdateAdminUserPayload(input: AdminUserInput): ValidationRe
       country: normalized.country || null,
       email: normalized.email,
       fullName: normalized.fullName || null,
+      interestedCourse: normalized.interestedCourse || null,
+      marketingOptIn: normalized.marketingOptIn,
+      phone: normalized.phone || null,
       preferredLocale: normalized.preferredLocale as AdminUserLocale,
       role: normalized.role as AdminUserRole,
       status: normalized.status as AdminUserStatus,
@@ -128,7 +140,10 @@ function normalizeAdminUserInput(input: AdminUserInput) {
     country: input.country.trim(),
     email: input.email.trim().toLowerCase(),
     fullName: input.fullName.trim(),
+    interestedCourse: input.interestedCourse?.trim() ?? "",
+    marketingOptIn: Boolean(input.marketingOptIn),
     password: input.password?.trim() ?? "",
+    phone: input.phone?.trim() ?? "",
     preferredLocale: input.preferredLocale.trim() || "ko",
     role: input.role.trim() || "user",
     status: input.status.trim() || "active"

@@ -6,8 +6,11 @@ import { createClient } from "@/lib/supabase/server";
 export type AdminUserRow = {
   country: string;
   id: string;
+  interestedCourse: string;
+  marketingOptIn: boolean;
   name: string;
   email: string;
+  phone: string;
   preferredLocale: string;
   role: string;
   status: string;
@@ -76,6 +79,9 @@ type ProfileRow = {
   id: string;
   email: string | null;
   full_name: string | null;
+  interested_course: string | null;
+  marketing_opt_in: boolean | null;
+  phone: string | null;
   preferred_locale: string;
   role: string;
   status: string;
@@ -161,7 +167,7 @@ export async function getAdminUsers(): Promise<AdminUserRow[]> {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, email, full_name, country, preferred_locale, role, status, updated_at")
+    .select("id, email, full_name, phone, country, interested_course, marketing_opt_in, preferred_locale, role, status, updated_at")
     .order("updated_at", { ascending: false })
     .limit(50);
 
@@ -172,8 +178,11 @@ export async function getAdminUsers(): Promise<AdminUserRow[]> {
   return (data as ProfileRow[]).map((profile) => ({
     country: profile.country || "",
     id: profile.id,
+    interestedCourse: profile.interested_course || "",
+    marketingOptIn: Boolean(profile.marketing_opt_in),
     name: profile.full_name || profile.email || "Unnamed member",
     email: profile.email || "-",
+    phone: profile.phone || "",
     preferredLocale: profile.preferred_locale || "ko",
     role: profile.role,
     status: profile.status,

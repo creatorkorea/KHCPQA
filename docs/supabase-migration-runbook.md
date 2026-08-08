@@ -17,6 +17,10 @@ Open Supabase Dashboard > SQL Editor and run the migration files in this exact o
 2. `supabase/migrations/202607120002_allow_public_inquiry_insert.sql`
 3. `supabase/migrations/202607120003_create_admin_content_tables.sql`
 4. `supabase/migrations/202607220001_add_admin_image_urls.sql`
+5. `supabase/migrations/202607270001_reload_admin_content_image_url.sql`
+6. `supabase/migrations/202607270002_create_admin_uploads_bucket.sql`
+7. `supabase/migrations/202608020001_add_board_author_and_view_count.sql`
+8. `supabase/migrations/202608080001_extend_profile_registration_fields.sql`
 
 Run each file separately. The migrations use `create ... if not exists`, `drop trigger if exists`, and policy/table names that are intended for forward setup.
 
@@ -163,7 +167,7 @@ CLI application requires a Supabase access token or browser login. App keys in `
 7. In Supabase SQL Editor, verify a matching `profiles` row exists:
 
 ```sql
-select id, email, full_name, country, preferred_locale, role, status
+select id, email, full_name, phone, country, interested_course, marketing_opt_in, preferred_locale, role, status
 from public.profiles
 order by created_at desc
 limit 5;

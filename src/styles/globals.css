@@ -6056,7 +6056,8 @@ p {
 
 .inquiry-form input,
 .inquiry-form textarea,
-.auth-card input {
+.auth-card input,
+.auth-card select {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   min-height: 46px;
@@ -6787,7 +6788,9 @@ p {
 }
 
 .login-auth-section .auth-card input,
-.signup-auth-section .auth-card input {
+.login-auth-section .auth-card select,
+.signup-auth-section .auth-card input,
+.signup-auth-section .auth-card select {
   border-radius: 8px;
   min-height: 52px;
   padding-inline: 16px;
@@ -7095,6 +7098,11 @@ p {
 
 .profile-edit-form .full {
   grid-column: 1 / -1;
+}
+
+.profile-edit-form .checkbox input {
+  min-height: 18px;
+  width: 18px;
 }
 
 .profile-edit-form .primary-button {
@@ -7866,6 +7874,11 @@ p {
 
 .admin-editor-grid textarea {
   resize: vertical;
+}
+
+.admin-editor-grid .checkbox input {
+  min-height: 18px;
+  width: 18px;
 }
 
 .admin-editor-actions {

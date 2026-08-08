@@ -1,4 +1,5 @@
 import { getCopy, localeLabels, type Locale } from "@/lib/content";
+import { getCountryLabel } from "@/lib/countries";
 import { formatInquiryReceipt } from "@/lib/receipts";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
@@ -6,7 +7,10 @@ import { createClient } from "@/lib/supabase/server";
 export type ProfileFormValue = {
   name: string;
   email: string;
+  phone: string;
   country: string;
+  interestedCourse: string;
+  marketingOptIn: boolean;
   preferredLanguage: Locale;
 };
 
@@ -38,7 +42,10 @@ export type AccountData = {
 type ProfileRow = {
   email: string | null;
   full_name: string | null;
+  phone: string | null;
   country: string | null;
+  interested_course: string | null;
+  marketing_opt_in: boolean | null;
   preferred_locale: Locale | null;
 };
 
@@ -84,7 +91,10 @@ function buildProfileData(locale: Locale, profile: ProfileRow | null, email?: st
   const profileForm = {
     name: profile?.full_name ?? "",
     email: profile?.email ?? email ?? "",
+    phone: profile?.phone ?? "",
     country: profile?.country ?? "",
+    interestedCourse: profile?.interested_course ?? "",
+    marketingOptIn: Boolean(profile?.marketing_opt_in),
     preferredLanguage
   };
 
@@ -92,9 +102,12 @@ function buildProfileData(locale: Locale, profile: ProfileRow | null, email?: st
     profileFields: [
       { label: t.account.profile.fields[0]?.label ?? "Name", value: profileForm.name || "-" },
       { label: t.account.profile.fields[1]?.label ?? "Email", value: profileForm.email || "-" },
-      { label: t.account.profile.fields[2]?.label ?? "Country", value: profileForm.country || "-" },
+      { label: t.account.profile.fields[2]?.label ?? "Phone", value: profileForm.phone || "-" },
+      { label: t.account.profile.fields[3]?.label ?? "Country", value: profileForm.country ? getCountryLabel(profileForm.country, locale) : "-" },
+      { label: t.account.profile.fields[4]?.label ?? "Interested Course", value: profileForm.interestedCourse || "-" },
+      { label: t.account.profile.fields[5]?.label ?? "Marketing Consent", value: profileForm.marketingOptIn ? "Y" : "N" },
       {
-        label: t.account.profile.fields[3]?.label ?? "Language",
+        label: t.account.profile.fields[6]?.label ?? "Language",
         value: localeLabels[profileForm.preferredLanguage] ?? profileForm.preferredLanguage
       }
     ],
@@ -139,7 +152,11 @@ export async function getAccountData(locale: Locale): Promise<AccountData> {
   }
 
   const [{ data: profile }, { data: certificates }, { data: inquiries }] = await Promise.all([
-    supabase.from("profiles").select("email, full_name, country, preferred_locale").eq("id", user.id).maybeSingle(),
+    supabase
+      .from("profiles")
+      .select("email, full_name, phone, country, interested_course, marketing_opt_in, preferred_locale")
+      .eq("id", user.id)
+      .maybeSingle(),
     supabase
       .from("certifications")
       .select("certificate_number, course_title, issued_at, status, verification_code")

@@ -27,7 +27,10 @@ test("buildCreateAdminUserPayload trims values and defaults member metadata", ()
     country: " Korea ",
     email: " Member@Example.COM ",
     fullName: " 홍길동 ",
+    interestedCourse: " 피부미용사 국가자격증 ",
+    marketingOptIn: true,
     password: "secret123",
+    phone: " 010-1234-5678 ",
     preferredLocale: "",
     role: "",
     status: ""
@@ -37,6 +40,9 @@ test("buildCreateAdminUserPayload trims values and defaults member metadata", ()
   assert.equal(result.payload.email, "member@example.com");
   assert.equal(result.payload.fullName, "홍길동");
   assert.equal(result.payload.country, "Korea");
+  assert.equal(result.payload.interestedCourse, "피부미용사 국가자격증");
+  assert.equal(result.payload.marketingOptIn, true);
+  assert.equal(result.payload.phone, "010-1234-5678");
   assert.equal(result.payload.preferredLocale, "ko");
   assert.equal(result.payload.role, "user");
   assert.equal(result.payload.status, "active");
@@ -66,6 +72,9 @@ test("buildUpdateAdminUserPayload requires id and normalizes editable profile fi
     country: " Spain ",
     email: " User@Example.com ",
     fullName: " Admin User ",
+    interestedCourse: " Global Course ",
+    marketingOptIn: true,
+    phone: " +34 600 000 000 ",
     preferredLocale: "es",
     role: "viewer",
     status: "suspended",
@@ -77,6 +86,9 @@ test("buildUpdateAdminUserPayload requires id and normalizes editable profile fi
     country: "Spain",
     email: "user@example.com",
     fullName: "Admin User",
+    interestedCourse: "Global Course",
+    marketingOptIn: true,
+    phone: "+34 600 000 000",
     preferredLocale: "es",
     role: "viewer",
     status: "suspended",

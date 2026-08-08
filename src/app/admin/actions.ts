@@ -530,6 +530,9 @@ export async function saveAdminUser(input: AdminUserInput & { mode: "create" | "
       user_metadata: {
         country: payload.country,
         full_name: payload.fullName,
+        interested_course: payload.interestedCourse,
+        marketing_opt_in: payload.marketingOptIn,
+        phone: payload.phone,
         preferred_locale: payload.preferredLocale
       }
     });
@@ -550,6 +553,9 @@ export async function saveAdminUser(input: AdminUserInput & { mode: "create" | "
         email: payload.email,
         full_name: payload.fullName,
         id: userId,
+        interested_course: payload.interestedCourse,
+        marketing_opt_in: payload.marketingOptIn,
+        phone: payload.phone,
         preferred_locale: payload.preferredLocale,
         role: payload.role,
         status: payload.status
@@ -579,6 +585,9 @@ export async function saveAdminUser(input: AdminUserInput & { mode: "create" | "
       country: payload.country,
       email: payload.email,
       full_name: payload.fullName,
+      interested_course: payload.interestedCourse,
+      marketing_opt_in: payload.marketingOptIn,
+      phone: payload.phone,
       preferred_locale: payload.preferredLocale,
       role: payload.role,
       status: payload.status

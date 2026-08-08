@@ -372,8 +372,13 @@ type Copy = {
     namePlaceholder: string;
     email: string;
     emailPlaceholder: string;
+    phone: string;
+    phonePlaceholder: string;
     country: string;
     countryPlaceholder: string;
+    interestedCourse: string;
+    interestedCoursePlaceholder: string;
+    marketingConsent: string;
     password: string;
     passwordPlaceholder: string;
     confirmPassword: string;
@@ -929,8 +934,13 @@ export const copy = {
       namePlaceholder: "이름을 입력하세요",
       email: "이메일",
       emailPlaceholder: "name@example.com",
+      phone: "휴대폰",
+      phonePlaceholder: "010-0000-0000",
       country: "국가",
-      countryPlaceholder: "국가",
+      countryPlaceholder: "국가 선택",
+      interestedCourse: "관심 과정",
+      interestedCoursePlaceholder: "관심 과정을 선택하세요",
+      marketingConsent: "교육/상담 안내 수신에 동의합니다.",
       password: "비밀번호",
       passwordPlaceholder: "8자 이상",
       confirmPassword: "비밀번호 확인",
@@ -973,7 +983,7 @@ export const copy = {
         title: "프로필",
         lead: "회원 정보를 확인하고 필요한 내용을 수정할 수 있습니다.",
         editTitle: "프로필 수정",
-        editLead: "이름, 국가, 선호 언어를 수정할 수 있습니다.",
+        editLead: "이름, 연락처, 국가, 관심 과정, 선호 언어를 수정할 수 있습니다.",
         saveCta: "저장하기",
         successTitle: "프로필이 저장되었습니다.",
         successMessage: "수정한 회원 정보가 저장되었습니다.",
@@ -984,7 +994,10 @@ export const copy = {
         fields: [
           { label: "이름", value: "KHCPQA Demo Member" },
           { label: "이메일", value: "member@example.com" },
+          { label: "휴대폰", value: "010-0000-0000" },
           { label: "국가", value: "Korea" },
+          { label: "관심 과정", value: "피부미용사 국가자격증" },
+          { label: "마케팅 수신", value: "동의" },
           { label: "선호 언어", value: "한국어" }
         ]
       },
@@ -1502,8 +1515,13 @@ export const copy = {
       namePlaceholder: "Your name",
       email: "Email",
       emailPlaceholder: "name@example.com",
+      phone: "Phone",
+      phonePlaceholder: "+1 000 000 0000",
       country: "Country",
-      countryPlaceholder: "Country",
+      countryPlaceholder: "Select country",
+      interestedCourse: "Interested Program",
+      interestedCoursePlaceholder: "Select a program",
+      marketingConsent: "I agree to receive education and consultation updates.",
       password: "Password",
       passwordPlaceholder: "At least 8 characters",
       confirmPassword: "Confirm Password",
@@ -1546,7 +1564,7 @@ export const copy = {
         title: "Profile",
         lead: "Review and update your member information.",
         editTitle: "Edit Profile",
-        editLead: "Update your name, country, and preferred language.",
+        editLead: "Update your name, phone, country, interested program, and preferred language.",
         saveCta: "Save",
         successTitle: "Profile saved.",
         successMessage: "Your member information has been updated.",
@@ -1557,7 +1575,10 @@ export const copy = {
         fields: [
           { label: "Name", value: "KHCPQA Demo Member" },
           { label: "Email", value: "member@example.com" },
+          { label: "Phone", value: "+1 000 000 0000" },
           { label: "Country", value: "Korea" },
+          { label: "Interested Program", value: "Skin Care Specialist National Certification" },
+          { label: "Marketing Consent", value: "Agreed" },
           { label: "Preferred Language", value: "English" }
         ]
       },
@@ -2075,8 +2096,13 @@ export const copy = {
       namePlaceholder: "Su nombre",
       email: "Email",
       emailPlaceholder: "name@example.com",
+      phone: "Telefono",
+      phonePlaceholder: "+34 000 000 000",
       country: "País",
-      countryPlaceholder: "País",
+      countryPlaceholder: "Seleccione pais",
+      interestedCourse: "Programa de interes",
+      interestedCoursePlaceholder: "Seleccione un programa",
+      marketingConsent: "Acepto recibir novedades de formacion y consulta.",
       password: "Contraseña",
       passwordPlaceholder: "Al menos 8 caracteres",
       confirmPassword: "Confirmar contraseña",
@@ -2119,7 +2145,7 @@ export const copy = {
         title: "Perfil",
         lead: "Revise y actualice su información de miembro.",
         editTitle: "Editar Perfil",
-        editLead: "Actualice su nombre, país e idioma preferido.",
+        editLead: "Actualice su nombre, telefono, pais, programa de interes e idioma preferido.",
         saveCta: "Guardar",
         successTitle: "Perfil guardado.",
         successMessage: "La información de miembro se actualizó correctamente.",
@@ -2130,7 +2156,10 @@ export const copy = {
         fields: [
           { label: "Nombre", value: "KHCPQA Demo Member" },
           { label: "Email", value: "member@example.com" },
+          { label: "Telefono", value: "+34 000 000 000" },
           { label: "País", value: "Korea" },
+          { label: "Programa de interes", value: "Certificacion Nacional de Especialista en Cuidado de la Piel" },
+          { label: "Consentimiento marketing", value: "Aceptado" },
           { label: "Idioma preferido", value: "Español" }
         ]
       },

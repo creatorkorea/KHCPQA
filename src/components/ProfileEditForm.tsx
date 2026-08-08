@@ -4,7 +4,8 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import { CheckCircle2, Save } from "lucide-react";
 import type { ProfileFormValue } from "@/lib/account-data";
-import { getCopy, localeLabels, locales, type Locale } from "@/lib/content";
+import { getCopy, getCourses, localeLabels, locales, type Locale } from "@/lib/content";
+import { countryOptions } from "@/lib/countries";
 import { createClient } from "@/lib/supabase/client";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 
@@ -18,6 +19,7 @@ function isValidEmail(value: string) {
 
 export function ProfileEditForm({ initialProfile, locale }: { initialProfile: ProfileFormValue; locale: Locale }) {
   const t = getCopy(locale);
+  const courses = getCourses(locale);
   const [form, setForm] = useState<ProfileFormValue>(initialProfile);
   const [errors, setErrors] = useState<Partial<Record<keyof ProfileFormState, string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -40,6 +42,10 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
       nextErrors.email = t.account.profile.validation.required;
     } else if (!isValidEmail(form.email)) {
       nextErrors.email = t.account.profile.validation.email;
+    }
+
+    if (form.phone.trim().length === 0) {
+      nextErrors.phone = t.account.profile.validation.required;
     }
 
     if (form.country.trim().length === 0) {
@@ -77,6 +83,9 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
         .update({
           country: form.country.trim(),
           full_name: form.name.trim(),
+          interested_course: form.interestedCourse.trim() || null,
+          marketing_opt_in: form.marketingOptIn,
+          phone: form.phone.trim(),
           preferred_locale: form.preferredLanguage
         })
         .eq("id", user.id);
@@ -104,6 +113,7 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
           {t.account.profile.fields[0]?.label}
           <input
             aria-invalid={Boolean(errors.name)}
+            name="name"
             onChange={(event) => updateField("name", event.target.value)}
             value={form.name}
           />
@@ -113,6 +123,7 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
           {t.account.profile.fields[1]?.label}
           <input
             aria-invalid={Boolean(errors.email)}
+            name="email"
             onChange={(event) => updateField("email", event.target.value)}
             type="email"
             value={form.email}
@@ -122,15 +133,51 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
         <label>
           {t.account.profile.fields[2]?.label}
           <input
-            aria-invalid={Boolean(errors.country)}
-            onChange={(event) => updateField("country", event.target.value)}
-            value={form.country}
+            aria-invalid={Boolean(errors.phone)}
+            autoComplete="tel"
+            name="phone"
+            onChange={(event) => updateField("phone", event.target.value)}
+            type="tel"
+            value={form.phone}
           />
-          {errors.country ? <span className="form-error">{errors.country}</span> : null}
+          {errors.phone ? <span className="form-error">{errors.phone}</span> : null}
         </label>
         <label>
           {t.account.profile.fields[3]?.label}
           <select
+            aria-invalid={Boolean(errors.country)}
+            name="country"
+            onChange={(event) => updateField("country", event.target.value)}
+            value={form.country}
+          >
+            <option value="">{t.signup.countryPlaceholder}</option>
+            {countryOptions.map((country) => (
+              <option key={country.value} value={country.value}>
+                {country.labels[locale]}
+              </option>
+            ))}
+          </select>
+          {errors.country ? <span className="form-error">{errors.country}</span> : null}
+        </label>
+        <label>
+          {t.account.profile.fields[4]?.label}
+          <select
+            name="interestedCourse"
+            onChange={(event) => updateField("interestedCourse", event.target.value)}
+            value={form.interestedCourse}
+          >
+            <option value="">{t.signup.interestedCoursePlaceholder}</option>
+            {courses.map((course) => (
+              <option key={course.slug} value={course.title}>
+                {course.title}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          {t.account.profile.fields[6]?.label}
+          <select
+            name="preferredLanguage"
             onChange={(event) => updateField("preferredLanguage", event.target.value as Locale)}
             value={form.preferredLanguage}
           >
@@ -140,6 +187,15 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
               </option>
             ))}
           </select>
+        </label>
+        <label className="checkbox full">
+          <input
+            checked={form.marketingOptIn}
+            name="marketingOptIn"
+            onChange={(event) => updateField("marketingOptIn", event.target.checked)}
+            type="checkbox"
+          />
+          <span>{t.signup.marketingConsent}</span>
         </label>
         {isSubmitted ? (
           <div className="form-success full" role="status">

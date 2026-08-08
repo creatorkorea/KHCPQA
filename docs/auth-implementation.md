@@ -34,9 +34,9 @@ Supabase Auth URL 설정:
 
 ## 가입 흐름
 
-1. 사용자가 `/[locale]/signup`에서 이름, 이메일, 국가, 비밀번호, 동의 여부를 입력한다.
+1. 사용자가 `/[locale]/signup`에서 이름, 이메일, 휴대폰, 국가, 관심 과정, 비밀번호, 동의 여부를 입력한다.
 2. Supabase Auth `signUp`으로 계정을 생성한다.
-3. `users` 또는 `profiles` 테이블에 `id`, `name`, `email`, `country`, `preferred_locale`, `role=user`를 저장한다.
+3. `profiles` 테이블에 `id`, `full_name`, `email`, `phone`, `country`, `interested_course`, `marketing_opt_in`, `preferred_locale`, `role=user`를 저장한다.
 4. 이메일 확인 정책을 사용할 경우 확인 전 안내 상태를 표시한다.
 5. 세션이 있으면 `/[locale]/account`로 이동한다.
 
