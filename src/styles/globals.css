@@ -7471,6 +7471,12 @@ p {
   margin-bottom: 5px;
 }
 
+.inquiry-list article p.inquiry-answer {
+  background: #f4fbf7;
+  border-color: rgba(0, 107, 53, 0.18);
+  color: var(--green-dark);
+}
+
 .inquiry-list dd {
   background: transparent;
   border-radius: 0;

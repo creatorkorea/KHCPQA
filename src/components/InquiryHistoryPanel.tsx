@@ -33,6 +33,16 @@ function getInquiryStatusLabel(status: string, locale: Locale) {
   return labels[status]?.[locale] ?? status;
 }
 
+function getManagerNoteLabel(locale: Locale) {
+  const labels: Record<Locale, string> = {
+    en: "Reply",
+    es: "Respuesta",
+    ko: "답변 내용"
+  };
+
+  return labels[locale];
+}
+
 export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]; locale: Locale }) {
   const t = getCopy(locale);
   const statusCounts = useMemo(() => {
@@ -109,6 +119,12 @@ export function InquiryHistoryPanel({ items, locale }: { items: AccountInquiry[]
                 <span>{t.account.inquiries.messageLabel}</span>
                 {item.message}
               </p>
+              {item.managerNote ? (
+                <p className="inquiry-answer">
+                  <span>{getManagerNoteLabel(locale)}</span>
+                  {item.managerNote}
+                </p>
+              ) : null}
             </article>
           ))
         ) : (

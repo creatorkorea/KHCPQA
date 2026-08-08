@@ -19,6 +19,7 @@ export type AccountCertificate = {
 };
 
 export type AccountInquiry = {
+  managerNote: string;
   receipt: string;
   title: string;
   type: string;
@@ -52,6 +53,7 @@ type CertificateRow = {
 type InquiryRow = {
   id: string;
   inquiry_type: string;
+  manager_note: string | null;
   message: string;
   created_at: string;
   status: string;
@@ -112,6 +114,7 @@ function mapCertificate(locale: Locale, row: CertificateRow): AccountCertificate
 
 function mapInquiry(locale: Locale, row: InquiryRow): AccountInquiry {
   return {
+    managerNote: row.manager_note || "",
     receipt: formatInquiryReceipt(row.id, row.created_at),
     title: row.inquiry_type,
     type: row.inquiry_type,
@@ -144,7 +147,7 @@ export async function getAccountData(locale: Locale): Promise<AccountData> {
       .order("issued_at", { ascending: false }),
     supabase
       .from("inquiries")
-      .select("id, inquiry_type, message, created_at, status")
+      .select("id, inquiry_type, message, manager_note, created_at, status")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
   ]);
