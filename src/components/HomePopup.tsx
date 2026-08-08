@@ -14,22 +14,14 @@ export function HomePopup({ banner }: { banner?: PublishedBanner }) {
       return;
     }
 
-    const storageKey = `khcpqa-home-popup:${banner.title}:${banner.startsAt || ""}:${banner.endsAt || ""}`;
-    const dismissed = window.sessionStorage.getItem(storageKey);
-
-    if (!dismissed) {
-      setIsVisible(true);
-    }
+    setIsVisible(true);
   }, [banner]);
 
   if (!banner?.imageUrl || !isVisible) {
     return null;
   }
 
-  const storageKey = `khcpqa-home-popup:${banner.title}:${banner.startsAt || ""}:${banner.endsAt || ""}`;
-
   function closePopup() {
-    window.sessionStorage.setItem(storageKey, "dismissed");
     setIsVisible(false);
   }
 
