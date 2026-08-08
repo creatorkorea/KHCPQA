@@ -24,3 +24,7 @@ export function getCountryLabel(value: string, locale: Locale) {
 export function getCountryPhonePlaceholder(value: string) {
   return countryOptions.find((country) => country.value === value)?.phonePlaceholder ?? "+국가번호 전화번호";
 }
+
+export function getCountryDialCode(value: string) {
+  return countryOptions.find((country) => country.value === value)?.dialCode ?? "";
+}

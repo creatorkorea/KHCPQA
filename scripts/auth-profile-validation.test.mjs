@@ -8,6 +8,9 @@ test("signup collects structured profile metadata with country select", async ()
   assert.match(source, /name="phone"/);
   assert.match(source, /name="country"/);
   assert.match(source, /countryOptions\.map/);
+  assert.ok(source.indexOf('name="country"') < source.indexOf('name="phone"'));
+  assert.match(source, /phone-input-group/);
+  assert.match(source, /getCountryDialCode\(form\.country\)/);
   assert.match(source, /name="interestedCourse"/);
   assert.match(source, /name="marketingOptIn"/);
   assert.match(source, /interested_course: form\.interestedCourse/);
@@ -21,6 +24,9 @@ test("profile edit persists the same structured fields", async () => {
   assert.match(source, /name="phone"/);
   assert.match(source, /name="country"/);
   assert.match(source, /countryOptions\.map/);
+  assert.ok(source.indexOf('name="country"') < source.indexOf('name="phone"'));
+  assert.match(source, /phone-input-group/);
+  assert.match(source, /getCountryDialCode\(form\.country\)/);
   assert.match(source, /name="interestedCourse"/);
   assert.match(source, /name="marketingOptIn"/);
   assert.match(source, /interested_course: form\.interestedCourse\.trim\(\) \|\| null/);

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { CheckCircle2, Save } from "lucide-react";
 import type { ProfileFormValue } from "@/lib/account-data";
 import { getCopy, getCourses, localeLabels, locales, type Locale } from "@/lib/content";
-import { countryOptions, getCountryPhonePlaceholder } from "@/lib/countries";
+import { countryOptions, getCountryDialCode, getCountryPhonePlaceholder } from "@/lib/countries";
 import { formatPhoneNumber, normalizePhoneNumber } from "@/lib/phone";
 import { createClient } from "@/lib/supabase/client";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
@@ -29,6 +29,16 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
   function updateField<Key extends keyof ProfileFormValue>(field: Key, value: ProfileFormValue[Key]) {
     setForm((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: undefined }));
+    setIsSubmitted(false);
+  }
+
+  function updateCountry(value: string) {
+    setForm((current) => ({
+      ...current,
+      country: value,
+      phone: current.phone ? formatPhoneNumber(current.phone, value) : current.phone
+    }));
+    setErrors((current) => ({ ...current, country: undefined, phone: undefined }));
     setIsSubmitted(false);
   }
 
@@ -136,25 +146,11 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
           {errors.email ? <span className="form-error">{errors.email}</span> : null}
         </label>
         <label>
-          {t.account.profile.fields[2]?.label}
-          <input
-            aria-invalid={Boolean(errors.phone)}
-            autoComplete="tel"
-            name="phone"
-            onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value, form.country))}
-            onChange={(event) => updateField("phone", event.target.value)}
-            placeholder={form.country ? getCountryPhonePlaceholder(form.country) : t.signup.phonePlaceholder}
-            type="tel"
-            value={form.phone}
-          />
-          {errors.phone ? <span className="form-error">{errors.phone}</span> : null}
-        </label>
-        <label>
           {t.account.profile.fields[3]?.label}
           <select
             aria-invalid={Boolean(errors.country)}
             name="country"
-            onChange={(event) => updateField("country", event.target.value)}
+            onChange={(event) => updateCountry(event.target.value)}
             value={form.country}
           >
             <option value="">{t.signup.countryPlaceholder}</option>
@@ -165,6 +161,23 @@ export function ProfileEditForm({ initialProfile, locale }: { initialProfile: Pr
             ))}
           </select>
           {errors.country ? <span className="form-error">{errors.country}</span> : null}
+        </label>
+        <label>
+          {t.account.profile.fields[2]?.label}
+          <div className="phone-input-group">
+            <span className="phone-dial-code">{getCountryDialCode(form.country) || "+"}</span>
+            <input
+              aria-invalid={Boolean(errors.phone)}
+              autoComplete="tel"
+              name="phone"
+              onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value, form.country))}
+              onChange={(event) => updateField("phone", event.target.value)}
+              placeholder={form.country ? getCountryPhonePlaceholder(form.country) : t.signup.phonePlaceholder}
+              type="tel"
+              value={form.phone}
+            />
+          </div>
+          {errors.phone ? <span className="form-error">{errors.phone}</span> : null}
         </label>
         <label>
           {t.account.profile.fields[4]?.label}

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, UserPlus } from "lucide-react";
 import { getCopy, getCourses, type Locale } from "@/lib/content";
-import { countryOptions, getCountryPhonePlaceholder } from "@/lib/countries";
+import { countryOptions, getCountryDialCode, getCountryPhonePlaceholder } from "@/lib/countries";
 import { formatPhoneNumber, normalizePhoneNumber } from "@/lib/phone";
 import { buildAuthCallbackUrl } from "@/lib/site-url";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
@@ -76,6 +76,16 @@ export function SignupForm({ locale }: { locale: Locale }) {
 
   function updateMarketingOptIn(value: boolean) {
     setForm((current) => ({ ...current, marketingOptIn: value }));
+    setIsSubmitted(false);
+  }
+
+  function updateCountry(value: string) {
+    setForm((current) => ({
+      ...current,
+      country: value,
+      phone: current.phone ? formatPhoneNumber(current.phone, value) : current.phone
+    }));
+    setErrors((current) => ({ ...current, country: undefined, phone: undefined }));
     setIsSubmitted(false);
   }
 
@@ -201,26 +211,12 @@ export function SignupForm({ locale }: { locale: Locale }) {
         {errors.email ? <span className="form-error">{errors.email}</span> : null}
       </label>
       <label>
-        {t.signup.phone}
-        <input
-          aria-invalid={Boolean(errors.phone)}
-          autoComplete="tel"
-          name="phone"
-          onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value, form.country))}
-          onChange={(event) => updateField("phone", event.target.value)}
-          placeholder={form.country ? getCountryPhonePlaceholder(form.country) : t.signup.phonePlaceholder}
-          type="tel"
-          value={form.phone}
-        />
-        {errors.phone ? <span className="form-error">{errors.phone}</span> : null}
-      </label>
-      <label>
         {t.signup.country}
         <select
           aria-invalid={Boolean(errors.country)}
           autoComplete="country-name"
           name="country"
-          onChange={(event) => updateField("country", event.target.value)}
+          onChange={(event) => updateCountry(event.target.value)}
           value={form.country}
         >
           <option value="">{t.signup.countryPlaceholder}</option>
@@ -231,6 +227,23 @@ export function SignupForm({ locale }: { locale: Locale }) {
           ))}
         </select>
         {errors.country ? <span className="form-error">{errors.country}</span> : null}
+      </label>
+      <label>
+        {t.signup.phone}
+        <div className="phone-input-group">
+          <span className="phone-dial-code">{getCountryDialCode(form.country) || "+"}</span>
+          <input
+            aria-invalid={Boolean(errors.phone)}
+            autoComplete="tel"
+            name="phone"
+            onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value, form.country))}
+            onChange={(event) => updateField("phone", event.target.value)}
+            placeholder={form.country ? getCountryPhonePlaceholder(form.country) : t.signup.phonePlaceholder}
+            type="tel"
+            value={form.phone}
+          />
+        </div>
+        {errors.phone ? <span className="form-error">{errors.phone}</span> : null}
       </label>
       <label>
         {t.signup.interestedCourse}

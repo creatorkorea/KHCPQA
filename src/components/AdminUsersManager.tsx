@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { CheckCircle2, Pencil, Save, ShieldCheck, Trash2, UserCog, UserPlus, X } from "lucide-react";
 import { deleteAdminUser, saveAdminUser, type SaveAdminUserResult } from "@/app/admin/actions";
 import { getCourses } from "@/lib/content";
-import { countryOptions, getCountryPhonePlaceholder } from "@/lib/countries";
+import { countryOptions, getCountryDialCode, getCountryPhonePlaceholder } from "@/lib/countries";
 import { formatPhoneNumber } from "@/lib/phone";
 import {
   adminUserLocales,
@@ -97,6 +97,15 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
 
   function updateField<Key extends keyof UserFormValue>(name: Key, value: UserFormValue[Key]) {
     setFormValue((current) => ({ ...current, [name]: value }));
+    setResult(null);
+  }
+
+  function updateCountry(value: string) {
+    setFormValue((current) => ({
+      ...current,
+      country: value,
+      phone: current.phone ? formatPhoneNumber(current.phone, value) : current.phone
+    }));
     setResult(null);
   }
 
@@ -275,7 +284,7 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
                   국가
                   <select
                     name="country"
-                    onChange={(event) => updateField("country", event.target.value)}
+                    onChange={(event) => updateCountry(event.target.value)}
                     value={formValue.country}
                   >
                     <option value="">국가 선택</option>
@@ -288,14 +297,17 @@ export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
                 </label>
                 <label>
                   휴대폰
-                  <input
-                    name="phone"
-                    onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value, formValue.country))}
-                    onChange={(event) => updateField("phone", event.target.value)}
-                    placeholder={formValue.country ? getCountryPhonePlaceholder(formValue.country) : "010-0000-0000"}
-                    type="tel"
-                    value={formValue.phone}
-                  />
+                  <div className="phone-input-group">
+                    <span className="phone-dial-code">{getCountryDialCode(formValue.country) || "+"}</span>
+                    <input
+                      name="phone"
+                      onBlur={(event) => updateField("phone", formatPhoneNumber(event.target.value, formValue.country))}
+                      onChange={(event) => updateField("phone", event.target.value)}
+                      placeholder={formValue.country ? getCountryPhonePlaceholder(formValue.country) : "010-0000-0000"}
+                      type="tel"
+                      value={formValue.phone}
+                    />
+                  </div>
                 </label>
                 <label>
                   관심 과정
