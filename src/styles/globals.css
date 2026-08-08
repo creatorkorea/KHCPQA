@@ -8200,6 +8200,113 @@ p {
   margin-bottom: 8px;
 }
 
+.admin-translations-workspace {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.82fr);
+}
+
+.translation-list-panel,
+.translation-editor-panel {
+  margin: 0;
+  max-width: none;
+}
+
+.translation-toolbar {
+  align-items: center;
+  border-bottom: 1px solid var(--console-line);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(260px, 1fr) minmax(180px, 240px);
+  padding: 18px 20px;
+}
+
+.translation-editor-form {
+  border: 0;
+}
+
+.translation-locale-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.translation-locale-grid label {
+  color: var(--ink);
+  display: grid;
+  font-size: 13px;
+  font-weight: 850;
+  gap: 8px;
+}
+
+.translation-locale-grid select {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  min-height: 44px;
+  padding: 11px 12px;
+  width: 100%;
+}
+
+.translation-source-box {
+  align-items: center;
+  background: #fbfaff;
+  border: 1px solid #e3dcf8;
+  border-radius: 12px;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  padding: 14px;
+}
+
+.translation-source-box strong {
+  color: var(--console-ink);
+  display: block;
+  font-size: 14px;
+  font-weight: 900;
+  margin-bottom: 5px;
+}
+
+.translation-source-box p {
+  color: var(--console-muted);
+  font-size: 12px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.translation-source-box button,
+.translation-public-link {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #d8cff6;
+  border-radius: 10px;
+  color: var(--console-purple-dark);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 900;
+  gap: 8px;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+.translation-source-box button {
+  cursor: pointer;
+}
+
+.translation-source-box button:disabled {
+  color: var(--console-muted);
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.translation-public-link:hover,
+.translation-source-box button:not(:disabled):hover {
+  background: #f6f1ff;
+}
+
 .admin-action-overlay {
   align-items: center;
   background: rgba(25, 18, 48, 0.28);
