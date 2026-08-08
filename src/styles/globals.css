@@ -8200,6 +8200,61 @@ p {
   margin-bottom: 8px;
 }
 
+.home-popup-backdrop {
+  align-items: center;
+  background: rgba(17, 13, 28, 0.42);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 20px;
+  position: fixed;
+  z-index: 1300;
+}
+
+.home-popup {
+  background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 8px;
+  box-shadow: 0 28px 80px rgba(21, 16, 36, 0.28);
+  max-height: min(82vh, 720px);
+  max-width: min(92vw, 520px);
+  overflow: hidden;
+  position: relative;
+}
+
+.home-popup-close {
+  align-items: center;
+  background: rgba(18, 14, 29, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 36px;
+  z-index: 2;
+}
+
+.home-popup-close:hover {
+  background: rgba(18, 14, 29, 0.9);
+}
+
+.home-popup-link {
+  display: block;
+}
+
+.home-popup-image {
+  display: block;
+  height: auto;
+  max-height: min(82vh, 720px);
+  object-fit: contain;
+  width: 100%;
+}
+
 .admin-translations-workspace {
   display: grid;
   gap: 20px;

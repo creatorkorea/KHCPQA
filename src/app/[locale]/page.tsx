@@ -18,7 +18,9 @@ import {
   Users
 } from "lucide-react";
 import { getCopy, getCourses, type Locale } from "@/lib/content";
+import { getPublishedBanners } from "@/lib/public-content";
 import { StatusBadge } from "@/components/SiteShell";
+import { HomePopup } from "@/components/HomePopup";
 
 const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, HeartPulse, Leaf, Mountain];
 const supportIcons = [Users, BadgeCheck, Lightbulb, HandHeart];
@@ -28,6 +30,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
   const { locale } = await params;
   const t = getCopy(locale);
   const courses = getCourses(locale);
+  const [homePopup] = await getPublishedBanners({ placement: "home" });
   const previewCourseIndexes = [5, 3, 4, 7];
   const previewCourses = previewCourseIndexes.flatMap((index) => (courses[index] ? [courses[index]] : []));
   const quickNavItems = [
@@ -56,6 +59,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
 
   return (
     <>
+      <HomePopup banner={homePopup} />
       <section className="home-stage">
         <div className="hero-card">
           <div className="hero-copy">
