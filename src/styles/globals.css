@@ -8176,6 +8176,30 @@ p {
   color: #b34848;
 }
 
+.popup-target-link {
+  color: var(--console-purple-dark);
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.popup-target-link:hover {
+  color: var(--green-dark);
+}
+
+.popup-image-preview strong {
+  color: var(--console-ink);
+  display: block;
+  font-size: 13px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
 .admin-action-overlay {
   align-items: center;
   background: rgba(25, 18, 48, 0.28);
