@@ -6740,6 +6740,7 @@ p {
   width: var(--page-width);
 }
 
+.login-auth-shell,
 .signup-auth-shell {
   align-items: flex-start;
   display: flex;

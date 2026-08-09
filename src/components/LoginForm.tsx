@@ -266,7 +266,6 @@ export function LoginForm({ locale }: { locale: Locale }) {
           {t.signup.title}
         </Link>
       ) : null}
-      <p>{t.login.note}</p>
     </form>
   );
 }
