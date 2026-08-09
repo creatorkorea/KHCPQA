@@ -255,11 +255,7 @@ export function LoginForm({ locale }: { locale: Locale }) {
         </div>
       ) : null}
       {errors.form ? <span className="form-error">{errors.form}</span> : null}
-      {isSubmitting ? (
-        <span className="admin-action-progress auth-submit-progress" role="status" aria-live="polite" aria-label={mode === "login" ? t.login.submitCta : t.login.resetCta}>
-          <span />
-        </span>
-      ) : null}
+      {isSubmitting ? <LoginActionOverlay mode={mode} /> : null}
       <button className="primary-button" disabled={isSubmitting || (mode === "reset" && isSubmitted)} type="submit">
         {isSubmitting ? "..." : mode === "login" ? t.login.submitCta : t.login.resetCta}
       </button>
@@ -272,5 +268,26 @@ export function LoginForm({ locale }: { locale: Locale }) {
         </Link>
       ) : null}
     </form>
+  );
+}
+
+function LoginActionOverlay({ mode }: { mode: "login" | "reset" }) {
+  const title = mode === "login" ? "로그인 중입니다" : "안내 메일을 보내는 중입니다";
+  const description =
+    mode === "login"
+      ? "계정 정보를 확인하고 이동할 화면을 준비하고 있습니다."
+      : "입력하신 이메일로 비밀번호 재설정 안내를 보내고 있습니다.";
+
+  return (
+    <div className="admin-action-overlay" role="status" aria-live="assertive" aria-label={title}>
+      <div className="admin-action-loader">
+        <span className="admin-action-spinner" aria-hidden="true" />
+        <strong>{title}</strong>
+        <p>{description}</p>
+        <span className="admin-action-progress" aria-hidden="true">
+          <span />
+        </span>
+      </div>
+    </div>
   );
 }
