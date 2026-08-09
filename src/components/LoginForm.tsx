@@ -187,9 +187,9 @@ export function LoginForm({ locale }: { locale: Locale }) {
     setIsSubmitting(true);
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setIsSubmitting(false);
 
     if (error) {
+      setIsSubmitting(false);
       setErrors({ form: error.message });
       setIsSubmitted(false);
       return;
@@ -255,6 +255,11 @@ export function LoginForm({ locale }: { locale: Locale }) {
         </div>
       ) : null}
       {errors.form ? <span className="form-error">{errors.form}</span> : null}
+      {isSubmitting ? (
+        <span className="admin-action-progress auth-submit-progress" role="status" aria-live="polite" aria-label={mode === "login" ? t.login.submitCta : t.login.resetCta}>
+          <span />
+        </span>
+      ) : null}
       <button className="primary-button" disabled={isSubmitting || (mode === "reset" && isSubmitted)} type="submit">
         {isSubmitting ? "..." : mode === "login" ? t.login.submitCta : t.login.resetCta}
       </button>
