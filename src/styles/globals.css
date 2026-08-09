@@ -6085,9 +6085,9 @@ p {
   align-items: center;
   background: white;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: 8px;
   display: flex;
-  min-height: 46px;
+  min-height: 52px;
   overflow: hidden;
   width: 100%;
 }
@@ -6108,7 +6108,7 @@ p {
   font-size: 13px;
   font-weight: 900;
   justify-content: center;
-  min-width: 62px;
+  min-width: 66px;
   padding: 0 12px;
   white-space: nowrap;
 }
@@ -6737,8 +6737,10 @@ p {
 }
 
 .signup-auth-shell {
-  align-items: start;
-  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 560px);
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  max-width: 720px;
 }
 
 .login-auth-summary,
@@ -6835,6 +6837,12 @@ p {
   border-radius: 8px;
   min-height: 52px;
   padding-inline: 16px;
+}
+
+.login-auth-section .auth-card .phone-input-group input,
+.signup-auth-section .auth-card .phone-input-group input {
+  min-height: 50px;
+  padding-inline: 14px 16px;
 }
 
 .login-auth-section .auth-card .primary-button,

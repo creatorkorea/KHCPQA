@@ -314,7 +314,6 @@ export function SignupForm({ locale }: { locale: Locale }) {
       <Link className="text-button" href={`/${locale}/login`}>
         {t.signup.loginCta}
       </Link>
-      <p>{t.signup.note}</p>
     </form>
   );
 }

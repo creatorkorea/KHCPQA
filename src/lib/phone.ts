@@ -1,10 +1,24 @@
 const countryDialCodes: Record<string, string> = {
+  Australia: "+61",
+  Brazil: "+55",
+  Canada: "+1",
   China: "+86",
+  France: "+33",
+  Germany: "+49",
+  "Hong Kong": "+852",
+  Indonesia: "+62",
   Japan: "+81",
   Korea: "+82",
+  Malaysia: "+60",
   Mexico: "+52",
+  Philippines: "+63",
+  Singapore: "+65",
   Spain: "+34",
-  "United States": "+1"
+  Taiwan: "+886",
+  Thailand: "+66",
+  "United Kingdom": "+44",
+  "United States": "+1",
+  Vietnam: "+84"
 };
 
 function getCountryDialCode(countryValue?: string) {
