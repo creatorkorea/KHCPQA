@@ -14,9 +14,9 @@ test("account certification download component exports SVG and PNG download path
   assert.match(source, /certificateLogoPath = "\/assets\/brand\/khcpqa-logo-mark\.png"/);
   assert.match(source, /loadCertificateLogoDataUrl/);
   assert.match(source, /<image href=/);
+  assert.match(source, /검증코드/);
   assert.match(source, /자격증/);
   assert.match(source, /Certificate of qualification/);
-  assert.match(source, /Verification code/);
   assert.match(source, /발급됨/);
   assert.match(source, /splitText/);
   assert.match(source, /renderTextLines/);
