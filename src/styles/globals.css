@@ -6917,18 +6917,20 @@ p {
 
 .certificate-download-actions button {
   align-items: center;
-  background: white;
-  border: 1px solid rgba(217, 204, 249, 0.95);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 247, 255, 0.96)),
+    white;
+  border: 1px solid rgba(119, 74, 214, 0.28);
   border-radius: 999px;
   color: var(--purple);
   cursor: pointer;
   display: inline-flex;
   font: inherit;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 950;
-  gap: 6px;
-  min-height: 34px;
-  padding: 8px 11px;
+  gap: 7px;
+  min-height: 38px;
+  padding: 9px 14px;
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
@@ -6953,6 +6955,10 @@ p {
 
 .certificate-download-actions.is-compact {
   justify-content: flex-end;
+}
+
+.certificate-download-actions.is-full {
+  justify-content: flex-start;
 }
 
 .certificate-download-message {

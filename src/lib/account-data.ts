@@ -67,6 +67,12 @@ type InquiryRow = {
   status: string;
 };
 
+const certificateStatusLabels: Record<string, string> = {
+  expired: "만료됨",
+  issued: "발급됨",
+  revoked: "취소됨"
+};
+
 function formatDate(locale: Locale, value: string) {
   return new Intl.DateTimeFormat(locale, {
     year: "numeric",
@@ -121,7 +127,7 @@ function mapCertificate(locale: Locale, row: CertificateRow): AccountCertificate
     title: row.course_title,
     number: row.certificate_number,
     issuedAt: formatDate(locale, row.issued_at),
-    status: row.status,
+    status: certificateStatusLabels[row.status] ?? row.status,
     verificationCode: row.verification_code
   };
 }

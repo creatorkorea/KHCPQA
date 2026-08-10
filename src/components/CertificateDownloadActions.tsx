@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Download, FileImage } from "lucide-react";
+import { FileImage } from "lucide-react";
 import type { AccountCertificate } from "@/lib/account-data";
 
 type CertificateDownloadActionsProps = {
@@ -188,8 +188,7 @@ export function buildCertificateSvg(certificate: AccountCertificate, holderName?
     holderName: splitText(data.holderName, 18, 2),
     issuedAt: escapeXml(data.issuedAt),
     number: splitText(data.number, 24, 2),
-    status: escapeXml(data.status),
-    verificationCode: splitText(data.verificationCode, 34, 2)
+    status: escapeXml(data.status)
   };
   const labelFont = "Malgun Gothic, Apple SD Gothic Neo, serif";
   const valueFont = "Malgun Gothic, Apple SD Gothic Neo, Arial, sans-serif";
@@ -254,12 +253,6 @@ function filenameFor(certificate: AccountCertificate, extension: "png" | "svg") 
   return `${baseName}.${extension}`;
 }
 
-export async function downloadCertificateSvg(certificate: AccountCertificate, holderName?: string) {
-  const logoDataUrl = await getSafeCertificateLogoDataUrl();
-  const svg = buildCertificateSvg(certificate, holderName, logoDataUrl);
-  downloadBlob(filenameFor(certificate, "svg"), new Blob([svg], { type: "image/svg+xml;charset=utf-8" }));
-}
-
 export async function downloadCertificatePng(certificate: AccountCertificate, holderName?: string) {
   const logoDataUrl = await getSafeCertificateLogoDataUrl();
   const svg = buildCertificateSvg(certificate, holderName, logoDataUrl);
@@ -310,33 +303,20 @@ export function CertificateDownloadActions({
 }: CertificateDownloadActionsProps) {
   const [message, setMessage] = useState("");
 
-  async function handleSvgDownload() {
-    setMessage("");
-    try {
-      await downloadCertificateSvg(certificate, holderName);
-    } catch {
-      setMessage("SVG 파일을 준비하지 못했습니다. 다시 시도해 주세요.");
-    }
-  }
-
   async function handlePngDownload() {
     setMessage("");
     try {
       await downloadCertificatePng(certificate, holderName);
     } catch {
-      setMessage("PNG 파일을 준비하지 못했습니다. SVG로 다시 시도해 주세요.");
+      setMessage("이미지 파일을 준비하지 못했습니다. 다시 시도해 주세요.");
     }
   }
 
   return (
     <span className={`certificate-download-actions is-${variant}`}>
-      <button onClick={handleSvgDownload} type="button">
-        <Download size={15} />
-        <span>SVG</span>
-      </button>
-      <button onClick={handlePngDownload} type="button">
-        <FileImage size={15} />
-        <span>PNG</span>
+      <button aria-label={`${certificate.title} 자격증 이미지 다운로드`} onClick={handlePngDownload} type="button">
+        <FileImage size={16} />
+        <span>이미지 다운로드</span>
       </button>
       {message ? <span className="certificate-download-message" role="status">{message}</span> : null}
     </span>
