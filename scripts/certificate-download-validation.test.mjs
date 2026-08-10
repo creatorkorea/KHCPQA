@@ -6,11 +6,14 @@ test("account certification download component exports SVG and PNG download path
   const source = await readFile("src/components/CertificateDownloadActions.tsx", "utf8");
 
   assert.match(source, /export function buildCertificateSvg/);
-  assert.match(source, /export function downloadCertificateSvg/);
+  assert.match(source, /export async function downloadCertificateSvg/);
   assert.match(source, /export async function downloadCertificatePng/);
   assert.match(source, /canvas\.toBlob/);
   assert.match(source, /image\/svg\+xml/);
   assert.match(source, /image\/png/);
+  assert.match(source, /certificateLogoPath = "\/assets\/brand\/khcpqa-logo-mark\.png"/);
+  assert.match(source, /loadCertificateLogoDataUrl/);
+  assert.match(source, /<image href=/);
   assert.match(source, /자격증/);
   assert.match(source, /Certificate of qualification/);
   assert.match(source, /Verification code/);
