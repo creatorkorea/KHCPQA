@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, FileText, Lock, UserRound } from "lucide-react";
 import { AccountNav, AccountSection } from "@/components/AccountShell";
+import { CertificateDownloadActions } from "@/components/CertificateDownloadActions";
 import { PageIntro } from "@/components/SiteShell";
 import { getAccountData } from "@/lib/account-data";
 import { getCopy, type Locale } from "@/lib/content";
@@ -65,6 +66,11 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
                 <strong>{certificate.title}</strong>
                 <span>{certificate.number} · {certificate.issuedAt}</span>
                 <em>{certificate.status}</em>
+                <CertificateDownloadActions
+                  certificate={certificate}
+                  holderName={accountData.profileForm.name}
+                  variant="compact"
+                />
               </div>
             ))
           ) : (

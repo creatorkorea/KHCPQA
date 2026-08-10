@@ -1,4 +1,5 @@
 import { AccountNav, AccountSection } from "@/components/AccountShell";
+import { CertificateDownloadActions } from "@/components/CertificateDownloadActions";
 import { CertificationLookupForm } from "@/components/CertificationLookupForm";
 import { PageIntro } from "@/components/SiteShell";
 import { getAccountData } from "@/lib/account-data";
@@ -57,6 +58,10 @@ export default async function AccountCertificationsPage({ params }: { params: Pr
                       <dd><span>{certificate.status}</span></dd>
                     </div>
                   </dl>
+                  <CertificateDownloadActions
+                    certificate={certificate}
+                    holderName={accountData.profileForm.name}
+                  />
                 </article>
               ))}
             </div>
