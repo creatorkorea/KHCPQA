@@ -14,6 +14,11 @@ test("account certification download component exports SVG and PNG download path
   assert.match(source, /자격증/);
   assert.match(source, /Certificate of qualification/);
   assert.match(source, /Verification code/);
+  assert.match(source, /발급됨/);
+  assert.match(source, /splitText/);
+  assert.match(source, /renderTextLines/);
+  assert.match(source, /한국건강관리사자격협회/);
+  assert.doesNotMatch(source, /<text x="492" y="1150"/);
 });
 
 test("my page and certification detail page expose certificate downloads", async () => {
