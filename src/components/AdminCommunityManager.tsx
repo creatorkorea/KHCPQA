@@ -106,6 +106,7 @@ export function AdminCommunityManager({
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
   const [isPending, startTransition] = useTransition();
   const isBusy = isPending || pendingAction !== null;
+  const isPhotoGalleryPost = editor.kind === "post" && editor.boardKey === "photo";
 
   const boardKeys = useMemo(() => buildKnownBoardKeys(activityOptions, items), [activityOptions, items]);
   const optionTitleByKey = useMemo(
@@ -330,8 +331,14 @@ export function AdminCommunityManager({
       try {
         let imageUrl = editor.imageUrl;
         const imageFile = formData.get("imageFile");
+        const hasNewImage = imageFile instanceof File && imageFile.size > 0;
 
-        if (imageFile instanceof File && imageFile.size > 0) {
+        if (isPhotoGalleryPost && !imageUrl && !hasNewImage) {
+          setResult({ ok: false, message: "포토갤러리는 대표 이미지를 먼저 등록해야 합니다." });
+          return;
+        }
+
+        if (hasNewImage && imageFile instanceof File) {
           const uploadFormData = new FormData();
           uploadFormData.append("file", imageFile);
           uploadFormData.append("contentType", "Activity");
@@ -537,20 +544,28 @@ export function AdminCommunityManager({
         <form className="admin-editor-form community-editor-form" onSubmit={handleSubmit}>
             <div className="community-editor-heading">
               <div>
-                <span className="community-editor-kicker">{editor.kind === "board" ? "게시판 소개" : "게시글 콘텐츠"}</span>
+                <span className="community-editor-kicker">
+                  {editor.kind === "board" ? "게시판 소개" : isPhotoGalleryPost ? "포토갤러리" : "게시글 콘텐츠"}
+                </span>
                 <h2>
                   {selectedItem
                     ? editor.kind === "board"
                       ? "게시판 소개 수정"
-                      : "게시글 수정"
+                      : isPhotoGalleryPost
+                        ? "포토갤러리 수정"
+                        : "게시글 수정"
                     : editor.kind === "board"
                       ? "게시판 소개 등록"
-                      : "새 게시글 등록"}
+                      : isPhotoGalleryPost
+                        ? "새 포토갤러리 등록"
+                        : "새 게시글 등록"}
                 </h2>
                 <p>
                   {editor.kind === "board"
                     ? "기획서 기준 게시판의 공개 화면 설명과 노출 상태를 관리합니다."
-                    : "실제 공개 화면에 노출할 글로벌 활동 게시글을 등록합니다."}
+                    : isPhotoGalleryPost
+                      ? "사진이 주인공인 콘텐츠입니다. 대표 이미지와 짧은 설명을 중심으로 등록하세요."
+                      : "실제 공개 화면에 노출할 글로벌 활동 게시글을 등록합니다."}
                 </p>
               </div>
               <button
@@ -570,7 +585,7 @@ export function AdminCommunityManager({
               </button>
             </div>
 
-          <div className="admin-editor-grid">
+          <div className={isPhotoGalleryPost ? "admin-editor-grid is-photo-gallery" : "admin-editor-grid"}>
             <label>
               관리 유형
               <select
@@ -623,7 +638,9 @@ export function AdminCommunityManager({
               <span className="admin-field-help">
                 {editor.kind === "board"
                   ? "게시판 키는 선택한 게시판의 고정 Slug로 자동 사용됩니다."
-                  : "게시글이 노출될 글로벌 활동 카테고리를 선택합니다."}
+                  : isPhotoGalleryPost
+                    ? "포토갤러리로 등록됩니다. 사진 중심 카드로 공개 화면에 노출됩니다."
+                    : "게시글이 노출될 글로벌 활동 카테고리를 선택합니다."}
               </span>
             </label>
             <label>
@@ -651,13 +668,19 @@ export function AdminCommunityManager({
                 ))}
               </select>
             </label>
-            <label>
-              대표 이미지 파일
+            {isPhotoGalleryPost ? (
+              <div className="community-photo-guidance full" role="note">
+                <strong>포토갤러리 등록 방식</strong>
+                <span>대표 이미지를 먼저 선택하고, 제목과 짧은 사진 설명만 정리하면 됩니다. 긴 본문보다 사진의 맥락이 잘 보이는 캡션이 중요합니다.</span>
+              </div>
+            ) : null}
+            <label className={isPhotoGalleryPost ? "community-photo-upload-field full" : undefined}>
+              {isPhotoGalleryPost ? "갤러리 대표 이미지" : "대표 이미지 파일"}
               <span className="community-file-upload">
                 <ImagePlus size={18} />
                 <span>
-                  <strong>이미지 선택</strong>
-                  <small>{selectedImageName || "JPG, PNG, WebP, GIF / 5MB 이하"}</small>
+                  <strong>{isPhotoGalleryPost ? "사진 선택" : "이미지 선택"}</strong>
+                  <small>{selectedImageName || (isPhotoGalleryPost ? "필수 · JPG, PNG, WebP, GIF / 5MB 이하" : "JPG, PNG, WebP, GIF / 5MB 이하")}</small>
                 </span>
                 <input
                   accept="image/jpeg,image/png,image/webp,image/gif"
@@ -667,6 +690,7 @@ export function AdminCommunityManager({
                     setSelectedImageName(file ? `${file.name} 선택됨` : "");
                   }}
                   ref={imageInputRef}
+                  required={isPhotoGalleryPost && !editor.imageUrl}
                   type="file"
                 />
               </span>
@@ -687,33 +711,35 @@ export function AdminCommunityManager({
               <span className="admin-field-help">
                 {editor.kind === "board"
                   ? "게시판 소개 상단 대표 이미지로 사용됩니다. 새 파일을 선택하면 기존 이미지를 대체합니다."
-                  : "게시글 상세 상단 이미지로 사용됩니다. 미선택 시 기존 이미지를 유지합니다."}
+                  : isPhotoGalleryPost
+                    ? "포토갤러리 카드와 상세 화면의 핵심 이미지입니다. 가로형 사진을 권장합니다."
+                    : "게시글 상세 상단 이미지로 사용됩니다. 미선택 시 기존 이미지를 유지합니다."}
               </span>
             </label>
             <label className="full">
-              제목
+              {isPhotoGalleryPost ? "사진 제목" : "제목"}
               <input
                 onChange={(event) => updateEditor("title", event.target.value)}
-                placeholder="게시판명 또는 게시글 제목"
+                placeholder={isPhotoGalleryPost ? "예: 취업전문과정 실습 현장" : "게시판명 또는 게시글 제목"}
                 required
                 value={editor.title}
               />
             </label>
             <label className="full">
-              요약
+              {isPhotoGalleryPost ? "목록 캡션" : "요약"}
               <textarea
                 onChange={(event) => updateEditor("summary", event.target.value)}
-                placeholder="목록 카드와 상세 상단에 표시할 요약"
-                rows={3}
+                placeholder={isPhotoGalleryPost ? "사진 카드에 보일 짧은 설명" : "목록 카드와 상세 상단에 표시할 요약"}
+                rows={isPhotoGalleryPost ? 2 : 3}
                 value={editor.summary}
               />
             </label>
             <label className="full">
-              상세 본문
+              {isPhotoGalleryPost ? "사진 설명" : "상세 본문"}
               <textarea
                 onChange={(event) => updateEditor("body", event.target.value)}
-                placeholder="상세 페이지에 표시할 본문"
-                rows={5}
+                placeholder={isPhotoGalleryPost ? "촬영 상황, 과정명, 행사명 등 사진 맥락을 간단히 적어주세요." : "상세 페이지에 표시할 본문"}
+                rows={isPhotoGalleryPost ? 3 : 5}
                 value={editor.body}
               />
             </label>
