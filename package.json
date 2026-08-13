@@ -11,6 +11,7 @@
     "test:admin-certifications": "node --test scripts/admin-certifications-validation.test.mjs",
     "test:admin-community": "node --test scripts/admin-community-validation.test.mjs",
     "test:admin-inquiries": "node --test scripts/admin-inquiries-validation.test.mjs",
+    "test:admin-layout": "node --test scripts/admin-layout-validation.test.mjs",
     "test:admin-users": "node --test scripts/admin-users-validation.test.mjs",
     "test:auth-profile": "node --test scripts/auth-profile-validation.test.mjs",
     "test:certificate-download": "node --test scripts/certificate-download-validation.test.mjs",
