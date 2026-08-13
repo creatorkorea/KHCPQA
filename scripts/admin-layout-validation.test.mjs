@@ -13,6 +13,21 @@ test("admin sidebar keeps menu rows compact instead of stretching", async () => 
   assert.match(styleSource, /\.console-admin-card \{[\s\S]*min-height: 68px/);
 });
 
+test("admin shell exposes logout actions in sidebar and topbar", async () => {
+  const actionSource = await readFile("src/app/admin/actions.ts", "utf8");
+  const componentSource = await readFile("src/components/AdminConsole.tsx", "utf8");
+  const styleSource = await readFile("src/styles/globals.css", "utf8");
+
+  assert.match(actionSource, /export async function signOutFromAdmin\(\)/);
+  assert.match(actionSource, /await supabase\.auth\.signOut\(\)/);
+  assert.match(actionSource, /redirect\("\/ko\/login"\)/);
+  assert.match(componentSource, /import \{ signOutFromAdmin \} from "@\/app\/admin\/actions"/);
+  assert.match(componentSource, /className="console-logout-button"/);
+  assert.match(componentSource, /className="console-profile-button console-profile-logout"/);
+  assert.match(styleSource, /\.console-logout-button \{[\s\S]*min-height: 34px/);
+  assert.match(styleSource, /\.console-top-actions form \{[\s\S]*margin: 0/);
+});
+
 test("admin dashboard summary area is denser on desktop", async () => {
   const styleSource = await readFile("src/styles/globals.css", "utf8");
 

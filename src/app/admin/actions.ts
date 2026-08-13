@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { createClient as createSupabaseAdminClient } from "@supabase/supabase-js";
 import { buildAdminCertificationPayload } from "@/lib/admin-certifications";
 import { parseInquiryReceipt } from "@/lib/receipts";
@@ -93,6 +94,12 @@ export type DeleteAdminContentResult = {
 const adminUploadBucket = "admin-uploads";
 const maxAdminImageSize = 5 * 1024 * 1024;
 const allowedAdminImageTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"] as const;
+
+export async function signOutFromAdmin() {
+  const supabase = createServerSupabaseClient();
+  await supabase.auth.signOut();
+  redirect("/ko/login");
+}
 
 function isAdminRole(value: string): value is AdminRole {
   return roleOptions.includes(value as AdminRole);

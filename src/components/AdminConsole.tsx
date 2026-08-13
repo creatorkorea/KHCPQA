@@ -2,7 +2,6 @@ import {
   Bell,
   BookOpen,
   CalendarDays,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Edit3,
@@ -11,6 +10,7 @@ import {
   ImageIcon,
   Inbox,
   LayoutDashboard,
+  LogOut,
   MessageSquare,
   MoreHorizontal,
   Search,
@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { signOutFromAdmin } from "@/app/admin/actions";
 import { BrandLogoMark } from "@/components/BrandLogoMark";
 
 export type AdminNavKey =
@@ -103,7 +104,12 @@ export function AdminConsoleShell({
             <strong>super_admin</strong>
             <small>슈퍼 관리자</small>
           </span>
-          <ChevronDown size={14} />
+          <form action={signOutFromAdmin}>
+            <button className="console-logout-button" type="submit" aria-label="관리자 로그아웃">
+              <LogOut size={15} />
+              <span>로그아웃</span>
+            </button>
+          </form>
         </div>
       </aside>
       <section className="console-main">
@@ -122,10 +128,13 @@ export function AdminConsoleShell({
             <button className="console-icon-button" type="button" aria-label="알림">
               <Bell size={17} />
             </button>
-            <button className="console-profile-button" type="button">
-              <span className="console-avatar" aria-hidden="true">S</span>
-              <span>super_admin</span>
-            </button>
+            <form action={signOutFromAdmin}>
+              <button className="console-profile-button console-profile-logout" type="submit" aria-label="super_admin 로그아웃">
+                <span className="console-avatar" aria-hidden="true">S</span>
+                <span>super_admin</span>
+                <LogOut size={14} />
+              </button>
+            </form>
           </div>
         </header>
         {children}
