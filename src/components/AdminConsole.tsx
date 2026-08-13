@@ -128,13 +128,10 @@ export function AdminConsoleShell({
             <button className="console-icon-button" type="button" aria-label="알림">
               <Bell size={17} />
             </button>
-            <form action={signOutFromAdmin}>
-              <button className="console-profile-button console-profile-logout" type="submit" aria-label="super_admin 로그아웃">
-                <span className="console-avatar" aria-hidden="true">S</span>
-                <span>super_admin</span>
-                <LogOut size={14} />
-              </button>
-            </form>
+            <button className="console-profile-button" type="button">
+              <span className="console-avatar" aria-hidden="true">S</span>
+              <span>super_admin</span>
+            </button>
           </div>
         </header>
         {children}
