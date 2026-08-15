@@ -186,8 +186,9 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
             <div className="admin-inquiries-modal-heading">
               <FileText size={22} />
               <div>
-                <h3 id="admin-inquiry-modal-title">{selectedInquiry.receipt}</h3>
-                <p>{selectedInquiry.message}</p>
+                <span className="admin-inquiries-modal-eyebrow">문의 상세</span>
+                <h3 id="admin-inquiry-modal-title">{selectedInquiry.message}</h3>
+                <p>접수번호 {selectedInquiry.receipt}</p>
               </div>
               <span className={`admin-inquiry-status is-${formValue.status}`}>
                 {getAdminInquiryStatusLabel(formValue.status)}
