@@ -59,6 +59,7 @@ test("admin inquiry list prioritizes message and contact values", async () => {
   assert.match(componentSource, /className="admin-inquiries-contact-stack"/);
   assert.match(componentSource, /<td colSpan=\{4\}>/);
   assert.match(componentSource, /id="admin-inquiry-modal-title">\{getAdminInquiryTypeLabel\(selectedInquiry\.type\)\} 문의/);
+  assert.match(componentSource, /className="admin-inquiries-modal-actions"/);
   assert.doesNotMatch(componentSource, /id="admin-inquiry-modal-title">\{selectedInquiry\.receipt\}/);
   assert.doesNotMatch(componentSource, />접수번호 \{selectedInquiry\.receipt\}</);
   assert.doesNotMatch(componentSource, /<dt>문의 유형<\/dt>/);
@@ -70,6 +71,8 @@ test("admin inquiry list prioritizes message and contact values", async () => {
   assert.match(styleSource, /\.admin-inquiries-message-stack/);
   assert.match(styleSource, /\.admin-inquiries-contact-stack/);
   assert.match(styleSource, /\.admin-inquiries-modal-eyebrow/);
+  assert.match(styleSource, /\.admin-inquiries-modal-actions/);
+  assert.match(styleSource, /repeat\(auto-fit, minmax\(150px, 1fr\)\)/);
   assert.match(styleSource, /\.admin-inquiries-table tr:hover td/);
   assert.match(styleSource, /white-space: nowrap/);
   assert.match(styleSource, /text-overflow: ellipsis/);

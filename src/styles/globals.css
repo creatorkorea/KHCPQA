@@ -9790,18 +9790,19 @@ p {
   border-radius: 16px;
   box-shadow: 0 32px 90px rgba(21, 19, 32, 0.26);
   display: grid;
-  gap: 20px;
+  gap: 18px;
   max-height: min(820px, calc(100vh - 48px));
-  max-width: 880px;
+  max-width: 860px;
   overflow: auto;
-  padding: 24px;
-  width: min(100%, 880px);
+  padding: 24px 26px;
+  width: min(100%, 860px);
 }
 
 .admin-inquiries-modal-heading {
   align-items: flex-start;
-  display: flex;
+  display: grid;
   gap: 14px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
 }
 
 .admin-inquiries-modal-heading > svg {
@@ -9823,7 +9824,7 @@ p {
 }
 
 .admin-inquiries-modal-heading h3 {
-  font-size: 22px;
+  font-size: 21px;
   line-height: 1.32;
   margin: 0;
 }
@@ -9837,6 +9838,12 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.admin-inquiries-modal-actions {
+  align-items: center;
+  display: flex;
+  gap: 12px;
 }
 
 .admin-inquiries-modal-close {
@@ -9861,7 +9868,7 @@ p {
 .admin-inquiries-detail-grid dl {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   margin: 0;
 }
 
@@ -9886,6 +9893,7 @@ p {
   font-size: 13px;
   font-weight: 900;
   margin: 0;
+  min-width: 0;
   overflow-wrap: anywhere;
 }
 
@@ -9911,13 +9919,16 @@ p {
 }
 
 .admin-inquiries-form-section {
+  background: #fff;
+  border: 1px solid var(--console-line);
+  border-radius: 12px;
   display: grid;
   gap: 14px;
+  padding: 16px;
 }
 
 .admin-inquiries-form-section + .admin-inquiries-form-section {
-  border-top: 1px solid var(--console-line);
-  padding-top: 4px;
+  margin-top: 0;
 }
 
 .admin-inquiries-form-section-title {
@@ -10814,14 +10825,10 @@ p {
     grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
-  .admin-inquiries-modal-heading .admin-inquiry-status {
+  .admin-inquiries-modal-actions {
     grid-column: 2;
+    justify-content: flex-start;
     width: max-content;
-  }
-
-  .admin-inquiries-modal-close {
-    grid-column: 3;
-    grid-row: 1;
   }
 
   .admin-inquiries-detail-grid dl {

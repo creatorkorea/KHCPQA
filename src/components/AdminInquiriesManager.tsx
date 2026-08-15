@@ -190,12 +190,14 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
                 <h3 id="admin-inquiry-modal-title">{getAdminInquiryTypeLabel(selectedInquiry.type)} 문의</h3>
                 <p>{selectedInquiry.name} · {selectedInquiry.submittedAt}</p>
               </div>
-              <span className={`admin-inquiry-status is-${formValue.status}`}>
-                {getAdminInquiryStatusLabel(formValue.status)}
-              </span>
-              <button className="admin-inquiries-modal-close" onClick={closeModal} type="button" aria-label="닫기">
-                <X size={17} />
-              </button>
+              <div className="admin-inquiries-modal-actions">
+                <span className={`admin-inquiry-status is-${formValue.status}`}>
+                  {getAdminInquiryStatusLabel(formValue.status)}
+                </span>
+                <button className="admin-inquiries-modal-close" onClick={closeModal} type="button" aria-label="닫기">
+                  <X size={17} />
+                </button>
+              </div>
             </div>
 
             <div className="admin-inquiries-detail-grid">
