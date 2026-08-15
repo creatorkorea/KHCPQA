@@ -9097,9 +9097,9 @@ p {
 
 .admin-certifications-toolbar {
   align-items: flex-end;
-  display: flex;
+  display: grid;
   gap: 18px;
-  justify-content: space-between;
+  grid-template-columns: minmax(0, 1fr) auto;
 }
 
 .admin-certifications-new-button {
@@ -9221,12 +9221,37 @@ p {
 }
 
 .admin-certifications-manager .console-table {
-  min-width: 1160px;
+  min-width: 940px;
+  table-layout: fixed;
+}
+
+.admin-certifications-col-course {
+  width: 18%;
+}
+
+.admin-certifications-col-number {
+  width: 25%;
+}
+
+.admin-certifications-col-user {
+  width: 22%;
+}
+
+.admin-certifications-col-period {
+  width: 16%;
+}
+
+.admin-certifications-col-status {
+  width: 9%;
+}
+
+.admin-certifications-col-action {
+  width: 10%;
 }
 
 .admin-certifications-manager .console-table th,
 .admin-certifications-manager .console-table td {
-  padding: 17px 16px;
+  padding: 17px 14px;
 }
 
 .admin-certifications-manager .console-table th {
@@ -9236,7 +9261,7 @@ p {
 .admin-certification-title-cell,
 .admin-certification-user-cell,
 .admin-certification-muted-date,
-.admin-certifications-manager td:nth-child(5) span:not(.console-status) {
+.admin-certification-date-cell {
   align-items: center;
   display: inline-flex;
   gap: 8px;
@@ -9263,7 +9288,7 @@ p {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   font-size: 12px;
   font-weight: 800;
-  max-width: 260px;
+  max-width: 168px;
   overflow: hidden;
   padding: 6px 8px;
   text-overflow: ellipsis;
@@ -9271,10 +9296,10 @@ p {
 }
 
 .admin-certification-number-cell {
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  min-width: 260px;
+  align-items: flex-start;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
 }
 
 .admin-certification-number-cell > span:first-child {
@@ -9287,7 +9312,7 @@ p {
   color: var(--console-muted);
   font-size: 11px;
   font-weight: 750;
-  max-width: 260px;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -9295,6 +9320,7 @@ p {
 .admin-certification-copy-actions {
   display: inline-flex;
   flex: 0 0 auto;
+  flex-wrap: wrap;
   gap: 5px;
 }
 
@@ -9322,6 +9348,28 @@ p {
   align-items: flex-start;
   flex-direction: column;
   gap: 4px;
+}
+
+.admin-certification-date-cell {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.admin-certification-date-cell > span {
+  color: var(--console-ink);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.admin-certification-date-cell small {
+  align-items: center;
+  color: var(--console-muted);
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 800;
+  gap: 5px;
+  white-space: nowrap;
 }
 
 .admin-certification-user-cell small {
@@ -10768,7 +10816,7 @@ p {
 
   .admin-certifications-toolbar {
     align-items: stretch;
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .admin-certifications-summary {

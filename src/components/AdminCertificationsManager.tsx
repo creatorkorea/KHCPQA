@@ -208,14 +208,21 @@ export function AdminCertificationsManager({
       </div>
 
       <div className="console-table-wrap">
-        <table className="console-table">
+        <table className="console-table admin-certifications-table">
+          <colgroup>
+            <col className="admin-certifications-col-course" />
+            <col className="admin-certifications-col-number" />
+            <col className="admin-certifications-col-user" />
+            <col className="admin-certifications-col-period" />
+            <col className="admin-certifications-col-status" />
+            <col className="admin-certifications-col-action" />
+          </colgroup>
           <thead>
             <tr>
               <th>자격명</th>
               <th>자격번호</th>
               <th>회원</th>
-              <th>발급일</th>
-              <th>만료일</th>
+              <th>기간</th>
               <th>상태</th>
               <th>관리</th>
             </tr>
@@ -264,11 +271,13 @@ export function AdminCertificationsManager({
                       <small title={certification.userEmail || "이메일 미등록"}>{certification.userEmail || "이메일 미등록"}</small>
                     </span>
                   </td>
-                  <td>{certification.issuedAt}</td>
                   <td>
-                    <span className={certification.expiresAt ? undefined : "admin-certification-muted-date"}>
-                      {certification.expiresAt ? <Clock3 size={14} /> : null}
-                      {certification.expiresAtDisplay}
+                    <span className="admin-certification-date-cell">
+                      <span>{certification.issuedAt}</span>
+                      <small className={certification.expiresAt ? undefined : "admin-certification-muted-date"}>
+                        {certification.expiresAt ? <Clock3 size={13} /> : null}
+                        만료 {certification.expiresAtDisplay}
+                      </small>
                     </span>
                   </td>
                   <td>
@@ -286,7 +295,7 @@ export function AdminCertificationsManager({
               ))
             ) : (
               <tr>
-                <td colSpan={7}>
+                <td colSpan={6}>
                   <div className="console-empty-state" role="status">
                     <ShieldCheck size={18} />
                     <span>등록된 자격 데이터가 없습니다.</span>
