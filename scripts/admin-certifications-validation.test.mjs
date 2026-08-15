@@ -139,6 +139,7 @@ test("AdminCertificationsManager keeps the certification list scannable", async 
   assert.match(managerSource, /자격번호 복사/);
   assert.match(managerSource, /검증 코드 복사/);
   assert.match(styleSource, /\.admin-certifications-panel/);
+  assert.match(styleSource, /padding: 14px 26px 28px/);
   assert.match(styleSource, /\.admin-certifications-filter-bar/);
   assert.match(styleSource, /grid-template-columns: repeat\(4, minmax\(112px, 1fr\)\)/);
   assert.match(styleSource, /min-height: 58px/);
