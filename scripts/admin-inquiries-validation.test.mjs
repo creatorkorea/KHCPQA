@@ -46,9 +46,11 @@ test("inquiry labels are operator friendly", () => {
 });
 
 test("admin inquiry list prioritizes message and contact values", async () => {
+  const pageSource = await readFile("src/app/admin/inquiries/page.tsx", "utf8");
   const componentSource = await readFile("src/components/AdminInquiriesManager.tsx", "utf8");
   const styleSource = await readFile("src/styles/globals.css", "utf8");
 
+  assert.match(pageSource, /className="admin-inquiries-panel"/);
   assert.match(componentSource, /<colgroup>/);
   assert.doesNotMatch(componentSource, /<th>접수번호<\/th>/);
   assert.match(componentSource, /<th>문의 내용<\/th>/);
@@ -68,6 +70,8 @@ test("admin inquiry list prioritizes message and contact values", async () => {
   assert.match(styleSource, /table-layout: fixed/);
   assert.match(styleSource, /\.admin-inquiries-col-message/);
   assert.match(styleSource, /\.admin-inquiries-col-customer/);
+  assert.match(styleSource, /\.admin-inquiries-panel \.console-filter-bar/);
+  assert.match(styleSource, /grid-template-columns: minmax\(120px, 0\.7fr\) minmax\(120px, 0\.7fr\) minmax\(260px, 1\.2fr\) minmax\(280px, 1\.4fr\)/);
   assert.match(styleSource, /\.admin-inquiries-message-stack/);
   assert.match(styleSource, /\.admin-inquiries-contact-stack/);
   assert.match(styleSource, /\.admin-inquiries-modal-eyebrow/);
