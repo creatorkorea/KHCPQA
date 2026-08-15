@@ -8488,9 +8488,46 @@ p {
 .home-popup-image {
   display: block;
   height: auto;
-  max-height: min(82vh, 720px);
+  max-height: min(74vh, 650px);
   object-fit: contain;
   width: 100%;
+}
+
+.home-popup-actions {
+  align-items: center;
+  border-top: 1px solid rgba(32, 32, 42, 0.1);
+  display: flex;
+  gap: 0;
+  justify-content: space-between;
+}
+
+.home-popup-actions button {
+  background: #fff;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  flex: 1 1 0;
+  font-size: 14px;
+  font-weight: 800;
+  min-height: 48px;
+  padding: 12px 16px;
+}
+
+.home-popup-actions button + button {
+  border-left: 1px solid rgba(32, 32, 42, 0.1);
+}
+
+.home-popup-actions button:hover {
+  background: #f8faf7;
+  color: var(--green-dark);
+}
+
+.home-popup-dismiss-today {
+  text-align: left;
+}
+
+.home-popup-dismiss-now {
+  color: var(--green-dark);
 }
 
 .admin-translations-workspace {
