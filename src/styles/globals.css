@@ -9096,9 +9096,9 @@ p {
 }
 
 .admin-certifications-toolbar {
-  align-items: flex-end;
+  align-items: center;
   display: grid;
-  gap: 18px;
+  gap: 16px;
   grid-template-columns: minmax(0, 1fr) auto;
 }
 
@@ -9106,8 +9106,8 @@ p {
   align-items: center;
   background: var(--console-purple);
   border: 1px solid var(--console-purple-dark);
-  border-radius: 8px;
-  box-shadow: 0 12px 24px rgba(84, 55, 189, 0.18);
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(84, 55, 189, 0.18);
   color: #fff;
   cursor: pointer;
   display: inline-flex;
@@ -9115,41 +9115,44 @@ p {
   font-size: 13px;
   font-weight: 900;
   gap: 7px;
-  min-height: 42px;
-  padding: 0 15px;
+  min-height: 44px;
+  padding: 0 18px;
 }
 
 .admin-certifications-summary {
   display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(4, minmax(120px, 1fr));
-  width: min(760px, 100%);
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(112px, 1fr));
+  max-width: 720px;
+  width: 100%;
 }
 
 .admin-certifications-summary span {
-  background: #fff;
+  align-items: center;
+  background: linear-gradient(180deg, #fff 0%, #fcfbff 100%);
   border: 1px solid var(--console-line);
-  border-radius: 8px;
-  box-shadow: 0 12px 30px rgba(64, 48, 118, 0.06);
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(64, 48, 118, 0.05);
   color: var(--console-muted);
-  display: grid;
+  display: flex;
   font-size: 12px;
-  font-weight: 850;
-  gap: 7px;
-  min-height: 86px;
-  padding: 22px 15px 14px;
+  font-weight: 900;
+  gap: 10px;
+  min-height: 58px;
+  overflow: hidden;
+  padding: 10px 13px 10px 16px;
   position: relative;
 }
 
 .admin-certifications-summary span::before {
   background: #d6cee8;
-  border-radius: 999px;
+  border-radius: 0;
   content: "";
-  height: 4px;
-  left: 15px;
+  bottom: 0;
+  left: 0;
   position: absolute;
-  right: 15px;
-  top: 8px;
+  top: 0;
+  width: 4px;
 }
 
 .admin-certifications-summary .is-issued::before {
@@ -9166,8 +9169,9 @@ p {
 
 .admin-certifications-summary strong {
   color: var(--console-ink);
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1;
+  min-width: 24px;
 }
 
 .admin-certifications-filter-bar {
