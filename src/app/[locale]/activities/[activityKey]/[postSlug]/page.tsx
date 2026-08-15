@@ -8,7 +8,7 @@ import {
   getActivityPosts,
   type Locale
 } from "@/lib/content";
-import { getPublishedActivityPost, incrementPublishedActivityPostViewCount } from "@/lib/public-content";
+import { getPublishedActivityPost, getPublishedContentIntro, incrementPublishedActivityPostViewCount } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -81,12 +81,22 @@ export default async function ActivityPostDetailPage({
   }
 
   const didIncrementViewCount = await incrementPublishedActivityPostViewCount({ locale, slug: post.slug });
+  const categoryContent = await getPublishedContentIntro({
+    contentType: "Activity",
+    fallback: {
+      lead: activity.summary,
+      title: activity.title
+    },
+    locale,
+    slug: activity.key
+  });
 
   const imageUrl = post.imageUrl;
   const copy = postDetailCopy[locale];
   const displayedViewCount = post.viewCount + (didIncrementViewCount ? 1 : 0);
+  const heroImageUrl = activity.key === "photo" ? categoryContent.imageUrl || activity.imageUrl : imageUrl || activity.imageUrl;
   const postIntroStyle = {
-    "--activity-post-hero-image": `url("${(imageUrl || activity.imageUrl).replace(/"/g, "%22")}")`
+    "--activity-post-hero-image": `url("${heroImageUrl.replace(/"/g, "%22")}")`
   } as CSSProperties;
   const bodyLines = post.body
     .split("\n")

@@ -34,3 +34,12 @@ test("photo gallery editor has image-first styling", async () => {
   assert.match(styleSource, /\.community-photo-upload-field \.community-image-preview/);
   assert.match(styleSource, /aspect-ratio: 16 \/ 9/);
 });
+
+test("photo gallery detail keeps category hero separate from attached post image", async () => {
+  const source = await readFile("src/app/[locale]/activities/[activityKey]/[postSlug]/page.tsx", "utf8");
+
+  assert.match(source, /getPublishedContentIntro/);
+  assert.match(source, /const heroImageUrl = activity\.key === "photo" \? categoryContent\.imageUrl \|\| activity\.imageUrl : imageUrl \|\| activity\.imageUrl/);
+  assert.match(source, /"--activity-post-hero-image": `url\("\$\{heroImageUrl\.replace/);
+  assert.match(source, /\{imageUrl \? <Image src=\{imageUrl\} alt=\{post\.title\}/);
+});
