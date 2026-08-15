@@ -115,21 +115,15 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
         <table className="admin-inquiries-table">
           <colgroup>
             <col className="admin-inquiries-col-message" />
-            <col className="admin-inquiries-col-name" />
-            <col className="admin-inquiries-col-contact" />
-            <col className="admin-inquiries-col-type" />
+            <col className="admin-inquiries-col-customer" />
             <col className="admin-inquiries-col-status" />
-            <col className="admin-inquiries-col-date" />
             <col className="admin-inquiries-col-action" />
           </colgroup>
           <thead>
             <tr>
               <th>문의 내용</th>
-              <th>이름</th>
-              <th>연락처</th>
-              <th>유형</th>
+              <th>고객 정보</th>
               <th>상태</th>
-              <th>접수일</th>
               <th>관리</th>
             </tr>
           </thead>
@@ -139,22 +133,20 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
                 <tr key={inquiry.receipt}>
                   <td className="admin-inquiries-message-cell">
                     <strong className="admin-inquiries-message-title">{inquiry.message}</strong>
-                    <span className="admin-inquiries-message-preview">{inquiry.message}</span>
-                  </td>
-                  <td className="admin-inquiries-person-cell">
-                    <strong>{inquiry.name}</strong>
+                    <span className="admin-inquiries-message-preview">
+                      {getAdminInquiryTypeLabel(inquiry.type)} · {inquiry.submittedAt}
+                    </span>
                   </td>
                   <td className="admin-inquiries-contact-cell">
-                    <strong title={inquiry.email}>{inquiry.email}</strong>
+                    <strong>{inquiry.name}</strong>
+                    <span title={inquiry.email}>{inquiry.email}</span>
                     <span>{inquiry.phone || "-"}</span>
                   </td>
-                  <td>{getAdminInquiryTypeLabel(inquiry.type)}</td>
                   <td>
                     <span className={`admin-inquiry-status is-${inquiry.status}`}>
                       {getAdminInquiryStatusLabel(inquiry.status)}
                     </span>
                   </td>
-                  <td>{inquiry.submittedAt}</td>
                   <td>
                     <button className="admin-inquiries-edit-button" onClick={() => openEditModal(inquiry)} type="button">
                       <Pencil size={14} />

@@ -52,10 +52,15 @@ test("admin inquiry list prioritizes message and contact values", async () => {
   assert.match(componentSource, /<colgroup>/);
   assert.doesNotMatch(componentSource, /<th>접수번호<\/th>/);
   assert.match(componentSource, /<th>문의 내용<\/th>/);
+  assert.match(componentSource, /<th>고객 정보<\/th>/);
   assert.match(componentSource, /className="admin-inquiries-message-title"/);
   assert.match(componentSource, /className="admin-inquiries-contact-cell"/);
+  assert.doesNotMatch(componentSource, /<th>접수일<\/th>/);
+  assert.doesNotMatch(componentSource, /<th>유형<\/th>/);
   assert.match(styleSource, /table-layout: fixed/);
   assert.match(styleSource, /\.admin-inquiries-col-message/);
-  assert.match(styleSource, /\.admin-inquiries-message-title,\n\.admin-inquiries-contact-cell strong/);
+  assert.match(styleSource, /\.admin-inquiries-col-customer/);
+  assert.match(styleSource, /\.admin-inquiries-table tr:hover td/);
+  assert.match(styleSource, /white-space: nowrap/);
   assert.match(styleSource, /text-overflow: ellipsis/);
 });

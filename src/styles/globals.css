@@ -9604,49 +9604,43 @@ p {
 }
 
 .admin-inquiries-table-wrap {
+  border: 1px solid rgba(232, 226, 243, 0.92);
+  border-radius: 18px;
   overflow-x: auto;
 }
 
 .admin-inquiries-table {
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   table-layout: fixed;
   width: 100%;
 }
 
 .admin-inquiries-col-message {
-  width: 34%;
+  width: 54%;
 }
 
-.admin-inquiries-col-name {
-  width: 10%;
-}
-
-.admin-inquiries-col-contact {
-  width: 19%;
-}
-
-.admin-inquiries-col-type {
-  width: 9%;
+.admin-inquiries-col-customer {
+  width: 28%;
 }
 
 .admin-inquiries-col-status {
-  width: 9%;
-}
-
-.admin-inquiries-col-date {
-  width: 12%;
+  width: 10%;
 }
 
 .admin-inquiries-col-action {
-  width: 7%;
+  width: 8%;
+}
+
+.admin-inquiries-table thead {
+  background: #f8f6fd;
 }
 
 .admin-inquiries-table th {
-  background: #f8f6fd;
   color: #6f6882;
   font-size: 12px;
   font-weight: 900;
-  padding: 14px 16px;
+  padding: 15px 18px;
   text-align: left;
 }
 
@@ -9656,7 +9650,11 @@ p {
 
 .admin-inquiries-table th:last-child {
   border-radius: 0 8px 8px 0;
-  text-align: center;
+  text-align: right;
+}
+
+.admin-inquiries-table tr:hover td {
+  background: #fcfbff;
 }
 
 .admin-inquiries-table td {
@@ -9664,9 +9662,17 @@ p {
   color: var(--console-ink);
   font-size: 13px;
   font-weight: 800;
-  padding: 16px;
+  padding: 18px;
   vertical-align: middle;
   white-space: normal;
+}
+
+.admin-inquiries-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin-inquiries-table td:last-child {
+  text-align: right;
 }
 
 .admin-inquiries-message-cell,
@@ -9677,7 +9683,8 @@ p {
 }
 
 .admin-inquiries-message-title,
-.admin-inquiries-contact-cell strong {
+.admin-inquiries-contact-cell strong,
+.admin-inquiries-contact-cell span {
   display: block;
   min-width: 0;
   overflow: hidden;
@@ -9685,8 +9692,7 @@ p {
   white-space: nowrap;
 }
 
-.admin-inquiries-message-preview,
-.admin-inquiries-contact-cell span {
+.admin-inquiries-message-preview {
   color: var(--console-muted);
   font-size: 12px;
   overflow: hidden;
@@ -9694,10 +9700,13 @@ p {
   white-space: nowrap;
 }
 
-.admin-inquiries-person-cell strong {
-  display: block;
+.admin-inquiries-contact-cell span {
+  color: var(--console-muted);
+  font-size: 12px;
+}
+
+.admin-inquiries-contact-cell strong {
   line-height: 1.35;
-  overflow-wrap: anywhere;
 }
 
 .admin-inquiry-status {
@@ -9705,7 +9714,11 @@ p {
   display: inline-flex;
   font-size: 12px;
   font-weight: 900;
+  justify-content: center;
+  line-height: 1;
+  min-width: 70px;
   padding: 7px 10px;
+  white-space: nowrap;
 }
 
 .admin-inquiry-status.is-new {
@@ -9732,16 +9745,18 @@ p {
   align-items: center;
   background: #fff;
   border: 1px solid var(--console-line);
-  border-radius: 999px;
+  border-radius: 10px;
   color: var(--console-purple-dark);
   cursor: pointer;
   display: inline-flex;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 900;
-  gap: 5px;
+  gap: 7px;
   justify-content: center;
-  min-height: 32px;
-  padding: 0 12px;
+  min-height: 38px;
+  min-width: 78px;
+  padding: 0 14px;
+  white-space: nowrap;
 }
 
 .admin-inquiries-edit-button:hover {
