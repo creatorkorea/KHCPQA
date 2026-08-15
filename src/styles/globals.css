@@ -9617,11 +9617,11 @@ p {
 }
 
 .admin-inquiries-col-message {
-  width: 54%;
+  width: 55%;
 }
 
 .admin-inquiries-col-customer {
-  width: 28%;
+  width: 27%;
 }
 
 .admin-inquiries-col-status {
@@ -9640,7 +9640,7 @@ p {
   color: #6f6882;
   font-size: 12px;
   font-weight: 900;
-  padding: 15px 18px;
+  padding: 15px 20px;
   text-align: left;
 }
 
@@ -9662,7 +9662,7 @@ p {
   color: var(--console-ink);
   font-size: 13px;
   font-weight: 800;
-  padding: 18px;
+  padding: 16px 20px;
   vertical-align: middle;
   white-space: normal;
 }
@@ -9675,16 +9675,17 @@ p {
   text-align: right;
 }
 
-.admin-inquiries-message-cell,
-.admin-inquiries-contact-cell {
+.admin-inquiries-message-stack,
+.admin-inquiries-contact-stack {
   display: grid;
-  gap: 5px;
+  gap: 6px;
   min-width: 0;
 }
 
 .admin-inquiries-message-title,
-.admin-inquiries-contact-cell strong,
-.admin-inquiries-contact-cell span {
+.admin-inquiries-contact-stack strong,
+.admin-inquiries-contact-stack span,
+.admin-inquiries-contact-stack small {
   display: block;
   min-width: 0;
   overflow: hidden;
@@ -9695,18 +9696,26 @@ p {
 .admin-inquiries-message-preview {
   color: var(--console-muted);
   font-size: 12px;
+  font-weight: 800;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.admin-inquiries-contact-cell span {
+.admin-inquiries-contact-stack span {
   color: var(--console-muted);
   font-size: 12px;
+  font-weight: 850;
 }
 
-.admin-inquiries-contact-cell strong {
+.admin-inquiries-contact-stack strong {
   line-height: 1.35;
+}
+
+.admin-inquiries-contact-stack small {
+  color: #8f879d;
+  font-size: 11px;
+  font-weight: 800;
 }
 
 .admin-inquiry-status {

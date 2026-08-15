@@ -132,15 +132,19 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
               inquiries.map((inquiry) => (
                 <tr key={inquiry.receipt}>
                   <td className="admin-inquiries-message-cell">
-                    <strong className="admin-inquiries-message-title">{inquiry.message}</strong>
-                    <span className="admin-inquiries-message-preview">
-                      {getAdminInquiryTypeLabel(inquiry.type)} · {inquiry.submittedAt}
-                    </span>
+                    <div className="admin-inquiries-message-stack">
+                      <strong className="admin-inquiries-message-title">{inquiry.message}</strong>
+                      <span className="admin-inquiries-message-preview">
+                        {getAdminInquiryTypeLabel(inquiry.type)} · {inquiry.submittedAt}
+                      </span>
+                    </div>
                   </td>
                   <td className="admin-inquiries-contact-cell">
-                    <strong>{inquiry.name}</strong>
-                    <span title={inquiry.email}>{inquiry.email}</span>
-                    <span>{inquiry.phone || "-"}</span>
+                    <div className="admin-inquiries-contact-stack">
+                      <strong>{inquiry.name}</strong>
+                      <span title={inquiry.email}>{inquiry.email}</span>
+                      {inquiry.phone ? <small>{inquiry.phone}</small> : null}
+                    </div>
                   </td>
                   <td>
                     <span className={`admin-inquiry-status is-${inquiry.status}`}>
@@ -157,7 +161,7 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
               ))
             ) : (
               <tr>
-                <td colSpan={7}>
+                <td colSpan={4}>
                   <div className="console-empty-state" role="status">
                     <FileText size={18} />
                     <span>등록된 문의 데이터가 없습니다.</span>
