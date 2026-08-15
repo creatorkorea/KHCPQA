@@ -113,6 +113,15 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
 
       <div className="admin-inquiries-table-wrap">
         <table className="admin-inquiries-table">
+          <colgroup>
+            <col className="admin-inquiries-col-receipt" />
+            <col className="admin-inquiries-col-name" />
+            <col className="admin-inquiries-col-contact" />
+            <col className="admin-inquiries-col-type" />
+            <col className="admin-inquiries-col-status" />
+            <col className="admin-inquiries-col-date" />
+            <col className="admin-inquiries-col-action" />
+          </colgroup>
           <thead>
             <tr>
               <th>접수번호</th>
@@ -128,13 +137,15 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
             {inquiries.length ? (
               inquiries.map((inquiry) => (
                 <tr key={inquiry.receipt}>
-                  <td>
-                    <strong>{inquiry.receipt}</strong>
-                    <span>{inquiry.message}</span>
+                  <td className="admin-inquiries-receipt-cell">
+                    <strong className="admin-inquiries-receipt-code" title={inquiry.receipt}>{inquiry.receipt}</strong>
+                    <span className="admin-inquiries-message-preview">{inquiry.message}</span>
                   </td>
-                  <td>{inquiry.name}</td>
-                  <td>
-                    <strong>{inquiry.email}</strong>
+                  <td className="admin-inquiries-person-cell">
+                    <strong>{inquiry.name}</strong>
+                  </td>
+                  <td className="admin-inquiries-contact-cell">
+                    <strong title={inquiry.email}>{inquiry.email}</strong>
                     <span>{inquiry.phone || "-"}</span>
                   </td>
                   <td>{getAdminInquiryTypeLabel(inquiry.type)}</td>

@@ -9609,8 +9609,36 @@ p {
 
 .admin-inquiries-table {
   border-collapse: collapse;
-  min-width: 980px;
+  table-layout: fixed;
   width: 100%;
+}
+
+.admin-inquiries-col-receipt {
+  width: 34%;
+}
+
+.admin-inquiries-col-name {
+  width: 10%;
+}
+
+.admin-inquiries-col-contact {
+  width: 19%;
+}
+
+.admin-inquiries-col-type {
+  width: 9%;
+}
+
+.admin-inquiries-col-status {
+  width: 9%;
+}
+
+.admin-inquiries-col-date {
+  width: 12%;
+}
+
+.admin-inquiries-col-action {
+  width: 7%;
 }
 
 .admin-inquiries-table th {
@@ -9638,22 +9666,43 @@ p {
   font-weight: 800;
   padding: 16px;
   vertical-align: middle;
+  white-space: normal;
+}
+
+.admin-inquiries-receipt-cell,
+.admin-inquiries-contact-cell {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.admin-inquiries-receipt-code,
+.admin-inquiries-contact-cell strong {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.admin-inquiries-table td:first-child,
-.admin-inquiries-table td:nth-child(3) {
-  display: grid;
-  gap: 5px;
-  max-width: 360px;
+.admin-inquiries-receipt-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  letter-spacing: 0;
 }
 
-.admin-inquiries-table td:first-child span,
-.admin-inquiries-table td:nth-child(3) span {
+.admin-inquiries-message-preview,
+.admin-inquiries-contact-cell span {
   color: var(--console-muted);
   font-size: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-inquiries-person-cell strong {
+  display: block;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .admin-inquiry-status {
