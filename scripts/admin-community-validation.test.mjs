@@ -43,3 +43,11 @@ test("photo gallery detail keeps category hero separate from attached post image
   assert.match(source, /"--activity-post-hero-image": `url\("\$\{heroImageUrl\.replace/);
   assert.match(source, /\{imageUrl \? <Image src=\{imageUrl\} alt=\{post\.title\}/);
 });
+
+test("community board table omits planning-description column", async () => {
+  const source = await readFile("src/components/AdminCommunityManager.tsx", "utf8");
+
+  assert.doesNotMatch(source, /label: "기획서 기준 설명"/);
+  assert.doesNotMatch(source, /key: "summary", label: "기획서 기준 설명"/);
+  assert.match(source, /placeholder=\{activeTab === "boards" \? "게시판명, 키 검색"/);
+});
