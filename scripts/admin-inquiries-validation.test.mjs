@@ -58,8 +58,10 @@ test("admin inquiry list prioritizes message and contact values", async () => {
   assert.match(componentSource, /className="admin-inquiries-message-stack"/);
   assert.match(componentSource, /className="admin-inquiries-contact-stack"/);
   assert.match(componentSource, /<td colSpan=\{4\}>/);
-  assert.match(componentSource, /id="admin-inquiry-modal-title">\{selectedInquiry\.message\}/);
+  assert.match(componentSource, /id="admin-inquiry-modal-title">\{getAdminInquiryTypeLabel\(selectedInquiry\.type\)\} 문의/);
   assert.doesNotMatch(componentSource, /id="admin-inquiry-modal-title">\{selectedInquiry\.receipt\}/);
+  assert.doesNotMatch(componentSource, />접수번호 \{selectedInquiry\.receipt\}</);
+  assert.doesNotMatch(componentSource, /<dt>문의 유형<\/dt>/);
   assert.doesNotMatch(componentSource, /<th>접수일<\/th>/);
   assert.doesNotMatch(componentSource, /<th>유형<\/th>/);
   assert.match(styleSource, /table-layout: fixed/);

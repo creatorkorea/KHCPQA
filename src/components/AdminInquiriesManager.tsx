@@ -187,8 +187,8 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
               <FileText size={22} />
               <div>
                 <span className="admin-inquiries-modal-eyebrow">문의 상세</span>
-                <h3 id="admin-inquiry-modal-title">{selectedInquiry.message}</h3>
-                <p>접수번호 {selectedInquiry.receipt}</p>
+                <h3 id="admin-inquiry-modal-title">{getAdminInquiryTypeLabel(selectedInquiry.type)} 문의</h3>
+                <p>{selectedInquiry.name} · {selectedInquiry.submittedAt}</p>
               </div>
               <span className={`admin-inquiry-status is-${formValue.status}`}>
                 {getAdminInquiryStatusLabel(formValue.status)}
@@ -219,10 +219,6 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
                 <div>
                   <dt>국가</dt>
                   <dd>{selectedInquiry.country}</dd>
-                </div>
-                <div>
-                  <dt>문의 유형</dt>
-                  <dd>{getAdminInquiryTypeLabel(selectedInquiry.type)}</dd>
                 </div>
               </dl>
               <div className="admin-inquiries-message-box">

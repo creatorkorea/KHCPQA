@@ -9826,7 +9826,6 @@ p {
   font-size: 22px;
   line-height: 1.32;
   margin: 0;
-  overflow-wrap: anywhere;
 }
 
 .admin-inquiries-modal-heading p {
@@ -9862,7 +9861,7 @@ p {
 .admin-inquiries-detail-grid dl {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   margin: 0;
 }
 
@@ -9891,12 +9890,12 @@ p {
 }
 
 .admin-inquiries-message-box {
-  background: #fff;
+  background: #fbfaff;
   border: 1px solid var(--console-line);
-  border-radius: 10px;
+  border-radius: 12px;
   display: grid;
-  gap: 8px;
-  padding: 14px;
+  gap: 10px;
+  padding: 16px;
 }
 
 .admin-inquiries-message-box strong {
