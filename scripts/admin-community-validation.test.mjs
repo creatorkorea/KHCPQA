@@ -51,3 +51,11 @@ test("community board table omits planning-description column", async () => {
   assert.doesNotMatch(source, /key: "summary", label: "기획서 기준 설명"/);
   assert.match(source, /placeholder=\{activeTab === "boards" \? "게시판명, 키 검색"/);
 });
+
+test("community post table omits slug column from the visible list", async () => {
+  const source = await readFile("src/components/AdminCommunityManager.tsx", "utf8");
+
+  assert.doesNotMatch(source, /label: "게시글 Slug"/);
+  assert.doesNotMatch(source, /key: "slug", label: "게시글 Slug"/);
+  assert.match(source, /placeholder=\{activeTab === "boards" \? "게시판명, 키 검색" : "제목, 요약 검색"/);
+});

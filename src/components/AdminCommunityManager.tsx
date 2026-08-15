@@ -450,7 +450,7 @@ export function AdminCommunityManager({
             <span className="sr-only">커뮤니티 검색</span>
             <input
               onChange={(event) => setSearch(event.target.value)}
-              placeholder={activeTab === "boards" ? "게시판명, 키 검색" : "제목, slug, 요약 검색"}
+              placeholder={activeTab === "boards" ? "게시판명, 키 검색" : "제목, 요약 검색"}
               value={search}
             />
           </label>
@@ -510,7 +510,6 @@ export function AdminCommunityManager({
             columns={[
               { key: "title", label: "제목" },
               { key: "board", label: "게시판" },
-              { key: "slug", label: "게시글 Slug" },
               { key: "locale", label: "언어", align: "center" },
               { key: "status", label: "상태", align: "center" },
               { key: "updatedAt", label: "최종 수정일", align: "center" },
