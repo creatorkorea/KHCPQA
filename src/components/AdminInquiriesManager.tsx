@@ -114,7 +114,7 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
       <div className="admin-inquiries-table-wrap">
         <table className="admin-inquiries-table">
           <colgroup>
-            <col className="admin-inquiries-col-receipt" />
+            <col className="admin-inquiries-col-message" />
             <col className="admin-inquiries-col-name" />
             <col className="admin-inquiries-col-contact" />
             <col className="admin-inquiries-col-type" />
@@ -124,7 +124,7 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
           </colgroup>
           <thead>
             <tr>
-              <th>접수번호</th>
+              <th>문의 내용</th>
               <th>이름</th>
               <th>연락처</th>
               <th>유형</th>
@@ -137,8 +137,8 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
             {inquiries.length ? (
               inquiries.map((inquiry) => (
                 <tr key={inquiry.receipt}>
-                  <td className="admin-inquiries-receipt-cell">
-                    <strong className="admin-inquiries-receipt-code" title={inquiry.receipt}>{inquiry.receipt}</strong>
+                  <td className="admin-inquiries-message-cell">
+                    <strong className="admin-inquiries-message-title">{inquiry.message}</strong>
                     <span className="admin-inquiries-message-preview">{inquiry.message}</span>
                   </td>
                   <td className="admin-inquiries-person-cell">

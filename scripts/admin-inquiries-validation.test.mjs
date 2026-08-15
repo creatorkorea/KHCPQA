@@ -45,15 +45,17 @@ test("inquiry labels are operator friendly", () => {
   assert.equal(getAdminInquiryTypeLabel("partnership"), "파트너십");
 });
 
-test("admin inquiry list keeps long receipt and contact values scannable", async () => {
+test("admin inquiry list prioritizes message and contact values", async () => {
   const componentSource = await readFile("src/components/AdminInquiriesManager.tsx", "utf8");
   const styleSource = await readFile("src/styles/globals.css", "utf8");
 
   assert.match(componentSource, /<colgroup>/);
-  assert.match(componentSource, /className="admin-inquiries-receipt-code" title=\{inquiry\.receipt\}/);
+  assert.doesNotMatch(componentSource, /<th>접수번호<\/th>/);
+  assert.match(componentSource, /<th>문의 내용<\/th>/);
+  assert.match(componentSource, /className="admin-inquiries-message-title"/);
   assert.match(componentSource, /className="admin-inquiries-contact-cell"/);
   assert.match(styleSource, /table-layout: fixed/);
-  assert.match(styleSource, /\.admin-inquiries-col-receipt/);
-  assert.match(styleSource, /\.admin-inquiries-receipt-code,\n\.admin-inquiries-contact-cell strong/);
+  assert.match(styleSource, /\.admin-inquiries-col-message/);
+  assert.match(styleSource, /\.admin-inquiries-message-title,\n\.admin-inquiries-contact-cell strong/);
   assert.match(styleSource, /text-overflow: ellipsis/);
 });

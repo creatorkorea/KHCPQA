@@ -9613,7 +9613,7 @@ p {
   width: 100%;
 }
 
-.admin-inquiries-col-receipt {
+.admin-inquiries-col-message {
   width: 34%;
 }
 
@@ -9669,25 +9669,20 @@ p {
   white-space: normal;
 }
 
-.admin-inquiries-receipt-cell,
+.admin-inquiries-message-cell,
 .admin-inquiries-contact-cell {
   display: grid;
   gap: 5px;
   min-width: 0;
 }
 
-.admin-inquiries-receipt-code,
+.admin-inquiries-message-title,
 .admin-inquiries-contact-cell strong {
   display: block;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.admin-inquiries-receipt-code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  letter-spacing: 0;
 }
 
 .admin-inquiries-message-preview,
