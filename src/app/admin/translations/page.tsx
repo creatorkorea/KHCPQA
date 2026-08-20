@@ -1,21 +1,17 @@
 import { AdminConsoleShell } from "@/components/AdminConsole";
 import { AdminTranslationsManager } from "@/components/AdminTranslationsManager";
-import { getAdminContentRows } from "@/lib/admin-data";
-import { getCourses } from "@/lib/content";
+import { getAdminContentRows, getAdminCourses } from "@/lib/admin-data";
 
 export default async function AdminTranslationsPage() {
-  const contentRows = await getAdminContentRows();
-  const courseRows = contentRows.filter((row) => row.type === "Course");
-  const courseOptions = getCourses("ko").map((course) => ({
-    category: course.category,
-    label: course.title,
-    slug: course.slug,
-    summary: course.summary
-  }));
+  const [contentItems, courses] = await Promise.all([getAdminContentRows(), getAdminCourses()]);
 
   return (
-    <AdminConsoleShell active="translations" description="언어별 번역 현황을 관리합니다." title="번역 관리">
-      <AdminTranslationsManager courseOptions={courseOptions} items={courseRows} />
+    <AdminConsoleShell
+      active="translations"
+      description="페이지·과정·커뮤니티의 KO 원문과 EN·ES·ZH-CN 번역 상태를 함께 관리합니다."
+      title="번역 관리"
+    >
+      <AdminTranslationsManager contentItems={contentItems} courses={courses} />
     </AdminConsoleShell>
   );
 }

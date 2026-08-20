@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "account/certifications",
-    title: `${t.account.certifications.title} | KHCPQA`,
+    title: `${t.account.certifications.title} | KAHC`,
     description: t.account.certifications.lead,
     noIndex: true
   });

@@ -3,14 +3,16 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useMemo, useRef, useState, useTransition, type FormEvent } from "react";
-import { Edit3, FilePlus2, FolderPlus, ImagePlus, Save, Trash2, X } from "lucide-react";
+import { Edit3, FilePlus2, FileText, FolderPlus, ImagePlus, Save, Trash2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   deleteAdminManagedItem,
   saveAdminContent,
+  uploadAdminContentAttachment,
   uploadAdminContentImage,
   type DeleteAdminContentResult,
   type SaveAdminContentResult,
+  type UploadAdminContentAttachmentResult,
   type UploadAdminContentImageResult
 } from "@/app/admin/actions";
 import { AdminStatusBadge, AdminTable, getTone } from "@/components/AdminConsole";
@@ -27,7 +29,11 @@ type ActivityOption = {
 type CommunityMode = "boards" | "posts";
 type EditorKind = "board" | "post";
 type PendingAction = "delete" | "save";
-type ActionResult = SaveAdminContentResult | DeleteAdminContentResult | UploadAdminContentImageResult;
+type ActionResult =
+  | SaveAdminContentResult
+  | DeleteAdminContentResult
+  | UploadAdminContentAttachmentResult
+  | UploadAdminContentImageResult;
 
 type EditorState = {
   boardKey: string;
@@ -91,6 +97,7 @@ export function AdminCommunityManager({
   items: AdminContentRow[];
 }) {
   const router = useRouter();
+  const attachmentInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [activeTab, setActiveTab] = useState<CommunityMode>("boards");
   const [boardFilter, setBoardFilter] = useState("");
@@ -101,6 +108,7 @@ export function AdminCommunityManager({
   const [result, setResult] = useState<ActionResult | null>(null);
   const [search, setSearch] = useState("");
   const [selectedItem, setSelectedItem] = useState<AdminContentRow | null>(null);
+  const [selectedAttachmentName, setSelectedAttachmentName] = useState("");
   const [selectedImageName, setSelectedImageName] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
@@ -313,9 +321,14 @@ export function AdminCommunityManager({
 
   function resetImageInput() {
     setSelectedImageName("");
+    setSelectedAttachmentName("");
 
     if (imageInputRef.current) {
       imageInputRef.current.value = "";
+    }
+
+    if (attachmentInputRef.current) {
+      attachmentInputRef.current.value = "";
     }
   }
 
@@ -330,6 +343,9 @@ export function AdminCommunityManager({
     startTransition(async () => {
       try {
         let imageUrl = editor.imageUrl;
+        let sourceUrl = editor.sourceUrl;
+        const attachmentFile = formData.get("attachmentFile");
+        const hasNewAttachment = attachmentFile instanceof File && attachmentFile.size > 0;
         const imageFile = formData.get("imageFile");
         const hasNewImage = imageFile instanceof File && imageFile.size > 0;
 
@@ -354,6 +370,22 @@ export function AdminCommunityManager({
           imageUrl = uploadResult.url;
         }
 
+        if (editor.kind === "post" && hasNewAttachment && attachmentFile instanceof File) {
+          const uploadFormData = new FormData();
+          uploadFormData.append("file", attachmentFile);
+          uploadFormData.append("contentType", "Activity");
+          uploadFormData.append("slug", slug || "content");
+
+          const uploadResult = await uploadAdminContentAttachment(uploadFormData);
+
+          if (!uploadResult.ok || !uploadResult.url) {
+            setResult(uploadResult);
+            return;
+          }
+
+          sourceUrl = uploadResult.url;
+        }
+
         const nextResult = await saveAdminContent({
           body: editor.body,
           contentType: "Activity",
@@ -361,7 +393,7 @@ export function AdminCommunityManager({
           locale: editor.locale,
           preventOverwrite: editor.kind === "post" && !selectedItem,
           slug,
-          sourceUrl: editor.sourceUrl,
+          sourceUrl,
           status: editor.status,
           summary: editor.summary,
           title: editor.title
@@ -743,14 +775,51 @@ export function AdminCommunityManager({
                 value={editor.body}
               />
             </label>
-            <label className="full">
-              원본 URL
-              <input
-                onChange={(event) => updateEditor("sourceUrl", event.target.value)}
-                placeholder="외부 자료나 보도 링크"
-                value={editor.sourceUrl}
-              />
-            </label>
+            {editor.kind === "post" ? (
+              <label className="full">
+                PDF 첨부파일
+                <span className="community-file-upload">
+                  <FileText size={18} />
+                  <span>
+                    <strong>PDF 선택</strong>
+                    <small>{selectedAttachmentName || "PDF / 15MB 이하"}</small>
+                  </span>
+                  <input
+                    accept="application/pdf"
+                    name="attachmentFile"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      setSelectedAttachmentName(file ? `${file.name} 선택됨` : "");
+                    }}
+                    ref={attachmentInputRef}
+                    type="file"
+                  />
+                </span>
+                {editor.sourceUrl ? (
+                  <div className="community-attachment-preview">
+                    <a href={editor.sourceUrl} rel="noreferrer" target="_blank">
+                      등록된 PDF 보기
+                    </a>
+                    <button
+                      onClick={() => {
+                        updateEditor("sourceUrl", "");
+                        setSelectedAttachmentName("");
+
+                        if (attachmentInputRef.current) {
+                          attachmentInputRef.current.value = "";
+                        }
+                      }}
+                      type="button"
+                    >
+                      첨부파일 제거
+                    </button>
+                  </div>
+                ) : null}
+                <span className="admin-field-help">
+                  공지, 합격 현황, 보도자료 등에서 필요한 PDF 자료를 첨부할 수 있습니다. 새 파일을 선택하면 기존 첨부를 대체합니다.
+                </span>
+              </label>
+            ) : null}
           </div>
 
           {selectedItem || (editor.kind === "post" && !editor.boardKey) ? (

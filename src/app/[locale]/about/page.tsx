@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "about",
-    title: `${t.nav.about} | KHCPQA`,
-    description: t.about.lead
+    title: `${t.nav.about} | KAHC`,
+    description: t.about.lead || t.seo.description
   });
 }
 
@@ -34,19 +34,21 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
     contentType: "Page",
     fallback: {
       lead: t.about.lead,
-      title: t.nav.about
+      title: t.about.title
     },
     locale,
     slug: "about"
   });
+  const introTitle = locale === "ko" ? t.about.title : intro.title;
+  const introLead = locale === "ko" ? t.about.lead : intro.lead;
 
   return (
     <>
       <PageIntro
         className="about-page-intro"
         eyebrow={t.about.eyebrow}
-        title={intro.title}
-        lead={intro.lead}
+        title={introTitle}
+        lead={introLead}
       />
       <AboutSubnav locale={locale} activeKey="intro" />
       <section className="content-section">

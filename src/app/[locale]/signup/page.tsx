@@ -1,6 +1,7 @@
 import { PageIntro } from "@/components/SiteShell";
 import { SignupForm } from "@/components/SignupForm";
 import { getCopy, type Locale } from "@/lib/content";
+import { getPublishedCourses } from "@/lib/course-repository";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
@@ -10,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "signup",
-    title: `${t.signup.title} | KHCPQA`,
+    title: `${t.signup.title} | KAHC`,
     description: t.signup.lead
   });
 }
@@ -18,13 +19,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 export default async function SignupPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
+  const courses = await getPublishedCourses(locale);
 
   return (
     <>
       <PageIntro className="signup-page-intro" eyebrow={t.signup.eyebrow} title={t.signup.title} lead={t.signup.lead} />
       <section className="auth-section signup-auth-section">
         <div className="signup-auth-shell">
-          <SignupForm locale={locale} />
+          <SignupForm courses={courses} locale={locale} />
         </div>
       </section>
     </>

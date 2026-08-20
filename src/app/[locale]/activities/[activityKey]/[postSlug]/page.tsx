@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { CSSProperties } from "react";
-import { ArrowLeft, CalendarDays, Eye, List, UserRound } from "lucide-react";
+import { ArrowLeft, CalendarDays, Download, Eye, List, UserRound } from "lucide-react";
 import {
   getActivityGroupByKey,
   getActivityPosts,
@@ -10,29 +10,34 @@ import {
 } from "@/lib/content";
 import { getPublishedActivityPost, incrementPublishedActivityPostViewCount } from "@/lib/public-content";
 import { buildLocaleMetadata } from "@/lib/seo";
+import { getPublishedLocalesForPath } from "@/lib/translation-availability";
 
 export const dynamic = "force-dynamic";
 
 const postDetailCopy: Record<Locale, {
   authorLabel: string;
+  attachmentLabel: string;
   dateLabel: string;
   listLabel: string;
   viewsLabel: string;
 }> = {
   ko: {
     authorLabel: "작성자",
+    attachmentLabel: "PDF 첨부파일",
     dateLabel: "작성일",
     listLabel: "목록으로",
     viewsLabel: "조회수"
   },
   en: {
     authorLabel: "Author",
+    attachmentLabel: "PDF Attachment",
     dateLabel: "Date",
     listLabel: "Back to List",
     viewsLabel: "Views"
   },
   es: {
     authorLabel: "Autor",
+    attachmentLabel: "Archivo PDF",
     dateLabel: "Fecha",
     listLabel: "Volver a la Lista",
     viewsLabel: "Vistas"
@@ -47,7 +52,10 @@ export async function generateMetadata({
   const { locale, activityKey, postSlug } = await params;
   const activity = getActivityGroupByKey(locale, activityKey);
   const fallback = getActivityPosts(locale, activityKey).find((post) => post.slug === postSlug);
-  const post = await getPublishedActivityPost({ fallback, locale, slug: postSlug });
+  const [post, availableLocales] = await Promise.all([
+    getPublishedActivityPost({ fallback, locale, slug: postSlug }),
+    getPublishedLocalesForPath(`/${locale}/activities/${activityKey}/${postSlug}`)
+  ]);
 
   if (!activity || !post) {
     return {};
@@ -55,9 +63,10 @@ export async function generateMetadata({
 
   return buildLocaleMetadata({
     description: post.body,
+    availableLocales,
     locale,
     path: `activities/${activityKey}/${postSlug}`,
-    title: `${post.title} | ${activity.title} | KHCPQA`
+    title: `${post.title} | ${activity.title} | KAHC`
   });
 }
 
@@ -98,7 +107,6 @@ export default async function ActivityPostDetailPage({
       <section className="page-intro activity-post-intro" style={postIntroStyle}>
         <span className="eyebrow">{activity.title}</span>
         <h1>{post.title}</h1>
-        <p>{activity.summary}</p>
       </section>
       <section className="activity-post-detail-section">
         <Link className="activity-back-link" href={`/${locale}/activities/${activityKey}`}>
@@ -138,6 +146,12 @@ export default async function ActivityPostDetailPage({
                 <p>등록된 상세 본문이 없습니다.</p>
               )}
             </div>
+            {post.sourceUrl ? (
+              <a className="activity-post-attachment" href={post.sourceUrl} rel="noreferrer" target="_blank">
+                <Download size={17} />
+                <span>{copy.attachmentLabel}</span>
+              </a>
+            ) : null}
             <div className="activity-post-actions">
               <Link href={`/${locale}/activities/${activityKey}`}>
                 <List size={17} />

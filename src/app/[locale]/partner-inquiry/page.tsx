@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "partner-inquiry",
-    title: `${t.nav.partner} | KHCPQA`,
+    title: `${t.nav.partner} | KAHC`,
     description: t.partnerInquiry.lead
   });
 }
@@ -28,7 +28,6 @@ export default async function PartnerInquiryPage({
       <PageIntro
         eyebrow={t.partnerInquiry.eyebrow}
         title={t.nav.partner}
-        lead={t.partnerInquiry.lead}
       />
       <section className="form-section">
         <PartnerInquiryForm locale={locale} />

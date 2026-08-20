@@ -48,7 +48,7 @@ const labels = {
 
 export function PasswordUpdateForm({ locale }: { locale: Locale }) {
   const t = getCopy(locale);
-  const copy = labels[locale];
+  const copy = labels[locale as keyof typeof labels] ?? labels.en;
   const [form, setForm] = useState<FormState>({ confirmPassword: "", password: "" });
   const [errors, setErrors] = useState<Partial<Record<keyof FormState | "form", string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);

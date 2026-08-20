@@ -34,3 +34,29 @@ test("photo gallery editor has image-first styling", async () => {
   assert.match(styleSource, /\.community-photo-upload-field \.community-image-preview/);
   assert.match(styleSource, /aspect-ratio: 16 \/ 9/);
 });
+
+test("community post editor supports PDF attachment uploads", async () => {
+  const source = await readFile("src/components/AdminCommunityManager.tsx", "utf8");
+  const actionSource = await readFile("src/app/admin/actions.ts", "utf8");
+
+  assert.match(source, /uploadAdminContentAttachment/);
+  assert.match(source, /attachmentInputRef/);
+  assert.match(source, /name="attachmentFile"/);
+  assert.match(source, /accept="application\/pdf"/);
+  assert.match(source, /PDF 첨부파일/);
+  assert.match(source, /첨부파일 제거/);
+  assert.match(actionSource, /export async function uploadAdminContentAttachment/);
+  assert.match(actionSource, /allowedAdminAttachmentTypes = \["application\/pdf"\]/);
+  assert.match(actionSource, /getDetectedPdfType/);
+});
+
+test("public activity post detail exposes uploaded PDF attachments", async () => {
+  const source = await readFile("src/app/[locale]/activities/[activityKey]/[postSlug]/page.tsx", "utf8");
+  const styleSource = await readFile("src/styles/globals.css", "utf8");
+
+  assert.match(source, /attachmentLabel/);
+  assert.match(source, /post\.sourceUrl/);
+  assert.match(source, /Download/);
+  assert.match(source, /activity-post-attachment/);
+  assert.match(styleSource, /\.activity-post-attachment/);
+});

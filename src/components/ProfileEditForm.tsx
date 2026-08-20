@@ -4,7 +4,8 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import { CheckCircle2, Save } from "lucide-react";
 import type { ProfileFormValue } from "@/lib/account-data";
-import { getCopy, getCourses, localeLabels, locales, type Locale } from "@/lib/content";
+import { getCopy, localeLabels, locales, type Locale } from "@/lib/content";
+import type { PublishedCourse } from "@/lib/course-model";
 import { countryOptions, getCountryDialCode, getCountryPhonePlaceholder } from "@/lib/countries";
 import { formatPhoneNumber, normalizePhoneNumber } from "@/lib/phone";
 import { createClient } from "@/lib/supabase/client";
@@ -18,9 +19,8 @@ function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-export function ProfileEditForm({ initialProfile, locale }: { initialProfile: ProfileFormValue; locale: Locale }) {
+export function ProfileEditForm({ courses, initialProfile, locale }: { courses: PublishedCourse[]; initialProfile: ProfileFormValue; locale: Locale }) {
   const t = getCopy(locale);
-  const courses = getCourses(locale);
   const [form, setForm] = useState<ProfileFormValue>(initialProfile);
   const [errors, setErrors] = useState<Partial<Record<keyof ProfileFormState, string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);

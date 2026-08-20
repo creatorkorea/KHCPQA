@@ -85,7 +85,7 @@ test("AdminCertificationsManager connects the new certification form to the save
 
   assert.match(pageSource, /AdminCertificationsManager/);
   assert.match(pageSource, /admin-certifications-panel/);
-  assert.match(pageSource, /getCourses\("ko"\)/);
+  assert.match(pageSource, /getPublishedCourses\("ko"\)/);
   assert.match(pageSource, /courseOptions=\{courseOptions\}/);
   assert.match(managerSource, /saveAdminCertification/);
   assert.match(managerSource, /새 자격 등록/);

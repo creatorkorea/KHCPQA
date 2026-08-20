@@ -11,8 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "about/organization",
-    title: `${t.organizationPage.title} | KHCPQA`,
-    description: t.organizationPage.lead
+    title: `${t.organizationPage.title} | KAHC`,
+    description: t.organizationPage.lead || t.seo.description
   });
 }
 

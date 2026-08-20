@@ -11,8 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "about/greeting",
-    title: `${t.greetingPage.title} | KHCPQA`,
-    description: t.greetingPage.lead
+    title: `${t.greetingPage.title} | KAHC`,
+    description: t.greetingPage.lead || t.seo.description
   });
 }
 
@@ -54,7 +54,6 @@ export default async function GreetingPage({ params }: { params: Promise<{ local
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
-                {greeting.contact ? <div className="greeting-contact">{greeting.contact}</div> : null}
               </div>
             </article>
           ))}

@@ -4,14 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { MobileAccountLink } from "@/components/HeaderAccountLink";
-import { getCopy, headerNavItems, type Locale } from "@/lib/content";
+import { headerNavItems } from "@/lib/content";
+import type { Locale } from "@/i18n/config";
 
 export function MobileNav({ locale }: { locale: Locale }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const rootRef = useRef<HTMLDivElement>(null);
-  const t = getCopy(locale);
+  const t = useTranslations("shell");
 
   useEffect(() => {
     if (!isOpen) {
@@ -44,7 +46,7 @@ export function MobileNav({ locale }: { locale: Locale }) {
       <button
         aria-controls="mobile-nav-panel"
         aria-expanded={isOpen}
-        aria-label={isOpen ? t.menuClose : t.menuOpen}
+        aria-label={isOpen ? t("menuClose") : t("menuOpen")}
         className="mobile-menu"
         onClick={() => setIsOpen((value) => !value)}
         type="button"
@@ -53,18 +55,18 @@ export function MobileNav({ locale }: { locale: Locale }) {
       </button>
 
       {isOpen ? (
-        <nav className="mobile-nav-panel" id="mobile-nav-panel" aria-label={t.a11y.mobileNavigation}>
+        <nav className="mobile-nav-panel" id="mobile-nav-panel" aria-label={t("mobileNavigation")}>
           {headerNavItems.map((item) => {
             const href = `/${locale}/${item.href}`;
             const isCurrent = pathname === href || pathname.startsWith(`${href}/`);
 
             return (
               <Link aria-current={isCurrent ? "page" : undefined} key={item.key} href={href} onClick={() => setIsOpen(false)}>
-                {t.nav[item.key]}
+                {t(item.key)}
               </Link>
             );
           })}
-          <MobileAccountLink accountLabel={t.accountTitle} locale={locale} loginLabel={t.nav.login} onNavigate={() => setIsOpen(false)} />
+          <MobileAccountLink accountLabel={t("account")} locale={locale} loginLabel={t("login")} onNavigate={() => setIsOpen(false)} />
         </nav>
       ) : null}
     </div>

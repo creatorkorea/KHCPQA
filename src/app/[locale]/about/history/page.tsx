@@ -265,8 +265,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "about/history",
-    title: `${t.historyPage.title} | KHCPQA`,
-    description: t.historyPage.lead
+    title: `${t.historyPage.title} | KAHC`,
+    description: t.historyPage.lead || t.seo.description
   });
 }
 

@@ -1,0 +1,37 @@
+{
+  "shell": {
+    "languageName": "English",
+    "homeLink": "KAHC home",
+    "primaryNavigation": "Primary navigation",
+    "mobileNavigation": "Mobile navigation",
+    "languageSwitcher": "Language selector",
+    "socialLinks": "Social and featured content links",
+    "brand": "KAHC",
+    "brandFull": "The Korea Association for Health & Beauty Certification",
+    "about": "About",
+    "curriculum": "Programs",
+    "activities": "Community",
+    "partner": "Partner Inquiry",
+    "contact": "Contact",
+    "login": "Login",
+    "account": "My Account",
+    "consult": "Consultation",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "footerLead": "A professional education platform connecting practical training with career and business support.",
+    "customerCenter": "Customer Center",
+    "phone": "Phone",
+    "email": "Email",
+    "addressLabel": "Address",
+    "address": "8F, Naein Building, 120 Supyo-ro, Jongno-gu, Seoul",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "sitemap": "Sitemap"
+  },
+  "pending": {
+    "eyebrow": "TRANSLATION IN PROGRESS",
+    "title": "Translation content is being prepared",
+    "body": "Reviewed content for this language is being prepared. Only approved translations are published progressively.",
+    "back": "View the Korean page"
+  }
+}

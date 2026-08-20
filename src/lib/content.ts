@@ -13,25 +13,22 @@ import {
   Sparkles,
   Users
 } from "lucide-react";
+import {
+  defaultLocale,
+  isLocale,
+  localeLabels,
+  type Locale as AppLocale
+} from "@/i18n/config";
 
 export const locales = ["ko", "en", "es"] as const;
 export type Locale = (typeof locales)[number];
-export const defaultLocale: Locale = "ko";
+export { defaultLocale, isLocale, localeLabels };
+type LegacyContentLocale = Locale;
 
 export const translationStatuses = ["ready", "reviewing", "draft"] as const;
 export type TranslationStatus = (typeof translationStatuses)[number];
 
-export function isLocale(value: string): value is Locale {
-  return locales.includes(value as Locale);
-}
-
-export const localeLabels: Record<Locale, string> = {
-  ko: "한국어",
-  en: "English",
-  es: "Español"
-};
-
-export const translationStatusLabels: Record<Locale, Record<TranslationStatus, string>> = {
+export const translationStatusLabels: Record<AppLocale, Record<TranslationStatus, string>> = {
   ko: {
     ready: "번역 완료",
     reviewing: "번역 검수 중",
@@ -46,20 +43,26 @@ export const translationStatusLabels: Record<Locale, Record<TranslationStatus, s
     ready: "Traducción lista",
     reviewing: "Traducción en revisión",
     draft: "Traducción en preparación"
+  },
+  "zh-CN": {
+    ready: "翻译完成",
+    reviewing: "翻译审核中",
+    draft: "翻译准备中"
   }
 };
 
-export const pageTranslationStatus: Record<Locale, TranslationStatus> = {
+export const pageTranslationStatus: Record<AppLocale, TranslationStatus> = {
   ko: "ready",
   en: "reviewing",
-  es: "reviewing"
+  es: "reviewing",
+  "zh-CN": "draft"
 };
 
 export function getTranslationStatus(locale: string): TranslationStatus {
   return pageTranslationStatus[isLocale(locale) ? locale : defaultLocale];
 }
 
-export function getTranslationStatusLabel(locale: Locale, status: TranslationStatus) {
+export function getTranslationStatusLabel(locale: AppLocale, status: TranslationStatus) {
   return translationStatusLabels[locale][status];
 }
 
@@ -181,13 +184,13 @@ type Copy = {
     consultTitle: string;
     consultLead: string;
     consultCta: string;
-    partnersTitle: string;
     finalKicker: string;
     finalTitle: string;
     finalCta: string;
   };
   about: {
     eyebrow: string;
+    title: string;
     lead: string;
     greetingCta: string;
     features: FeatureCopy[];
@@ -504,8 +507,8 @@ export type CourseCategory = "all" | "certification" | "professional" | "practic
 
 export const copy = {
   ko: {
-    brand: "KHCPQA",
-    brandFull: "Korea Health Care Professional Qualification Association",
+    brand: "KAHC",
+    brandFull: "The Korea Association for Health & Beauty Certification",
     nav: {
       about: "협회 소개",
       curriculum: "교육과정",
@@ -517,7 +520,7 @@ export const copy = {
     heroBadge: "취업의 시작, 전문 교육의 중심",
     heroTitle: "당신의 기술이 미래가 되는 곳",
     heroLead:
-      "실무 중심 교육으로 전문 관리사를 양성하고, 취업과 창업까지 함께 지원합니다.",
+      "실무 중심 교육으로 전문 관리사를 양성하고,\n취업과 창업까지 함께 지원합니다.",
     primaryCta: "교육과정 둘러보기",
     secondaryCta: "파트너 문의",
     secureCta: "로그인 후 자격 조회",
@@ -531,7 +534,7 @@ export const copy = {
     menuOpen: "메뉴 열기",
     menuClose: "메뉴 닫기",
     a11y: {
-      homeLink: "KHCPQA 홈",
+      homeLink: "KAHC 홈",
       primaryNavigation: "주요 메뉴",
       mobileNavigation: "모바일 메뉴",
       languageSwitcher: "언어 선택",
@@ -541,7 +544,7 @@ export const copy = {
     },
     layout: {
       consultCta: "상담문의",
-      footerLead: "체계적인 교육과 취업·창업 지원을 연결하는 프리미엄 전문 교육 플랫폼입니다.",
+      footerLead: "체계적인 교육과 취업·창업 지원을 연결하는\n프리미엄 전문 교육 플랫폼입니다.",
       customerCenter: "고객센터",
       phoneLabel: "전화",
       emailLabel: "이메일",
@@ -550,11 +553,11 @@ export const copy = {
       sitemap: "사이트맵"
     },
     seo: {
-      title: "KHCPQA 글로벌 전문 자격 교육",
-      description: "한국 기반 헬스케어·뷰티 전문 자격 교육, 과정 안내, 커뮤니티, 파트너 문의를 제공하는 KHCPQA 플랫폼입니다."
+      title: "KAHC 글로벌 전문 자격 교육",
+      description: "한국 기반 헬스케어·뷰티 전문 자격 교육, 과정 안내, 커뮤니티, 파트너 문의를 제공하는 KAHC 플랫폼입니다."
     },
     home: {
-      heroImageAlt: "글로벌 전문 교육을 상징하는 KHCPQA 교육생과 전문가 이미지",
+      heroImageAlt: "글로벌 전문 교육을 상징하는 KAHC 교육생과 전문가 이미지",
       heroTitlePrefix: "전문 교육으로",
       heroTitleHighlight: "커리어",
       heroTitleSuffix: "를 완성하세요",
@@ -594,7 +597,7 @@ export const copy = {
       onlineInquiry: "온라인 문의",
       featuredCoursesTitle: "주요 교육과정",
       featuredCoursesLead: "현장에서 바로 활용 가능한 실무 중심 교육과정",
-      reasonsTitle: "KHCPQA가 특별한 이유",
+      reasonsTitle: "KAHC가 특별한 이유",
       reasons: [
         { title: "현장 중심 실무 교육", body: "실무 위주의 커리큘럼으로 현장에서 바로 활용 가능합니다." },
         { title: "전문 강사진", body: "풍부한 현장 경험을 갖춘 전문 강사진이 핵심을 교육합니다." },
@@ -627,15 +630,14 @@ export const copy = {
       consultTitle: "지금 상담받고\n당신의 꿈을 시작하세요",
       consultLead: "전문 상담사가 친절하게 안내해 드립니다.",
       consultCta: "상담 신청하기",
-      partnersTitle: "함께하는 파트너",
       finalKicker: "첫걸음이 당신의 미래를 바꿉니다 ✣",
       finalTitle: "지금 바로 상담 신청하고, 꿈을 현실로 만드세요!",
       finalCta: "상담 신청하기"
     },
     about: {
-      eyebrow: "KHCPQA 소개",
-      lead:
-        "한국건강관리사자격협회는 건강미용 교육의 새로운 틀을 세우고, 자격증 취득부터 취업과 창업까지 이어지는 실무 중심 교육을 운영합니다.",
+      eyebrow: "KAHC 소개",
+      title: "한국건강관리사자격협회\nKAHC 소개",
+      lead: "",
       greetingCta: "인사말 보기",
       features: [
         {
@@ -663,32 +665,39 @@ export const copy = {
     aboutSubnav: [
       { key: "intro", title: "소개", href: "about" },
       { key: "greeting", title: "인사말", href: "about/greeting" },
-      { key: "instructors", title: "수석강사 프로필", href: "about/instructors" },
+      { key: "instructors", title: "국제 디렉터", href: "about/instructors" },
       { key: "history", title: "연혁", href: "about/history" },
-      { key: "organization", title: "조직도", href: "about/organization" },
-      { key: "location", title: "찾아오시는 길", href: "contact" }
+      { key: "organization", title: "조직도", href: "about/organization" }
     ],
     greetingPage: {
       eyebrow: "인사말",
       title: "협회 인사말",
-      lead: "건강미용 교육의 발전과 수강생의 성공을 위해 함께 성장하겠습니다.",
+      lead: "",
       greetings: [
         {
-          name: "봉성중",
-          role: "한국건강관리사자격협회 협회장",
-          imageUrl: "/assets/greeting-hwang-ingeun.jpg",
-          contact: "H : 010-3011-6886",
+          name: "봉성종",
+          role: "한국건강관리사자격협회 국제 협회장",
+          imageUrl: "/assets/greeting-bong-seongjong-smiling.jpg",
           paragraphs: [
-            "협회는 한류의 성장과 함께 무한한 잠재력을 지닌 대체의학과 서비스 산업의 발전에 발맞춰 건강미용 산업 교육의 시너지를 만들 수 있는 체계를 갖추고 있습니다.",
-            "수강생 여러분이 현재에서 미래로 성장할 수 있도록 함께 협력하고 상부상조하는 교류 시스템을 마련했으며, 세계 수준의 교육시스템과 체계적인 조직 관리로 맡은 역할에 충실하겠습니다.",
-            "한국건강관리사자격협회는 새로운 가능성의 프로그램을 지속적으로 개발하며 회원 여러분과 동반성장을 목표로 운영합니다. 최고의 기술과 일류 교육기관으로 자리매김하며, 분명한 목표의식을 갖춘 기관으로 여러분과 함께 성장하겠습니다."
+            "한국건강관리사자격협회는 건강·미용·웰니스 산업의 지속적인 발전과 글로벌 교육 교류 활성화를 목표로 다양한 교육 프로그램과 국제 협력 시스템을 구축해 나가고 있습니다.",
+            "최근 K-Beauty와 K-Wellness 산업은 세계적으로 높은 관심과 성장 가능성을 인정받고 있으며, 이에 발맞추어 저희 협회는 국제적인 교육 네트워크와 전문 인재 양성을 위한 체계적인 시스템을 운영하고 있습니다. 단순한 기술 교육을 넘어 실무와 글로벌 경쟁력을 함께 갖춘 전문 인재를 양성할 수 있도록 지속적으로 교육 환경을 발전시키고 있습니다.",
+            "또한 국내외 다양한 기관 및 협회와의 협력을 통해 글로벌 교류 시스템을 확대하고 있으며, 회원 여러분들이 현재의 성장에서 나아가 미래의 경쟁력을 갖출 수 있도록 함께 성장하는 협회가 되고자 노력하고 있습니다.",
+            "한국건강관리사자격협회는 앞으로도 새로운 가능성과 미래 가치를 창출할 수 있는 교육 프로그램을 지속적으로 개발하며, 국제 교육기관으로서의 역할과 책임에 최선을 다하겠습니다. 회원 여러분들의 자부심이 될 수 있는 기관, 그리고 세계와 함께 성장하는 글로벌 협회로 자리매김할 수 있도록 끊임없이 발전해 나가겠습니다.",
+            "많은 관심과 성원 부탁드립니다."
+          ]
+        },
+        {
+          name: "황인근",
+          role: "한국건강관리사자격협회 한국 협회장",
+          imageUrl: "/assets/greeting-hwang-ingeun-chairman.jpg",
+          paragraphs: [
+            "한국건강관리사자격협회의 국내 교육 운영과 협력 네트워크를 이끌며, 전문 인재 양성과 현장 중심 교육 체계가 안정적으로 이어질 수 있도록 지원합니다."
           ]
         },
         {
           name: "문순영",
           role: "한국건강관리사자격협회 부회장 / 서울총본부 본원 원장",
           imageUrl: "/assets/greeting-moon-soonyoung.jpg",
-          contact: "H : 010-7712-3362",
           paragraphs: [
             "한국건강관리사자격협회 서울총본부는 지하철 1, 3, 5호선이 환승되는 종로3가역 인근, 교통이 편리한 서울 중심지에 위치하고 있습니다.",
             "전문 피부미용사, 네일미용사, 메이크업미용사, 헤어미용사, 마사지사로 취업과 창업을 준비한다면 처음 학원 선택이 중요합니다. 서울총본부는 국가기술자격 이론과 실기 교육은 물론 현장 실무용 살롱테크닉, 메디컬 스킨케어, 아로마, 경락, 스포츠, 발 마사지까지 기초부터 전문가 과정까지 체계적으로 교육합니다.",
@@ -700,7 +709,6 @@ export const copy = {
           role: "대림캠퍼스 원장",
           meta: "Skin-care Management Consultant",
           imageUrl: "/assets/greeting-hwang-yujin.jpg",
-          contact: "T : 02-845-8820",
           paragraphs: [
             "한국건강관리사자격협회 대림캠퍼스는 지하철 2, 7호선이 환승되는 대림역 12번 출구 1분 거리에 위치해 교통이 매우 편리하며, 넓고 쾌적한 교육 환경을 제공합니다.",
             "대림캠퍼스는 피부미용사, 네일아트미용사, 헤어미용사, 전문 마사지사의 취업과 창업에 필요한 국가자격증 단기 속성 교육과 취업 실무 교육을 운영합니다. 피부관리와 마사지 교육뿐 아니라 전문관리사가 갖춰야 할 기본 소양교육과 예절교육도 철저히 진행합니다.",
@@ -711,7 +719,6 @@ export const copy = {
           name: "이용호",
           role: "강남마사지교육원 교육부장",
           imageUrl: "/assets/greeting-lee-yongho.jpg",
-          contact: "T : 02-845-8890",
           paragraphs: [
             "강남마사지교육원은 대림역 12번 출구 1분 거리에 위치한 마사지 전문 교육원입니다. 국제화 시대와 서비스 산업 발전에 맞춰 스포츠마사지, 경락마사지, 피부마사지, 발마사지 교육을 진행합니다.",
             "피부관리실, 스파, 마사지샵, 호텔, 사우나 등 취업 알선과 창업 상담, 해외취업 추천 및 유학 컨설팅까지 지원하며, 국내외에서 인정받는 기술력과 체계적인 교육으로 높은 취업률을 지향합니다.",
@@ -721,31 +728,20 @@ export const copy = {
       ]
     },
     instructorsPage: {
-      eyebrow: "수석강사 프로필",
-      title: "수석강사 프로필",
-      lead: "건강미용 실무교육과 자격증 교육을 이끄는 수석강사 프로필입니다.",
+      eyebrow: "국제 디렉터",
+      title: "국제 디렉터",
+      lead: "글로벌 건강미용 교육 교류와 국제 협력 네트워크를 함께 이끄는 디렉터입니다.",
       instructors: [
-        { name: "이정화", role: "수석강사", imageUrl: "/assets/instructor-lee-junghwa.jpg", profileImageUrl: "/assets/instructor-profile-lee-junghwa.jpg" },
-        { name: "이유지", role: "수석강사", imageUrl: "/assets/instructor-lee-yuji.jpg", profileImageUrl: "/assets/instructor-profile-lee-yuji.jpg" },
-        { name: "윤인은", role: "수석강사", imageUrl: "/assets/instructor-yoon-euneun.jpg", profileImageUrl: "/assets/instructor-profile-yoon-euneun.jpg" },
-        { name: "남태현", role: "수석강사", imageUrl: "/assets/instructor-nam-taehyun.jpg", profileImageUrl: "/assets/instructor-profile-nam-taehyun.jpg" },
-        { name: "차영일", role: "수석강사", imageUrl: "/assets/instructor-cha-youngil.jpg", profileImageUrl: "/assets/instructor-profile-cha-youngil.jpg" },
-        { name: "이다연", role: "수석강사", imageUrl: "/assets/instructor-lee-dayeon.jpg", profileImageUrl: "/assets/instructor-profile-lee-dayeon.jpg" },
-        { name: "심은아", role: "수석강사", imageUrl: "/assets/instructor-shim-euna.jpg", profileImageUrl: "/assets/instructor-profile-shim-euna.jpg" },
-        { name: "조은진", role: "수석강사", imageUrl: "/assets/instructor-jo-eunjin.jpg", profileImageUrl: "/assets/instructor-profile-jo-eunjin.jpg" },
-        { name: "주미현", role: "수석강사", imageUrl: "/assets/instructor-ju-mihyun.jpg", profileImageUrl: "/assets/instructor-profile-ju-mihyun.jpg" },
-        { name: "김문선", role: "수석강사", imageUrl: "/assets/instructor-kim-moonsun.jpg", profileImageUrl: "/assets/instructor-profile-kim-moonsun.jpg" },
-        { name: "이선화", role: "수석강사", imageUrl: "/assets/instructor-lee-seonhwa.jpg", profileImageUrl: "/assets/instructor-profile-lee-seonhwa.jpg" },
-        { name: "이용호", role: "수석강사", imageUrl: "/assets/instructor-lee-yongho.jpg", profileImageUrl: "/assets/instructor-profile-lee-yongho.jpg" },
-        { name: "김해림", role: "수석강사", imageUrl: "/assets/instructor-kim-haerim.jpg", profileImageUrl: "/assets/instructor-profile-kim-haerim.jpg" },
-        { name: "박재영", role: "수석강사", imageUrl: "/assets/instructor-park-jaeyoung.jpg", profileImageUrl: "/assets/instructor-profile-park-jaeyoung.jpg" },
-        { name: "송진화", role: "수석강사", imageUrl: "/assets/instructor-song-jinhwa.jpg", profileImageUrl: "/assets/instructor-profile-song-jinhwa.jpg" }
+        { name: "김승철", role: "국제 디렉터 · 몽골", imageUrl: "/assets/instructor-profile-kim-moonsun.jpg", profileImageUrl: "/assets/instructor-profile-kim-moonsun.jpg" },
+        { name: "유정원", role: "국제 디렉터 · 프랑스", imageUrl: "/assets/instructor-profile-yoon-euneun.jpg", profileImageUrl: "/assets/instructor-profile-yoon-euneun.jpg" },
+        { name: "김성권", role: "국제 디렉터 · 대만", imageUrl: "/assets/instructor-profile-kim-haerim.jpg", profileImageUrl: "/assets/instructor-profile-kim-haerim.jpg" },
+        { name: "이용호", role: "국제 디렉터 · 베트남, 태국", imageUrl: "/assets/instructor-lee-yongho.jpg", profileImageUrl: "/assets/instructor-profile-lee-yongho.jpg" }
       ]
     },
     historyPage: {
       eyebrow: "연혁",
-      title: "KHCPQA 연혁",
-      lead: "한국건강관리사자격협회와 SMC아카데미가 걸어온 주요 교육, 수상, 산학협력, 행사 이력입니다.",
+      title: "KAHC 연혁",
+      lead: "",
       imageAlt: "SMC아카데미 연혁 대표 이미지",
       yearsLabel: "연도 선택",
       timelineLabel: "연도별 주요 연혁",
@@ -755,10 +751,11 @@ export const copy = {
     },
     organizationPage: {
       eyebrow: "조직도",
-      title: "KHCPQA 조직도",
-      lead: "협회와 아카데미 운영 체계를 한눈에 확인할 수 있는 조직도입니다.",
+      title: "KAHC 조직도",
+      lead: "",
       imageAlt: "한국건강관리사자격협회 SMC아카데미 조직도",
       units: [
+        { title: "국제협회장", body: "글로벌 교육 교류와 국제 협력 방향을 총괄합니다." },
         { title: "협회 운영", body: "한국건강관리사자격협회를 중심으로 교육, 자격, 지부 운영 체계를 관리합니다." },
         { title: "교육 운영", body: "SMC아카데미와 각 캠퍼스가 자격증 교육과 실무 교육을 담당합니다." },
         { title: "현장 지원", body: "수강 상담, 취업·창업 지원, 대외 행사와 협력 활동을 연결합니다." }
@@ -766,7 +763,7 @@ export const copy = {
     },
     curriculumPage: {
       eyebrow: "커리큘럼",
-      lead: "기존 SMC365 과정 콘텐츠를 글로벌 교육기관형 과정 카드와 상세 템플릿으로 재구성합니다.",
+      lead: "건강미용 분야의 목표와 수준에 맞춰 선택할 수 있는 전문 교육과정입니다.",
       heroTitlePrefix: "내 목표에 맞는",
       heroTitleHighlight: "전문 과정",
       massageProgramsLabel: "마사지 과정"
@@ -1054,7 +1051,7 @@ export const copy = {
         { title: "프로필", body: "이름, 이메일, 국가, 선호 언어를 확인하고 수정합니다." },
         { title: "자격 조회", body: "과정명, 발급일, 상태와 검증 정보를 확인합니다." },
         { title: "문의 내역", body: "사용자가 남긴 문의 내역을 확인합니다." },
-        { title: "검색엔진 비노출", body: "계정 페이지는 검색엔진 노출을 금지합니다." }
+        { title: "개인정보 보호", body: "마이페이지는 로그인한 회원만 접근할 수 있으며 검색엔진에 노출되지 않도록 설정되어 있습니다." }
       ],
       certificates: [
         { title: "피부미용사 국가자격증", number: "SMC-2026-001", issuedAt: "2026-05-18", status: "활성", verificationCode: "PUBLIC-CODE-001" },
@@ -1085,8 +1082,8 @@ export const copy = {
     }
   },
   en: {
-    brand: "KHCPQA",
-    brandFull: "Korea Health Care Professional Qualification Association",
+    brand: "KAHC",
+    brandFull: "The Korea Association for Health & Beauty Certification",
     nav: {
       about: "About",
       curriculum: "Curriculum",
@@ -1112,7 +1109,7 @@ export const copy = {
     menuOpen: "Open menu",
     menuClose: "Close menu",
     a11y: {
-      homeLink: "KHCPQA home",
+      homeLink: "KAHC home",
       primaryNavigation: "Primary navigation",
       mobileNavigation: "Mobile navigation",
       languageSwitcher: "Language switcher",
@@ -1131,11 +1128,11 @@ export const copy = {
       sitemap: "Sitemap"
     },
     seo: {
-      title: "KHCPQA Global Professional Qualification Education",
+      title: "KAHC Global Professional Qualification Education",
       description: "A Korea-based multilingual platform for healthcare and beauty professional qualification education, programs, global activities, and partner inquiries."
     },
     home: {
-      heroImageAlt: "KHCPQA trainees and professionals representing global qualification education",
+      heroImageAlt: "KAHC trainees and professionals representing global qualification education",
       heroTitlePrefix: "Build your",
       heroTitleHighlight: "career",
       heroTitleSuffix: "with professional education",
@@ -1175,7 +1172,7 @@ export const copy = {
       onlineInquiry: "Online Inquiry",
       featuredCoursesTitle: "Featured Programs",
       featuredCoursesLead: "Practice-centered programs ready for real field use.",
-      reasonsTitle: "Why KHCPQA Stands Out",
+      reasonsTitle: "Why KAHC Stands Out",
       reasons: [
         { title: "Field-Based Practical Training", body: "Practice-first curriculum helps learners apply skills immediately in the field." },
         { title: "Professional Instructors", body: "Experienced instructors teach the essentials drawn from real client work." },
@@ -1208,20 +1205,20 @@ export const copy = {
       consultTitle: "Start with advising\nand move toward your goal",
       consultLead: "A professional advisor will guide you through the next step.",
       consultCta: "Request advising",
-      partnersTitle: "Partners",
       finalKicker: "Your first step can change your future ✣",
       finalTitle: "Request advising today and turn your goal into action.",
       finalCta: "Request advising"
     },
     about: {
-      eyebrow: "About KHCPQA",
+      eyebrow: "About KAHC",
+      title: "About KAHC",
       lead:
-        "KHCPQA builds a practical education pathway for health and beauty learners, connecting certification, employment, and business goals.",
+        "KAHC builds a practical education pathway for health and beauty learners, connecting certification, employment, and business goals.",
       greetingCta: "Read greetings",
       features: [
         {
           title: "Certification Success and Tailored Training",
-          body: "KHCPQA responds to the growth of the health and beauty industry with forward-looking education for national certification success. Learners receive efficient classes, certification know-how videos, tailored guidance, and support from experienced full-time instructors."
+          body: "KAHC responds to the growth of the health and beauty industry with forward-looking education for national certification success. Learners receive efficient classes, certification know-how videos, tailored guidance, and support from experienced full-time instructors."
         },
         {
           title: "Practice-Based Employment Education",
@@ -1229,7 +1226,7 @@ export const copy = {
         },
         {
           title: "PSL Problem-Solving Learning",
-          body: "KHCPQA moves beyond lecture-only theory and applies practice-oriented PSL education. Learners understand principles through hands-on work, alternate between client and practitioner perspectives, and develop skills step by step."
+          body: "KAHC moves beyond lecture-only theory and applies practice-oriented PSL education. Learners understand principles through hands-on work, alternate between client and practitioner perspectives, and develop skills step by step."
         },
         {
           title: "Step-by-Step Goal Achievement",
@@ -1246,22 +1243,20 @@ export const copy = {
       { key: "greeting", title: "Greetings", href: "about/greeting" },
       { key: "instructors", title: "Senior Instructor Profiles", href: "about/instructors" },
       { key: "history", title: "History", href: "about/history" },
-      { key: "organization", title: "Organization", href: "about/organization" },
-      { key: "location", title: "Location", href: "contact" }
+      { key: "organization", title: "Organization", href: "about/organization" }
     ],
     greetingPage: {
       eyebrow: "Greetings",
       title: "Leadership Greetings",
-      lead: "We grow together with learners through professional health and beauty education.",
+      lead: "",
       greetings: [
         {
           name: "Bong Seong-jung",
           role: "President, Korea Health Manager Approved Association",
-          imageUrl: "/assets/greeting-hwang-ingeun.jpg",
-          contact: "H : 010-3011-6886",
+          imageUrl: "/assets/greeting-bong-seongjong-smiling.jpg",
           paragraphs: [
             "The association is structured to create new educational synergy for the health and beauty industry in step with the growth of alternative medicine and service industries.",
-            "KHCPQA maintains an exchange system that helps learners grow from the present into the future, and it will continue to fulfill its role through a world-class education system and organized management.",
+            "KAHC maintains an exchange system that helps learners grow from the present into the future, and it will continue to fulfill its role through a world-class education system and organized management.",
             "The association develops programs with new possibilities and aims for shared growth with its members. It will grow as an institution with clear goals, advanced techniques, and first-class education."
           ]
         },
@@ -1269,7 +1264,6 @@ export const copy = {
           name: "Moon Soon-young",
           role: "Vice President / Director, Seoul Headquarters",
           imageUrl: "/assets/greeting-moon-soonyoung.jpg",
-          contact: "H : 010-7712-3362",
           paragraphs: [
             "The Seoul Headquarters is located in central Seoul near Jongno 3-ga Station, where subway lines 1, 3, and 5 connect.",
             "For learners preparing for careers and business in skincare, nail, makeup, hair, and massage fields, the first academy choice is important. Seoul Headquarters provides national certification theory and practical training as well as salon techniques, medical skincare, aroma, meridian, sports, and foot massage from fundamentals to expert levels.",
@@ -1281,7 +1275,6 @@ export const copy = {
           role: "Director, Daerim Campus",
           meta: "Skin-care Management Consultant",
           imageUrl: "/assets/greeting-hwang-yujin.jpg",
-          contact: "T : 02-845-8820",
           paragraphs: [
             "Daerim Campus is located one minute from Exit 12 of Daerim Station, where subway lines 2 and 7 connect, offering convenient access and a clean, comfortable learning environment.",
             "The campus provides accelerated national certification education and practical employment training for skincare, nail art, hair, and massage careers, along with character and etiquette education required of professional practitioners.",
@@ -1292,7 +1285,6 @@ export const copy = {
           name: "Lee Yong-ho",
           role: "Education Director, Gangnam Massage Institute",
           imageUrl: "/assets/greeting-lee-yongho.jpg",
-          contact: "T : 02-845-8890",
           paragraphs: [
             "Gangnam Massage Institute is a professional massage education center located one minute from Exit 12 of Daerim Station. It teaches sports massage, meridian massage, skincare massage, and foot massage for the global service industry.",
             "The institute supports employment placement, business consulting, overseas employment recommendations, and study-abroad consulting for spas, massage shops, hotels, saunas, and skincare workplaces.",
@@ -1325,8 +1317,8 @@ export const copy = {
     },
     historyPage: {
       eyebrow: "History",
-      title: "KHCPQA History",
-      lead: "Major education, awards, partnerships, and event records of KHCPQA and SMC Academy.",
+      title: "KAHC History",
+      lead: "",
       imageAlt: "SMC Academy history representative image",
       yearsLabel: "Years",
       timelineLabel: "Timeline by year",
@@ -1336,11 +1328,12 @@ export const copy = {
     },
     organizationPage: {
       eyebrow: "Organization",
-      title: "KHCPQA Organization",
-      lead: "An overview of the association and academy operating structure.",
-      imageAlt: "KHCPQA and SMC Academy organization chart",
+      title: "KAHC Organization",
+      lead: "",
+      imageAlt: "KAHC and SMC Academy organization chart",
       units: [
-        { title: "Association Operations", body: "KHCPQA manages the education, certification, and branch operating framework." },
+        { title: "International Chair", body: "Oversees global education exchange and international cooperation direction." },
+        { title: "Association Operations", body: "KAHC manages the education, certification, and branch operating framework." },
         { title: "Education Operations", body: "SMC Academy and campus teams deliver certification training and practical education." },
         { title: "Field Support", body: "Counseling, employment and business support, public events, and partner activities are coordinated together." }
       ]
@@ -1666,8 +1659,8 @@ export const copy = {
     }
   },
   es: {
-    brand: "KHCPQA",
-    brandFull: "Korea Health Care Professional Qualification Association",
+    brand: "KAHC",
+    brandFull: "The Korea Association for Health & Beauty Certification",
     nav: {
       about: "Acerca de",
       curriculum: "Currículo",
@@ -1693,7 +1686,7 @@ export const copy = {
     menuOpen: "Abrir menú",
     menuClose: "Cerrar menú",
     a11y: {
-      homeLink: "Inicio de KHCPQA",
+      homeLink: "Inicio de KAHC",
       primaryNavigation: "Navegación principal",
       mobileNavigation: "Navegación móvil",
       languageSwitcher: "Selector de idioma",
@@ -1712,11 +1705,11 @@ export const copy = {
       sitemap: "Mapa del sitio"
     },
     seo: {
-      title: "KHCPQA Educación Global de Cualificaciones Profesionales",
+      title: "KAHC Educación Global de Cualificaciones Profesionales",
       description: "Plataforma multilingüe basada en Corea para educación profesional en salud y belleza, programas, actividades globales y consultas de asociación."
     },
     home: {
-      heroImageAlt: "Estudiantes y profesionales de KHCPQA que representan la educación global de cualificaciones",
+      heroImageAlt: "Estudiantes y profesionales de KAHC que representan la educación global de cualificaciones",
       heroTitlePrefix: "Complete su",
       heroTitleHighlight: "carrera",
       heroTitleSuffix: "con formación profesional",
@@ -1756,7 +1749,7 @@ export const copy = {
       onlineInquiry: "Consulta en línea",
       featuredCoursesTitle: "Programas destacados",
       featuredCoursesLead: "Programas prácticos listos para aplicar en el campo real.",
-      reasonsTitle: "Por qué KHCPQA es diferente",
+      reasonsTitle: "Por qué KAHC es diferente",
       reasons: [
         { title: "Formación práctica de campo", body: "El currículo práctico ayuda a aplicar habilidades de inmediato en el trabajo real." },
         { title: "Instructores profesionales", body: "Instructores con experiencia enseñan lo esencial desde el trabajo con clientes reales." },
@@ -1789,20 +1782,20 @@ export const copy = {
       consultTitle: "Empiece con asesoría\ny avance hacia su meta",
       consultLead: "Un asesor profesional le guiará en el siguiente paso.",
       consultCta: "Solicitar asesoría",
-      partnersTitle: "Socios",
       finalKicker: "Su primer paso puede cambiar su futuro ✣",
       finalTitle: "Solicite asesoría hoy y convierta su meta en acción.",
       finalCta: "Solicitar asesoría"
     },
     about: {
-      eyebrow: "Acerca de KHCPQA",
+      eyebrow: "Acerca de KAHC",
+      title: "Acerca de KAHC",
       lead:
-        "KHCPQA ofrece una ruta educativa práctica para salud y belleza, conectando certificación, empleo y preparación para emprendimiento.",
+        "KAHC ofrece una ruta educativa práctica para salud y belleza, conectando certificación, empleo y preparación para emprendimiento.",
       greetingCta: "Ver saludos",
       features: [
         {
           title: "Certificación y formación personalizada",
-          body: "KHCPQA responde al crecimiento de la industria de salud y belleza con educación orientada a la certificación nacional. Los estudiantes reciben clases eficientes, videos de know-how, guía personalizada y apoyo de instructores con experiencia."
+          body: "KAHC responde al crecimiento de la industria de salud y belleza con educación orientada a la certificación nacional. Los estudiantes reciben clases eficientes, videos de know-how, guía personalizada y apoyo de instructores con experiencia."
         },
         {
           title: "Educación práctica para empleo",
@@ -1810,7 +1803,7 @@ export const copy = {
         },
         {
           title: "Aprendizaje PSL",
-          body: "KHCPQA supera la educación teórica tradicional y aplica aprendizaje práctico de resolución de problemas. Los estudiantes comprenden principios mediante práctica, alternan perspectivas de cliente y profesional, y desarrollan habilidades paso a paso."
+          body: "KAHC supera la educación teórica tradicional y aplica aprendizaje práctico de resolución de problemas. Los estudiantes comprenden principios mediante práctica, alternan perspectivas de cliente y profesional, y desarrollan habilidades paso a paso."
         },
         {
           title: "Logro de objetivos por etapas",
@@ -1827,22 +1820,20 @@ export const copy = {
       { key: "greeting", title: "Saludos", href: "about/greeting" },
       { key: "instructors", title: "Instructores principales", href: "about/instructors" },
       { key: "history", title: "Historia", href: "about/history" },
-      { key: "organization", title: "Organización", href: "about/organization" },
-      { key: "location", title: "Ubicación", href: "contact" }
+      { key: "organization", title: "Organización", href: "about/organization" }
     ],
     greetingPage: {
       eyebrow: "Saludos",
       title: "Saludos de la Dirección",
-      lead: "Crecemos junto con los estudiantes mediante educación profesional en salud y belleza.",
+      lead: "",
       greetings: [
         {
           name: "Bong Seong-jung",
           role: "Presidente de Korea Health Manager Approved Association",
-          imageUrl: "/assets/greeting-hwang-ingeun.jpg",
-          contact: "H : 010-3011-6886",
+          imageUrl: "/assets/greeting-bong-seongjong-smiling.jpg",
           paragraphs: [
             "La asociación cuenta con un sistema educativo diseñado para crear sinergia en la formación de salud y belleza junto con el crecimiento de la medicina alternativa y la industria de servicios.",
-            "KHCPQA mantiene un sistema de intercambio para ayudar a los estudiantes a crecer desde el presente hacia el futuro, y seguirá cumpliendo su papel mediante educación de nivel mundial y gestión organizada.",
+            "KAHC mantiene un sistema de intercambio para ayudar a los estudiantes a crecer desde el presente hacia el futuro, y seguirá cumpliendo su papel mediante educación de nivel mundial y gestión organizada.",
             "La asociación desarrolla programas con nuevas posibilidades y busca crecer junto con sus miembros como una institución con objetivos claros, tecnología avanzada y educación de primer nivel."
           ]
         },
@@ -1850,7 +1841,6 @@ export const copy = {
           name: "Moon Soon-young",
           role: "Vicepresidenta / Directora de la Sede Central de Seúl",
           imageUrl: "/assets/greeting-moon-soonyoung.jpg",
-          contact: "H : 010-7712-3362",
           paragraphs: [
             "La sede central de Seúl está ubicada en el centro de la ciudad, cerca de la estación Jongno 3-ga, donde conectan las líneas 1, 3 y 5 del metro.",
             "Para quienes preparan empleo o emprendimiento en estética, uñas, maquillaje, peluquería y masaje, la primera elección de academia es importante. La sede ofrece teoría y práctica para certificación nacional, además de técnicas de salón, skincare médico, aroma, meridiano, deportes y masaje de pies desde nivel básico hasta experto.",
@@ -1862,7 +1852,6 @@ export const copy = {
           role: "Directora del Campus Daerim",
           meta: "Skin-care Management Consultant",
           imageUrl: "/assets/greeting-hwang-yujin.jpg",
-          contact: "T : 02-845-8820",
           paragraphs: [
             "El Campus Daerim está a un minuto de la salida 12 de la estación Daerim, donde conectan las líneas 2 y 7, con acceso cómodo y un ambiente amplio, limpio y agradable.",
             "El campus ofrece educación intensiva para certificaciones nacionales y formación práctica para empleo en estética, uñas, peluquería y masaje, junto con educación de actitud y etiqueta profesional.",
@@ -1873,7 +1862,6 @@ export const copy = {
           name: "Lee Yong-ho",
           role: "Director de Educación, Gangnam Massage Institute",
           imageUrl: "/assets/greeting-lee-yongho.jpg",
-          contact: "T : 02-845-8890",
           paragraphs: [
             "Gangnam Massage Institute es un centro especializado en masaje ubicado a un minuto de la salida 12 de la estación Daerim. Enseña masaje deportivo, meridiano, facial/corporal y de pies para la industria global de servicios.",
             "El instituto apoya colocación laboral, consultoría de emprendimiento, recomendaciones de empleo en el extranjero y consultoría de estudios para spas, centros de masaje, hoteles, saunas y espacios de skincare.",
@@ -1906,8 +1894,8 @@ export const copy = {
     },
     historyPage: {
       eyebrow: "Historia",
-      title: "Historia de KHCPQA",
-      lead: "Principales registros de educación, premios, alianzas y eventos de KHCPQA y SMC Academy.",
+      title: "Historia de KAHC",
+      lead: "",
       imageAlt: "Imagen representativa de la historia de SMC Academy",
       yearsLabel: "Años",
       timelineLabel: "Cronología por año",
@@ -1917,11 +1905,12 @@ export const copy = {
     },
     organizationPage: {
       eyebrow: "Organización",
-      title: "Organización de KHCPQA",
-      lead: "Una vista general de la estructura operativa de la asociación y la academia.",
-      imageAlt: "Organigrama de KHCPQA y SMC Academy",
+      title: "Organización de KAHC",
+      lead: "",
+      imageAlt: "Organigrama de KAHC y SMC Academy",
       units: [
-        { title: "Operación de la asociación", body: "KHCPQA gestiona el marco de educación, certificación y operación de sedes." },
+        { title: "Presidencia internacional", body: "Supervisa el intercambio educativo global y la cooperación internacional." },
+        { title: "Operación de la asociación", body: "KAHC gestiona el marco de educación, certificación y operación de sedes." },
         { title: "Operación educativa", body: "SMC Academy y los campus imparten formación de certificación y educación práctica." },
         { title: "Soporte de campo", body: "La asesoría, el apoyo laboral y de emprendimiento, los eventos y las alianzas se coordinan de forma integrada." }
       ]
@@ -2246,7 +2235,7 @@ export const copy = {
       consultCta: "Solicitar asesoría"
     }
   }
-} satisfies Record<Locale, Copy>;
+} satisfies Record<LegacyContentLocale, Copy>;
 
 const courseImages = [
   "/assets/course-employment-consulting.jpg",
@@ -2294,7 +2283,7 @@ const courseTitleTranslations = [
     sourcePath: "curriculum01.asp",
     categoryKey: "certification"
   }
-] satisfies Array<Record<Locale, string> & { sourcePath: string; categoryKey: Exclude<CourseCategory, "all"> }>;
+] satisfies Array<Record<LegacyContentLocale, string> & { sourcePath: string; categoryKey: Exclude<CourseCategory, "all"> }>;
 
 type CourseDetailSection = {
   title: string;
@@ -2314,13 +2303,13 @@ type CourseText = {
   detailSections?: CourseDetailSection[];
 };
 
-const courseTextByLocale: Record<Locale, Record<Exclude<CourseCategory, "all">, CourseText>> = {
+const courseTextByLocale: Record<LegacyContentLocale, Record<Exclude<CourseCategory, "all">, CourseText>> = {
   ko: {
     certification: {
       category: "자격 과정",
-      summary: "자격 취득과 강사 역량을 함께 준비하는 KHCPQA 기준 교육 과정입니다.",
+      summary: "자격 취득과 강사 역량을 함께 준비하는 KAHC 기준 교육 과정입니다.",
       overview:
-        "기존 SMC365 교육 콘텐츠를 KHCPQA 글로벌 플랫폼 구조에 맞춰 정리한 과정입니다. 과정 개요, 실습 흐름, 자격 또는 수료 안내를 한 화면에서 확인할 수 있도록 설계합니다.",
+        "기존 SMC365 교육 콘텐츠를 KAHC 글로벌 플랫폼 구조에 맞춰 정리한 과정입니다. 과정 개요, 실습 흐름, 자격 또는 수료 안내를 한 화면에서 확인할 수 있도록 설계합니다.",
       audience: "전문 자격 취득을 준비하는 교육생, 현직 종사자, 강사 과정 지원자",
       curriculum: ["과정 오리엔테이션과 기본 이론", "전문 실습 시연 및 단계별 훈련", "현장 적용 사례와 고객 응대 기준", "수료 또는 자격 취득 준비 체크"],
       certificationNote: "자격 취득 또는 수료 기준은 과정별 운영 정책과 관리자 등록 데이터에 따라 안내됩니다."
@@ -2347,9 +2336,9 @@ const courseTextByLocale: Record<Locale, Record<Exclude<CourseCategory, "all">, 
   en: {
     certification: {
       category: "Certification",
-      summary: "A KHCPQA-standard program designed to prepare trainees for certification and instructor-level capability.",
+      summary: "A KAHC-standard program designed to prepare trainees for certification and instructor-level capability.",
       overview:
-        "This program reorganizes existing SMC365 education content for the KHCPQA global platform, presenting the program overview, practice flow, and certification or completion guidance in one place.",
+        "This program reorganizes existing SMC365 education content for the KAHC global platform, presenting the program overview, practice flow, and certification or completion guidance in one place.",
       audience: "Trainees preparing for professional certification, active practitioners, and instructor-track applicants",
       curriculum: ["Program orientation and core theory", "Professional demonstrations and step-by-step practice", "Field application cases and client response standards", "Completion or certification readiness check"],
       certificationNote: "Certification or completion requirements are guided by each program's operating policy and admin-managed data."
@@ -2376,9 +2365,9 @@ const courseTextByLocale: Record<Locale, Record<Exclude<CourseCategory, "all">, 
   es: {
     certification: {
       category: "Certificación",
-      summary: "Un programa con estándar KHCPQA para preparar la certificación y capacidades de nivel instructor.",
+      summary: "Un programa con estándar KAHC para preparar la certificación y capacidades de nivel instructor.",
       overview:
-        "Este programa reorganiza el contenido educativo existente de SMC365 para la plataforma global KHCPQA, presentando resumen, flujo de práctica y guía de certificación o finalización en un solo lugar.",
+        "Este programa reorganiza el contenido educativo existente de SMC365 para la plataforma global KAHC, presentando resumen, flujo de práctica y guía de certificación o finalización en un solo lugar.",
       audience: "Estudiantes que preparan una certificación profesional, profesionales activos y aspirantes a instructor",
       curriculum: ["Orientación del programa y teoría central", "Demostraciones profesionales y práctica paso a paso", "Casos de aplicación en campo y estándares de atención", "Revisión de preparación para finalización o certificación"],
       certificationNote: "Los requisitos de certificación o finalización se guían por la política operativa de cada programa y los datos gestionados por administración."
@@ -2404,7 +2393,7 @@ const courseTextByLocale: Record<Locale, Record<Exclude<CourseCategory, "all">, 
   }
 };
 
-const courseOverridesByLocale: Record<Locale, Partial<Record<string, Partial<CourseText>>>> = {
+const courseOverridesByLocale: Record<LegacyContentLocale, Partial<Record<string, Partial<CourseText>>>> = {
   ko: {
     "취업전문과정": {
       summary: "취업 경쟁력을 높이기 위해 현장 실무 테크닉, 고객 응대, 매너까지 함께 훈련하는 목표형 과정입니다.",
@@ -3757,8 +3746,8 @@ export type Course = {
   source: string;
 };
 
-function getActiveLocale(locale: string): Locale {
-  return isLocale(locale) ? locale : defaultLocale;
+function getActiveLocale(locale: string): LegacyContentLocale {
+  return locale === "en" || locale === "es" ? locale : "ko";
 }
 
 export function getCourses(locale: string): Course[] {
@@ -3797,7 +3786,7 @@ export function getCourseBySlug(slug: string, locale: string) {
   return getCourses(locale).find((course) => course.slug === slug);
 }
 
-const activityGroupsByLocale: Record<Locale, Array<{
+const activityGroupsByLocale: Record<LegacyContentLocale, Array<{
   title: string;
   key: string;
   icon: typeof CalendarDays;
@@ -3908,7 +3897,7 @@ export function getActivityGroups(locale: string) {
 }
 
 export function getActivityKeys() {
-  return activityGroupsByLocale[defaultLocale].map((activity) => activity.key);
+  return activityGroupsByLocale.ko.map((activity) => activity.key);
 }
 
 export function getActivityGroupByKey(locale: string, activityKey: string) {
@@ -3923,7 +3912,7 @@ export function getActivityPosts(locale: string, activityKey: string) {
     return [];
   }
 
-  const copyByLocale: Record<Locale, {
+  const copyByLocale: Record<LegacyContentLocale, {
     author: string;
     previewStatus: string;
     reviewStatus: string;
@@ -3978,7 +3967,7 @@ export function getActivityPosts(locale: string, activityKey: string) {
   ];
 }
 
-const statsByLocale: Record<Locale, Array<{ label: string; value: string }>> = {
+const statsByLocale: Record<LegacyContentLocale, Array<{ label: string; value: string }>> = {
   ko: [
     { label: "운영 경력", value: "25+" },
     { label: "연결 국가", value: "48+" },
@@ -4046,7 +4035,7 @@ export const adminReleaseTasks = [
   "운영 도메인, SSL, Supabase 환경변수 확인"
 ];
 
-const locationsByLocale: Record<Locale, Array<{ name: string; address: string; phone: string }>> = {
+const locationsByLocale: Record<LegacyContentLocale, Array<{ name: string; address: string; phone: string }>> = {
   ko: [
     {
       name: "한국건강관리사자격협회 서울본사",
@@ -4135,5 +4124,5 @@ export function getLocations(locale: string) {
 }
 
 export function getCopy(locale: string) {
-  return copy[isLocale(locale) ? locale : defaultLocale];
+  return copy[getActiveLocale(locale)];
 }

@@ -4,7 +4,8 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MessageCircle, Search, Sparkles } from "lucide-react";
-import { getCopy, type Course, type CourseCategory, type Locale } from "@/lib/content";
+import { getCopy, type CourseCategory, type Locale } from "@/lib/content";
+import type { PublishedCourse } from "@/lib/course-model";
 
 const categories: CourseCategory[] = ["all", "certification", "professional", "practical"];
 
@@ -12,7 +13,7 @@ export function CurriculumCatalog({
   courses,
   locale
 }: {
-  courses: Course[];
+  courses: PublishedCourse[];
   locale: Locale;
 }) {
   const t = getCopy(locale).curriculumCatalog;

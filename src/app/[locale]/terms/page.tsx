@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "terms",
-    title: `${content.title} | KHCPQA`,
+    title: `${content.title} | KAHC`,
     description: content.lead,
     noIndex: true
   });

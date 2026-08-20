@@ -4,8 +4,15 @@ import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient as createSupabaseAdminClient } from "@supabase/supabase-js";
+import { isLocale, locales, type Locale } from "@/i18n/config";
 import { buildAdminCertificationPayload } from "@/lib/admin-certifications";
 import { parseInquiryReceipt } from "@/lib/receipts";
+import {
+  buildCourseLocalizationPayload,
+  courseCategories,
+  createCourseSlug,
+  type CourseCategoryKey
+} from "@/lib/course-model";
 import {
   buildCreateAdminUserPayload,
   buildUpdateAdminUserPayload,
@@ -17,6 +24,7 @@ import {
 } from "@/lib/admin-inquiries";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient as createServerSupabaseClient } from "@/lib/supabase/server";
+import { canPublishTranslation, getTranslationFreshness } from "@/lib/translation-model";
 
 const roleOptions = [
   "user",
@@ -31,7 +39,6 @@ const roleOptions = [
 const statusOptions = ["active", "suspended", "deleted"] as const;
 const contentTypes = ["Page", "Course", "Activity", "Review"] as const;
 const contentStatusOptions = ["draft", "translated", "reviewed", "published", "archived"] as const;
-const locales = ["ko", "en", "es"] as const;
 const bannerPlacements = ["home", "curriculum", "activities", "global"] as const;
 const bannerStatusOptions = ["draft", "published", "archived"] as const;
 const missingSupabaseMessage = "Supabase 환경변수가 설정되지 않아 저장할 수 없습니다.";
@@ -51,7 +58,6 @@ type AdminRole = (typeof roleOptions)[number];
 type AccountStatus = (typeof statusOptions)[number];
 type ContentType = (typeof contentTypes)[number];
 type ContentStatus = (typeof contentStatusOptions)[number];
-type Locale = (typeof locales)[number];
 type BannerPlacement = (typeof bannerPlacements)[number];
 type BannerStatus = (typeof bannerStatusOptions)[number];
 
@@ -86,14 +92,24 @@ export type UploadAdminContentImageResult = SaveAdminContentResult & {
   url?: string;
 };
 
+export type UploadAdminContentAttachmentResult = UploadAdminContentImageResult;
+
 export type DeleteAdminContentResult = {
   ok: boolean;
   message: string;
 };
 
+export type SaveAdminCourseResult = SaveAdminContentResult & {
+  courseId?: string;
+  slug?: string;
+};
+
 const adminUploadBucket = "admin-uploads";
 const maxAdminImageSize = 5 * 1024 * 1024;
+const maxAdminAttachmentSize = 15 * 1024 * 1024;
 const allowedAdminImageTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"] as const;
+const allowedAdminAttachmentTypes = ["application/pdf"] as const;
+const allowedAdminUploadTypes = [...allowedAdminImageTypes, ...allowedAdminAttachmentTypes] as const;
 
 export async function signOutFromAdmin() {
   const supabase = createServerSupabaseClient();
@@ -115,10 +131,6 @@ function isContentType(value: string): value is ContentType {
 
 function isContentStatus(value: string): value is ContentStatus {
   return contentStatusOptions.includes(value as ContentStatus);
-}
-
-function isLocale(value: string): value is Locale {
-  return locales.includes(value as Locale);
 }
 
 function isBannerPlacement(value: string): value is BannerPlacement {
@@ -173,6 +185,11 @@ function getDetectedImageType(bytes: Uint8Array): (typeof allowedAdminImageTypes
   }
 
   return null;
+}
+
+function getDetectedPdfType(bytes: Uint8Array): (typeof allowedAdminAttachmentTypes)[number] | null {
+  const header = new TextDecoder().decode(bytes.slice(0, 5));
+  return header === "%PDF-" ? "application/pdf" : null;
 }
 
 function getImageExtension(contentType: (typeof allowedAdminImageTypes)[number]) {
@@ -242,6 +259,12 @@ function revalidateManagedContent(input: {
   }
 
   if (input.contentType === "Page") {
+    if (input.slug.startsWith("director-")) {
+      revalidatePath("/admin/directors");
+      revalidatePath(`/${input.locale}/about/instructors`);
+      return;
+    }
+
     revalidatePath(input.slug === "home" ? `/${input.locale}` : `/${input.locale}/${input.slug}`);
   }
 }
@@ -346,6 +369,33 @@ function isMissingBucketError(errorMessage: string) {
   return /bucket not found|not found|does not exist/i.test(errorMessage);
 }
 
+async function syncAdminUploadBucketConfig(storage: NonNullable<ReturnType<typeof getAdminStorageEnv>>) {
+  const updateResponse = await fetch(`${storage.storageUrl}/bucket/${adminUploadBucket}`, {
+    body: JSON.stringify({
+      allowed_mime_types: [...allowedAdminUploadTypes],
+      file_size_limit: Math.max(maxAdminImageSize, maxAdminAttachmentSize),
+      public: true
+    }),
+    headers: {
+      apikey: storage.apiKey,
+      authorization: `Bearer ${storage.serviceRoleKey}`,
+      "content-type": "application/json"
+    },
+    method: "PUT"
+  });
+
+  if (!updateResponse.ok) {
+    const updateErrorMessage = await updateResponse.text();
+
+    return {
+      ok: false,
+      message: `파일 저장소 설정을 업데이트할 수 없습니다. ${updateErrorMessage || updateResponse.statusText}`
+    };
+  }
+
+  return { ok: true, message: "" };
+}
+
 async function ensureAdminUploadBucket() {
   const storage = getAdminStorageEnv();
 
@@ -366,6 +416,16 @@ async function ensureAdminUploadBucket() {
   });
 
   if (bucketResponse.ok) {
+    const syncResult = await syncAdminUploadBucketConfig(storage);
+
+    if (!syncResult.ok) {
+      return {
+        ok: false,
+        message: syncResult.message,
+        storage: null
+      };
+    }
+
     return { ok: true, message: "", storage };
   }
 
@@ -381,8 +441,8 @@ async function ensureAdminUploadBucket() {
 
   const createResponse = await fetch(`${storage.storageUrl}/bucket`, {
     body: JSON.stringify({
-      allowed_mime_types: [...allowedAdminImageTypes],
-      file_size_limit: maxAdminImageSize,
+      allowed_mime_types: [...allowedAdminUploadTypes],
+      file_size_limit: Math.max(maxAdminImageSize, maxAdminAttachmentSize),
       id: adminUploadBucket,
       name: adminUploadBucket,
       public: true
@@ -410,9 +470,10 @@ async function ensureAdminUploadBucket() {
   return { ok: true, message: "", storage };
 }
 
-async function uploadAdminImageToStorage(input: {
+async function uploadAdminFileToStorage(input: {
   arrayBuffer: ArrayBuffer;
-  contentType: (typeof allowedAdminImageTypes)[number];
+  contentType: (typeof allowedAdminUploadTypes)[number];
+  failureLabel: string;
   path: string;
 }) {
   const storage = await ensureAdminUploadBucket();
@@ -447,7 +508,7 @@ async function uploadAdminImageToStorage(input: {
 
     return {
       ok: false,
-      message: `이미지 업로드에 실패했습니다. ${errorMessage || uploadResponse.statusText}`,
+      message: `${input.failureLabel} 업로드에 실패했습니다. ${errorMessage || uploadResponse.statusText}`,
       publicUrl: ""
     };
   }
@@ -852,9 +913,10 @@ export async function uploadAdminContentImage(formData: FormData): Promise<Uploa
   const dateSegment = new Date().toISOString().slice(0, 10);
   const extension = getImageExtension(detectedType);
   const path = `${contentTypeSegment}/${dateSegment}/${slugSegment}-${randomUUID()}.${extension}`;
-  const uploadResult = await uploadAdminImageToStorage({
+  const uploadResult = await uploadAdminFileToStorage({
     arrayBuffer,
     contentType: detectedType,
+    failureLabel: "이미지",
     path
   });
 
@@ -869,12 +931,76 @@ export async function uploadAdminContentImage(formData: FormData): Promise<Uploa
   return { ok: true, message: "대표 이미지가 업로드되었습니다.", url: uploadResult.publicUrl };
 }
 
+export async function uploadAdminContentAttachment(formData: FormData): Promise<UploadAdminContentAttachmentResult> {
+  if (!hasSupabaseBrowserEnv()) {
+    return { ok: false, message: missingSupabaseMessage };
+  }
+
+  const actor = await getActiveAdminRole();
+
+  if (!actor.userId) {
+    return { ok: false, message: "로그인이 필요합니다." };
+  }
+
+  if (!["content_manager", "course_manager", "super_admin"].includes(actor.role) || actor.status !== "active") {
+    return { ok: false, message: "콘텐츠 관리자 권한이 필요합니다." };
+  }
+
+  const fileValue = formData.get("file");
+
+  if (!isUploadFile(fileValue) || fileValue.size === 0) {
+    return { ok: false, message: "PDF 첨부파일을 선택해 주세요." };
+  }
+
+  if (fileValue.size > maxAdminAttachmentSize) {
+    return { ok: false, message: "PDF 첨부파일은 15MB 이하 파일만 업로드할 수 있습니다." };
+  }
+
+  const claimedType = fileValue.type as (typeof allowedAdminAttachmentTypes)[number];
+
+  if (!allowedAdminAttachmentTypes.includes(claimedType)) {
+    return { ok: false, message: "PDF 파일만 업로드할 수 있습니다." };
+  }
+
+  const arrayBuffer = await fileValue.arrayBuffer();
+  const bytes = new Uint8Array(arrayBuffer);
+  const detectedType = getDetectedPdfType(bytes);
+
+  if (!detectedType || detectedType !== claimedType) {
+    return { ok: false, message: "파일 형식이 PDF 시그니처와 일치하지 않습니다." };
+  }
+
+  const contentTypeSegment = getSafeStorageSegment(String(formData.get("contentType") ?? "activity"));
+  const slugSegment = getSafeStorageSegment(String(formData.get("slug") ?? "content"));
+  const dateSegment = new Date().toISOString().slice(0, 10);
+  const path = `${contentTypeSegment}/attachments/${dateSegment}/${slugSegment}-${randomUUID()}.pdf`;
+  const uploadResult = await uploadAdminFileToStorage({
+    arrayBuffer,
+    contentType: detectedType,
+    failureLabel: "첨부파일",
+    path
+  });
+
+  if (!uploadResult.ok) {
+    return { ok: false, message: uploadResult.message };
+  }
+
+  if (!uploadResult.publicUrl) {
+    return { ok: false, message: "업로드된 첨부파일 경로를 확인할 수 없습니다." };
+  }
+
+  return { ok: true, message: "PDF 첨부파일이 업로드되었습니다.", url: uploadResult.publicUrl };
+}
+
 export async function saveAdminContent(input: {
   body: string;
   contentType: string;
+  imageAlt?: string;
   imageUrl: string;
   locale: string;
   preventOverwrite?: boolean;
+  seoDescription?: string;
+  seoTitle?: string;
   slug: string;
   sourceUrl: string;
   status: string;
@@ -884,9 +1010,12 @@ export async function saveAdminContent(input: {
   const trimmed = {
     body: input.body.trim(),
     contentType: input.contentType.trim(),
+    imageAlt: input.imageAlt?.trim() ?? "",
     imageUrl: input.imageUrl.trim(),
     locale: input.locale.trim(),
     preventOverwrite: Boolean(input.preventOverwrite),
+    seoDescription: input.seoDescription?.trim() ?? "",
+    seoTitle: input.seoTitle?.trim() ?? "",
     slug: input.slug.trim().toLowerCase(),
     sourceUrl: input.sourceUrl.trim(),
     status: input.status.trim(),
@@ -925,7 +1054,7 @@ export async function saveAdminContent(input: {
 
   const { data: existingContent } = await actor.supabase
     .from("admin_content_items")
-    .select("id")
+    .select("id, status, reviewed_at, reviewed_by, translated_from_updated_at")
     .eq("content_type", trimmed.contentType)
     .eq("locale", trimmed.locale)
     .eq("slug", trimmed.slug)
@@ -938,18 +1067,73 @@ export async function saveAdminContent(input: {
     };
   }
 
+  if (trimmed.status === "published" && actor.role !== "super_admin") {
+    return { ok: false, message: "최종 공개는 최고 관리자만 승인할 수 있습니다." };
+  }
+
+  const now = new Date().toISOString();
+  const sourceRow = trimmed.locale === "ko"
+    ? { updated_at: now }
+    : (await actor.supabase
+        .from("admin_content_items")
+        .select("updated_at")
+        .eq("content_type", trimmed.contentType)
+        .eq("locale", "ko")
+        .eq("slug", trimmed.slug)
+        .maybeSingle()).data;
+  const sourceUpdatedAt = sourceRow?.updated_at ?? null;
+
+  if (trimmed.locale !== "ko" && !sourceUpdatedAt && trimmed.status === "published") {
+    return { ok: false, message: "게시할 번역과 연결된 한국어 원문이 없습니다." };
+  }
+
+  if (trimmed.status === "published") {
+    if (trimmed.locale !== "ko" && existingContent?.status !== "reviewed") {
+      return { ok: false, message: "번역을 먼저 검수 완료 상태로 저장해 주세요." };
+    }
+    const publishValidation = canPublishTranslation({
+      freshness: getTranslationFreshness({
+        locale: trimmed.locale,
+        sourceUpdatedAt,
+        translatedFromUpdatedAt: trimmed.locale === "ko"
+          ? sourceUpdatedAt
+          : existingContent?.translated_from_updated_at
+      }),
+      isHighRisk: trimmed.contentType === "Page" && ["privacy", "terms"].includes(trimmed.slug),
+      reviewedAt: existingContent?.reviewed_at,
+      reviewedBy: existingContent?.reviewed_by,
+      title: trimmed.title
+    });
+    if (!publishValidation.ok) return publishValidation;
+  }
+
+  const isReviewed = trimmed.status === "reviewed" || trimmed.status === "published";
+  const translatedFromUpdatedAt = trimmed.locale === "ko"
+    ? sourceUpdatedAt
+    : trimmed.status === "translated" || isReviewed
+      ? sourceUpdatedAt
+      : existingContent?.translated_from_updated_at ?? null;
+
   const { data: savedContent, error } = await actor.supabase.from("admin_content_items").upsert(
     {
       content_type: trimmed.contentType,
       created_by: actor.userId,
       body: trimmed.body || null,
+      image_alt: trimmed.imageAlt || null,
       image_url: trimmed.imageUrl || null,
       locale: trimmed.locale,
+      reviewed_at: isReviewed ? now : null,
+      reviewed_by: isReviewed ? actor.userId : null,
+      seo_description: trimmed.seoDescription || null,
+      seo_title: trimmed.seoTitle || null,
       slug: trimmed.slug,
+      source_locale: "ko",
       source_url: trimmed.sourceUrl || null,
+      source_updated_at: sourceUpdatedAt,
       status: trimmed.status,
       summary: trimmed.summary || null,
-      title: trimmed.title
+      title: trimmed.title,
+      translated_from_updated_at: translatedFromUpdatedAt
     },
     { onConflict: "content_type,locale,slug" }
   ).select("id, status, title").single();
@@ -975,6 +1159,285 @@ export async function saveAdminContent(input: {
     slug: trimmed.slug
   });
   return { ok: true, message: "콘텐츠 항목이 저장되었습니다." };
+}
+
+function canManageCourses(role: string, status: string) {
+  return status === "active" && ["course_manager", "content_manager", "super_admin"].includes(role);
+}
+
+function revalidateCourseCatalog(slug?: string) {
+  revalidatePath("/admin/courses");
+  revalidatePath("/admin/translations");
+  locales.forEach((locale) => {
+    revalidatePath(`/${locale}/curriculum`);
+    if (slug) {
+      revalidatePath(`/${locale}/curriculum/${slug}`);
+    }
+  });
+  revalidatePath("/sitemap.xml");
+}
+
+export async function saveAdminCourse(input: {
+  categoryKey: string;
+  courseId?: string;
+  sortOrder: number;
+  title: string;
+}): Promise<SaveAdminCourseResult> {
+  const title = input.title.trim();
+  const courseId = input.courseId?.trim() ?? "";
+  const categoryKey = input.categoryKey.trim();
+  const sortOrder = Number.isFinite(input.sortOrder) ? Math.max(0, Math.trunc(input.sortOrder)) : 0;
+
+  if (!courseCategories.includes(categoryKey as CourseCategoryKey) || (!courseId && !title)) {
+    return { ok: false, message: "과정명과 분류를 확인해 주세요." };
+  }
+
+  if (!hasSupabaseBrowserEnv()) {
+    return { ok: false, message: missingSupabaseMessage };
+  }
+
+  const actor = await getActiveAdminRole();
+  if (!actor.userId) return { ok: false, message: "로그인이 필요합니다." };
+  if (!canManageCourses(actor.role, actor.status)) return { ok: false, message: "과정 관리자 권한이 필요합니다." };
+
+  if (courseId) {
+    const { data, error } = await actor.supabase
+      .from("courses")
+      .update({ category_key: categoryKey, sort_order: sortOrder })
+      .eq("id", courseId)
+      .select("id, slug")
+      .single();
+
+    if (error) return { ok: false, message: error.message };
+    revalidateCourseCatalog(data.slug);
+    return { ok: true, message: "과정 공통정보가 수정되었습니다.", courseId: data.id, slug: data.slug };
+  }
+
+  const slug = createCourseSlug(title);
+  if (!slug) return { ok: false, message: "과정 URL을 만들 수 있는 과정명을 입력해 주세요." };
+
+  const { data, error } = await actor.supabase
+    .from("courses")
+    .insert({
+      category_key: categoryKey,
+      created_by: actor.userId,
+      slug,
+      sort_order: sortOrder
+    })
+    .select("id, slug")
+    .single();
+
+  if (error) {
+    return { ok: false, message: error.code === "23505" ? "같은 URL의 교육과정이 이미 있습니다." : error.message };
+  }
+
+  const { error: localizationError } = await actor.supabase.from("course_localizations").insert({
+    course_id: data.id,
+    created_by: actor.userId,
+    locale: "ko",
+    status: "draft",
+    title
+  });
+
+  if (localizationError) {
+    await actor.supabase.from("courses").delete().eq("id", data.id);
+    return { ok: false, message: localizationError.message };
+  }
+
+  revalidateCourseCatalog(data.slug);
+  return { ok: true, message: "교육과정이 생성되었습니다.", courseId: data.id, slug: data.slug };
+}
+
+export async function saveAdminCourseLocalization(input: {
+  certificationNote: string;
+  courseId: string;
+  curriculumText: string;
+  duration: string;
+  imageUrl: string;
+  imageAlt?: string;
+  locale: string;
+  overview: string;
+  pdfFileName: string;
+  pdfUrl: string;
+  recommendedText: string;
+  seoDescription?: string;
+  seoTitle?: string;
+  status: string;
+  summary: string;
+  title: string;
+}): Promise<SaveAdminContentResult> {
+  const validation = buildCourseLocalizationPayload(input);
+  if (!validation.ok) return validation;
+  if (!hasSupabaseBrowserEnv()) return { ok: false, message: missingSupabaseMessage };
+
+  const actor = await getActiveAdminRole();
+  if (!actor.userId) return { ok: false, message: "로그인이 필요합니다." };
+  if (!canManageCourses(actor.role, actor.status)) return { ok: false, message: "과정 관리자 권한이 필요합니다." };
+
+  const payload = validation.payload;
+  const { data: course, error: courseError } = await actor.supabase
+    .from("courses")
+    .select("slug")
+    .eq("id", payload.courseId)
+    .maybeSingle();
+
+  if (courseError || !course) return { ok: false, message: courseError?.message ?? "과정을 찾을 수 없습니다." };
+
+  const { data: existingLocalization } = await actor.supabase
+    .from("course_localizations")
+    .select("status, reviewed_at, reviewed_by, translated_from_updated_at")
+    .eq("course_id", payload.courseId)
+    .eq("locale", payload.locale)
+    .maybeSingle();
+  const now = new Date().toISOString();
+  const sourceRow = payload.locale === "ko"
+    ? { updated_at: now }
+    : (await actor.supabase
+        .from("course_localizations")
+        .select("updated_at")
+        .eq("course_id", payload.courseId)
+        .eq("locale", "ko")
+        .maybeSingle()).data;
+  const sourceUpdatedAt = sourceRow?.updated_at ?? null;
+
+  if (payload.status === "published") {
+    if (actor.role !== "super_admin") {
+      return { ok: false, message: "최종 공개는 최고 관리자만 승인할 수 있습니다." };
+    }
+    if (payload.locale !== "ko" && existingLocalization?.status !== "reviewed") {
+      return { ok: false, message: "번역을 먼저 검수 완료 상태로 저장해 주세요." };
+    }
+    const publishValidation = canPublishTranslation({
+      freshness: getTranslationFreshness({
+        locale: payload.locale,
+        sourceUpdatedAt,
+        translatedFromUpdatedAt: payload.locale === "ko"
+          ? sourceUpdatedAt
+          : existingLocalization?.translated_from_updated_at
+      }),
+      isHighRisk: Boolean(payload.certificationNote),
+      reviewedAt: existingLocalization?.reviewed_at,
+      reviewedBy: existingLocalization?.reviewed_by,
+      title: payload.title
+    });
+    if (!publishValidation.ok) return publishValidation;
+  }
+
+  const isReviewed = payload.status === "reviewed" || payload.status === "published";
+  const translatedFromUpdatedAt = payload.locale === "ko"
+    ? sourceUpdatedAt
+    : payload.status === "translated" || isReviewed
+      ? sourceUpdatedAt
+      : existingLocalization?.translated_from_updated_at ?? null;
+
+  const { error } = await actor.supabase.from("course_localizations").upsert({
+    certification_note: payload.certificationNote || null,
+    course_id: payload.courseId,
+    created_by: actor.userId,
+    curriculum_items: payload.curriculumItems,
+    duration: payload.duration || null,
+    image_alt: input.imageAlt?.trim() || null,
+    image_url: payload.imageUrl || null,
+    locale: payload.locale,
+    overview: payload.overview || null,
+    pdf_file_name: payload.pdfFileName || null,
+    pdf_url: payload.pdfUrl || null,
+    recommended_for: payload.recommendedFor,
+    reviewed_at: isReviewed ? now : null,
+    reviewed_by: isReviewed ? actor.userId : null,
+    seo_description: input.seoDescription?.trim() || null,
+    seo_title: input.seoTitle?.trim() || null,
+    source_locale: "ko",
+    source_updated_at: sourceUpdatedAt,
+    status: payload.status,
+    summary: payload.summary || null,
+    title: payload.title,
+    translated_from_updated_at: translatedFromUpdatedAt
+  }, { onConflict: "course_id,locale" });
+
+  if (error) return { ok: false, message: error.message };
+  revalidateCourseCatalog(course.slug);
+  return { ok: true, message: `${payload.locale.toUpperCase()} 과정 콘텐츠가 저장되었습니다.` };
+}
+
+export async function archiveAdminCourse(input: { courseId: string }): Promise<SaveAdminContentResult> {
+  const courseId = input.courseId.trim();
+  if (!courseId) return { ok: false, message: "보관할 과정을 확인해 주세요." };
+  if (!hasSupabaseBrowserEnv()) return { ok: false, message: missingSupabaseMessage };
+
+  const actor = await getActiveAdminRole();
+  if (!actor.userId) return { ok: false, message: "로그인이 필요합니다." };
+  if (!canManageCourses(actor.role, actor.status)) return { ok: false, message: "과정 관리자 권한이 필요합니다." };
+
+  const { data: course, error: courseError } = await actor.supabase
+    .from("courses")
+    .update({ is_active: false })
+    .eq("id", courseId)
+    .select("slug")
+    .single();
+  if (courseError) return { ok: false, message: courseError.message };
+
+  const { error } = await actor.supabase
+    .from("course_localizations")
+    .update({ status: "archived" })
+    .eq("course_id", courseId)
+    .eq("status", "published");
+  if (error) return { ok: false, message: error.message };
+
+  revalidateCourseCatalog(course.slug);
+  return { ok: true, message: "교육과정이 보관 처리되었습니다." };
+}
+
+export async function restoreAdminCourse(input: { courseId: string }): Promise<SaveAdminContentResult> {
+  const courseId = input.courseId.trim();
+  if (!courseId) return { ok: false, message: "활성화할 과정을 확인해 주세요." };
+  if (!hasSupabaseBrowserEnv()) return { ok: false, message: missingSupabaseMessage };
+
+  const actor = await getActiveAdminRole();
+  if (!actor.userId) return { ok: false, message: "로그인이 필요합니다." };
+  if (!canManageCourses(actor.role, actor.status)) return { ok: false, message: "과정 관리자 권한이 필요합니다." };
+
+  const { data: course, error } = await actor.supabase
+    .from("courses")
+    .update({ is_active: true })
+    .eq("id", courseId)
+    .select("slug")
+    .single();
+  if (error) return { ok: false, message: error.message };
+
+  revalidateCourseCatalog(course.slug);
+  return { ok: true, message: "교육과정이 다시 활성화되었습니다. 언어별 게시 상태를 확인해 주세요." };
+}
+
+export async function deleteAdminCourse(input: { courseId: string }): Promise<SaveAdminContentResult> {
+  const courseId = input.courseId.trim();
+  if (!courseId) return { ok: false, message: "삭제할 과정을 확인해 주세요." };
+  if (!hasSupabaseBrowserEnv()) return { ok: false, message: missingSupabaseMessage };
+
+  const actor = await getActiveAdminRole();
+  if (!actor.userId) return { ok: false, message: "로그인이 필요합니다." };
+  if (!canManageCourses(actor.role, actor.status)) return { ok: false, message: "과정 관리자 권한이 필요합니다." };
+
+  const { data: course, error: courseError } = await actor.supabase
+    .from("courses")
+    .select("slug, is_active")
+    .eq("id", courseId)
+    .maybeSingle();
+  if (courseError || !course) return { ok: false, message: courseError?.message ?? "과정을 찾을 수 없습니다." };
+  if (course.is_active) return { ok: false, message: "교육과정을 먼저 보관 처리해 주세요." };
+
+  const { count, error: countError } = await actor.supabase
+    .from("course_localizations")
+    .select("id", { count: "exact", head: true })
+    .eq("course_id", courseId)
+    .eq("status", "published");
+  if (countError) return { ok: false, message: countError.message };
+  if ((count ?? 0) > 0) return { ok: false, message: "공개 중인 언어 콘텐츠가 있어 삭제할 수 없습니다." };
+
+  const { error } = await actor.supabase.from("courses").delete().eq("id", courseId);
+  if (error) return { ok: false, message: error.message };
+  revalidateCourseCatalog(course.slug);
+  return { ok: true, message: "교육과정이 영구 삭제되었습니다." };
 }
 
 export async function saveAdminBanner(input: {

@@ -65,7 +65,7 @@ Vercel Project Settings > Environment Variables에 아래 값을 등록한다.
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Production, Preview | Supabase anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Production only if needed | 서버 전용, 브라우저 노출 금지 |
 | `NEXT_PUBLIC_DEFAULT_LOCALE` | Production, Preview | `ko` |
-| `NEXT_PUBLIC_SUPPORTED_LOCALES` | Production, Preview | `ko,en,es` |
+| `NEXT_PUBLIC_SUPPORTED_LOCALES` | Production, Preview | `ko,en,es,zh-CN` |
 | `GA_MEASUREMENT_ID` | Production | 선택 |
 | `GOOGLE_SITE_VERIFICATION` | Production | 선택 |
 | `NAVER_SITE_VERIFICATION` | Production | 선택 |

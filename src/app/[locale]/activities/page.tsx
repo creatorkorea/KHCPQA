@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "activities",
-    title: `${t.activitiesTitle} | KHCPQA`,
+    title: `${t.activitiesTitle} | KAHC`,
     description: t.activitiesPage.lead
   });
 }
@@ -82,7 +82,6 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
   });
   const pageCopy = activitiesOverviewCopy[locale];
   const introTitle = locale === "ko" ? t.activitiesTitle : intro.title;
-  const introLead = locale === "ko" ? t.activitiesPage.lead : intro.lead;
 
   return (
     <>
@@ -90,7 +89,6 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
         className="community-page-intro"
         eyebrow={t.activitiesPage.eyebrow}
         title={introTitle}
-        lead={introLead}
       />
       <section className="activities-overview-section">
         <div className="activities-directory-shell">

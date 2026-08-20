@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { headerNavItems, type Locale } from "@/lib/content";
+import { headerNavItems } from "@/lib/content";
+import type { Locale } from "@/i18n/config";
 
 export function DesktopNav({
   ariaLabel,

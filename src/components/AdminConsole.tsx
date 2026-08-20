@@ -15,6 +15,7 @@ import {
   MoreHorizontal,
   Search,
   ShieldCheck,
+  UserRoundCog,
   Users,
   type LucideIcon
 } from "lucide-react";
@@ -28,6 +29,7 @@ export type AdminNavKey =
   | "pages"
   | "courses"
   | "community"
+  | "directors"
   | "inquiries"
   | "users"
   | "certifications"
@@ -55,6 +57,7 @@ const adminNavItems: AdminNavItem[] = [
   { href: "/admin", icon: LayoutDashboard, key: "dashboard", label: "대시보드" },
   { href: "/admin/pages", icon: FileText, key: "pages", label: "페이지 관리" },
   { href: "/admin/courses", icon: BookOpen, key: "courses", label: "과정 관리" },
+  { href: "/admin/directors", icon: UserRoundCog, key: "directors", label: "국제 디렉터" },
   { href: "/admin/community", icon: MessageSquare, key: "community", label: "커뮤니티 관리" },
   { href: "/admin/inquiries", icon: Inbox, key: "inquiries", label: "문의 관리" },
   { href: "/admin/users", icon: Users, key: "users", label: "사용자 관리" },

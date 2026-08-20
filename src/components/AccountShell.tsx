@@ -13,12 +13,15 @@ const logoutCopy: Record<Locale, { description: string; label: string }> = {
 
 export function AccountNav({
   locale,
-  activeHref
+  activeHref,
+  badges
 }: {
   locale: Locale;
   activeHref: string;
+  badges?: Partial<Record<string, string>>;
 }) {
   const t = getCopy(locale);
+  const logout = logoutCopy[locale as keyof typeof logoutCopy] ?? logoutCopy.en;
   const signOutAction = signOutFromAccount.bind(null, locale);
 
   return (
@@ -26,6 +29,7 @@ export function AccountNav({
       {t.account.nav.map((item, index) => {
         const Icon = accountIcons[index];
         const isActive = item.href === activeHref;
+        const badge = badges?.[item.href];
 
         return (
           <Link
@@ -39,6 +43,7 @@ export function AccountNav({
               <strong>{item.title}</strong>
               <small>{item.description}</small>
             </span>
+            {badge ? <em className="account-nav-badge">{badge}</em> : null}
           </Link>
         );
       })}
@@ -46,8 +51,8 @@ export function AccountNav({
         <button className="account-logout-button" type="submit">
           <LogOut size={18} />
           <span>
-            <strong>{logoutCopy[locale].label}</strong>
-            <small>{logoutCopy[locale].description}</small>
+            <strong>{logout.label}</strong>
+            <small>{logout.description}</small>
           </span>
         </button>
       </form>

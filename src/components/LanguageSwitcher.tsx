@@ -1,35 +1,47 @@
 "use client";
 
-import type { ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { getCopy, localeLabels, locales, type Locale } from "@/lib/content";
-
-function getLocalizedHref(pathname: string, targetLocale: Locale) {
-  const segments = pathname.split("/");
-
-  if (locales.includes(segments[1] as Locale)) {
-    segments[1] = targetLocale;
-    return segments.join("/") || `/${targetLocale}`;
-  }
-
-  return `/${targetLocale}`;
-}
+import { useTranslations } from "next-intl";
+import {
+  getLocalizedPath,
+  localeCookieName,
+  localeLabels,
+  locales,
+  type Locale
+} from "@/i18n/config";
 
 export function LanguageSwitcher({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const router = useRouter();
-  const t = getCopy(locale);
+  const t = useTranslations("shell");
+  const pending = useTranslations("pending");
+  const [availableLocales, setAvailableLocales] = useState<Locale[]>(() => [locale]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setAvailableLocales([locale]);
+    fetch(`/api/i18n/availability?path=${encodeURIComponent(pathname)}`, { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("availability lookup failed")))
+      .then((result: { locales?: Locale[] }) => {
+        if (Array.isArray(result.locales)) setAvailableLocales(result.locales);
+      })
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, [locale, pathname]);
 
   function handleLocaleChange(event: ChangeEvent<HTMLSelectElement>) {
-    router.push(getLocalizedHref(pathname, event.target.value as Locale));
+    const targetLocale = event.target.value as Locale;
+    document.cookie = `${localeCookieName}=${encodeURIComponent(targetLocale)}; path=/; max-age=31536000; samesite=lax`;
+    router.push(getLocalizedPath(pathname, targetLocale));
   }
 
   return (
     <label className="language-switcher">
-      <span className="sr-only">{t.a11y.languageSwitcher}</span>
-      <select aria-label={t.a11y.languageSwitcher} value={locale} onChange={handleLocaleChange}>
+      <span className="sr-only">{t("languageSwitcher")}</span>
+      <select aria-label={t("languageSwitcher")} value={locale} onChange={handleLocaleChange}>
         {locales.map((item) => (
-          <option key={item} value={item}>
+          <option disabled={!availableLocales.includes(item) && item !== locale} key={item} title={!availableLocales.includes(item) ? pending("title") : undefined} value={item}>
             {localeLabels[item]}
           </option>
         ))}

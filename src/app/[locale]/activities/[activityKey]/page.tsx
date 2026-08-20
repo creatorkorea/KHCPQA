@@ -179,7 +179,7 @@ export async function generateMetadata({
   return buildLocaleMetadata({
     locale,
     path: `activities/${activityKey}`,
-    title: `${activity.title} | KHCPQA`,
+    title: `${activity.title} | KAHC`,
     description: activity.summary
   });
 }
@@ -213,7 +213,6 @@ export default async function ActivityDetailPage({
     slug: activity.key
   });
   const activityTitle = content.title;
-  const activitySummary = content.lead || activity.summary;
   const activityImageUrl = content.imageUrl || activity.imageUrl;
   const isPhotoActivity = activity.key === "photo";
   const postsPageSize = isPhotoActivity ? 9 : 10;
@@ -242,7 +241,6 @@ export default async function ActivityDetailPage({
         <div className="activity-category-intro-copy">
           <span className="eyebrow">{t.activitiesPage.detailEyebrow}</span>
           <h1>{activityTitle}</h1>
-          <p>{activitySummary}</p>
         </div>
       </section>
       <section className="activities-overview-section">

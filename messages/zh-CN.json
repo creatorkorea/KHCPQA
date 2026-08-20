@@ -1,0 +1,37 @@
+{
+  "shell": {
+    "languageName": "简体中文",
+    "homeLink": "KAHC 首页",
+    "primaryNavigation": "主导航",
+    "mobileNavigation": "移动导航",
+    "languageSwitcher": "语言选择",
+    "socialLinks": "社交及精选内容链接",
+    "brand": "KAHC",
+    "brandFull": "The Korea Association for Health & Beauty Certification",
+    "about": "协会介绍",
+    "curriculum": "教育课程",
+    "activities": "社区",
+    "partner": "合作咨询",
+    "contact": "联系我们",
+    "login": "登录",
+    "account": "我的账户",
+    "consult": "咨询",
+    "menuOpen": "打开菜单",
+    "menuClose": "关闭菜单",
+    "footerLead": "连接实务教育、就业与创业支持的专业教育平台。",
+    "customerCenter": "客户中心",
+    "phone": "电话",
+    "email": "电子邮箱",
+    "addressLabel": "地址",
+    "address": "韩国首尔特别市钟路区水标路120号Naein大厦8层",
+    "privacy": "隐私政策",
+    "terms": "使用条款",
+    "sitemap": "网站地图"
+  },
+  "pending": {
+    "eyebrow": "翻译审核中",
+    "title": "翻译内容准备中",
+    "body": "此语言版本正在进行人工审核。仅通过审核的翻译内容会分阶段发布。",
+    "back": "查看韩语页面"
+  }
+}

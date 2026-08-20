@@ -3,6 +3,7 @@ import { PageIntro } from "@/components/SiteShell";
 import { ProfileEditForm } from "@/components/ProfileEditForm";
 import { getAccountData } from "@/lib/account-data";
 import { getCopy, type Locale } from "@/lib/content";
+import { getPublishedCourses } from "@/lib/course-repository";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
@@ -12,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "account/profile",
-    title: `${t.account.profile.title} | KHCPQA`,
+    title: `${t.account.profile.title} | KAHC`,
     description: t.account.profile.lead,
     noIndex: true
   });
@@ -22,6 +23,7 @@ export default async function AccountProfilePage({ params }: { params: Promise<{
   const { locale } = await params;
   const t = getCopy(locale);
   const accountData = await getAccountData(locale);
+  const courses = await getPublishedCourses(locale);
 
   return (
     <>
@@ -43,7 +45,7 @@ export default async function AccountProfilePage({ params }: { params: Promise<{
             ))}
           </dl>
         </AccountSection>
-        <ProfileEditForm initialProfile={accountData.profileForm} locale={locale} />
+        <ProfileEditForm courses={courses} initialProfile={accountData.profileForm} locale={locale} />
       </section>
     </>
   );

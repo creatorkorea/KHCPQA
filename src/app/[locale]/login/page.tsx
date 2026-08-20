@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "login",
-    title: `${t.nav.login} | KHCPQA`,
+    title: `${t.nav.login} | KAHC`,
     description: t.login.lead
   });
 }

@@ -22,21 +22,26 @@ const securityCopy = {
   }
 } as const;
 
+function getSecurityCopy(locale: string) {
+  return securityCopy[locale as keyof typeof securityCopy] ?? securityCopy.en;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
+  const copy = getSecurityCopy(locale);
 
   return buildLocaleMetadata({
     locale,
     path: "account/security",
-    title: `${securityCopy[locale].title} | KHCPQA`,
-    description: securityCopy[locale].lead,
+    title: `${copy.title} | KAHC`,
+    description: copy.lead,
     noIndex: true
   });
 }
 
 export default async function AccountSecurityPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const copy = securityCopy[locale];
+  const copy = getSecurityCopy(locale);
 
   return (
     <>

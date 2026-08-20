@@ -109,7 +109,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "contact",
-    title: `${t.nav.contact} | KHCPQA`,
+    title: `${t.nav.contact} | KAHC`,
     description: t.contact.lead
   });
 }

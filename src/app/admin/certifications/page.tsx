@@ -1,11 +1,11 @@
 import { AdminConsoleShell, AdminPanel } from "@/components/AdminConsole";
 import { AdminCertificationsManager } from "@/components/AdminCertificationsManager";
 import { getAdminCertifications } from "@/lib/admin-data";
-import { getCourses } from "@/lib/content";
+import { getPublishedCourses } from "@/lib/course-repository";
 
 export default async function AdminCertificationsPage() {
-  const certifications = await getAdminCertifications();
-  const courseOptions = getCourses("ko").map((course) => ({
+  const [certifications, courses] = await Promise.all([getAdminCertifications(), getPublishedCourses("ko")]);
+  const courseOptions = courses.map((course) => ({
     category: course.category,
     title: course.title
   }));

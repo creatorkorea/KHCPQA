@@ -1,9 +1,16 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import {
+  defaultLocale,
+  getLocaleFromPathname,
+  getPreferredLocale,
+  localeCookieName,
+  locales
+} from "@/i18n/config";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 
-const locales = ["ko", "en", "es"] as const;
-const accountPattern = /^\/(ko|en|es)\/account(?:\/|$)/;
+const localePattern = locales.map((locale) => locale.replace("-", "\\-")).join("|");
+const accountPattern = new RegExp(`^/(${localePattern})/account(?:/|$)`);
 const adminRoles = [
   "viewer",
   "content_manager",
@@ -14,8 +21,7 @@ const adminRoles = [
 ];
 
 function getLocaleFromPath(pathname: string) {
-  const segment = pathname.split("/")[1];
-  return locales.includes(segment as (typeof locales)[number]) ? segment : "ko";
+  return getLocaleFromPathname(pathname) ?? defaultLocale;
 }
 
 function isAdminPath(pathname: string) {
@@ -28,9 +34,30 @@ function isProtectedPath(pathname: string) {
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const requiresTranslationNoIndex = pathname === "/zh-CN" || pathname.startsWith("/zh-CN/");
+
+  if (pathname === "/") {
+    const locale = getPreferredLocale(
+      request.headers.get("accept-language"),
+      request.cookies.get(localeCookieName)?.value ?? null
+    );
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = `/${locale}`;
+    const redirectResponse = NextResponse.redirect(redirectUrl);
+    redirectResponse.cookies.set(localeCookieName, locale, {
+      maxAge: 60 * 60 * 24 * 365,
+      path: "/",
+      sameSite: "lax"
+    });
+    return redirectResponse;
+  }
 
   if (!isProtectedPath(pathname)) {
-    return NextResponse.next();
+    const publicResponse = NextResponse.next();
+    if (requiresTranslationNoIndex) {
+      publicResponse.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
+    return publicResponse;
   }
 
   if (!hasSupabaseBrowserEnv()) {
@@ -91,9 +118,19 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  if (requiresTranslationNoIndex) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
   return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/ko/account/:path*", "/en/account/:path*", "/es/account/:path*"]
+  matcher: [
+    "/",
+    "/admin/:path*",
+    "/ko/account/:path*",
+    "/en/account/:path*",
+    "/es/account/:path*",
+    "/zh-CN/:path*"
+  ]
 };

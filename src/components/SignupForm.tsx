@@ -5,7 +5,8 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, UserPlus } from "lucide-react";
-import { getCopy, getCourses, type Locale } from "@/lib/content";
+import { getCopy, type Locale } from "@/lib/content";
+import type { PublishedCourse } from "@/lib/course-model";
 import { countryOptions, getCountryDialCode, getCountryPhonePlaceholder } from "@/lib/countries";
 import { formatPhoneNumber, normalizePhoneNumber } from "@/lib/phone";
 import { buildAuthCallbackUrl } from "@/lib/site-url";
@@ -53,10 +54,9 @@ function isExistingAccountError(message: string) {
   return normalized.includes("already registered") || normalized.includes("already exists");
 }
 
-export function SignupForm({ locale }: { locale: Locale }) {
+export function SignupForm({ courses, locale }: { courses: PublishedCourse[]; locale: Locale }) {
   const router = useRouter();
   const t = getCopy(locale);
-  const courses = getCourses(locale);
   const [form, setForm] = useState<SignupState>(initialSignupState);
   const [errors, setErrors] = useState<Partial<Record<SignupField | "form", string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);

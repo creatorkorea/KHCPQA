@@ -8,9 +8,10 @@ import {
 } from "@/components/AdminConsole";
 import { AdminUsersManager } from "@/components/AdminUsersManager";
 import { getAdminUsers } from "@/lib/admin-data";
+import { getPublishedCourses } from "@/lib/course-repository";
 
 export default async function AdminUsersPage() {
-  const users = await getAdminUsers();
+  const [users, courseOptions] = await Promise.all([getAdminUsers(), getPublishedCourses("ko")]);
 
   return (
     <AdminConsoleShell
@@ -25,7 +26,7 @@ export default async function AdminUsersPage() {
           <AdminSelect label="역할 전체" />
           <AdminSelect label="상태 전체" />
         </AdminFilterBar>
-        <AdminUsersManager users={users} />
+        <AdminUsersManager courseOptions={courseOptions} users={users} />
       </AdminPanel>
     </AdminConsoleShell>
   );

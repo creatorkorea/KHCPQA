@@ -5,7 +5,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Pencil, Save, ShieldCheck, Trash2, UserCog, UserPlus, X } from "lucide-react";
 import { deleteAdminUser, saveAdminUser, type SaveAdminUserResult } from "@/app/admin/actions";
-import { getCourses } from "@/lib/content";
+import type { PublishedCourse } from "@/lib/course-model";
 import { countryOptions, getCountryDialCode, getCountryPhonePlaceholder } from "@/lib/countries";
 import { formatPhoneNumber } from "@/lib/phone";
 import {
@@ -45,9 +45,8 @@ const emptyForm: UserFormValue = {
   status: "active"
 };
 
-export function AdminUsersManager({ users }: { users: AdminUserRow[] }) {
+export function AdminUsersManager({ courseOptions, users }: { courseOptions: PublishedCourse[]; users: AdminUserRow[] }) {
   const router = useRouter();
-  const courseOptions = getCourses("ko");
   const [mode, setMode] = useState<Mode>("create");
   const [selectedUserId, setSelectedUserId] = useState("");
   const [formValue, setFormValue] = useState<UserFormValue>(emptyForm);

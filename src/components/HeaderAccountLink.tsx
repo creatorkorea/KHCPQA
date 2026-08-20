@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserRound } from "lucide-react";
-import { type Locale } from "@/lib/content";
+import type { Locale } from "@/i18n/config";
 import { createClient } from "@/lib/supabase/client";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 

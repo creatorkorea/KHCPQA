@@ -17,7 +17,8 @@ import {
   Store,
   Users
 } from "lucide-react";
-import { getCopy, getCourses, type Locale } from "@/lib/content";
+import { getCopy, type Locale } from "@/lib/content";
+import { getPublishedCourses } from "@/lib/course-repository";
 import { getPublishedBanners } from "@/lib/public-content";
 import { StatusBadge } from "@/components/SiteShell";
 import { HomePopup } from "@/components/HomePopup";
@@ -29,7 +30,7 @@ const reasonIcons = [BookOpenCheck, Award, Handshake, Headphones];
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
-  const courses = getCourses(locale);
+  const courses = await getPublishedCourses(locale);
   const [homePopup] = await getPublishedBanners({ placement: "home" });
   const previewCourseIndexes = [5, 3, 4, 7];
   const previewCourses = previewCourseIndexes.flatMap((index) => (courses[index] ? [courses[index]] : []));
@@ -41,15 +42,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
     { label: courses[5]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[5]?.slug ?? ""}` },
     { label: courses[7]?.title ?? t.curriculumTitle, href: `/${locale}/curriculum/${courses[7]?.slug ?? ""}` }
   ];
-  const partners = [
-    "SHILLA",
-    "AMOREPACIFIC",
-    "OLIVE YOUNG",
-    "LOTTE HOTELS",
-    "SpaLand",
-    "힐리언스 선마을"
-  ];
-
   const renderSectionTitle = (title: string, lead?: string) => (
     <div className="home-section-title">
       <h2>{title}<span aria-hidden="true">✣</span></h2>
@@ -183,7 +175,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
           <article className="landing-info-card">
             <div className="landing-info-head">
               <h2>{t.home.scheduleTitle}</h2>
-              <Link href={`/${locale}/contact`}>{t.home.moreCta} <ArrowRight size={14} /></Link>
             </div>
             <div className="schedule-list">
               {t.home.schedules.map(({ label, time }) => (
@@ -194,22 +185,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
               ))}
             </div>
           </article>
-        </div>
-      </section>
-
-      <section className="home-partner-section">
-        <h2>{t.home.partnersTitle}</h2>
-        <div className="home-partner-logos" aria-label={t.home.partnersTitle}>
-          <div className="home-partner-track">
-            {partners.map((partner) => (
-              <span key={partner}>{partner}</span>
-            ))}
-          </div>
-          <div className="home-partner-track" aria-hidden="true">
-            {partners.map((partner) => (
-              <span key={`duplicate-${partner}`}>{partner}</span>
-            ))}
-          </div>
         </div>
       </section>
 

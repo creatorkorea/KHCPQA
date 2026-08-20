@@ -3,6 +3,7 @@ import { formatAdminCertificationDate } from "@/lib/admin-certifications";
 import { formatPhoneNumber } from "@/lib/phone";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
+import type { AdminCourseRecord, CourseCategoryKey, CourseLocale, CoursePublishStatus } from "@/lib/course-model";
 
 export type AdminUserRow = {
   country: string;
@@ -52,13 +53,20 @@ export type AdminContentRow = {
   body?: string;
   endsAt?: string;
   id?: string;
+  imageAlt?: string;
   imageUrl?: string;
   locale: string;
+  reviewedAt?: string;
+  reviewedBy?: string;
+  seoDescription?: string;
+  seoTitle?: string;
   sourceUrl?: string;
+  sourceUpdatedAt?: string;
   startsAt?: string;
   status: string;
   summary?: string;
   title: string;
+  translatedFromUpdatedAt?: string;
   type: string;
   updatedAt: string;
   updatedAtRaw?: string;
@@ -120,13 +128,20 @@ type ContentRow = {
   content_type: string;
   created_by: string | null;
   id: string;
+  image_alt: string | null;
   image_url: string | null;
   locale: string;
+  reviewed_at: string | null;
+  reviewed_by: string | null;
+  seo_description: string | null;
+  seo_title: string | null;
   source_url: string | null;
+  source_updated_at: string | null;
   slug: string;
   status: string;
   summary: string | null;
   title: string;
+  translated_from_updated_at: string | null;
   updated_at: string;
 };
 
@@ -280,9 +295,9 @@ export async function getAdminContentRows(): Promise<AdminContentRow[]> {
   const [{ data: contentItems, error: contentError }, { data: banners, error: bannerError }] = await Promise.all([
     supabase
       .from("admin_content_items")
-      .select("id, content_type, title, locale, slug, status, summary, body, source_url, image_url, created_by, updated_at")
+      .select("id, content_type, title, locale, slug, status, summary, body, source_url, image_url, image_alt, seo_title, seo_description, source_updated_at, translated_from_updated_at, reviewed_by, reviewed_at, created_by, updated_at")
       .order("updated_at", { ascending: false })
-      .limit(40),
+      .limit(500),
     supabase
       .from("banners")
       .select("id, title, placement, status, target_url, image_url, starts_at, ends_at, created_by, updated_at")
@@ -298,13 +313,20 @@ export async function getAdminContentRows(): Promise<AdminContentRow[]> {
     ...((contentItems as ContentRow[] | null) ?? []).map((item) => ({
       body: item.body || "",
       id: item.id,
+      imageAlt: item.image_alt || "",
       imageUrl: item.image_url || "",
       locale: item.locale,
+      reviewedAt: item.reviewed_at || "",
+      reviewedBy: item.reviewed_by || "",
+      seoDescription: item.seo_description || "",
+      seoTitle: item.seo_title || "",
       slug: item.slug,
       sourceUrl: item.source_url || "",
+      sourceUpdatedAt: item.source_updated_at || "",
       status: item.status,
       summary: item.summary || "",
       title: item.title,
+      translatedFromUpdatedAt: item.translated_from_updated_at || "",
       type: item.content_type,
       updatedAt: formatDate(item.updated_at),
       updatedAtRaw: item.updated_at,
@@ -329,6 +351,98 @@ export async function getAdminContentRows(): Promise<AdminContentRow[]> {
   return rows
     .sort((a, b) => (b.updatedAtRaw ?? b.updatedAt).localeCompare(a.updatedAtRaw ?? a.updatedAt))
     .slice(0, 50);
+}
+
+export async function getAdminCourses(): Promise<AdminCourseRecord[]> {
+  if (!hasSupabaseBrowserEnv()) {
+    return [];
+  }
+
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("courses")
+    .select(`
+      id, slug, category_key, sort_order, is_active, created_at, updated_at,
+      course_localizations(
+        id, course_id, locale, title, summary, overview, duration,
+        curriculum_items, recommended_for, certification_note,
+        image_url, image_alt, pdf_url, pdf_file_name, status,
+        seo_title, seo_description, source_updated_at, translated_from_updated_at,
+        reviewed_by, reviewed_at, updated_at
+      )
+    `)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
+
+  if (error || !data) {
+    return [];
+  }
+
+  return (data as unknown as Array<{
+    category_key: CourseCategoryKey;
+    course_localizations: Array<{
+      certification_note: string | null;
+      course_id: string;
+      curriculum_items: string[] | null;
+      duration: string | null;
+      id: string;
+      image_alt: string | null;
+      image_url: string | null;
+      locale: CourseLocale;
+      overview: string | null;
+      pdf_file_name: string | null;
+      pdf_url: string | null;
+      recommended_for: string[] | null;
+      reviewed_at: string | null;
+      reviewed_by: string | null;
+      seo_description: string | null;
+      seo_title: string | null;
+      source_updated_at: string | null;
+      status: CoursePublishStatus;
+      summary: string | null;
+      title: string;
+      translated_from_updated_at: string | null;
+      updated_at: string;
+    }> | null;
+    created_at: string;
+    id: string;
+    is_active: boolean;
+    slug: string;
+    sort_order: number;
+    updated_at: string;
+  }>).map((course) => ({
+    categoryKey: course.category_key,
+    createdAt: course.created_at,
+    id: course.id,
+    isActive: course.is_active,
+    localizations: (course.course_localizations ?? []).map((localization) => ({
+      certificationNote: localization.certification_note ?? "",
+      courseId: localization.course_id,
+      curriculumItems: localization.curriculum_items ?? [],
+      duration: localization.duration ?? "",
+      id: localization.id,
+      imageAlt: localization.image_alt ?? "",
+      imageUrl: localization.image_url ?? "",
+      locale: localization.locale,
+      overview: localization.overview ?? "",
+      pdfFileName: localization.pdf_file_name ?? "",
+      pdfUrl: localization.pdf_url ?? "",
+      recommendedFor: localization.recommended_for ?? [],
+      reviewedAt: localization.reviewed_at ?? "",
+      reviewedBy: localization.reviewed_by ?? "",
+      seoDescription: localization.seo_description ?? "",
+      seoTitle: localization.seo_title ?? "",
+      sourceUpdatedAt: localization.source_updated_at ?? "",
+      status: localization.status,
+      summary: localization.summary ?? "",
+      title: localization.title,
+      translatedFromUpdatedAt: localization.translated_from_updated_at ?? "",
+      updatedAt: localization.updated_at
+    })),
+    slug: course.slug,
+    sortOrder: course.sort_order,
+    updatedAt: course.updated_at
+  }));
 }
 
 export async function getAdminPublishEvents(): Promise<AdminPublishEventRow[]> {

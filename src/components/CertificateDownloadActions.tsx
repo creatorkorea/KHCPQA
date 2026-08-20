@@ -153,10 +153,10 @@ async function loadCertificateLogoDataUrl() {
   return certificateLogoDataUrl;
 }
 
-function toExportData(certificate: AccountCertificate, holderName = "KHCPQA Member"): CertificateExportData {
+function toExportData(certificate: AccountCertificate, holderName = "KAHC Member"): CertificateExportData {
   return {
     courseTitle: certificate.title,
-    holderName: holderName.trim() || "KHCPQA Member",
+    holderName: holderName.trim() || "KAHC Member",
     issuedAt: certificate.issuedAt,
     number: certificate.number,
     status: getCertificateStatusLabel(certificate.status),
@@ -214,7 +214,7 @@ export function buildCertificateSvg(certificate: AccountCertificate, holderName?
   ${renderCertificateLogo(logoDataUrl)}
   <text x="450" y="298" text-anchor="middle" font-family="${labelFont}" font-size="55" font-weight="800" fill="#171421" letter-spacing="14">자격증</text>
   <text x="450" y="344" text-anchor="middle" font-family="Georgia, serif" font-size="27" font-style="italic" fill="#252032">Certificate of qualification</text>
-  <text x="450" y="402" text-anchor="middle" font-family="${valueFont}" font-size="16" font-weight="800" fill="#6d5f47">Korea Health Care Professional Qualification Association</text>
+  <text x="450" y="402" text-anchor="middle" font-family="${valueFont}" font-size="16" font-weight="800" fill="#6d5f47">The Korea Association for Health & Beauty Certification</text>
   <line x1="178" y1="448" x2="722" y2="448" stroke="#e4d4a0" stroke-width="2"/>
   <text x="195" y="524" font-family="${labelFont}" font-size="23" font-weight="730" fill="#1f1a28">성명</text>
   ${renderTextLines(safe.holderName, { fontFamily: valueFont, fontSize: 26, fontWeight: 760, lineHeight: 31, x: 325, y: 524 })}
@@ -226,13 +226,13 @@ export function buildCertificateSvg(certificate: AccountCertificate, holderName?
   <text x="325" y="760" font-family="${valueFont}" font-size="23" font-weight="760" fill="#1f1a28">${safe.issuedAt}</text>
   <text x="195" y="824" font-family="${labelFont}" font-size="23" font-weight="730" fill="#1f1a28">상태</text>
   <text x="325" y="824" font-family="${valueFont}" font-size="23" font-weight="820" fill="#0d6b35">${safe.status}</text>
-  <text x="450" y="922" text-anchor="middle" font-family="${labelFont}" font-size="23" font-weight="740" fill="#252032">위 사람은 KHCPQA 자격 과정의 취득자로 확인되어</text>
+  <text x="450" y="922" text-anchor="middle" font-family="${labelFont}" font-size="23" font-weight="740" fill="#252032">위 사람은 KAHC 자격 과정의 취득자로 확인되어</text>
   <text x="450" y="961" text-anchor="middle" font-family="${labelFont}" font-size="23" font-weight="740" fill="#252032">위와 같이 자격을 인정합니다.</text>
   <text x="450" y="1017" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-style="italic" font-weight="700" fill="#574f60">This certificate verifies completion and qualification for the listed course.</text>
   <circle cx="270" cy="1100" r="42" fill="url(#gold)" opacity="0.92"/>
   <circle cx="270" cy="1100" r="30" fill="none" stroke="#fff8d7" stroke-width="3"/>
   <text x="270" y="1109" text-anchor="middle" font-family="${valueFont}" font-size="20" font-weight="900" fill="#4f360c">KH</text>
-  <text x="590" y="1106" text-anchor="middle" font-family="${valueFont}" font-size="23" font-weight="900" fill="#181421">KHCPQA</text>
+  <text x="590" y="1106" text-anchor="middle" font-family="${valueFont}" font-size="23" font-weight="900" fill="#181421">KAHC</text>
   <text x="590" y="1134" text-anchor="middle" font-family="${valueFont}" font-size="15" font-weight="850" fill="#625868">한국건강관리사자격협회</text>
 </svg>`;
 }

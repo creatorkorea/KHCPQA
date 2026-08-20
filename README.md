@@ -1,6 +1,6 @@
 # KHCPQA Global Web App
 
-KHCPQA 글로벌 웹사이트/앱 1차 개발본이다. 한국어, 영어, 스페인어 공개 사이트와 회원 영역, 자격 조회, 관리자 CMS, Supabase 연동 구조를 포함한다.
+KHCPQA 글로벌 웹사이트/앱 개발본이다. 한국어, 영어, 스페인어, 중국 간체 공개 구조와 회원 영역, 자격 조회, 관리자 CMS, Supabase 연동 구조를 포함한다.
 
 ## Current Status
 
@@ -25,7 +25,7 @@ npm run qa:ops
 
 ## Implemented Scope
 
-- `/ko`, `/en`, `/es` 다국어 라우팅
+- `/ko`, `/en`, `/es`, `/zh-CN` 다국어 라우팅
 - 홈, 협회 소개, 과정 목록/상세, 활동/커뮤니티, Contact
 - 회원가입, 로그인, 비밀번호 찾기
 - My Page, Profile, Certification Inquiry
@@ -93,7 +93,7 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 NEXT_PUBLIC_DEFAULT_LOCALE=ko
-NEXT_PUBLIC_SUPPORTED_LOCALES=ko,en,es
+NEXT_PUBLIC_SUPPORTED_LOCALES=ko,en,es,zh-CN
 GA_MEASUREMENT_ID=
 GOOGLE_SITE_VERIFICATION=
 NAVER_SITE_VERIFICATION=

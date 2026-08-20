@@ -1,17 +1,9 @@
 import { AdminConsoleShell } from "@/components/AdminConsole";
 import { AdminCoursesManager } from "@/components/AdminCoursesManager";
-import { getAdminContentRows } from "@/lib/admin-data";
-import { getCourses } from "@/lib/content";
+import { getAdminCourses } from "@/lib/admin-data";
 
 export default async function AdminCoursesPage() {
-  const contentRows = await getAdminContentRows();
-  const courseRows = contentRows.filter((row) => row.type === "Course");
-  const courseOptions = getCourses("ko").map((course) => ({
-    category: course.category,
-    label: course.title,
-    slug: course.slug,
-    summary: course.summary
-  }));
+  const courses = await getAdminCourses();
 
   return (
     <AdminConsoleShell
@@ -19,7 +11,7 @@ export default async function AdminCoursesPage() {
       description="공개 커리큘럼 목록과 상세 페이지에 표시되는 과정 콘텐츠를 관리합니다."
       title="과정 관리"
     >
-      <AdminCoursesManager courseOptions={courseOptions} items={courseRows} />
+      <AdminCoursesManager courses={courses} />
     </AdminConsoleShell>
   );
 }

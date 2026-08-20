@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SiteFooter, SiteHeader, TranslationNotice } from "@/components/SiteShell";
-import { getTranslationStatus, isLocale, type Locale } from "@/lib/content";
+import Link from "next/link";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
+import { SiteFooter, SiteHeader } from "@/components/SiteShell";
+import { isLocale, locales, type Locale } from "@/i18n/config";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
-  return [{ locale: "ko" }, { locale: "en" }, { locale: "es" }];
+  return locales.map((locale) => ({ locale }));
 }
-
-export const dynamicParams = false;
 
 export async function generateMetadata({
   params
@@ -21,7 +22,7 @@ export async function generateMetadata({
     return {};
   }
 
-  return buildLocaleMetadata({ locale });
+  return buildLocaleMetadata({ locale, noIndex: locale === "zh-CN" });
 }
 
 export default async function LocaleLayout({
@@ -38,13 +39,24 @@ export default async function LocaleLayout({
   }
 
   const activeLocale = locale as Locale;
+  setRequestLocale(activeLocale);
+  const messages = await getMessages();
+  const pending = await getTranslations("pending");
 
   return (
-    <>
+    <NextIntlClientProvider locale={activeLocale} messages={messages}>
       <SiteHeader locale={activeLocale} />
-      <TranslationNotice locale={activeLocale} status={getTranslationStatus(activeLocale)} />
-      <main>{children}</main>
+      <main>
+        {activeLocale === "zh-CN" ? (
+          <section className="page-intro translation-pending-page">
+            <span className="eyebrow">{pending("eyebrow")}</span>
+            <h1>{pending("title")}</h1>
+            <p>{pending("body")}</p>
+            <Link className="primary-button" href="/ko">{pending("back")}</Link>
+          </section>
+        ) : children}
+      </main>
       <SiteFooter locale={activeLocale} />
-    </>
+    </NextIntlClientProvider>
   );
 }

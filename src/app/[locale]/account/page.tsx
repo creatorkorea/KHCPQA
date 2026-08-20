@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, FileText, Lock, UserRound } from "lucide-react";
-import { AccountNav, AccountSection } from "@/components/AccountShell";
+import { ArrowRight } from "lucide-react";
+import { AccountNav } from "@/components/AccountShell";
 import { CertificateDownloadActions } from "@/components/CertificateDownloadActions";
 import { PageIntro } from "@/components/SiteShell";
 import { getAccountData } from "@/lib/account-data";
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return buildLocaleMetadata({
     locale,
     path: "account",
-    title: `${t.accountTitle} | KHCPQA`,
+    title: `${t.accountTitle} | KAHC`,
     description: t.account.lead,
     noIndex: true
   });
@@ -24,13 +24,11 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
   const { locale } = await params;
   const t = getCopy(locale);
   const accountData = await getAccountData(locale);
-  const moduleIcons = [UserRound, BadgeCheck, FileText, Lock];
-  const moduleMetrics = [
-    accountData.profileForm.name || accountData.profileForm.email ? t.account.profileStatus.ready : t.account.profileStatus.empty,
-    `${accountData.certificates.length}${t.account.countSuffix}`,
-    `${accountData.inquiries.length}${t.account.countSuffix}`,
-    t.account.noindexStatus
-  ];
+  const navBadges = {
+    account: accountData.profileForm.name || accountData.profileForm.email ? t.account.profileStatus.ready : t.account.profileStatus.empty,
+    "account/certifications": `${accountData.certificates.length}${t.account.countSuffix}`,
+    "account/inquiries": `${accountData.inquiries.length}${t.account.countSuffix}`
+  };
 
   return (
     <>
@@ -41,24 +39,7 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
         lead={t.account.lead}
       />
       <section className="content-section">
-        <AccountNav locale={locale} activeHref="account" />
-        <AccountSection title={t.account.overviewTitle} lead={t.account.overviewLead}>
-        <div className="account-grid">
-          {t.account.modules.map((module, index) => {
-            const Icon = moduleIcons[index];
-            return (
-              <article key={module.title}>
-                <div className="account-card-head">
-                  <Icon size={28} />
-                  <strong>{moduleMetrics[index]}</strong>
-                </div>
-                <h3>{module.title}</h3>
-                <p>{module.body}</p>
-              </article>
-            );
-          })}
-        </div>
-        </AccountSection>
+        <AccountNav locale={locale} activeHref="account" badges={navBadges} />
         <div className="cert-table">
           {accountData.certificates.length > 0 ? (
             accountData.certificates.map((certificate) => (
