@@ -2237,27 +2237,6 @@ export const copy = {
   }
 } satisfies Record<LegacyContentLocale, Copy>;
 
-const courseImages = [
-  "/assets/course-employment-consulting.jpg",
-  "/assets/course-startup-consulting.jpg",
-  "/assets/course-weekend-hobby.jpg",
-  "/assets/premium-course-facial-contouring.png",
-  "/assets/premium-course-medical-skincare.png",
-  "/assets/premium-course-aroma.png",
-  "/assets/premium-course-meridian.png",
-  "/assets/premium-course-sports.png",
-  "/assets/premium-course-foot.png",
-  "/assets/premium-course-maternity.png",
-  "/assets/course-thumb-massage-training.png",
-  "/assets/course-generated-aromatherapy.png",
-  "/assets/course-generated-sports-massage.png",
-  "/assets/premium-course-swedish.png",
-  "/assets/course-thumb-aromatherapy.png",
-  "/assets/course-generated-medical-skincare.png",
-  "/assets/course-thumb-business-planning.png",
-  "/assets/premium-course-facial-contouring.png"
-];
-
 const courseTitleTranslations = [
   { ko: "취업전문과정", en: "Employment Preparation Track", es: "Ruta de Preparación Laboral", sourcePath: "curriculum05.asp", categoryKey: "professional" },
   { ko: "창업전문과정", en: "Business Startup Track", es: "Ruta de Emprendimiento", sourcePath: "curriculum06.asp", categoryKey: "professional" },
@@ -2284,6 +2263,27 @@ const courseTitleTranslations = [
     categoryKey: "certification"
   }
 ] satisfies Array<Record<LegacyContentLocale, string> & { sourcePath: string; categoryKey: Exclude<CourseCategory, "all"> }>;
+
+const courseImageBySlug: Record<string, string> = {
+  "취업전문과정": "/assets/course-employment-consulting.jpg",
+  "창업전문과정": "/assets/course-startup-consulting.jpg",
+  "주말반-취미반": "/assets/course-weekend-hobby.jpg",
+  "얼굴축소경락": "/assets/premium-course-facial-contouring.png",
+  "메디컬-스킨케어": "/assets/premium-course-medical-skincare.png",
+  "아로마-마사지": "/assets/premium-course-aroma.png",
+  "경락-마사지": "/assets/premium-course-meridian.png",
+  "스포츠-마사지": "/assets/premium-course-sports.png",
+  "발-마사지": "/assets/premium-course-foot.png",
+  "산모-마사지": "/assets/premium-course-maternity.png",
+  "베이비-마사지": "/assets/premium-course-baby-massage.png",
+  "타이-마사지": "/assets/premium-course-thai-massage.png",
+  "카이로프랙틱": "/assets/premium-course-chiropractic.png",
+  "스웨디시": "/assets/premium-course-swedish-massage.png",
+  "스파-테라피": "/assets/premium-course-spa-therapy.png",
+  "브라질리언-왁싱": "/assets/premium-course-brazilian-waxing.png",
+  "병원-코디네이터": "/assets/premium-course-hospital-coordinator.png",
+  "피부미용사": "/assets/premium-course-swedish.png"
+};
 
 type CourseDetailSection = {
   title: string;
@@ -3753,19 +3753,20 @@ function getActiveLocale(locale: string): LegacyContentLocale {
 export function getCourses(locale: string): Course[] {
   const activeLocale = getActiveLocale(locale);
 
-  return courseTitleTranslations.map((titles, index) => {
+  return courseTitleTranslations.map((titles) => {
     const categoryKey = titles.categoryKey;
     const text = courseTextByLocale[activeLocale][categoryKey];
     const override = courseOverridesByLocale[activeLocale][titles.ko] ?? {};
     const courseText = { ...text, ...override };
+    const slug = getSlug(titles.ko);
 
     return {
       title: titles[activeLocale],
-      slug: getSlug(titles.ko),
+      slug,
       categoryKey,
       category: courseText.category,
       summary: courseText.summary,
-      imageUrl: courseImages[index % courseImages.length],
+      imageUrl: courseImageBySlug[slug],
       overview: courseText.overview,
       audience: courseText.audience,
       curriculum: courseText.curriculum,

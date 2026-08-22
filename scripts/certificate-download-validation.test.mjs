@@ -27,6 +27,13 @@ test("account certification download component builds a single PNG image downloa
   assert.doesNotMatch(source, /<span>PNG<\/span>/);
 });
 
+test("certificate SVG escapes the association name for valid XML rendering", async () => {
+  const source = await readFile("src/components/CertificateDownloadActions.tsx", "utf8");
+
+  assert.match(source, /Health &amp; Beauty Certification/);
+  assert.doesNotMatch(source, />The Korea Association for Health & Beauty Certification</);
+});
+
 test("my page and certification detail page expose certificate downloads", async () => {
   const overviewPage = await readFile("src/app/[locale]/account/page.tsx", "utf8");
   const certificationsPage = await readFile("src/app/[locale]/account/certifications/page.tsx", "utf8");

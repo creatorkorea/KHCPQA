@@ -19,19 +19,34 @@ import {
 } from "lucide-react";
 import { getCopy, type Locale } from "@/lib/content";
 import { getPublishedCourses } from "@/lib/course-repository";
-import { getPublishedBanners } from "@/lib/public-content";
+import { getPublishedActivityPosts, getPublishedBanners } from "@/lib/public-content";
 import { StatusBadge } from "@/components/SiteShell";
 import { HomePopup } from "@/components/HomePopup";
 
 const quickNavIcons = [BriefcaseBusiness, Store, CalendarDays, HeartPulse, Leaf, Mountain];
 const supportIcons = [Users, BadgeCheck, Lightbulb, HandHeart];
 const reasonIcons = [BookOpenCheck, Award, Handshake, Headphones];
+const emptyNoticeLabels: Record<Locale, string> = {
+  ko: "등록된 공지사항이 없습니다.",
+  en: "No notices have been published.",
+  es: "No hay avisos publicados."
+};
 
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getCopy(locale);
-  const courses = await getPublishedCourses(locale);
-  const [homePopup] = await getPublishedBanners({ placement: "home" });
+  const [courses, homeBanners, noticePage] = await Promise.all([
+    getPublishedCourses(locale),
+    getPublishedBanners({ placement: "home" }),
+    getPublishedActivityPosts({
+      activityKey: "notice",
+      fallback: [],
+      locale,
+      pageSize: 4
+    })
+  ]);
+  const [homePopup] = homeBanners;
+  const notices = noticePage.items;
   const previewCourseIndexes = [5, 3, 4, 7];
   const previewCourses = previewCourseIndexes.flatMap((index) => (courses[index] ? [courses[index]] : []));
   const quickNavItems = [
@@ -161,15 +176,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
           <article className="landing-info-card">
             <div className="landing-info-head">
               <h2>{t.home.noticesTitle}</h2>
-              <Link href={`/${locale}/activities`}>{t.home.moreCta} <ArrowRight size={14} /></Link>
+              <Link href={`/${locale}/activities/notice`}>{t.home.moreCta} <ArrowRight size={14} /></Link>
             </div>
             <ul>
-              {t.home.notices.map((notice, index) => (
-                <li key={notice}>
-                  <span>{notice}</span>
-                  <time>{`2024.05.${20 - index * 5}`}</time>
+              {notices.length > 0 ? notices.map((notice) => (
+                <li key={notice.slug}>
+                  <Link href={`/${locale}/activities/notice/${notice.slug}`}>{notice.title}</Link>
+                  <time dateTime={notice.date}>{notice.date.replaceAll("-", ".")}</time>
                 </li>
-              ))}
+              )) : (
+                <li className="landing-info-empty">
+                  <span>{emptyNoticeLabels[locale]}</span>
+                </li>
+              )}
             </ul>
           </article>
           <article className="landing-info-card">

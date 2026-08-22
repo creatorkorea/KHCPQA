@@ -139,3 +139,21 @@ test("AdminCertificationsManager keeps the certification list scannable", async 
   assert.match(styleSource, /\.admin-certification-number/);
   assert.match(styleSource, /\.admin-certification-copy-button/);
 });
+
+test("admin certification rows can open the generated certificate image", async () => {
+  const managerSource = await readFile("src/components/AdminCertificationsManager.tsx", "utf8");
+  const imageSource = await readFile("src/components/CertificateDownloadActions.tsx", "utf8");
+  const styleSource = await readFile("src/styles/globals.css", "utf8");
+
+  assert.match(managerSource, /CertificateImageViewer/);
+  assert.match(managerSource, /holderName=\{certification\.user\}/);
+  assert.match(managerSource, /title: certification\.course/);
+  assert.match(imageSource, /export function CertificateImageViewer/);
+  assert.match(imageSource, /자격증 이미지 보기/);
+  assert.match(imageSource, /자격증 미리보기/);
+  assert.match(imageSource, /buildCertificateSvg/);
+  assert.match(imageSource, /CertificateDownloadActions/);
+  assert.match(styleSource, /\.certificate-preview-backdrop/);
+  assert.match(styleSource, /\.certificate-preview-dialog/);
+  assert.match(styleSource, /\.certificate-preview-image/);
+});

@@ -60,3 +60,17 @@ test("public activity post detail exposes uploaded PDF attachments", async () =>
   assert.match(source, /activity-post-attachment/);
   assert.match(styleSource, /\.activity-post-attachment/);
 });
+
+test("home notice list uses the latest published admin notices", async () => {
+  const source = await readFile("src/app/[locale]/page.tsx", "utf8");
+
+  assert.match(source, /getPublishedActivityPosts/);
+  assert.match(source, /activityKey: "notice"/);
+  assert.match(source, /fallback: \[\]/);
+  assert.match(source, /pageSize: 4/);
+  assert.match(source, /activities\/notice\/\$\{notice\.slug\}/);
+  assert.match(source, /activities\/notice`/);
+  assert.match(source, /landing-info-empty/);
+  assert.doesNotMatch(source, /t\.home\.notices\.map/);
+  assert.doesNotMatch(source, /2024\.05/);
+});

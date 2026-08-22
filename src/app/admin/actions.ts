@@ -10,8 +10,13 @@ import { parseInquiryReceipt } from "@/lib/receipts";
 import {
   buildCourseLocalizationPayload,
   courseCategories,
+  courseTemplateKeys,
   createCourseSlug,
-  type CourseCategoryKey
+  isCourseClassificationValid,
+  type CourseCategoryKey,
+  type CourseContentSection,
+  type CourseScheduleTrack,
+  type CourseTemplateKey
 } from "@/lib/course-model";
 import {
   buildCreateAdminUserPayload,
@@ -25,6 +30,7 @@ import {
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient as createServerSupabaseClient } from "@/lib/supabase/server";
 import { canPublishTranslation, getTranslationFreshness } from "@/lib/translation-model";
+import { FOOTER_SETTINGS_SLUG, normalizeFooterSettings, serializeFooterSettings, type FooterSettings } from "@/lib/footer-settings";
 
 const roleOptions = [
   "user",
@@ -1161,6 +1167,36 @@ export async function saveAdminContent(input: {
   return { ok: true, message: "콘텐츠 항목이 저장되었습니다." };
 }
 
+export async function saveAdminFooterSettings(input: FooterSettings): Promise<SaveAdminContentResult> {
+  const settings = normalizeFooterSettings(input);
+  const hasEmptyLocalizedField = locales.some((locale) => (
+    !input.locales?.[locale]?.description?.trim() || !input.locales?.[locale]?.address?.trim()
+  ));
+
+  if (!input.phone?.trim() || !input.email?.trim() || hasEmptyLocalizedField) {
+    return { ok: false, message: "푸터의 모든 필수 항목을 입력해 주세요." };
+  }
+
+  const result = await saveAdminContent({
+    body: serializeFooterSettings(settings),
+    contentType: "Page",
+    imageUrl: "",
+    locale: "ko",
+    slug: FOOTER_SETTINGS_SLUG,
+    sourceUrl: "",
+    status: "published",
+    summary: settings.locales.ko.description,
+    title: "푸터 설정"
+  });
+
+  if (result.ok) {
+    revalidatePath("/admin/footer");
+    locales.forEach((locale) => revalidatePath(`/${locale}`));
+  }
+
+  return result.ok ? { ...result, message: "푸터 설정이 저장되었습니다." } : result;
+}
+
 function canManageCourses(role: string, status: string) {
   return status === "active" && ["course_manager", "content_manager", "super_admin"].includes(role);
 }
@@ -1181,15 +1217,25 @@ export async function saveAdminCourse(input: {
   categoryKey: string;
   courseId?: string;
   sortOrder: number;
+  templateKey: string;
   title: string;
 }): Promise<SaveAdminCourseResult> {
   const title = input.title.trim();
   const courseId = input.courseId?.trim() ?? "";
   const categoryKey = input.categoryKey.trim();
+  const templateKey = input.templateKey.trim();
   const sortOrder = Number.isFinite(input.sortOrder) ? Math.max(0, Math.trunc(input.sortOrder)) : 0;
 
-  if (!courseCategories.includes(categoryKey as CourseCategoryKey) || (!courseId && !title)) {
+  if (
+    !courseCategories.includes(categoryKey as CourseCategoryKey) ||
+    !courseTemplateKeys.includes(templateKey as CourseTemplateKey) ||
+    (!courseId && !title)
+  ) {
     return { ok: false, message: "과정명과 분류를 확인해 주세요." };
+  }
+
+  if (!isCourseClassificationValid(categoryKey, templateKey)) {
+    return { ok: false, message: "과정 그룹과 세부 유형의 조합을 확인해 주세요." };
   }
 
   if (!hasSupabaseBrowserEnv()) {
@@ -1203,7 +1249,7 @@ export async function saveAdminCourse(input: {
   if (courseId) {
     const { data, error } = await actor.supabase
       .from("courses")
-      .update({ category_key: categoryKey, sort_order: sortOrder })
+      .update({ category_key: categoryKey, sort_order: sortOrder, template_key: templateKey })
       .eq("id", courseId)
       .select("id, slug")
       .single();
@@ -1222,7 +1268,8 @@ export async function saveAdminCourse(input: {
       category_key: categoryKey,
       created_by: actor.userId,
       slug,
-      sort_order: sortOrder
+      sort_order: sortOrder,
+      template_key: templateKey
     })
     .select("id, slug")
     .single();
@@ -1250,6 +1297,7 @@ export async function saveAdminCourse(input: {
 
 export async function saveAdminCourseLocalization(input: {
   certificationNote: string;
+  contentSections: CourseContentSection[];
   courseId: string;
   curriculumText: string;
   duration: string;
@@ -1260,6 +1308,7 @@ export async function saveAdminCourseLocalization(input: {
   pdfFileName: string;
   pdfUrl: string;
   recommendedText: string;
+  scheduleTracks: CourseScheduleTrack[];
   seoDescription?: string;
   seoTitle?: string;
   status: string;
@@ -1315,7 +1364,7 @@ export async function saveAdminCourseLocalization(input: {
           ? sourceUpdatedAt
           : existingLocalization?.translated_from_updated_at
       }),
-      isHighRisk: Boolean(payload.certificationNote),
+      isHighRisk: false,
       reviewedAt: existingLocalization?.reviewed_at,
       reviewedBy: existingLocalization?.reviewed_by,
       title: payload.title
@@ -1332,6 +1381,8 @@ export async function saveAdminCourseLocalization(input: {
 
   const { error } = await actor.supabase.from("course_localizations").upsert({
     certification_note: payload.certificationNote || null,
+    content_schema_version: 2,
+    content_sections: payload.contentSections,
     course_id: payload.courseId,
     created_by: actor.userId,
     curriculum_items: payload.curriculumItems,
@@ -1351,6 +1402,7 @@ export async function saveAdminCourseLocalization(input: {
     source_updated_at: sourceUpdatedAt,
     status: payload.status,
     summary: payload.summary || null,
+    schedule_tracks: payload.scheduleTracks,
     title: payload.title,
     translated_from_updated_at: translatedFromUpdatedAt
   }, { onConflict: "course_id,locale" });

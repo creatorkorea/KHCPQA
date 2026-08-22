@@ -8,6 +8,7 @@ import { DesktopNav } from "@/components/DesktopNav";
 import { HeaderAccountLink } from "@/components/HeaderAccountLink";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MobileNav } from "@/components/MobileNav";
+import type { PublicFooterSettings } from "@/lib/footer-settings";
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const t = useTranslations("shell");
@@ -40,7 +41,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   );
 }
 
-export function SiteFooter({ locale }: { locale: Locale }) {
+export function SiteFooter({ locale, settings }: { locale: Locale; settings: PublicFooterSettings }) {
   const t = useTranslations("shell");
 
   return (
@@ -53,13 +54,13 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <small>{t("brandFull")}</small>
           </span>
         </Link>
-        <p>{t("footerLead")}</p>
+        <p>{settings.description}</p>
       </div>
       <div className="footer-contact">
         <strong>{t("customerCenter")}</strong>
-        <span>{t("phone")} 02-581-1278</span>
-        <span>{t("email")} khcpqa@naver.com</span>
-        <span>{t("addressLabel")} {t("address")}</span>
+        <span>{t("phone")} {settings.phone}</span>
+        <span>{t("email")} {settings.email}</span>
+        <span>{t("addressLabel")} {settings.address}</span>
       </div>
       <div className="footer-links">
         <div className="footer-policy">

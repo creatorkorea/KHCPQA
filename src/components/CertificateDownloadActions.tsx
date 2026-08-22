@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { FileImage } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Eye, FileImage, LoaderCircle, X } from "lucide-react";
+import NextImage from "next/image";
 import type { AccountCertificate } from "@/lib/account-data";
 
 type CertificateDownloadActionsProps = {
@@ -214,7 +215,7 @@ export function buildCertificateSvg(certificate: AccountCertificate, holderName?
   ${renderCertificateLogo(logoDataUrl)}
   <text x="450" y="298" text-anchor="middle" font-family="${labelFont}" font-size="55" font-weight="800" fill="#171421" letter-spacing="14">자격증</text>
   <text x="450" y="344" text-anchor="middle" font-family="Georgia, serif" font-size="27" font-style="italic" fill="#252032">Certificate of qualification</text>
-  <text x="450" y="402" text-anchor="middle" font-family="${valueFont}" font-size="16" font-weight="800" fill="#6d5f47">The Korea Association for Health & Beauty Certification</text>
+  <text x="450" y="402" text-anchor="middle" font-family="${valueFont}" font-size="16" font-weight="800" fill="#6d5f47">The Korea Association for Health &amp; Beauty Certification</text>
   <line x1="178" y1="448" x2="722" y2="448" stroke="#e4d4a0" stroke-width="2"/>
   <text x="195" y="524" font-family="${labelFont}" font-size="23" font-weight="730" fill="#1f1a28">성명</text>
   ${renderTextLines(safe.holderName, { fontFamily: valueFont, fontSize: 26, fontWeight: 760, lineHeight: 31, x: 325, y: 524 })}
@@ -320,5 +321,121 @@ export function CertificateDownloadActions({
       </button>
       {message ? <span className="certificate-download-message" role="status">{message}</span> : null}
     </span>
+  );
+}
+
+export function CertificateImageViewer({
+  certificate,
+  holderName
+}: Omit<CertificateDownloadActionsProps, "variant">) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [previewError, setPreviewError] = useState("");
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    let isCancelled = false;
+
+    async function preparePreview() {
+      setPreviewError("");
+      setPreviewUrl("");
+
+      try {
+        const logoDataUrl = await getSafeCertificateLogoDataUrl();
+        const svg = buildCertificateSvg(certificate, holderName, logoDataUrl);
+        const dataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+
+        if (!isCancelled) {
+          setPreviewUrl(dataUrl);
+        }
+      } catch {
+        setPreviewError("자격증 이미지를 불러오지 못했습니다.");
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    void preparePreview();
+
+    return () => {
+      isCancelled = true;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [certificate, holderName, isOpen]);
+
+  return (
+    <>
+      <button
+        aria-label={`${certificate.title} 자격증 이미지 보기`}
+        className="certificate-preview-trigger"
+        onClick={() => setIsOpen(true)}
+        type="button"
+      >
+        <Eye size={14} />
+        보기
+      </button>
+
+      {isOpen ? (
+        <div
+          className="certificate-preview-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setIsOpen(false);
+            }
+          }}
+        >
+          <section
+            aria-labelledby={`certificate-preview-${certificate.number}`}
+            aria-modal="true"
+            className="certificate-preview-dialog"
+            role="dialog"
+          >
+            <header className="certificate-preview-heading">
+              <div>
+                <span>자격증 이미지</span>
+                <h2 id={`certificate-preview-${certificate.number}`}>자격증 미리보기</h2>
+                <p>{holderName} · {certificate.title}</p>
+              </div>
+              <button aria-label="자격증 미리보기 닫기" onClick={() => setIsOpen(false)} type="button">
+                <X size={18} />
+              </button>
+            </header>
+
+            <div className="certificate-preview-canvas">
+              {previewUrl ? (
+                <NextImage
+                  alt={`${holderName} ${certificate.title} 자격증 미리보기`}
+                  className="certificate-preview-image"
+                  height={certificateSize.height}
+                  src={previewUrl}
+                  unoptimized
+                  width={certificateSize.width}
+                />
+              ) : previewError ? (
+                <p className="certificate-preview-error" role="status">{previewError}</p>
+              ) : (
+                <span className="certificate-preview-loading" role="status">
+                  <LoaderCircle size={22} />
+                  자격증 이미지를 준비하고 있습니다.
+                </span>
+              )}
+            </div>
+
+            <footer className="certificate-preview-actions">
+              <CertificateDownloadActions certificate={certificate} holderName={holderName} />
+              <button className="secondary-button" onClick={() => setIsOpen(false)} type="button">닫기</button>
+            </footer>
+          </section>
+        </div>
+      ) : null}
+    </>
   );
 }

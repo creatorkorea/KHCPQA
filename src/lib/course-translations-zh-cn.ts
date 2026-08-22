@@ -1,0 +1,298 @@
+type SourceScheduleItem = {
+  items?: string[];
+  label?: string;
+  period?: string;
+  title?: string;
+};
+
+type SourceScheduleTrack = {
+  duration?: string;
+  id: string;
+  items?: SourceScheduleItem[];
+  label?: string;
+  times?: string[];
+};
+
+type SourceContentSection = {
+  body?: string;
+  id: string;
+  images?: Array<{ alt?: string; caption?: string; url: string }>;
+  items?: string[];
+  title?: string;
+  type?: string;
+};
+
+export type CourseZhCnTranslation = {
+  certificationNote: string;
+  curriculumItems: string[];
+  duration: string;
+  imageAlt: string;
+  overview: string;
+  recommendedFor: string[];
+  sectionTitles: string[];
+  seoDescription: string;
+  seoTitle: string;
+  summary: string;
+  title: string;
+  topics: Array<{ detail: string; title: string }>;
+};
+
+export type CourseZhCnSource = {
+  content_sections?: SourceContentSection[] | null;
+  schedule_tracks?: SourceScheduleTrack[] | null;
+};
+
+function defineCourse(
+  title: string,
+  summary: string,
+  overview: string,
+  duration: string,
+  topics: string[],
+  recommendedFor: string[],
+  certificationNote: string,
+  sectionTitles: string[] = ["主要培训内容", "实操课程", "就业与发展方向", "课程说明", "应用领域", "相关课程"]
+): CourseZhCnTranslation {
+  const curriculumItems = topics.slice(0, Math.max(3, Math.min(5, topics.length)));
+  return {
+    certificationNote,
+    curriculumItems,
+    duration,
+    imageAlt: `${title}课程图片`,
+    overview,
+    recommendedFor,
+    sectionTitles,
+    seoDescription: summary,
+    seoTitle: `${title} | KAHC`,
+    summary,
+    title,
+    topics: topics.map((topic) => ({
+      detail: `通过理论说明、示范和反复练习，系统掌握${topic}。`,
+      title: topic
+    }))
+  };
+}
+
+export const courseZhCnTranslations: Record<string, CourseZhCnTranslation> = {
+  "취업전문과정": defineCourse(
+    "就业专业课程",
+    "面向美容与健康管理领域就业，综合训练实务技术、顾客服务和职业礼仪。",
+    "本课程以就业现场所需能力为核心，根据目标岗位组合多种实务技术，并同步培养顾客沟通、服务礼仪和现场适应能力。",
+    "两周短期培训",
+    ["就业目标与岗位咨询", "芳香经络与瑞典式按摩", "运动按摩与足部护理", "顾客接待与服务礼仪", "就业方向与后续课程咨询"],
+    ["准备进入美容与健康管理行业，并希望组合多项实务技能提升竞争力的学员"],
+    "可选择两周短期班、一个月强化班或两个月常规班，具体安排根据咨询结果和所选科目确定。"
+  ),
+  "창업전문과정": defineCourse(
+    "创业专业课程",
+    "从实务技术到选址、营销与运营，系统规划美容健康门店创业。",
+    "课程结合高级实务技术与顾客管理，涵盖门店定位、选址、装修、设备材料、人员培训、营销和日常运营，帮助学员制定可执行的开店计划。",
+    "创业准备咨询",
+    ["创业目标与门店定位", "商圈与选址分析", "设备材料与空间规划", "服务菜单与定价", "营销及门店运营管理"],
+    ["准备个人创业的学员", "计划开设新店的学员", "准备接手现有门店并希望同时学习技术与运营的学员"],
+    "培训周期和科目组合根据创业目标、现有经验与开店计划，经咨询后确定。"
+  ),
+  "주말반-취미반": defineCourse(
+    "周末班/兴趣班",
+    "为在职人士和兴趣学习者提供灵活时间与实用内容的定制课程。",
+    "课程可根据周末时间、学习目的和关注领域选择项目，以轻量而扎实的方式体验美容与健康管理技术。",
+    "周末定制安排",
+    ["个人学习目标咨询", "基础理论与安全卫生", "兴趣项目示范", "分步骤实操练习", "家庭护理与后续学习建议"],
+    ["希望利用周末学习实用技能的在职人士", "以兴趣或自我护理为目的的初学者"],
+    "上课日期、时间和科目根据周末班开课情况及个人咨询结果确定。"
+  ),
+  "얼굴축소경락": defineCourse(
+    "面部轮廓经络护理",
+    "学习皮肤分析、深层清洁、面部经络手法与顾客护理的综合实操课程。",
+    "从皮肤状态和面部轮廓分析开始，依次学习清洁、深层清洁、面膜、美容仪器、经络按摩和手法管理，强化现场施术与顾客管理能力。",
+    "常规两个月",
+    ["皮肤类型分析与咨询", "清洁与深层清洁", "面膜与美容仪器应用", "面部经络按摩", "手法技巧与产品管理", "顾客服务与卫生管理"],
+    ["准备从事皮肤护理工作的学员", "计划经营美容门店的学员", "希望提升面部轮廓与皮肤护理实务能力的学员"],
+    "常规课程为两个月，强化课程为一个月；上课时段可在咨询后调整。"
+  ),
+  "메디컬-스킨케어": defineCourse(
+    "医学皮肤护理",
+    "以皮肤问题分析、专业设备和术前术后护理为核心的进阶皮肤管理课程。",
+    "课程围绕不同皮肤状态与问题进行分析，学习专业产品、设备操作、卫生安全以及与医疗美容服务衔接的护理流程。",
+    "常规两个月",
+    ["皮肤问题分析与咨询", "专业清洁与角质管理", "美容设备安全操作", "问题性皮肤护理", "术前术后基础护理", "顾客记录与卫生管理"],
+    ["希望提升专业皮肤管理能力的从业者", "准备进入皮肤护理或医疗美容相关领域的学员"],
+    "课程周期根据基础水平和所选实操项目分为强化班与常规班，具体时间经咨询确定。"
+  ),
+  "아로마-마사지": defineCourse(
+    "芳香经络按摩",
+    "结合精油理论、经络理解与全身手法训练的实操按摩课程。",
+    "学习芳香精油的基础特性与安全使用方法，并通过身体部位分析、经络手法和顾客咨询完成全身护理流程。",
+    "常规两个月",
+    ["芳香精油基础与安全", "身体分析与咨询", "背部与肩颈经络手法", "上下肢按摩", "腹部与全身护理流程", "顾客服务与卫生"],
+    ["准备在按摩、SPA或美容门店就业创业的学员", "希望系统学习芳香护理的初学者"],
+    "可选择一个月强化班或两个月常规班，材料与详细时间以开课咨询为准。"
+  ),
+  "경락-마사지": defineCourse(
+    "经络按摩",
+    "通过人体基础、经络走向和分部位手法学习全身经络护理。",
+    "课程以人体结构和经络基础为起点，训练背部、肩颈、四肢、腹部等部位的手法及完整施术流程。",
+    "常规两个月",
+    ["人体与经络基础", "体态观察与咨询", "背部及肩颈手法", "上肢和下肢护理", "腹部与全身流程", "施术安全与顾客管理"],
+    ["准备从事经络按摩工作的学员", "希望提升全身手法与现场应对能力的从业者"],
+    "课程分为强化班和常规班，具体周期与上课时间根据学习目标确定。"
+  ),
+  "스포츠-마사지": defineCourse(
+    "运动按摩",
+    "以肌肉结构、运动前后护理及各部位手法为核心的实操课程。",
+    "学习肌肉和关节的基础知识，掌握运动前后身体状态观察、主要部位按摩以及安全的全身护理流程。",
+    "常规两个月",
+    ["肌肉与关节基础", "运动状态与体态观察", "肩颈和背部手法", "上下肢运动按摩", "运动前后恢复护理", "安全管理与现场实操"],
+    ["准备在运动中心、健康管理或按摩领域工作的学员", "希望学习身体恢复护理的从业者"],
+    "可根据基础水平选择强化班或常规班，实操安排以咨询结果为准。"
+  ),
+  "발-마사지": defineCourse(
+    "足部按摩",
+    "学习足部结构、反射区理解与下肢循环护理的实操课程。",
+    "从足部卫生和状态观察开始，学习足部与小腿的放松手法、反射区护理及完整的顾客服务流程。",
+    "常规两个月",
+    ["足部结构与卫生", "足部状态观察", "足浴与基础放松", "足底反射区手法", "小腿循环护理", "完整施术与顾客管理"],
+    ["准备在足部护理或按摩门店就业创业的学员", "希望增加足部护理项目的从业者"],
+    "强化班与常规班的周期、材料和上课时段根据开课咨询确定。"
+  ),
+  "산모-마사지": defineCourse(
+    "产妇按摩",
+    "围绕孕产期身体变化、安全原则与产后恢复护理进行专业训练。",
+    "课程讲解孕期与产后身体特点及禁忌事项，并训练适合产妇的分部位手法、沟通和卫生安全管理。",
+    "常规两个月",
+    ["孕产期身体变化", "禁忌与安全原则", "肩背与下肢护理", "产后腹部基础护理", "全身恢复流程", "产妇沟通与卫生管理"],
+    ["准备进入产后护理中心或母婴服务领域的学员", "希望增加产妇护理项目的按摩从业者"],
+    "学习周期根据经验分为强化班和常规班，具体实操范围需经咨询确认。"
+  ),
+  "베이비-마사지": defineCourse(
+    "婴儿按摩",
+    "学习婴幼儿发育特点、安全接触与亲子按摩指导方法。",
+    "课程以婴幼儿身体特点和安全卫生为基础，训练柔和的分部位按摩流程以及向监护人进行说明和指导的方法。",
+    "常规两个月",
+    ["婴幼儿发育基础", "安全卫生与禁忌", "触摸与沟通方法", "四肢和腹部柔和手法", "全身按摩流程", "监护人指导与记录"],
+    ["准备从事母婴护理工作的学员", "希望学习安全亲子按摩指导方法的护理人员或家长"],
+    "实际操作内容和课程周期根据学员背景及开课安排，经咨询后确定。"
+  ),
+  "타이-마사지": defineCourse(
+    "泰式按摩",
+    "结合伸展、指压和身体平衡管理的泰式全身实操课程。",
+    "学习泰式按摩的基本姿势、身体力学和安全原则，并按仰卧、侧卧、俯卧等体位训练全身伸展与指压流程。",
+    "常规两个月",
+    ["泰式按摩基础与安全", "施术者姿势和身体力学", "仰卧位手法", "侧卧与俯卧位手法", "伸展和指压组合", "全身流程与顾客管理"],
+    ["准备在泰式按摩或SPA领域工作的学员", "希望提升伸展与全身手法的从业者"],
+    "可选择强化班或常规班，详细时间和实操强度根据咨询结果调整。"
+  ),
+  "카이로프랙틱": defineCourse(
+    "整脊体态管理",
+    "系统学习姿势评估、肌骨基础与非医疗性体态管理技术。",
+    "课程以人体解剖和姿势观察为基础，训练脊柱、骨盆、肩颈和四肢的平衡管理及安全的手法应用。",
+    "专业课程另行咨询",
+    ["人体解剖与肌骨基础", "姿势和步态观察", "脊柱与骨盆平衡", "肩颈及四肢管理", "头颅骶骨与足部基础", "安全原则和个案记录"],
+    ["希望深化体态管理能力的健康管理从业者", "准备学习专业肌骨与姿势评估的学员"],
+    "本课程不替代医疗诊断或治疗；学习周期和适用范围须根据基础条件经咨询确定。"
+  ),
+  "스웨디시": defineCourse(
+    "瑞典式按摩",
+    "学习基础解剖、精油运用与节奏流畅的全身放松手法。",
+    "课程讲解瑞典式按摩的基本原理和施术姿势，训练背部、四肢、腹部等部位的连续手法与完整护理流程。",
+    "常规两个月",
+    ["基础解剖与安全", "精油和产品选择", "背部与肩颈手法", "上下肢按摩", "腹部与全身连接", "节奏、压力与顾客沟通"],
+    ["准备在SPA、酒店或按摩门店工作的学员", "希望掌握全身放松手法的初学者和从业者"],
+    "课程可选择强化班或常规班，材料和实操时间以开课安排为准。"
+  ),
+  "스파-테라피": defineCourse(
+    "水疗护理",
+    "从顾客咨询、身体护理到SPA服务流程，综合训练专业水疗实务。",
+    "课程结合芳香护理、身体去角质、保湿、按摩和服务礼仪，帮助学员掌握SPA门店常用的完整项目流程。",
+    "常规两个月",
+    ["SPA咨询与服务流程", "芳香产品与安全", "身体清洁和去角质", "保湿与身体护理", "放松按摩组合", "空间卫生与顾客体验"],
+    ["准备在酒店、度假村或专业SPA就业的学员", "计划增加身体护理项目的美容从业者"],
+    "课程周期、使用产品和实操项目根据班级安排及咨询结果确定。"
+  ),
+  "브라질리언-왁싱": defineCourse(
+    "巴西式脱毛",
+    "学习脱毛类型分析、消毒、产品选择及各部位脱毛技术的实操课程。",
+    "从毛发生长周期、皮肤状态和卫生安全入手，训练软蜡与硬蜡使用、部位操作、镇静护理和顾客说明流程。",
+    "短期实操课程",
+    ["毛发与皮肤基础", "卫生消毒和安全", "蜡材与工具选择", "身体部位脱毛", "巴西式脱毛实操", "术后镇静与顾客指导"],
+    ["准备从事专业脱毛工作的学员", "希望在美容门店增加脱毛服务的从业者"],
+    "课程周期和模特实操安排根据学员经验及开课情况，经咨询后确定。"
+  ),
+  "병원-코디네이터": defineCourse(
+    "医院协调员",
+    "培养医疗服务现场所需的顾客接待、沟通、行政与服务管理能力。",
+    "课程围绕医院前台和客户服务岗位，学习接待流程、电话沟通、预约管理、服务礼仪、基础行政及投诉应对。",
+    "就业准备课程",
+    ["医疗服务与岗位理解", "前台接待和预约管理", "电话沟通与服务礼仪", "基础行政和文件管理", "顾客投诉与情境应对", "就业面试与形象管理"],
+    ["准备应聘医院前台或协调员岗位的学员", "希望提升医疗服务沟通能力的相关从业者"],
+    "课程内容和周期根据就业目标与班级安排确定，具体资格事项以相关机构规定为准。"
+  ),
+  "피부미용사": defineCourse(
+    "美容师国家资格课程",
+    "按照美容师资格考试范围，系统训练理论、卫生与皮肤美容实操。",
+    "课程依据资格考试所需能力，分阶段学习面部护理、身体护理、脱毛、淋巴管理、卫生安全和实操考试流程。",
+    "资格考试准备课程",
+    ["皮肤美容理论与卫生", "面部护理实操", "身体护理实操", "脱毛与特殊管理", "淋巴基础与操作", "模拟考试和时间管理"],
+    ["准备美容师国家资格考试的学员", "希望系统学习皮肤美容基础和实操流程的初学者"],
+    "考试科目、日程和资格要求可能调整，报名与考试信息须以主管机构最新公告为准。"
+  )
+};
+
+const scheduleLabels = ["强化班", "上午班", "晚间班", "常规班", "周末班", "实操班"];
+
+function translateScheduleMeta(value: string | undefined, fallback: string) {
+  if (!value) return fallback;
+  if (!/[가-힣]/.test(value)) return value;
+
+  const week = value.match(/(\d+)주/);
+  if (week) return `第${week[1]}周`;
+  const month = value.match(/(\d+)개월/);
+  if (month) return `第${month[1]}个月`;
+  if (value.includes("강의시간")) return "上课时间";
+  if (value.includes("정규")) return "常规课程";
+  if (value.includes("속성")) return "强化课程";
+  if (value.includes("주말")) return "周末课程";
+  return fallback;
+}
+
+export function buildZhCnStructuredContent(
+  source: CourseZhCnSource,
+  translation: CourseZhCnTranslation
+) {
+  let topicIndex = 0;
+  const nextTopic = () => translation.topics[topicIndex++ % translation.topics.length];
+
+  const scheduleTracks = (source.schedule_tracks ?? []).map((track, trackIndex) => ({
+    duration: translateScheduleMeta(track.duration, translation.duration),
+    id: track.id,
+    items: (track.items ?? []).map((item, itemIndex) => {
+      const topic = nextTopic();
+      return {
+        items: (item.items?.length ? item.items : [""]).map((_, detailIndex) =>
+          detailIndex === 0 ? topic.detail : translation.topics[(topicIndex + detailIndex) % translation.topics.length].detail
+        ),
+        label: translateScheduleMeta(item.label, scheduleLabels[itemIndex % scheduleLabels.length]),
+        period: translateScheduleMeta(item.period, `第${itemIndex + 1}阶段`),
+        title: translateScheduleMeta(item.title, topic.title)
+      };
+    }),
+    label: translateScheduleMeta(track.label, `课程安排 ${trackIndex + 1}`),
+    times: (track.times ?? []).map((_, index) => `上课时段 ${index + 1}`)
+  }));
+
+  const contentSections = (source.content_sections ?? []).map((section, sectionIndex) => ({
+    body: section.body ? `${translation.overview}` : "",
+    id: section.id,
+    images: (section.images ?? []).map((image) => ({
+      alt: `${translation.title}课程图片`,
+      caption: image.caption ? translation.title : "",
+      url: image.url
+    })),
+    items: (section.items ?? []).map((_, itemIndex) =>
+      translation.topics[(sectionIndex + itemIndex) % translation.topics.length].title
+    ),
+    title: translation.sectionTitles[sectionIndex % translation.sectionTitles.length],
+    type: section.type ?? "practice"
+  }));
+
+  return { contentSections, scheduleTracks };
+}

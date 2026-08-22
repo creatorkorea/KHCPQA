@@ -8,7 +8,7 @@ export default async function AdminTranslationsPage() {
   return (
     <AdminConsoleShell
       active="translations"
-      description="페이지·과정·커뮤니티의 KO 원문과 EN·ES·ZH-CN 번역 상태를 함께 관리합니다."
+      description="전체 번역 상태를 확인합니다. 교육과정은 과정 관리에서, 페이지·커뮤니티는 이 화면에서 편집합니다."
       title="번역 관리"
     >
       <AdminTranslationsManager contentItems={contentItems} courses={courses} />

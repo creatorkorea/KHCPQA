@@ -2,6 +2,9 @@
 node_modules
 out
 dist
+output
+.playwright-cli
+tsconfig.tsbuildinfo
 .env
 .env.local
 .env.*.local

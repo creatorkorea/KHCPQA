@@ -29,6 +29,14 @@ test("admin shell exposes logout action only in the sidebar footer", async () =>
   assert.doesNotMatch(styleSource, /\.console-top-actions form/);
 });
 
+test("admin sidebar hides page management without removing its route contract", async () => {
+  const componentSource = await readFile("src/components/AdminConsole.tsx", "utf8");
+
+  assert.doesNotMatch(componentSource, /href: "\/admin\/pages"/);
+  assert.match(componentSource, /\| "pages"/);
+  assert.match(componentSource, /href: "\/admin\/footer"/);
+});
+
 test("admin dashboard summary area is denser on desktop", async () => {
   const styleSource = await readFile("src/styles/globals.css", "utf8");
 

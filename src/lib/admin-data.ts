@@ -3,7 +3,15 @@ import { formatAdminCertificationDate } from "@/lib/admin-certifications";
 import { formatPhoneNumber } from "@/lib/phone";
 import { hasSupabaseBrowserEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
-import type { AdminCourseRecord, CourseCategoryKey, CourseLocale, CoursePublishStatus } from "@/lib/course-model";
+import {
+  normalizeCourseSections,
+  normalizeScheduleTracks,
+  type AdminCourseRecord,
+  type CourseCategoryKey,
+  type CourseLocale,
+  type CoursePublishStatus,
+  type CourseTemplateKey
+} from "@/lib/course-model";
 
 export type AdminUserRow = {
   country: string;
@@ -362,10 +370,10 @@ export async function getAdminCourses(): Promise<AdminCourseRecord[]> {
   const { data, error } = await supabase
     .from("courses")
     .select(`
-      id, slug, category_key, sort_order, is_active, created_at, updated_at,
+      id, slug, category_key, template_key, sort_order, is_active, created_at, updated_at,
       course_localizations(
         id, course_id, locale, title, summary, overview, duration,
-        curriculum_items, recommended_for, certification_note,
+        curriculum_items, recommended_for, certification_note, schedule_tracks, content_sections,
         image_url, image_alt, pdf_url, pdf_file_name, status,
         seo_title, seo_description, source_updated_at, translated_from_updated_at,
         reviewed_by, reviewed_at, updated_at
@@ -382,6 +390,7 @@ export async function getAdminCourses(): Promise<AdminCourseRecord[]> {
     category_key: CourseCategoryKey;
     course_localizations: Array<{
       certification_note: string | null;
+      content_sections: unknown;
       course_id: string;
       curriculum_items: string[] | null;
       duration: string | null;
@@ -393,6 +402,7 @@ export async function getAdminCourses(): Promise<AdminCourseRecord[]> {
       pdf_file_name: string | null;
       pdf_url: string | null;
       recommended_for: string[] | null;
+      schedule_tracks: unknown;
       reviewed_at: string | null;
       reviewed_by: string | null;
       seo_description: string | null;
@@ -409,6 +419,7 @@ export async function getAdminCourses(): Promise<AdminCourseRecord[]> {
     is_active: boolean;
     slug: string;
     sort_order: number;
+    template_key: CourseTemplateKey;
     updated_at: string;
   }>).map((course) => ({
     categoryKey: course.category_key,
@@ -417,6 +428,7 @@ export async function getAdminCourses(): Promise<AdminCourseRecord[]> {
     isActive: course.is_active,
     localizations: (course.course_localizations ?? []).map((localization) => ({
       certificationNote: localization.certification_note ?? "",
+      contentSections: normalizeCourseSections(localization.content_sections),
       courseId: localization.course_id,
       curriculumItems: localization.curriculum_items ?? [],
       duration: localization.duration ?? "",
@@ -428,6 +440,7 @@ export async function getAdminCourses(): Promise<AdminCourseRecord[]> {
       pdfFileName: localization.pdf_file_name ?? "",
       pdfUrl: localization.pdf_url ?? "",
       recommendedFor: localization.recommended_for ?? [],
+      scheduleTracks: normalizeScheduleTracks(localization.schedule_tracks),
       reviewedAt: localization.reviewed_at ?? "",
       reviewedBy: localization.reviewed_by ?? "",
       seoDescription: localization.seo_description ?? "",
@@ -441,6 +454,7 @@ export async function getAdminCourses(): Promise<AdminCourseRecord[]> {
     })),
     slug: course.slug,
     sortOrder: course.sort_order,
+    templateKey: course.template_key ?? "practical",
     updatedAt: course.updated_at
   }));
 }

@@ -9,6 +9,7 @@ import {
   type SaveAdminCertificationResult
 } from "@/app/admin/actions";
 import { AdminStatusBadge, getTone } from "@/components/AdminConsole";
+import { CertificateImageViewer } from "@/components/CertificateDownloadActions";
 import {
   adminCertificationStatuses,
   getAdminCertificationStatusLabel
@@ -277,10 +278,22 @@ export function AdminCertificationsManager({
                     </AdminStatusBadge>
                   </td>
                   <td>
-                    <button className="admin-users-edit-button" onClick={() => openEditModal(certification)} type="button">
-                      <Pencil size={14} />
-                      수정
-                    </button>
+                    <span className="admin-certification-row-actions">
+                      <CertificateImageViewer
+                        certificate={{
+                          issuedAt: certification.issuedAt,
+                          number: certification.number,
+                          status: certification.status,
+                          title: certification.course,
+                          verificationCode: certification.verificationCode
+                        }}
+                        holderName={certification.user}
+                      />
+                      <button className="admin-users-edit-button" onClick={() => openEditModal(certification)} type="button">
+                        <Pencil size={14} />
+                        수정
+                      </button>
+                    </span>
                   </td>
                 </tr>
               ))

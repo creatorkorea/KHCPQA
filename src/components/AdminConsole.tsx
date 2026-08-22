@@ -5,7 +5,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Edit3,
-  FileText,
   Globe2,
   ImageIcon,
   Inbox,
@@ -13,6 +12,7 @@ import {
   LogOut,
   MessageSquare,
   MoreHorizontal,
+  PanelBottom,
   Search,
   ShieldCheck,
   UserRoundCog,
@@ -34,6 +34,7 @@ export type AdminNavKey =
   | "users"
   | "certifications"
   | "popups"
+  | "footer"
   | "translations";
 
 type StatusTone = "success" | "warning" | "info" | "danger" | "neutral" | "purple";
@@ -55,14 +56,14 @@ export type AdminRow = Record<string, ReactNode>;
 
 const adminNavItems: AdminNavItem[] = [
   { href: "/admin", icon: LayoutDashboard, key: "dashboard", label: "대시보드" },
-  { href: "/admin/pages", icon: FileText, key: "pages", label: "페이지 관리" },
   { href: "/admin/courses", icon: BookOpen, key: "courses", label: "과정 관리" },
   { href: "/admin/directors", icon: UserRoundCog, key: "directors", label: "국제 디렉터" },
   { href: "/admin/community", icon: MessageSquare, key: "community", label: "커뮤니티 관리" },
   { href: "/admin/inquiries", icon: Inbox, key: "inquiries", label: "문의 관리" },
   { href: "/admin/users", icon: Users, key: "users", label: "사용자 관리" },
   { href: "/admin/certifications", icon: ShieldCheck, key: "certifications", label: "자격 데이터" },
-  { href: "/admin/popups", icon: ImageIcon, key: "popups", label: "팝업/배너 관리" }
+  { href: "/admin/popups", icon: ImageIcon, key: "popups", label: "팝업/배너 관리" },
+  { href: "/admin/footer", icon: PanelBottom, key: "footer", label: "푸터 관리" }
 ];
 
 export function AdminConsoleShell({

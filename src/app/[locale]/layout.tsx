@@ -6,6 +6,7 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import { SiteFooter, SiteHeader } from "@/components/SiteShell";
 import { isLocale, locales, type Locale } from "@/i18n/config";
 import { buildLocaleMetadata } from "@/lib/seo";
+import { getPublishedFooterSettings } from "@/lib/footer-settings";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -42,6 +43,7 @@ export default async function LocaleLayout({
   setRequestLocale(activeLocale);
   const messages = await getMessages();
   const pending = await getTranslations("pending");
+  const footerSettings = await getPublishedFooterSettings(activeLocale);
 
   return (
     <NextIntlClientProvider locale={activeLocale} messages={messages}>
@@ -56,7 +58,7 @@ export default async function LocaleLayout({
           </section>
         ) : children}
       </main>
-      <SiteFooter locale={activeLocale} />
+      <SiteFooter locale={activeLocale} settings={footerSettings} />
     </NextIntlClientProvider>
   );
 }

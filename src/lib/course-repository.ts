@@ -1,8 +1,11 @@
 import type { Locale } from "@/i18n/config";
 import { getCourses, type Course } from "@/lib/content";
 import {
+  normalizeCourseSections,
+  normalizeScheduleTracks,
   type CourseCategoryKey,
   type CourseLocale,
+  type CourseTemplateKey,
   type PublishedCourse,
   getCourseFallbackPolicy
 } from "@/lib/course-model";
@@ -11,6 +14,7 @@ import { createPublicClient } from "@/lib/supabase/public";
 
 type CourseLocalizationRow = {
   certification_note: string | null;
+  content_sections: unknown;
   course_id: string;
   curriculum_items: string[] | null;
   duration: string | null;
@@ -20,6 +24,7 @@ type CourseLocalizationRow = {
   pdf_file_name: string | null;
   pdf_url: string | null;
   recommended_for: string[] | null;
+  schedule_tracks: unknown;
   status: string;
   summary: string | null;
   title: string;
@@ -33,6 +38,7 @@ type CourseRow = {
   is_active: boolean;
   slug: string;
   sort_order: number;
+  template_key: CourseTemplateKey;
   updated_at: string;
 };
 
@@ -44,18 +50,30 @@ function splitFallbackAudience(value: string) {
 }
 
 function mapFallbackCourse(course: Course, sortOrder: number): PublishedCourse {
+  const templateKey: CourseTemplateKey = course.categoryKey === "certification"
+    ? "certification"
+    : course.slug === "취업전문과정"
+      ? "career"
+      : course.slug === "창업전문과정"
+        ? "startup"
+        : course.slug.includes("주말")
+          ? "hobby"
+          : "practical";
   return {
     category: course.category,
     categoryKey: course.categoryKey,
     certificationNote: course.certificationNote,
+    contentSections: [],
     curriculumItems: course.curriculum,
     duration: course.durationHighlights?.[0] ?? "",
     imageUrl: course.imageUrl,
     overview: course.overview,
     recommendedFor: splitFallbackAudience(course.audience),
+    scheduleTracks: [],
     slug: course.slug,
     sortOrder,
     summary: course.summary,
+    templateKey,
     title: course.title
   };
 }
@@ -89,6 +107,7 @@ function mapPublishedCourse(row: CourseRow, locale: string): PublishedCourse | n
     category: getCategoryLabel(locale, row.category_key),
     categoryKey: row.category_key,
     certificationNote: localization.certification_note ?? "",
+    contentSections: normalizeCourseSections(localization.content_sections),
     curriculumItems: localization.curriculum_items ?? [],
     duration: localization.duration ?? "",
     id: row.id,
@@ -97,9 +116,11 @@ function mapPublishedCourse(row: CourseRow, locale: string): PublishedCourse | n
     pdfFileName: localization.pdf_file_name ?? undefined,
     pdfUrl: localization.pdf_url ?? undefined,
     recommendedFor: localization.recommended_for ?? [],
+    scheduleTracks: normalizeScheduleTracks(localization.schedule_tracks),
     slug: row.slug,
     sortOrder: row.sort_order,
     summary: localization.summary ?? "",
+    templateKey: row.template_key ?? "practical",
     title: localization.title,
     updatedAt: localization.updated_at || row.updated_at
   };
@@ -114,10 +135,10 @@ export async function getPublishedCourses(locale: Locale): Promise<PublishedCour
   const { data, error } = await supabase
     .from("courses")
     .select(`
-      id, slug, category_key, sort_order, is_active, updated_at,
+      id, slug, category_key, template_key, sort_order, is_active, updated_at,
       course_localizations!inner(
         course_id, locale, title, summary, overview, duration,
-        curriculum_items, recommended_for, certification_note,
+        curriculum_items, recommended_for, certification_note, schedule_tracks, content_sections,
         image_url, pdf_url, pdf_file_name, status, updated_at
       )
     `)

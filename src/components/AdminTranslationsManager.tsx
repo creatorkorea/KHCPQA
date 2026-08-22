@@ -1,22 +1,21 @@
 "use client";
 
-import { useEffect, useMemo, useState, useTransition, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AlertTriangle, CheckCircle2, Copy, Languages, Save, Search } from "lucide-react";
-import { saveAdminContent, saveAdminCourseLocalization, type SaveAdminContentResult } from "@/app/admin/actions";
+import { AlertTriangle, ArrowUpRight, CheckCircle2, Copy, Languages, Save, Search } from "lucide-react";
+import { saveAdminContent, type SaveAdminContentResult } from "@/app/admin/actions";
 import { AdminStatusBadge, AdminTable, getTone, translationProgress } from "@/components/AdminConsole";
 import { localeLabels, locales, type Locale } from "@/i18n/config";
 import { buildTranslationQueue } from "@/lib/admin-translation-model";
 import type { AdminContentRow } from "@/lib/admin-data";
-import type { AdminCourseLocalization, AdminCourseRecord } from "@/lib/course-model";
+import type { AdminCourseRecord } from "@/lib/course-model";
 import { translationStatuses } from "@/lib/translation-model";
 
 type ManagedTranslation = {
   body: string;
   content?: AdminContentRow;
   course?: AdminCourseRecord;
-  courseLocalization?: AdminCourseLocalization;
   imageAlt: string;
   key: string;
   locale: Locale;
@@ -61,6 +60,7 @@ export function AdminTranslationsManager({
   courses: AdminCourseRecord[];
 }) {
   const router = useRouter();
+  const editorPanelRef = useRef<HTMLElement>(null);
   const translations = useMemo(() => normalizeTranslations(contentItems, courses), [contentItems, courses]);
   const queue = useMemo(() => buildTranslationQueue(translations), [translations]);
   const [activeKey, setActiveKey] = useState(queue[0]?.key ?? "");
@@ -84,15 +84,21 @@ export function AdminTranslationsManager({
   });
   const rows = filteredQueue.map((group) => ({
     id: group.key,
-    action: <button className="community-inline-action" onClick={() => setActiveKey(group.key)} type="button">작업</button>,
+    action: <button className="community-inline-action" onClick={() => selectTranslation(group.key)} type="button">작업</button>,
     en: renderLocaleBadge(group.locales.en),
     es: renderLocaleBadge(group.locales.es),
     ko: renderLocaleBadge(group.locales.ko),
     progress: <span className="console-progress-cell">{translationProgress(group.completedCount * 25)}<em>{group.completedCount}/4</em></span>,
-    title: <button className="community-link-button" onClick={() => setActiveKey(group.key)} type="button">{group.title}</button>,
+    title: <button className="community-link-button" onClick={() => selectTranslation(group.key)} type="button">{group.title}</button>,
     type: group.type,
     zh: renderLocaleBadge(group.locales["zh-CN"])
   }));
+
+  function selectTranslation(key: string) {
+    setActiveKey(key);
+    if (!window.matchMedia("(max-width: 1100px)").matches) return;
+    requestAnimationFrame(() => editorPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
 
   function copySource() {
     if (!source) return;
@@ -107,24 +113,22 @@ export function AdminTranslationsManager({
 
   function handleSave(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!activeGroup || !source) return;
+    if (!activeGroup || !source || source.course) return;
     startTransition(async () => {
-      const nextResult = source.course
-        ? await saveCourseTarget(source, target, targetLocale, editor)
-        : await saveAdminContent({
-            body: editor.body,
-            contentType: source.type,
-            imageAlt: editor.imageAlt,
-            imageUrl: target?.content?.imageUrl || source.content?.imageUrl || "",
-            locale: targetLocale,
-            seoDescription: editor.seoDescription,
-            seoTitle: editor.seoTitle,
-            slug: source.slug,
-            sourceUrl: target?.content?.sourceUrl || source.content?.sourceUrl || "",
-            status: editor.status,
-            summary: editor.summary,
-            title: editor.title
-          });
+      const nextResult = await saveAdminContent({
+        body: editor.body,
+        contentType: source.type,
+        imageAlt: editor.imageAlt,
+        imageUrl: target?.content?.imageUrl || source.content?.imageUrl || "",
+        locale: targetLocale,
+        seoDescription: editor.seoDescription,
+        seoTitle: editor.seoTitle,
+        slug: source.slug,
+        sourceUrl: target?.content?.sourceUrl || source.content?.sourceUrl || "",
+        status: editor.status,
+        summary: editor.summary,
+        title: editor.title
+      });
       setResult(nextResult);
       if (nextResult.ok) router.refresh();
     });
@@ -158,8 +162,35 @@ export function AdminTranslationsManager({
           ]} emptyLabel="번역 관리 대상이 없습니다." rows={rows} />
         </section>
 
-        <section className="console-panel translation-editor-panel">
+        <section className="console-panel translation-editor-panel" ref={editorPanelRef}>
           {activeGroup && source ? (
+            source.course ? (
+              <div className="admin-editor-form translation-course-handoff">
+                <div className="admin-editor-heading"><Languages size={22} /><div><h3>{activeGroup.title}</h3><p>교육과정 · {source.slug}</p></div></div>
+                <div className="translation-course-guide">
+                  <strong>교육과정 번역은 과정 관리에서 편집합니다.</strong>
+                  <p>기간, 교육 구성, 상세 콘텐츠, 이미지와 PDF까지 한 화면에서 언어별로 관리해 내용이 어긋나지 않도록 했습니다.</p>
+                </div>
+                <label>편집할 언어
+                  <select onChange={(event) => setTargetLocale(event.target.value as Exclude<Locale, "ko">)} value={targetLocale}>
+                    {locales.filter((locale): locale is Exclude<Locale, "ko"> => locale !== "ko").map((locale) => <option key={locale} value={locale}>{locale.toUpperCase()} · {localeLabels[locale]}</option>)}
+                  </select>
+                </label>
+                <div className="translation-source-box">
+                  <div><strong>한국어 원문</strong><p>{source.title}</p><p>{source.summary || source.body || "한국어 원문 내용이 없습니다."}</p></div>
+                </div>
+                {activeGroup.locales[targetLocale].freshness === "stale" ? <div className="form-error" role="alert"><AlertTriangle size={18} />한국어 원문이 수정되어 재검수가 필요합니다.</div> : null}
+                <div className="translation-course-target">
+                  <span>선택 언어 상태</span>
+                  {renderLocaleBadge(activeGroup.locales[targetLocale])}
+                </div>
+                <div className="admin-editor-actions">
+                  <Link className="primary-button" href={`/admin/courses?course=${encodeURIComponent(source.slug)}&locale=${targetLocale}`}>
+                    과정 번역 편집 <ArrowUpRight size={16} />
+                  </Link>
+                </div>
+              </div>
+            ) : (
             <form className="admin-editor-form translation-editor-form" onSubmit={handleSave}>
               <div className="admin-editor-heading"><Languages size={22} /><div><h3>{activeGroup.title}</h3><p>{activeGroup.type} · {source.slug}</p></div></div>
               <label>번역 언어
@@ -182,8 +213,9 @@ export function AdminTranslationsManager({
                 <label className="full">이미지 대체텍스트<input onChange={(event) => updateEditor("imageAlt", event.target.value)} value={editor.imageAlt} /></label>
               </div>
               {result ? <div className={result.ok ? "form-success" : "form-error"} role="status">{result.ok ? <CheckCircle2 size={18} /> : null}{result.message}</div> : null}
-              <div className="admin-editor-actions"><button className="primary-button" disabled={isPending} type="submit"><Save size={16} />{isPending ? "저장 중" : "번역 저장"}</button>{source.course ? <Link className="secondary-button" href="/admin/courses">과정 관리 열기</Link> : null}</div>
+              <div className="admin-editor-actions"><button className="primary-button" disabled={isPending} type="submit"><Save size={16} />{isPending ? "저장 중" : "번역 저장"}</button></div>
             </form>
+            )
           ) : <div className="console-empty-state"><Languages size={18} />한국어 원문이 있는 콘텐츠가 없습니다.</div>}
         </section>
       </div>
@@ -202,7 +234,7 @@ function normalizeTranslations(contentItems: AdminContentRow[], courses: AdminCo
       summary: item.summary ?? "", title: item.title, translatedFromUpdatedAt: item.translatedFromUpdatedAt ?? "", type: item.type
     }));
   const courseItems = courses.flatMap((course) => course.localizations.map((localization) => ({
-    body: localization.overview, course, courseLocalization: localization, imageAlt: localization.imageAlt,
+    body: localization.overview, course, imageAlt: localization.imageAlt,
     key: `Course:${course.slug}`, locale: localization.locale as Locale, seoDescription: localization.seoDescription,
     seoTitle: localization.seoTitle, slug: course.slug, sourceUpdatedAt: localization.sourceUpdatedAt || localization.updatedAt,
     status: localization.status, summary: localization.summary, title: localization.title,
@@ -218,26 +250,4 @@ function toEditor(item: ManagedTranslation): EditorValue {
 function renderLocaleBadge(item: { freshness: string; status: string }) {
   const stale = item.freshness === "stale";
   return <AdminStatusBadge tone={stale ? "warning" : item.status === "missing" ? "neutral" : getTone(item.status)}>{stale ? statusLabels.stale : statusLabels[item.status] ?? item.status}</AdminStatusBadge>;
-}
-
-async function saveCourseTarget(source: ManagedTranslation, target: ManagedTranslation | undefined, locale: Exclude<Locale, "ko">, editor: EditorValue) {
-  const localization = target?.courseLocalization ?? source.courseLocalization!;
-  return saveAdminCourseLocalization({
-    certificationNote: localization.certificationNote,
-    courseId: source.course!.id,
-    curriculumText: localization.curriculumItems.join("\n"),
-    duration: localization.duration,
-    imageAlt: editor.imageAlt,
-    imageUrl: localization.imageUrl,
-    locale,
-    overview: editor.body,
-    pdfFileName: localization.pdfFileName,
-    pdfUrl: localization.pdfUrl,
-    recommendedText: localization.recommendedFor.join("\n"),
-    seoDescription: editor.seoDescription,
-    seoTitle: editor.seoTitle,
-    status: editor.status,
-    summary: editor.summary,
-    title: editor.title
-  });
 }
