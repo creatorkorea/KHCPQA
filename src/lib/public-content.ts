@@ -51,6 +51,7 @@ export type PublishedContentSection = {
 
 export type PublishedBanner = {
   endsAt?: string;
+  id?: string;
   imageUrl?: string;
   placement: "home" | "curriculum" | "activities" | "global";
   startsAt?: string;
@@ -60,6 +61,7 @@ export type PublishedBanner = {
 
 type PublishedBannerRow = {
   ends_at: string | null;
+  id?: string;
   image_url: string | null;
   placement: PublishedBanner["placement"];
   starts_at: string | null;
@@ -367,7 +369,7 @@ export async function getPublishedBanners({
   const supabase = createClient();
   const { data, error } = await supabase
     .from("banners")
-    .select("title, placement, target_url, image_url, starts_at, ends_at")
+    .select("id, title, placement, target_url, image_url, starts_at, ends_at")
     .eq("status", "published")
     .in("placement", [placement, "global"])
     .order("starts_at", { ascending: false, nullsFirst: false })
@@ -388,6 +390,7 @@ export async function getPublishedBanners({
     .slice(0, limit)
     .map((row) => ({
       endsAt: row.ends_at || undefined,
+      id: row.id,
       imageUrl: row.image_url || undefined,
       placement: row.placement,
       startsAt: row.starts_at || undefined,

@@ -74,3 +74,28 @@ test("home notice list uses the latest published admin notices", async () => {
   assert.doesNotMatch(source, /t\.home\.notices\.map/);
   assert.doesNotMatch(source, /2024\.05/);
 });
+
+test("photo gallery detail keeps category hero separate from attached post image", async () => {
+  const source = await readFile("src/app/[locale]/activities/[activityKey]/[postSlug]/page.tsx", "utf8");
+
+  assert.match(source, /getPublishedContentIntro/);
+  assert.match(source, /const heroImageUrl = activity\.key === "photo" \? categoryContent\.imageUrl \|\| activity\.imageUrl : imageUrl \|\| activity\.imageUrl/);
+  assert.match(source, /"--activity-post-hero-image": `url\("\$\{heroImageUrl\.replace/);
+  assert.match(source, /\{imageUrl \? <Image src=\{imageUrl\} alt=\{post\.title\}/);
+});
+
+test("community board table omits planning-description column", async () => {
+  const source = await readFile("src/components/AdminCommunityManager.tsx", "utf8");
+
+  assert.doesNotMatch(source, /label: "기획서 기준 설명"/);
+  assert.doesNotMatch(source, /key: "summary", label: "기획서 기준 설명"/);
+  assert.match(source, /placeholder=\{activeTab === "boards" \? "게시판명, 키 검색"/);
+});
+
+test("community post table omits slug column from the visible list", async () => {
+  const source = await readFile("src/components/AdminCommunityManager.tsx", "utf8");
+
+  assert.doesNotMatch(source, /label: "게시글 Slug"/);
+  assert.doesNotMatch(source, /key: "slug", label: "게시글 Slug"/);
+  assert.match(source, /placeholder=\{activeTab === "boards" \? "게시판명, 키 검색" : "제목, 요약 검색"/);
+});

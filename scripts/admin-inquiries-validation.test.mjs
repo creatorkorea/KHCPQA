@@ -44,3 +44,40 @@ test("inquiry labels are operator friendly", () => {
   assert.equal(getAdminInquiryStatusLabel("closed"), "종료");
   assert.equal(getAdminInquiryTypeLabel("partnership"), "파트너십");
 });
+
+test("admin inquiry list prioritizes message and contact values", async () => {
+  const pageSource = await readFile("src/app/admin/inquiries/page.tsx", "utf8");
+  const componentSource = await readFile("src/components/AdminInquiriesManager.tsx", "utf8");
+  const styleSource = await readFile("src/styles/globals.css", "utf8");
+
+  assert.match(pageSource, /className="admin-inquiries-panel"/);
+  assert.match(componentSource, /<colgroup>/);
+  assert.doesNotMatch(componentSource, /<th>접수번호<\/th>/);
+  assert.match(componentSource, /<th>문의 내용<\/th>/);
+  assert.match(componentSource, /<th>고객 정보<\/th>/);
+  assert.match(componentSource, /className="admin-inquiries-message-title"/);
+  assert.match(componentSource, /className="admin-inquiries-contact-cell"/);
+  assert.match(componentSource, /className="admin-inquiries-message-stack"/);
+  assert.match(componentSource, /className="admin-inquiries-contact-stack"/);
+  assert.match(componentSource, /<td colSpan=\{4\}>/);
+  assert.match(componentSource, /id="admin-inquiry-modal-title">\{getAdminInquiryTypeLabel\(selectedInquiry\.type\)\} 문의/);
+  assert.match(componentSource, /className="admin-inquiries-modal-actions"/);
+  assert.doesNotMatch(componentSource, /id="admin-inquiry-modal-title">\{selectedInquiry\.receipt\}/);
+  assert.doesNotMatch(componentSource, />접수번호 \{selectedInquiry\.receipt\}</);
+  assert.doesNotMatch(componentSource, /<dt>문의 유형<\/dt>/);
+  assert.doesNotMatch(componentSource, /<th>접수일<\/th>/);
+  assert.doesNotMatch(componentSource, /<th>유형<\/th>/);
+  assert.match(styleSource, /table-layout: fixed/);
+  assert.match(styleSource, /\.admin-inquiries-col-message/);
+  assert.match(styleSource, /\.admin-inquiries-col-customer/);
+  assert.match(styleSource, /\.admin-inquiries-panel \.console-filter-bar/);
+  assert.match(styleSource, /grid-template-columns: minmax\(120px, 0\.7fr\) minmax\(120px, 0\.7fr\) minmax\(260px, 1\.2fr\) minmax\(280px, 1\.4fr\)/);
+  assert.match(styleSource, /\.admin-inquiries-message-stack/);
+  assert.match(styleSource, /\.admin-inquiries-contact-stack/);
+  assert.match(styleSource, /\.admin-inquiries-modal-eyebrow/);
+  assert.match(styleSource, /\.admin-inquiries-modal-actions/);
+  assert.match(styleSource, /repeat\(auto-fit, minmax\(150px, 1fr\)\)/);
+  assert.match(styleSource, /\.admin-inquiries-table tr:hover td/);
+  assert.match(styleSource, /white-space: nowrap/);
+  assert.match(styleSource, /text-overflow: ellipsis/);
+});

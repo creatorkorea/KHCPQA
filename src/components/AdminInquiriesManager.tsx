@@ -113,14 +113,17 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
 
       <div className="admin-inquiries-table-wrap">
         <table className="admin-inquiries-table">
+          <colgroup>
+            <col className="admin-inquiries-col-message" />
+            <col className="admin-inquiries-col-customer" />
+            <col className="admin-inquiries-col-status" />
+            <col className="admin-inquiries-col-action" />
+          </colgroup>
           <thead>
             <tr>
-              <th>접수번호</th>
-              <th>이름</th>
-              <th>연락처</th>
-              <th>유형</th>
+              <th>문의 내용</th>
+              <th>고객 정보</th>
               <th>상태</th>
-              <th>접수일</th>
               <th>관리</th>
             </tr>
           </thead>
@@ -128,22 +131,26 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
             {inquiries.length ? (
               inquiries.map((inquiry) => (
                 <tr key={inquiry.receipt}>
-                  <td>
-                    <strong>{inquiry.receipt}</strong>
-                    <span>{inquiry.message}</span>
+                  <td className="admin-inquiries-message-cell">
+                    <div className="admin-inquiries-message-stack">
+                      <strong className="admin-inquiries-message-title">{inquiry.message}</strong>
+                      <span className="admin-inquiries-message-preview">
+                        {getAdminInquiryTypeLabel(inquiry.type)} · {inquiry.submittedAt}
+                      </span>
+                    </div>
                   </td>
-                  <td>{inquiry.name}</td>
-                  <td>
-                    <strong>{inquiry.email}</strong>
-                    <span>{inquiry.phone || "-"}</span>
+                  <td className="admin-inquiries-contact-cell">
+                    <div className="admin-inquiries-contact-stack">
+                      <strong>{inquiry.name}</strong>
+                      <span title={inquiry.email}>{inquiry.email}</span>
+                      {inquiry.phone ? <small>{inquiry.phone}</small> : null}
+                    </div>
                   </td>
-                  <td>{getAdminInquiryTypeLabel(inquiry.type)}</td>
                   <td>
                     <span className={`admin-inquiry-status is-${inquiry.status}`}>
                       {getAdminInquiryStatusLabel(inquiry.status)}
                     </span>
                   </td>
-                  <td>{inquiry.submittedAt}</td>
                   <td>
                     <button className="admin-inquiries-edit-button" onClick={() => openEditModal(inquiry)} type="button">
                       <Pencil size={14} />
@@ -154,7 +161,7 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
               ))
             ) : (
               <tr>
-                <td colSpan={7}>
+                <td colSpan={4}>
                   <div className="console-empty-state" role="status">
                     <FileText size={18} />
                     <span>등록된 문의 데이터가 없습니다.</span>
@@ -179,15 +186,18 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
             <div className="admin-inquiries-modal-heading">
               <FileText size={22} />
               <div>
-                <h3 id="admin-inquiry-modal-title">{selectedInquiry.receipt}</h3>
-                <p>{selectedInquiry.message}</p>
+                <span className="admin-inquiries-modal-eyebrow">문의 상세</span>
+                <h3 id="admin-inquiry-modal-title">{getAdminInquiryTypeLabel(selectedInquiry.type)} 문의</h3>
+                <p>{selectedInquiry.name} · {selectedInquiry.submittedAt}</p>
               </div>
-              <span className={`admin-inquiry-status is-${formValue.status}`}>
-                {getAdminInquiryStatusLabel(formValue.status)}
-              </span>
-              <button className="admin-inquiries-modal-close" onClick={closeModal} type="button" aria-label="닫기">
-                <X size={17} />
-              </button>
+              <div className="admin-inquiries-modal-actions">
+                <span className={`admin-inquiry-status is-${formValue.status}`}>
+                  {getAdminInquiryStatusLabel(formValue.status)}
+                </span>
+                <button className="admin-inquiries-modal-close" onClick={closeModal} type="button" aria-label="닫기">
+                  <X size={17} />
+                </button>
+              </div>
             </div>
 
             <div className="admin-inquiries-detail-grid">
@@ -211,10 +221,6 @@ export function AdminInquiriesManager({ inquiries }: { inquiries: AdminInquiryRo
                 <div>
                   <dt>국가</dt>
                   <dd>{selectedInquiry.country}</dd>
-                </div>
-                <div>
-                  <dt>문의 유형</dt>
-                  <dd>{getAdminInquiryTypeLabel(selectedInquiry.type)}</dd>
                 </div>
               </dl>
               <div className="admin-inquiries-message-box">

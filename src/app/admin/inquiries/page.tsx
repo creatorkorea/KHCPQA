@@ -15,7 +15,7 @@ export default async function AdminInquiriesPage() {
 
   return (
     <AdminConsoleShell active="inquiries" description="문의 내역을 확인하고 답변을 관리합니다." title="문의 관리">
-      <AdminPanel>
+      <AdminPanel className="admin-inquiries-panel">
         <AdminFilterBar>
           <AdminSelect label="전체" />
           <AdminSelect label="조회" />

@@ -196,7 +196,6 @@ export function AdminCommunityManager({
         {board.published ? "노출" : board.latest ? statusLabel(board.latest.status) : "소개 미등록"}
       </AdminStatusBadge>
     ),
-    summary: <span className="community-board-summary">{board.summary}</span>,
     type: <code className="community-code">{board.key}</code>
   }));
   const postRows = filteredPosts.map((item) => {
@@ -483,7 +482,7 @@ export function AdminCommunityManager({
             <span className="sr-only">커뮤니티 검색</span>
             <input
               onChange={(event) => setSearch(event.target.value)}
-              placeholder={activeTab === "boards" ? "게시판명, 키, 설명 검색" : "제목, slug, 요약 검색"}
+              placeholder={activeTab === "boards" ? "게시판명, 키 검색" : "제목, 요약 검색"}
               value={search}
             />
           </label>
@@ -529,7 +528,6 @@ export function AdminCommunityManager({
             columns={[
               { key: "name", label: "게시판명" },
               { key: "type", label: "고정 키" },
-              { key: "summary", label: "기획서 기준 설명" },
               { key: "count", label: "게시글 수", align: "center" },
               { key: "status", label: "노출 상태", align: "center" },
               { key: "order", label: "정렬 순서", align: "center" },
@@ -544,7 +542,6 @@ export function AdminCommunityManager({
             columns={[
               { key: "title", label: "제목" },
               { key: "board", label: "게시판" },
-              { key: "slug", label: "게시글 Slug" },
               { key: "locale", label: "언어", align: "center" },
               { key: "status", label: "상태", align: "center" },
               { key: "updatedAt", label: "최종 수정일", align: "center" },
