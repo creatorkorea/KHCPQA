@@ -112,6 +112,13 @@ const statusLabels: Record<string, string> = {
   translated: "번역완료"
 };
 
+const courseLocaleLabels: Record<CourseLocale, string> = {
+  en: "영어",
+  es: "스페인어",
+  ko: "한국어",
+  "zh-CN": "중국어"
+};
+
 export function AdminCoursesManager({
   courses,
   initialCourseSlug,
@@ -154,6 +161,9 @@ export function AdminCoursesManager({
 
   const activeCourse = courses.find((course) => course.id === activeCourseId) ?? courses[0] ?? null;
   const activeLocalization = activeCourse?.localizations.find((item) => item.locale === activeLocale) ?? null;
+  const activePublicHref = activeCourse ? `/${activeLocale}/curriculum/${activeCourse.slug}` : "";
+  const isActiveLocalePublished = Boolean(activeCourse?.isActive && activeLocalization?.status === "published");
+  const activeLocaleActionMessage = getCoursePublicationGuide(activeCourse?.isActive ?? false, activeLocalization?.status);
   const publishedCount = courses.filter((course) => course.localizations.some((item) => item.status === "published")).length;
   const filteredCourses = useMemo(() => {
     const keyword = search.trim().toLowerCase();
@@ -553,8 +563,8 @@ export function AdminCoursesManager({
                   <div><span>COURSE CMS</span><h2>{getCourseTitle(activeCourse)}</h2><p>{activeCourse.slug} · {activeCourse.isActive ? "활성 과정" : "보관된 과정"}</p></div>
                 </div>
                 <div className="admin-course-header-tools">
-                  {activeCourse.isActive && activeLocalization?.status === "published" ? (
-                    <Link className="secondary-button" href={`/${activeLocale}/curriculum/${activeCourse.slug}`} rel="noreferrer" target="_blank">공개 페이지 <ArrowUpRight size={15} /></Link>
+                  {isActiveLocalePublished ? (
+                    <Link className="secondary-button" href={activePublicHref} rel="noreferrer" target="_blank">공개 페이지 <ArrowUpRight size={15} /></Link>
                   ) : <span className="admin-course-preview-status">이 언어는 미공개</span>}
                   <div className="admin-course-locale-tabs" role="tablist" aria-label="과정 언어">
                     {courseLocales.map((locale) => {
@@ -569,6 +579,22 @@ export function AdminCoursesManager({
                   <button className="primary-button admin-course-header-save" disabled={isPending} form="admin-course-localization-form" type="submit"><Save size={16} /> 변경사항 저장</button>
                 </div>
               </div>
+
+              <section className="admin-course-public-panel" aria-label="공개 확인">
+                <div>
+                  <span className="admin-course-public-kicker">공개 확인</span>
+                  <strong>{courseLocaleLabels[activeLocale]} 페이지 상태: {activeCourse.isActive ? statusLabels[activeLocalization?.status ?? "missing"] ?? "미등록" : "보관"}</strong>
+                  <p>{activeLocaleActionMessage}</p>
+                </div>
+                <div className="admin-course-public-url">
+                  <span>{activePublicHref}</span>
+                  {isActiveLocalePublished ? (
+                    <Link href={activePublicHref} rel="noreferrer" target="_blank">페이지 열기 <ArrowUpRight size={14} /></Link>
+                  ) : (
+                    <em>게시 상태를 공개로 저장하면 이 주소에서 보입니다.</em>
+                  )}
+                </div>
+              </section>
 
               <section aria-labelledby="admin-course-settings-title" className="admin-course-common-form">
                 <div className="admin-course-common-heading"><strong id="admin-course-settings-title">과정 설정</strong><span>모든 언어 공통</span></div>
@@ -772,4 +798,14 @@ function toEditor(localization: AdminCourseLocalization | null): LocalizationEdi
 
 function getCourseTitle(course: AdminCourseRecord) {
   return course.localizations.find((item) => item.locale === "ko")?.title ?? course.localizations[0]?.title ?? course.slug;
+}
+
+function getCoursePublicationGuide(isActive: boolean, status?: string) {
+  if (!isActive) return "보관된 과정은 모든 언어 페이지에서 숨겨집니다. 다시 노출하려면 과정을 활성화한 뒤 언어별 게시 상태를 확인해 주세요.";
+  if (status === "published") return "현재 언어는 공개 중입니다. 저장 후 공개 페이지를 열어 실제 화면을 확인해 주세요.";
+  if (status === "reviewed") return "검수는 끝났지만 아직 공개 전입니다. 게시 상태를 공개로 바꾸고 저장하면 방문자에게 보입니다.";
+  if (status === "translated") return "번역 초안이 준비된 상태입니다. 문구를 검수한 뒤 검수완료 또는 공개 상태로 저장해 주세요.";
+  if (status === "archived") return "현재 언어 콘텐츠는 보관 상태입니다. 다시 보이게 하려면 게시 상태를 공개로 바꿔 저장해 주세요.";
+  if (status === "draft") return "작성 중인 초안입니다. 공개 페이지에는 나오지 않으니 내용을 확인한 뒤 공개 상태로 저장해 주세요.";
+  return "아직 이 언어의 콘텐츠가 없습니다. 제목과 소개를 입력한 뒤 저장해 주세요.";
 }

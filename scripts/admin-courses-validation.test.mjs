@@ -57,6 +57,7 @@ test("AdminCoursesManager uses a focused course editing workspace", async () => 
   const source = await readFile("src/components/AdminCoursesManager.tsx", "utf8");
 
   assert.match(source, /className="admin-course-editor-header"/);
+  assert.match(source, /className="admin-course-public-panel"/);
   assert.match(source, /form="admin-course-localization-form"/);
   assert.match(source, /id="admin-course-localization-form"/);
   assert.match(source, /className="admin-course-form-section"/);
@@ -65,6 +66,23 @@ test("AdminCoursesManager uses a focused course editing workspace", async () => 
   assert.match(source, />교육 안내</);
   assert.match(source, /className="admin-course-action-bar"/);
   assert.match(source, /변경사항 저장/);
+});
+
+test("AdminCoursesManager explains public URL and publication state before handoff", async () => {
+  const source = await readFile("src/components/AdminCoursesManager.tsx", "utf8");
+  const styles = await readFile("src/styles/globals.css", "utf8");
+
+  assert.match(source, /const activePublicHref = activeCourse \? `\/\$\{activeLocale\}\/curriculum\/\$\{activeCourse\.slug\}` : ""/);
+  assert.match(source, /const isActiveLocalePublished = Boolean\(activeCourse\?\.isActive && activeLocalization\?\.status === "published"\)/);
+  assert.match(source, /getCoursePublicationGuide/);
+  assert.match(source, /공개 확인/);
+  assert.match(source, /페이지 상태/);
+  assert.match(source, /게시 상태를 공개로 저장하면 이 주소에서 보입니다\./);
+  assert.match(source, /저장 후 공개 페이지를 열어 실제 화면을 확인해 주세요\./);
+  assert.match(source, /보관된 과정은 모든 언어 페이지에서 숨겨집니다\./);
+  assert.match(styles, /\.admin-course-public-panel/);
+  assert.match(styles, /\.admin-course-public-url/);
+  assert.match(styles, /overflow-wrap:\s*anywhere/);
 });
 
 test("representative images live in basic information while media only manages PDF attachments", async () => {
