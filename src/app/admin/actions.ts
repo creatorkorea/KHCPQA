@@ -10,11 +10,13 @@ import { parseInquiryReceipt } from "@/lib/receipts";
 import {
   buildCourseLocalizationPayload,
   courseCategories,
+  courseStatuses,
   courseTemplateKeys,
   createCourseSlug,
   isCourseClassificationValid,
   type CourseCategoryKey,
   type CourseContentSection,
+  type CoursePublishStatus,
   type CourseScheduleTrack,
   type CourseTemplateKey
 } from "@/lib/course-model";
@@ -1216,6 +1218,9 @@ function revalidateCourseCatalog(slug?: string) {
 export async function saveAdminCourse(input: {
   categoryKey: string;
   courseId?: string;
+  initialOverview?: string;
+  initialStatus?: string;
+  initialSummary?: string;
   sortOrder: number;
   templateKey: string;
   title: string;
@@ -1223,15 +1228,23 @@ export async function saveAdminCourse(input: {
   const title = input.title.trim();
   const courseId = input.courseId?.trim() ?? "";
   const categoryKey = input.categoryKey.trim();
+  const initialOverview = input.initialOverview?.trim() ?? "";
+  const initialStatus = input.initialStatus?.trim() || "draft";
+  const initialSummary = input.initialSummary?.trim() ?? "";
   const templateKey = input.templateKey.trim();
   const sortOrder = Number.isFinite(input.sortOrder) ? Math.max(0, Math.trunc(input.sortOrder)) : 0;
 
   if (
     !courseCategories.includes(categoryKey as CourseCategoryKey) ||
     !courseTemplateKeys.includes(templateKey as CourseTemplateKey) ||
+    (!courseId && !courseStatuses.includes(initialStatus as CoursePublishStatus)) ||
     (!courseId && !title)
   ) {
     return { ok: false, message: "과정명과 분류를 확인해 주세요." };
+  }
+
+  if (!courseId && initialStatus === "published" && (!initialSummary || !initialOverview)) {
+    return { ok: false, message: "공개로 생성하려면 목록 요약과 과정 개요를 입력해 주세요." };
   }
 
   if (!isCourseClassificationValid(categoryKey, templateKey)) {
@@ -1245,6 +1258,9 @@ export async function saveAdminCourse(input: {
   const actor = await getActiveAdminRole();
   if (!actor.userId) return { ok: false, message: "로그인이 필요합니다." };
   if (!canManageCourses(actor.role, actor.status)) return { ok: false, message: "과정 관리자 권한이 필요합니다." };
+  if (!courseId && initialStatus === "published" && actor.role !== "super_admin") {
+    return { ok: false, message: "공개로 생성하려면 최고 관리자 권한이 필요합니다." };
+  }
 
   if (courseId) {
     const { data, error } = await actor.supabase
@@ -1282,7 +1298,9 @@ export async function saveAdminCourse(input: {
     course_id: data.id,
     created_by: actor.userId,
     locale: "ko",
-    status: "draft",
+    overview: initialOverview || null,
+    status: initialStatus,
+    summary: initialSummary || null,
     title
   });
 

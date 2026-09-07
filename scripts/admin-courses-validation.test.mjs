@@ -85,6 +85,49 @@ test("AdminCoursesManager explains public URL and publication state before hando
   assert.match(styles, /overflow-wrap:\s*anywhere/);
 });
 
+test("course creation can publish the initial Korean localization immediately", async () => {
+  const source = await readFile("src/components/AdminCoursesManager.tsx", "utf8");
+  const actionsSource = await readFile("src/app/admin/actions.ts", "utf8");
+  const rlsSource = await readFile("supabase/migrations/202609070002_restore_course_publish_super_admin_policy.sql", "utf8");
+  const courseLocalizationAction = actionsSource.slice(
+    actionsSource.indexOf("export async function saveAdminCourseLocalization"),
+    actionsSource.indexOf("export async function archiveAdminCourse")
+  );
+
+  assert.match(source, /const \[createStatus, setCreateStatus\] = useState\("published"\)/);
+  assert.match(source, /const \[createSummary, setCreateSummary\] = useState\(""\)/);
+  assert.match(source, /const \[createOverview, setCreateOverview\] = useState\(""\)/);
+  assert.match(source, /setCreateStatus\("published"\)/);
+  assert.match(source, /setCreateSummary\(""\)/);
+  assert.match(source, /setCreateOverview\(""\)/);
+  assert.match(source, /initialSummary: createSummary/);
+  assert.match(source, /initialOverview: createOverview/);
+  assert.match(source, /initialStatus: createStatus/);
+  assert.match(source, />초기 게시 상태<select/);
+  assert.match(source, />목록 요약<textarea/);
+  assert.match(source, />과정 개요<textarea/);
+  assert.match(source, /required=\{createStatus === "published"\}/);
+  assert.match(source, /공개로 저장하려면 목록 요약과 과정 개요를 먼저 입력해 주세요\./);
+  assert.match(source, /공개로 생성하면 한국어 과정 페이지에 바로 노출됩니다\./);
+  assert.match(source, /const isPublishMissingIntro = editor\.status === "published"/);
+  assert.match(actionsSource, /initialStatus\?: string/);
+  assert.match(actionsSource, /initialSummary\?: string/);
+  assert.match(actionsSource, /initialOverview\?: string/);
+  assert.match(actionsSource, /const initialStatus = input\.initialStatus\?\.trim\(\) \|\| "draft"/);
+  assert.match(actionsSource, /공개로 생성하려면 목록 요약과 과정 개요를 입력해 주세요\./);
+  assert.match(actionsSource, /courseStatuses\.includes\(initialStatus as CoursePublishStatus\)/);
+  assert.match(actionsSource, /status: initialStatus/);
+  assert.match(actionsSource, /summary: initialSummary \|\| null/);
+  assert.match(actionsSource, /overview: initialOverview \|\| null/);
+  assert.match(actionsSource, /공개로 생성하려면 최고 관리자 권한이 필요합니다\./);
+  assert.match(courseLocalizationAction, /actor\.role !== "super_admin"/);
+  assert.match(rlsSource, /course_localizations_insert_admin/);
+  assert.match(rlsSource, /course_localizations_update_admin/);
+  assert.match(rlsSource, /content_manager', 'course_manager', 'super_admin'/);
+  assert.match(rlsSource, /status <> 'published'/);
+  assert.match(rlsSource, /array\['super_admin'\]/);
+});
+
 test("representative images live in basic information while media only manages PDF attachments", async () => {
   const source = await readFile("src/components/AdminCoursesManager.tsx", "utf8");
   const basicBlock = source.slice(source.indexOf('{editorTab === "basic"'), source.indexOf('{editorTab === "schedule"'));

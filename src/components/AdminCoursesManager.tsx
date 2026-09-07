@@ -142,7 +142,10 @@ export function AdminCoursesManager({
   const [commonSortOrder, setCommonSortOrder] = useState(0);
   const [commonTemplate, setCommonTemplate] = useState<CourseTemplateKey>("practical");
   const [createCategory, setCreateCategory] = useState<CourseCategoryKey>("practical");
+  const [createOverview, setCreateOverview] = useState("");
   const [createSortOrder, setCreateSortOrder] = useState(courses.length);
+  const [createStatus, setCreateStatus] = useState("published");
+  const [createSummary, setCreateSummary] = useState("");
   const [createTemplate, setCreateTemplate] = useState<CourseTemplateKey>("practical");
   const [createTitle, setCreateTitle] = useState("");
   const [editor, setEditor] = useState<LocalizationEditor>(emptyLocalization);
@@ -164,6 +167,7 @@ export function AdminCoursesManager({
   const activePublicHref = activeCourse ? `/${activeLocale}/curriculum/${activeCourse.slug}` : "";
   const isActiveLocalePublished = Boolean(activeCourse?.isActive && activeLocalization?.status === "published");
   const activeLocaleActionMessage = getCoursePublicationGuide(activeCourse?.isActive ?? false, activeLocalization?.status);
+  const isPublishMissingIntro = editor.status === "published" && (!editor.summary.trim() || !editor.overview.trim());
   const publishedCount = courses.filter((course) => course.localizations.some((item) => item.status === "published")).length;
   const filteredCourses = useMemo(() => {
     const keyword = search.trim().toLowerCase();
@@ -293,7 +297,10 @@ export function AdminCoursesManager({
 
   function openCreateModal() {
     setCreateTitle("");
+    setCreateSummary("");
+    setCreateOverview("");
     setCreateCategory("practical");
+    setCreateStatus("published");
     setCreateTemplate("practical");
     setCreateSortOrder(courses.length);
     setResult(null);
@@ -317,7 +324,15 @@ export function AdminCoursesManager({
   function handleCreate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     startTransition(async () => {
-      const nextResult = await saveAdminCourse({ categoryKey: createCategory, sortOrder: createSortOrder, templateKey: createTemplate, title: createTitle });
+      const nextResult = await saveAdminCourse({
+        categoryKey: createCategory,
+        initialOverview: createOverview,
+        initialStatus: createStatus,
+        initialSummary: createSummary,
+        sortOrder: createSortOrder,
+        templateKey: createTemplate,
+        title: createTitle
+      });
       setResult(nextResult);
       if (nextResult.ok) {
         if (nextResult.courseId) setActiveCourseId(nextResult.courseId);
@@ -623,6 +638,7 @@ export function AdminCoursesManager({
                     <div className="admin-editor-grid">
                       <label>게시 상태<select onChange={(event) => updateEditor("status", event.target.value)} value={editor.status}>{courseStatuses.map((status) => <option key={status} value={status}>{statusLabels[status]}</option>)}</select></label>
                       <label>교육 기간<input onChange={(event) => updateEditor("duration", event.target.value)} placeholder="예: 정규 2개월" value={editor.duration} /></label>
+                      {isPublishMissingIntro ? <div className="form-error full" role="status">공개로 저장하려면 목록 요약과 과정 개요를 먼저 입력해 주세요.</div> : null}
                     </div>
                   </section>
                   <section className="admin-course-form-section">
@@ -751,8 +767,11 @@ export function AdminCoursesManager({
             <div className="admin-users-modal-heading"><Plus size={22} /><div><h3 id="admin-course-create-title">교육과정 생성</h3><p>과정 그룹과 세부 유형을 선택한 뒤 언어별 콘텐츠를 등록합니다.</p></div><button aria-label="닫기" className="admin-users-modal-close" onClick={() => setIsCreateOpen(false)} type="button"><X size={17} /></button></div>
             <div className="admin-editor-grid">
               <label className="full">한국어 과정명<input autoFocus onChange={(event) => setCreateTitle(event.target.value)} required value={createTitle} /></label>
+              <label>목록 요약<textarea onChange={(event) => setCreateSummary(event.target.value)} required={createStatus === "published"} rows={3} value={createSummary} /></label>
+              <label>과정 개요<textarea onChange={(event) => setCreateOverview(event.target.value)} required={createStatus === "published"} rows={3} value={createOverview} /></label>
               <label>과정 그룹<select onChange={(event) => updateCreateCategory(event.target.value as CourseCategoryKey)} value={createCategory}>{courseCategories.map((category) => <option key={category} value={category}>{categoryLabels[category]}</option>)}</select><small className="admin-field-help">공개 과정 목록의 필터와 그룹에 사용됩니다.</small></label>
               <label>세부 유형<select onChange={(event) => setCreateTemplate(event.target.value as CourseTemplateKey)} value={createTemplate}>{courseTemplatesByCategory[createCategory].map((template) => <option key={template} value={template}>{templateLabels[template]}</option>)}</select><small className="admin-field-help">과정의 교육 목적을 구분합니다.</small></label>
+              <label>초기 게시 상태<select onChange={(event) => setCreateStatus(event.target.value)} value={createStatus}>{courseStatuses.map((status) => <option key={status} value={status}>{statusLabels[status]}</option>)}</select><small className="admin-field-help">공개로 생성하면 한국어 과정 페이지에 바로 노출됩니다.</small></label>
               <label>노출 순서<input min={0} onChange={(event) => setCreateSortOrder(Number(event.target.value))} type="number" value={createSortOrder} /></label>
             </div>
             {result && !result.ok ? <div className="form-error" role="status">{result.message}</div> : null}
