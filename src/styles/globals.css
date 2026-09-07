@@ -3511,13 +3511,9 @@ p {
   overflow: hidden;
 }
 
-.instructor-card > a {
+.instructor-card-content {
   color: inherit;
   display: block;
-}
-
-.instructor-card > a:hover .instructor-photo img {
-  transform: scale(1.035);
 }
 
 .instructor-photo {
@@ -3533,7 +3529,7 @@ p {
   width: 100%;
 }
 
-.instructor-card > a > div:last-child {
+.instructor-card-content > div:last-child {
   display: grid;
   gap: 8px;
   min-height: 76px;
@@ -3553,164 +3549,6 @@ p {
   font-weight: 900;
   margin: 0;
   line-height: 1.2;
-}
-
-.instructor-modal {
-  align-items: center;
-  display: none;
-  inset: 0;
-  justify-content: center;
-  padding: 16px;
-  position: fixed;
-  z-index: 80;
-}
-
-.instructor-modal:target {
-  display: flex;
-}
-
-.instructor-modal-backdrop {
-  background: rgba(24, 19, 36, 0.78);
-  inset: 0;
-  position: absolute;
-}
-
-.instructor-modal-panel {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
-  max-height: calc(100dvh - 32px);
-  max-width: min(1120px, calc(100vw - 32px));
-  overflow: auto;
-  padding: 14px;
-  position: relative;
-  z-index: 1;
-}
-
-.instructor-modal-layout {
-  align-items: start;
-  display: grid;
-  gap: 24px;
-  grid-template-columns: minmax(260px, 0.82fr) minmax(280px, 1fr);
-}
-
-.instructor-modal-layout img {
-  background: var(--purple-pale);
-  border-radius: 8px;
-  display: block;
-  height: auto;
-  object-fit: cover;
-  width: 100%;
-}
-
-.instructor-profile-details {
-  display: grid;
-  gap: 14px;
-  padding: 6px 4px 10px;
-}
-
-.instructor-profile-summary {
-  border-bottom: 1px solid #eee7fb;
-  padding: 2px 2px 12px;
-}
-
-.instructor-profile-summary h2 {
-  color: var(--ink);
-  font-size: 24px;
-  font-weight: 950;
-  letter-spacing: 0;
-  line-height: 1.25;
-  margin: 0 0 6px;
-}
-
-.instructor-profile-summary p {
-  color: var(--purple);
-  font-size: 14px;
-  font-weight: 900;
-  line-height: 1.5;
-  margin: 0;
-  word-break: keep-all;
-}
-
-.instructor-profile-tabs {
-  display: grid;
-  gap: 12px;
-}
-
-.instructor-profile-tablist {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.instructor-profile-tab {
-  background: #f2ecff;
-  border: 1px solid #e1d7f7;
-  border-radius: 999px;
-  color: var(--purple-dark);
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 1;
-  padding: 8px 10px;
-}
-
-.instructor-profile-tab[aria-selected="true"] {
-  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-  border-color: var(--purple);
-  color: #fff;
-  box-shadow: 0 8px 18px rgba(88, 55, 164, 0.18);
-}
-
-.instructor-profile-section-card {
-  background: #fbf9ff;
-  border: 1px solid #e5def8;
-  border-radius: 8px;
-  max-height: 340px;
-  overflow: auto;
-  padding: 16px;
-}
-
-.instructor-profile-panel {
-  min-height: 260px;
-}
-
-.instructor-profile-details h3 {
-  color: var(--purple);
-  font-size: 15px;
-  font-weight: 950;
-  margin: 0 0 8px;
-}
-
-.instructor-profile-section-card ul {
-  display: grid;
-  gap: 7px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.instructor-profile-section-card li,
-.instructor-profile-details p {
-  color: var(--ink);
-  font-size: 14px;
-  line-height: 1.7;
-  margin: 0;
-  white-space: pre-line;
-  word-break: keep-all;
-}
-
-.instructor-modal-close {
-  align-items: center;
-  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-  border-radius: 999px;
-  color: #fff;
-  display: inline-flex;
-  font-size: 12px;
-  font-weight: 900;
-  margin-bottom: 12px;
-  min-height: 36px;
-  padding: 0 14px;
 }
 
 .history-section {
@@ -3946,20 +3784,6 @@ p {
 }
 
 @media (max-width: 720px) {
-  .instructor-modal {
-    padding: 10px;
-  }
-
-  .instructor-modal-panel {
-    max-height: calc(100dvh - 20px);
-    max-width: calc(100vw - 20px);
-    padding: 10px;
-  }
-
-  .instructor-modal-layout {
-    grid-template-columns: 1fr;
-  }
-
   .history-highlights {
     grid-template-columns: 1fr;
   }

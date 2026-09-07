@@ -81,49 +81,16 @@ test("profile section parser matches real newlines instead of escaped newline te
   assert.doesNotMatch(managerSource, /const pattern = new RegExp\(`\$\{label\}\\\\\\\\n/);
 });
 
-test("public director modal renders managed profile details", async () => {
+test("public director cards render without profile popups", async () => {
   const source = await readFile("src/app/[locale]/about/instructors/page.tsx", "utf8");
   const styleSource = await readFile("src/styles/globals.css", "utf8");
 
-  assert.match(source, /profileBody: director\.body/);
-  assert.match(source, /renderDirectorProfileSections/);
-  assert.match(source, /instructor-profile-details/);
-  assert.match(source, /section\.title/);
-  assert.match(source, /section\.body/);
-  assert.match(styleSource, /\.instructor-profile-details/);
-  assert.match(styleSource, /\.instructor-modal-layout/);
-});
-
-test("public director modal presents a compact profile without hiding repeated lines", async () => {
-  const source = await readFile("src/app/[locale]/about/instructors/page.tsx", "utf8");
-  const styleSource = await readFile("src/styles/globals.css", "utf8");
-
-  assert.match(source, /getProfileLines/);
-  assert.doesNotMatch(source, /new Set<string>/);
-  assert.match(source, /instructor-profile-summary/);
-  assert.match(source, /DirectorProfileTabs/);
-  assert.match(source, /instructor-profile-section-card/);
-  assert.match(styleSource, /\.instructor-profile-summary/);
-  assert.match(styleSource, /\.instructor-profile-tabs/);
-  assert.match(styleSource, /\.instructor-profile-section-card/);
-  assert.match(styleSource, /max-height: 340px/);
-});
-
-test("public director modal uses tabs for profile sections", async () => {
-  const source = await readFile("src/app/[locale]/about/instructors/page.tsx", "utf8");
-  const tabsSource = await readFile("src/components/DirectorProfileTabs.tsx", "utf8");
-  const styleSource = await readFile("src/styles/globals.css", "utf8");
-
-  assert.match(source, /DirectorProfileTabs/);
-  assert.match(source, /sections=\{sections\}/);
-  assert.match(tabsSource, /"use client"/);
-  assert.match(tabsSource, /role="tablist"/);
-  assert.match(tabsSource, /role="tab"/);
-  assert.match(tabsSource, /role="tabpanel"/);
-  assert.match(tabsSource, /const \[activeIndex, setActiveIndex\]/);
-  assert.match(tabsSource, /lineIndex/);
-  assert.doesNotMatch(tabsSource, /new Set<string>/);
-  assert.match(styleSource, /\.instructor-profile-tabs/);
-  assert.match(styleSource, /\.instructor-profile-tab\[aria-selected="true"\]/);
-  assert.match(styleSource, /\.instructor-profile-panel/);
+  assert.match(source, /instructor-card-content/);
+  assert.doesNotMatch(source, /href=\{`#\$\{modalId\}`\}/);
+  assert.doesNotMatch(source, /instructor-modal/);
+  assert.doesNotMatch(source, /role="dialog"/);
+  assert.doesNotMatch(source, /DirectorProfileTabs/);
+  assert.doesNotMatch(source, /profileBody: director\.body/);
+  assert.match(styleSource, /\.instructor-card-content/);
+  assert.doesNotMatch(styleSource, /\.instructor-modal/);
 });

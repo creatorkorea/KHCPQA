@@ -736,7 +736,7 @@ export const copy = {
     instructorsPage: {
       eyebrow: "국제 디렉터",
       title: "국제 디렉터",
-      lead: "글로벌 건강미용 교육 교류와 국제 협력 네트워크를 함께 이끄는 디렉터입니다.",
+      lead: "",
       instructors: [
         { name: "김승철", role: "국제 디렉터 · 몽골", imageUrl: "/assets/instructor-profile-kim-moonsun.jpg", profileImageUrl: "/assets/instructor-profile-kim-moonsun.jpg" },
         { name: "유정원", role: "국제 디렉터 · 프랑스", imageUrl: "/assets/instructor-profile-yoon-euneun.jpg", profileImageUrl: "/assets/instructor-profile-yoon-euneun.jpg" },
