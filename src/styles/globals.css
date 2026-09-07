@@ -1464,6 +1464,59 @@
   max-width: none;
 }
 
+.console-handoff-panel {
+  margin: 0 auto 24px;
+  max-width: 1480px;
+}
+
+.console-handoff-panel .console-panel-heading svg {
+  color: var(--console-green);
+  flex: 0 0 auto;
+}
+
+.console-handoff-list {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 24px 30px 30px;
+}
+
+.console-handoff-list li {
+  background: #fbfcff;
+  border: 1px solid #e3e9f3;
+  border-radius: 16px;
+  display: grid;
+  gap: 10px;
+  min-height: 150px;
+  padding: 18px;
+}
+
+.console-handoff-list strong {
+  color: var(--console-ink);
+  font-size: 14px;
+}
+
+.console-handoff-list span {
+  color: var(--console-muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.console-handoff-list a {
+  align-self: end;
+  color: var(--console-purple-dark);
+  font-size: 12px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.console-handoff-list a:hover {
+  text-decoration: underline;
+}
+
 .console-chart-panel {
   min-height: 370px;
 }
@@ -1882,6 +1935,7 @@
 
   .console-stats-grid,
   .console-quick-actions,
+  .console-handoff-list,
   .console-dashboard-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1946,6 +2000,7 @@
 
   .console-stats-grid,
   .console-quick-actions,
+  .console-handoff-list,
   .console-dashboard-grid {
     grid-template-columns: 1fr;
   }
@@ -1973,7 +2028,8 @@
 
   .console-filter-bar,
   .console-tabs,
-  .console-panel-heading {
+  .console-panel-heading,
+  .console-handoff-list {
     padding-inline: 16px;
   }
 

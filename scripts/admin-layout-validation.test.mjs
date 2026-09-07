@@ -46,3 +46,18 @@ test("admin dashboard summary area is denser on desktop", async () => {
   assert.match(styleSource, /\.console-quick-actions \{[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
   assert.match(styleSource, /\.console-quick-actions a \{[\s\S]*min-height: 66px/);
 });
+
+test("admin dashboard exposes client handoff checklist", async () => {
+  const pageSource = await readFile("src/app/admin/page.tsx", "utf8");
+  const styleSource = await readFile("src/styles/globals.css", "utf8");
+  const docsSource = await readFile("docs/admin-cms.md", "utf8");
+
+  assert.match(pageSource, /고객 인수 체크리스트/);
+  assert.match(pageSource, /교육과정/);
+  assert.match(pageSource, /협회 디렉터/);
+  assert.match(pageSource, /문의 응대/);
+  assert.match(pageSource, /팝업·하단 정보/);
+  assert.match(styleSource, /\.console-handoff-list \{[\s\S]*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
+  assert.match(docsSource, /## 고객 인수 체크리스트/);
+  assert.match(docsSource, /공개 전환은 `super_admin` 권한으로 처리한다/);
+});

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, BookOpen, FileText, Inbox, MessageSquare, Plus } from "lucide-react";
+import { ArrowRight, BadgeCheck, BookOpen, FileText, Inbox, MessageSquare, Plus, ShieldCheck } from "lucide-react";
 import {
   AdminConsoleShell,
   AdminPanel,
@@ -74,6 +74,38 @@ export default async function AdminDashboardPage() {
           <small>상담 요청 상태 점검</small>
         </Link>
       </section>
+
+      <AdminPanel className="console-handoff-panel">
+        <div className="console-panel-heading">
+          <div>
+            <h2>고객 인수 체크리스트</h2>
+            <p>관리자 화면을 전달하기 전에 공개 노출, 문의 대응, 사이트 안내 문구를 순서대로 확인합니다.</p>
+          </div>
+          <ShieldCheck size={22} aria-hidden />
+        </div>
+        <ol className="console-handoff-list">
+          <li>
+            <strong>교육과정</strong>
+            <span>한국어 요약과 과정 개요를 채운 뒤 공개 상태와 공개 URL을 확인합니다.</span>
+            <Link href="/admin/courses">과정 관리</Link>
+          </li>
+          <li>
+            <strong>협회 디렉터</strong>
+            <span>프로필 이미지, 직책, 소개 문구가 실제 공개 페이지와 맞는지 검수합니다.</span>
+            <Link href="/admin/directors">디렉터 관리</Link>
+          </li>
+          <li>
+            <strong>문의 응대</strong>
+            <span>신규 문의를 확인하고 처리 상태와 담당자 메모를 남깁니다.</span>
+            <Link href="/admin/inquiries">문의 관리</Link>
+          </li>
+          <li>
+            <strong>팝업·하단 정보</strong>
+            <span>홈 팝업 노출 기간과 사업자/연락처/약관 링크를 전달 전 마지막으로 점검합니다.</span>
+            <Link href="/admin/footer">하단 정보</Link>
+          </li>
+        </ol>
+      </AdminPanel>
 
       <section className="console-dashboard-grid">
         <AdminPanel className="console-chart-panel">
