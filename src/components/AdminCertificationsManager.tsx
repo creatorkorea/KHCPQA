@@ -286,7 +286,7 @@ export function AdminCertificationsManager({
                       {getAdminCertificationStatusLabel(certification.status)}
                     </AdminStatusBadge>
                   </td>
-                  <td>
+                  <td className="admin-certifications-action-cell">
                     <span className="admin-certification-row-actions">
                       <CertificateImageViewer
                         certificate={{

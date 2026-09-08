@@ -133,6 +133,7 @@ test("AdminCertificationsManager keeps the certification list scannable", async 
   assert.doesNotMatch(managerSource, /<th>발급일<\/th>/);
   assert.doesNotMatch(managerSource, /<th>만료일<\/th>/);
   assert.match(managerSource, /className="admin-certification-date-cell"/);
+  assert.match(managerSource, /className="admin-certifications-action-cell"/);
   assert.match(managerSource, /<td colSpan=\{6\}>/);
   assert.match(managerSource, /admin-certifications-status-filter/);
   assert.match(managerSource, /admin-certification-number/);
@@ -150,8 +151,10 @@ test("AdminCertificationsManager keeps the certification list scannable", async 
   assert.match(styleSource, /grid-template-columns: minmax\(300px, 1fr\) auto/);
   assert.match(styleSource, /\.admin-certifications-col-period/);
   assert.match(styleSource, /\.admin-certification-date-cell/);
-  assert.match(styleSource, /min-width: 940px/);
+  assert.match(styleSource, /min-width: 1040px/);
   assert.match(styleSource, /table-layout: fixed/);
+  assert.match(styleSource, /\.admin-certifications-action-cell/);
+  assert.match(styleSource, /overflow: visible/);
   assert.match(styleSource, /\.admin-certifications-status-filter button\.is-active/);
   assert.match(styleSource, /\.admin-certifications-new-button/);
   assert.match(styleSource, /\.admin-certification-number/);

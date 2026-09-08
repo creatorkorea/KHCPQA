@@ -8037,7 +8037,14 @@ p {
   align-items: center;
   display: flex;
   gap: 6px;
+  justify-content: flex-end;
   white-space: nowrap;
+}
+
+.admin-certifications-action-cell {
+  max-width: none;
+  overflow: visible;
+  white-space: normal;
 }
 
 .certificate-preview-trigger {
@@ -11650,20 +11657,20 @@ p {
 }
 
 .admin-certifications-manager .console-table {
-  min-width: 940px;
+  min-width: 1040px;
   table-layout: fixed;
 }
 
 .admin-certifications-col-course {
-  width: 18%;
+  width: 17%;
 }
 
 .admin-certifications-col-number {
-  width: 25%;
+  width: 23%;
 }
 
 .admin-certifications-col-user {
-  width: 22%;
+  width: 20%;
 }
 
 .admin-certifications-col-period {
@@ -11675,7 +11682,7 @@ p {
 }
 
 .admin-certifications-col-action {
-  width: 10%;
+  width: 15%;
 }
 
 .admin-certifications-manager .console-table th,
