@@ -85,6 +85,9 @@ test("AdminCertificationsManager connects the new certification form to the save
 
   assert.match(pageSource, /AdminCertificationsManager/);
   assert.match(pageSource, /admin-certifications-panel/);
+  assert.match(pageSource, /getAdminCourses/);
+  assert.match(pageSource, /course\.isActive/);
+  assert.match(pageSource, /localization\.locale === "ko"/);
   assert.match(pageSource, /getPublishedCourses\("ko"\)/);
   assert.match(pageSource, /courseOptions=\{courseOptions\}/);
   assert.match(managerSource, /saveAdminCertification/);
